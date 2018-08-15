@@ -1,6 +1,6 @@
 # zblog
 
-### Development Tool Suite
+### 开发工具(Development Tool Suite)
 
 - Spring Tool Suite 3.x
 - Maven 3.x
@@ -10,7 +10,7 @@
 - Docker 18.x
 - Nginx 1.14
 
-### Framework
+### 框架(Framework)
 
 - Bootstrap 3.x
 - jQuery 2.x
@@ -19,7 +19,7 @@
 - Spring 4.x
 - Hibernate 4.x
 
-### 模块划分
+### 模块划分(Modules)
 
 | 模块        | 释义                      |
 | ----------  | ----------------------- |
