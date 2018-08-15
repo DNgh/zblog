@@ -9,5 +9,7 @@
   <modules>
     <module>zblog-view</module>
     <module>zblog-admin</module>
+    <module>zblog-core</module>
+    <module>zblog-data</module>
   </modules>
 </project>
