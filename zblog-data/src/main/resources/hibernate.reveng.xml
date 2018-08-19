@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="zblog" match-name="tm_article"/>
+  <table-filter match-catalog="zblog" match-name="tm_article_tag"/>
+  <table-filter match-catalog="zblog" match-name="tm_category"/>
+  <table-filter match-catalog="zblog" match-name="tm_tag"/>
+  <table-filter match-catalog="zblog" match-name="tm_visit_hst"/>
+  <table-filter match-catalog="zblog" match-name="ts_operate_hst"/>
+  <table-filter match-catalog="zblog" match-name="ts_role"/>
+  <table-filter match-catalog="zblog" match-name="ts_user"/>
+  <table-filter match-catalog="zblog" match-name="ts_user_role"/>
+</hibernate-reverse-engineering>

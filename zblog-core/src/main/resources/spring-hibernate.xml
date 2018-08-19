@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-4.2.xsd
+         http://www.springframework.org/schema/data/jpa  
+         http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+         http://www.springframework.org/schema/tx
+         http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+    
+    <context:property-placeholder location="classpath:jdbc.properties" />
+    <!-- 扫描service自动注入为bean -->
+    <context:component-scan base-package="com.min.zblog.service.impl,com.min.zblog.dao" />
+                       
+    <!-- 这里定义JPA相关配置。总体上来说，这里使用以Hibernate为Provider的JPA2.0方案，使用Spring来进行集成，不依赖于容器的JPA实现。 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <!--<!– 初始化连接大小 –> -->
+        <property name="initialSize" value="${jdbc.initialSize}"/>
+        <!--<!– 连接池最大数量 –> -->
+        <property name="maxTotal" value="${jdbc.maxTotal}"/>
+        <!--  连接池最大空闲 -->
+        <property name="maxIdle" value="${jdbc.maxIdle}"/>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="${jdbc.minIdle}"/>
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWaitMillis" value="${jdbc.maxWaitMillis}"/>
+        <property name="testOnBorrow" value="true" />
+        <property name="testOnReturn" value="false" />
+        <property name="testWhileIdle" value="false" />
+        <property name="validationQuery" value="${jdbc.testSql}" />
+        <property name="minEvictableIdleTimeMillis" value="1800000" />
+    </bean>           
+    
+    <!-- JPA实体管理工厂的配置 -->
+    <bean id="entityManagerFactory"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter" />
+        <property name="packagesToScan" value="com.min.zblog.entity" /><!--待扫描的实体类包，不再需要persistence.xml -->
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <!--指定实现JPA的适配器 -->
+    <bean id="hibernateJpaVendorAdapter"
+        class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="databasePlatform" value="${hibernate.dialect}" />
+    </bean>
+    
+    <!-- 兼容Hibernate的SessionFactory，以便于批量的游标使用 -->
+    <bean id="sessionFactory" factory-bean="entityManagerFactory" factory-method="getSessionFactory"/>
+    
+    <!-- Jpa 事务配置 -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+    
+    <!-- 事务使用AspectJ进行编译时Weave -->
+    <tx:annotation-driven mode="aspectj" transaction-manager="transactionManager" />
+    
+    <!-- Spring Data Jpa -->
+    <!-- 初始化容器时将会扫描 base-package 指定的包目录及其子目录，为继承 Repository 或其子接口的接口创建代理对象，并将代理对象注册为Spring Bean -->
+    <!-- repository-impl-postfix 仓库自定义实现类的后缀。自动扫描该名称带有该后缀的类，并添加到接口的实现 -->
+    <!-- factory-class 仓库接口的实现工厂 -->
+    <jpa:repositories base-package="com.min.zblog.dao"/>
+    
+</beans>
