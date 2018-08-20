@@ -3,16 +3,50 @@ package com.min.zblog.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.min.zblog.dao.ArticleDao;
+import com.min.zblog.dao.ArticleTagDao;
+import com.min.zblog.dao.VisitHstDao;
 import com.min.zblog.entity.TmArticle;
 import com.min.zblog.service.ArticleService;
 
+@Service
 public class ArticleServiceImpl implements ArticleService {
 	@Autowired
 	private ArticleDao articleDao;
+	@Autowired
+	private VisitHstDao visitHstDao;
+	@Autowired
+	private ArticleTagDao articleTagDao;
 	
 	public List<TmArticle> listAll() {
 		return articleDao.findAll();
+	}
+	
+	public void findOne(Long id) {
+		articleDao.findOne(id);
+	}
+	
+	@Transactional
+	public void addArticle(TmArticle article) {
+		articleDao.save(article);
+	}
+	
+	@Transactional
+	public void deleteArticleById(Long id) {
+		TmArticle article = articleDao.findOne(id);
+		if(article == null){
+			
+		}
+		
+		//删除文章
+		articleDao.delete(id);
+		//删除访问历史
+		visitHstDao.delete(id);
+		//删除标签关联记录
+		articleTagDao.delete(id);
+		//删除评论
 	}
 }
