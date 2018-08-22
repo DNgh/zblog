@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.min.zblog.dao.ArticleDao;
+import com.min.zblog.dao.ArticleQueryDsl;
 import com.min.zblog.dao.ArticleTagDao;
 import com.min.zblog.dao.VisitHstDao;
 import com.min.zblog.entity.TmArticle;
@@ -20,6 +21,8 @@ public class ArticleServiceImpl implements ArticleService {
 	private VisitHstDao visitHstDao;
 	@Autowired
 	private ArticleTagDao articleTagDao;
+	@Autowired
+	private ArticleQueryDsl articleQueryDsl;
 	
 	public List<TmArticle> listAll() {
 		return articleDao.findAll();
@@ -44,9 +47,9 @@ public class ArticleServiceImpl implements ArticleService {
 		//删除文章
 		articleDao.delete(id);
 		//删除访问历史
-		visitHstDao.delete(id);
+		articleQueryDsl.deleteVisitHstByArticleId(article.getId());
 		//删除标签关联记录
-		articleTagDao.delete(id);
+		articleQueryDsl.deleteVisitHstByArticleId(article.getId());
 		//删除评论
 	}
 }
