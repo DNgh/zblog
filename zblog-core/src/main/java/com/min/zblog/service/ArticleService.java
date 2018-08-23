@@ -6,4 +6,7 @@ import com.min.zblog.entity.TmArticle;
 
 public interface ArticleService {
 	public List<TmArticle> listAll();
+	public void addArticle(TmArticle article);
+	public void findOne(Long id);
+	public void deleteArticleById(Long id);
 }
