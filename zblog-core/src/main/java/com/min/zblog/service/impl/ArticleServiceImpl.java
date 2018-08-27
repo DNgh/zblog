@@ -28,8 +28,8 @@ public class ArticleServiceImpl implements ArticleService {
 		return articleDao.findAll();
 	}
 	
-	public void findOne(Long id) {
-		articleDao.findOne(id);
+	public TmArticle findOne(Long id) {
+		return articleDao.findOne(id);
 	}
 	
 	@Transactional
@@ -37,7 +37,6 @@ public class ArticleServiceImpl implements ArticleService {
 		articleDao.save(article);
 	}
 	
-	@Transactional
 	public void deleteArticleById(Long id) {
 		TmArticle article = articleDao.findOne(id);
 		if(article == null){
