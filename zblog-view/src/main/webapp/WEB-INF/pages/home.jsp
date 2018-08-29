@@ -211,7 +211,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <div class="active tab-pane">
                 <!-- Post -->
                 <div class="post">
-                	<a href="#"><h3>Docker简介</h3></a>
+                	<a href="article"><h3>Docker简介</h3></a>
                   <p class="text-muted">
                     Docker 使用客户端-服务器 (C/S) 架构模式。Docker 客户端会与 Docker 守护进程进行通信。Docker 守护进程会处理复杂繁重的任务，例如建立、运行、发布你的 Docker 容器。Docker 客户端和守护进程可以运行在同一个系统上，当然你也可以使用 Docker 客户端去...
                   </p>
@@ -359,11 +359,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 </div>
                 <!-- /.post -->
 								
-								<!-- Paginator -->
-								<div class="divider"></div>
-								<div class="text-center">
-                	<ul class="homePaginator"></ul>
-              	</div>
+				<!-- Paginator -->
+				<div class="divider"></div>
+				<div class="text-center">
+             	   <ul class="homePaginator"></ul>
+           		</div>
                 
               </div>
               <!-- /.tab-pane -->
