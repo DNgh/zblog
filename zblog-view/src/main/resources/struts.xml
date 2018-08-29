@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+ 
+<struts>
+	<!-- 存放静态资源的路径，不拦截对此文件夹下文件的请求 -->
+	<constant name="struts.action.excludePattern" value="/components/.*?,/custom/.*?" />
+
+    <package name="default" namespace="/" extends="struts-default">
+         
+        <action name="home" class="homeAction" method="home">
+            <result name="success">/WEB-INF/pages/home.jsp</result>
+        </action>
+        
+        <action name="about" class="homeAction" method="about">
+            <result name="success">/WEB-INF/pages/about.jsp</result>
+        </action>
+        
+        <action name="contact" class="homeAction" method="contact">
+            <result name="success">/WEB-INF/pages/contact.jsp</result>
+        </action>
+         
+    </package>
+</struts>
