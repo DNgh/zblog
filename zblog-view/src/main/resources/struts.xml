@@ -20,6 +20,10 @@
         <action name="contact" class="homeAction" method="contact">
             <result name="success">/WEB-INF/pages/contact.jsp</result>
         </action>
+        
+        <action name="article" class="articleAction">
+            <result name="success">/WEB-INF/pages/detail.jsp</result>
+        </action>
          
     </package>
 </struts>

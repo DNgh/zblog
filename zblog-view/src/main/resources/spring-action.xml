@@ -7,4 +7,7 @@
 	<bean id="homeAction" class="com.min.zblog.action.HomeAction" autowire="default">
 	</bean>
 	
+	<bean id="articleAction" class="com.min.zblog.action.ArticleAction" autowire="default">
+	</bean>
+	
 </beans>
