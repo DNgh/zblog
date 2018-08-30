@@ -208,17 +208,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <!-- /.col -->
         <div class="col-md-7">
-        	<div class="nav-tabs-custom">
-            <div class="tab-content">
-              <div class="active tab-pane">
-                <!-- Article -->
-                <div class="typo">
+        	<div class="panel panel-default">
+				<div class="panel-body">
+				<!-- Article -->
+                
                   <h3><a href="article/show/1">Docker简介</a></h3>
                   <ul class="list-inline">
                   	<li><i class="fa fa-calendar margin-r-5"></i>发表时间：2018-07-17 11:18:16</li>
                   	<li><i class="fa fa-eye margin-r-5"></i>阅读数：84</li>
                   </ul>
                   <div class="divider"></div>
+                  <div class="typo">
                   <textarea  id="content" style="width:100%; height:300">
                   	正文
                   	Docker简介
@@ -240,45 +240,12 @@ Go语言与Docker
 
 至于Go语言的优势，在Go的社区中都有非常详尽的讨论，这里不多讲
 
-Docker的目标
-Docker的是一个轻量级的操作系统虚拟化解决方案。 主要目标，用官网的概括来说就是“Build，Ship and Run Any App,Anywhere”：编译，装载任何App,在任何地方都可以运行，我们大概理解就是一个容器，实现了对应用的封装，部署，运行等生命周期管理，只要在glibc的环境下，到处都可以运行。
 
-这点在企业的云服务部署是有非常广泛的应用前景。后面我们将详细讨论。
-
-Docker的引擎
-Docker的是基于Linux自带的（Linux。 Containers,LXC）技术，在LXC上，Docker进行了近一步封装。正因为如此，Docker只能在Linux环境下运行，当然，前段时间docker终于支持OSX和Windows了，虽然还是体验尝鲜版，但更加方便开发者去开发了！
-
-Docker的原理
-其实前面讲了这么多，Docker的原理已经不言而喻，这里用IBM的解释就是
-
-容器有效的将单个操作系统管理的资源划分到孤立的组中，以便更好的在孤立的组之间平衡有冲突的资源使用需求。与虚拟化相比，这样既不需要指令级模拟，也不需要即时编译。容器可以在核心CPU本地运行指令，而不需要任何专门的解释机制。此外，也避免了准虚拟化（paravirtualization）和系统调用替换中的复杂性。
-简而言之就是，Docker是一个盒子，一个盒子装一个玩具，无论你丢在哪里，你给他通电(glibc)，他就能运行。你的玩具大就用大盒子，小玩具就用小盒子。
-
-两个应用之间的环境是环境是完全隔离的，建立通信机制来互相调用。容器的创建和停止都十分快速（秒级），容器自身对资源的需求十分有限，远比虚拟机本身占用的资源少。
-                 	</textarea>
-                 	<div id="show" class="typo"></div>
-                  
-                </div>
-                <!-- /.post -->
-                
-              </div>
-              <!-- /.tab-pane -->
-            </div>
-            <!-- /.tab-content -->
-            <div>
-          	<div>
-			   上一篇
-			</div>
-			<div class="pull-right hidden-xs">
-			   下一篇
-			</div>
-			 
+		                 	</textarea>
+		                 	<div id="show" class="typo"></div>
+		          		</div>
+		          </div>
 		  </div>
-          </div>
-          <!-- /.nav-tabs-custom -->
-          
-          
-  
         </div>
         <!-- /.col -->
         
