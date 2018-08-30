@@ -26,6 +26,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
+  <!-- typo.css -->
+  <link rel="stylesheet" href="components/typo.css/typo.css">
   
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -209,17 +211,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	<div class="nav-tabs-custom">
             <div class="tab-content">
               <div class="active tab-pane">
-                <!-- Post -->
-                <div class="post">
+                <!-- Article -->
+                <div class="typo">
                   <h3><a href="article/show/1">Docker简介</a></h3>
                   <ul class="list-inline">
                   	<li><i class="fa fa-calendar margin-r-5"></i>发表时间：2018-07-17 11:18:16</li>
                   	<li><i class="fa fa-eye margin-r-5"></i>阅读数：84</li>
                   </ul>
-                  <p class="text-muted">
+                  <div class="divider"></div>
+                  <textarea  id="content" style="width:100%; height:300">
                   	正文
-                    Docker 使用客户端-服务器 (C/S) 架构模式。Docker 客户端会与 Docker 守护进程进行通信。Docker 守护进程会处理复杂繁重的任务，例如建立、运行、发布你的 Docker 容器。Docker 客户端和守护进程可以运行在同一个系统上，当然你也可以使用 Docker 客户端去...
-                    Docker简介
+                  	Docker简介
 Docker是2013发起的一个项目，早在2013年，Docker自诞生起，就是整个技术界的明星项目，当时我还在上海实习，就在各种技术媒体上看到了Docker的介绍文章，很多技术媒体宣称docker是一项技术突破，并且是一次技术革命，可惜当时由于本身是一个Android Framework开发者，眼界很低，对于这种OS虚拟化技术有点不屑一顾，而今转后台后才发现这项技术的重要性
 
 Docker的特征
@@ -253,7 +255,8 @@ Docker的原理
 简而言之就是，Docker是一个盒子，一个盒子装一个玩具，无论你丢在哪里，你给他通电(glibc)，他就能运行。你的玩具大就用大盒子，小玩具就用小盒子。
 
 两个应用之间的环境是环境是完全隔离的，建立通信机制来互相调用。容器的创建和停止都十分快速（秒级），容器自身对资源的需求十分有限，远比虚拟机本身占用的资源少。
-                  </p>
+                 	</textarea>
+                 	<div id="show" class="typo"></div>
                   
                 </div>
                 <!-- /.post -->
@@ -312,6 +315,32 @@ Docker的原理
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
 <!-- custom jQuery -->
 <script src="custom/js/zblog.js"></script>
+<!-- markdown -->
+<script src="https://cdn.bootcss.com/marked/0.3.4/marked.min.js"></script>
+<!-- highlight -->
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script>
+    marked.setOptions({
+        renderer: new marked.Renderer(),
+        gfm: true,
+        tables: true,
+        escaped : true,
+        breaks: false,
+        pedantic: false,
+        sanitize: false,
+        smartLists: true,
+        smartypants: false,
+        highlight: function (code, lang) {
+            console.log('code',code)
+        // return   hljs.highlight(lang, code, false,true).value;
+        return hljs.highlightAuto(code).value;
+      }
+    });
 
+    $("#content").on("input  propertychange", function() {
+        var val = $(this).val();
+        $("#show").html(marked(val));
+    })
+</script>
 </body>
 </html>
