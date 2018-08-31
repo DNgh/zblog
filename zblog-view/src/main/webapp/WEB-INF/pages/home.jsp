@@ -360,7 +360,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <!-- /.post -->
 								
 				<!-- Paginator -->
-				<div class="divider"></div>
+				<!-- <div class="divider"></div> -->
 				<div class="text-center">
              	   <ul class="homePaginator"></ul>
            		</div>

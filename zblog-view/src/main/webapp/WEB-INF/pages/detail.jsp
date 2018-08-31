@@ -27,7 +27,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
   <!-- typo.css -->
-  <link rel="stylesheet" href="components/typo.css/typo.css">
+  <!-- <link rel="stylesheet" href="components/typo.css/typo.css"> -->
+  <link rel="stylesheet" href="custom/css/custom.css">
+  
+  <!-- markdown 0.5.0 -->
+  <script src="components/marked/marked.min.js"></script>
   
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -36,7 +40,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]--> 
   
-  <!--<link rel="shortcut icon " type="images/x-icon" href="../dist/img/favico.png">-->
   <link rel="shortcut icon " type="images/x-icon" href="custom/img/star.png">
   
 </head>
@@ -210,42 +213,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="col-md-7">
         	<div class="panel panel-default">
 				<div class="panel-body">
-				<!-- Article -->
-                
-                  <h3><a href="article/show/1">Docker简介</a></h3>
-                  <ul class="list-inline">
-                  	<li><i class="fa fa-calendar margin-r-5"></i>发表时间：2018-07-17 11:18:16</li>
-                  	<li><i class="fa fa-eye margin-r-5"></i>阅读数：84</li>
-                  </ul>
-                  <div class="divider"></div>
-                  <div class="typo">
-                  <textarea  id="content" cols="25" rows="20" style="width:100%;">
-                  	正文
-                  	Docker简介
-Docker是2013发起的一个项目，早在2013年，Docker自诞生起，就是整个技术界的明星项目，当时我还在上海实习，就在各种技术媒体上看到了Docker的介绍文章，很多技术媒体宣称docker是一项技术突破，并且是一次技术革命，可惜当时由于本身是一个Android Framework开发者，眼界很低，对于这种OS虚拟化技术有点不屑一顾，而今转后台后才发现这项技术的重要性
-
-Docker的特征
-Docker是一个云开源项目，托管在github，任何人都可以通过 git clone 或者fork参与进来，本身是基于linux的容器技术，采用当时如日中天google新推出的Go语言实现。采用apache 2.0协议开源。
-
-docker镜像地址
-
-Go语言与Docker
-相比Go语言与其它语言的对比，国内外很多技术媒体都有列举，在Docker领域，Go语言相比其它语言的优势在于
-相对于C/C 开发难度低，支持向前兼容，运维维护成本小
-相对于python，生成的是静态文件，有效的避免的低级错误，并且性能高一个等级
-并发性好，内存占用低
-部署简单，毕竟生成的静态文件，有glibc的地方就能运行
-
-一门语言当然也有自己的缺点，比如，内存回收延迟久，图片处理库有bug，对包版本要求严格等一些问题，但是瑕不掩瑜，一个开发成本极其简单，性能优良，部署简单的语言与Docker简直就是 天作之合
-
-至于Go语言的优势，在Go的社区中都有非常详尽的讨论，这里不多讲
-
-
-		                 	</textarea>
-		                 	<div id="show" class="typo"></div>
-		          		</div>
-		          </div>
-		  </div>
+				  	<!-- Article -->
+                  	<h3><a href="article/show/1">Docker简介</a></h3>
+                  	<ul class="list-inline">
+                  		<li>发表时间：2018-07-17 11:18:16</li>
+                  		<li>阅读数：84</li>
+                  	</ul>
+                  	<div class="divider-h"></div>
+                  	
+                  	<!-- 文章显示块 -->
+			        <div id="show"></div>
+			        <div class="divider-h"></div>
+			        
+		        	<ul class="list-inline">
+		        		<li>文章分类：</li>
+	                	<li><a href="#">网络开发</a></li>
+	                	<li><a href="#">编程语言</a></li>
+	               	</ul>
+			        	
+			        <ul class="list-inline">
+			        	<li>标签：</li>
+                  		<li><a href="#">java</a></li>
+                  		<li><a href="#">docker</a></li>
+                  	</ul>
+		    	</div>
+		  	</div>
+		  	
+		  	<div class="panel panel-default">
+				<div class="panel-body">
+				  	<div class="pull-left">
+				  		<a href="#">上一篇</a>
+                    </div>
+	                <div class="pull-right">
+	                	<a href="#">下一篇</a>
+	                </div>
+		    	</div>
+		  	</div>
         </div>
         <!-- /.col -->
         
@@ -270,33 +273,27 @@ Go语言与Docker
 </div>
 <!-- ./wrapper -->
 
-<script src="components/require/require.js"></script>
 <!-- jQuery 3.3.1 -->
 <script src="components/jquery/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="components/bootstrap/js/bootstrap.min.js"></script>
 <!-- FastClick -->
 <script src="components/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
+<!-- AdminLTE App 2.4.5 -->
 <script src="components/AdminLTE/js/adminlte.min.js"></script>
 <!-- bootstrap-paginator -->
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
-<!-- markdown -->
-<script src="components/marked/marked.min.js"></script>
 <!-- highlight -->
 <script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
-<!-- custom jQuery -->
+<!-- custom js -->
 <script src="custom/js/zblog.js"></script>
 <script>
-	
-    
-    
-    //var myMarked = require('marked');
-    var options = {
+    marked.setOptions({
+        renderer: new marked.Renderer(),
         gfm: true,
         tables: true,
         escaped : true,
-        breaks: false,
+        breaks: true,
         pedantic: false,
         sanitize: false,
         smartLists: true,
@@ -306,9 +303,17 @@ Go语言与Docker
         // return   hljs.highlight(lang, code, false,true).value;
         return hljs.highlightAuto(code).value;
       }
-    };
-
-    $("#show").html(marked('# Marked in browser\n\nRendered by **marked**.',options));
+    });
+    
+    var renderer = new marked.Renderer();
+    renderer.table = function (header, body) {
+        return '<table class="table table-striped">'+header+body+'</table>'
+    }
+    
+    var val = "${article.content}";
+    $("#show").html(marked(val,{renderer: renderer}));
+    
+    alert('${article.content}');
 </script>
 </body>
 </html>

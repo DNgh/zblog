@@ -8,7 +8,6 @@
 	<constant name="struts.action.excludePattern" value="/components/.*?,/custom/.*?" />
 
     <package name="default" namespace="/" extends="struts-default">
-         
         <action name="home" class="homeAction" method="home">
             <result name="success">/WEB-INF/pages/home.jsp</result>
         </action>
@@ -20,10 +19,17 @@
         <action name="contact" class="homeAction" method="contact">
             <result name="success">/WEB-INF/pages/contact.jsp</result>
         </action>
-        
-        <action name="article" class="articleAction">
+    </package>
+    
+    
+    <package name="article" namespace="/article" extends="struts-default">
+    	<action name="show" class="articleAction" method="show">
             <result name="success">/WEB-INF/pages/detail.jsp</result>
         </action>
-         
+        
+        <action name="markdown" class="articleAction" method="markdown">
+            <result name="success">/WEB-INF/pages/markdown.jsp</result>
+        </action>
     </package>
+    
 </struts>
