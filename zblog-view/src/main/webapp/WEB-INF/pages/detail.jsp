@@ -219,7 +219,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                   </ul>
                   <div class="divider"></div>
                   <div class="typo">
-                  <textarea  id="content" style="width:100%; height:300">
+                  <textarea  id="content" cols="25" rows="20" style="width:100%;">
                   	正文
                   	Docker简介
 Docker是2013发起的一个项目，早在2013年，Docker自诞生起，就是整个技术界的明星项目，当时我还在上海实习，就在各种技术媒体上看到了Docker的介绍文章，很多技术媒体宣称docker是一项技术突破，并且是一次技术革命，可惜当时由于本身是一个Android Framework开发者，眼界很低，对于这种OS虚拟化技术有点不屑一顾，而今转后台后才发现这项技术的重要性
@@ -270,6 +270,7 @@ Go语言与Docker
 </div>
 <!-- ./wrapper -->
 
+<script src="components/require/require.js"></script>
 <!-- jQuery 3.3.1 -->
 <script src="components/jquery/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
@@ -280,15 +281,18 @@ Go语言与Docker
 <script src="components/AdminLTE/js/adminlte.min.js"></script>
 <!-- bootstrap-paginator -->
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
-<!-- custom jQuery -->
-<script src="custom/js/zblog.js"></script>
 <!-- markdown -->
-<script src="https://cdn.bootcss.com/marked/0.3.4/marked.min.js"></script>
+<script src="components/marked/marked.min.js"></script>
 <!-- highlight -->
 <script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<!-- custom jQuery -->
+<script src="custom/js/zblog.js"></script>
 <script>
-    marked.setOptions({
-        renderer: new marked.Renderer(),
+	
+    
+    
+    //var myMarked = require('marked');
+    var options = {
         gfm: true,
         tables: true,
         escaped : true,
@@ -302,12 +306,9 @@ Go语言与Docker
         // return   hljs.highlight(lang, code, false,true).value;
         return hljs.highlightAuto(code).value;
       }
-    });
+    };
 
-    $("#content").on("input  propertychange", function() {
-        var val = $(this).val();
-        $("#show").html(marked(val));
-    })
+    $("#show").html(marked('# Marked in browser\n\nRendered by **marked**.',options));
 </script>
 </body>
 </html>
