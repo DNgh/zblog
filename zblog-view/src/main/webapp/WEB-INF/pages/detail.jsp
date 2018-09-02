@@ -207,9 +207,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
-
         </div>
         <!-- /.col -->
+        
         <div class="col-md-7">
         	<div class="panel panel-default">
 				<div class="panel-body">
@@ -225,6 +225,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        <div id="show"></div>
 			        <div class="divider-h"></div>
 			        
+			        <!-- 点赞 分享：按钮 -->
+			        <div class="text-center">
+			        	<ul class="list-inline">
+			        	  <li>
+			        	  	<button type="button" class="btn btn-block btn-default btn-lg" data-toggle="tooltip" data-placement="top" title="点赞">
+				              <i class="fa fa-heart"></i>
+				              <span class="badge bg-red">10</span>
+				            </button>
+			        	  </li>
+			        	  <li>
+			        	    <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="tooltip" data-placement="top" title="分享">
+				              <i class="fa fa-share"></i>
+				              <span class="badge bg-green">10</span>
+				            </button>
+			        	  </li>
+			        	</ul>
+           			</div>
+           			
 		        	<ul class="list-inline">
 		        		<li>文章分类：</li>
 	                	<li><a href="#">网络开发</a></li>
@@ -237,7 +255,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                   		<li><a href="#">docker</a></li>
                   	</ul>
 		    	</div>
+		    	<!-- /.panel-body -->
 		  	</div>
+		  	<!-- /.panel -->
 		  	
 		  	<div class="panel panel-default">
 				<div class="panel-body">
@@ -314,6 +334,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     $("#show").html(marked(val,{renderer: renderer}));
     
     alert('${article.content}');
+    
+    $("[data-toggle='tooltip']").tooltip();
 </script>
 </body>
 </html>

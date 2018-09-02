@@ -206,9 +206,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <!-- /.col -->
         <div class="col-md-7">
-        	<div class="nav-tabs-custom">
-            <div class="tab-content">
-              <div class="active tab-pane">
+        	<div class="panel panel-default">
+				<div class="panel-body">
                 <!-- Post -->
                 <div class="post">
                 	<h3><a href="article">Docker简介</a></h3>
@@ -366,11 +365,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            		</div>
                 
               </div>
-              <!-- /.tab-pane -->
+              <!-- /.panel-body -->
             </div>
-            <!-- /.tab-content -->
-          </div>
-          <!-- /.nav-tabs-custom -->
+            <!-- /.panel -->
         </div>
         <!-- /.col -->
         
