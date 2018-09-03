@@ -43,3 +43,21 @@ $(function () {
 	$('.homePaginator').bootstrapPaginator(options);
 		
 })
+
+function doPost(to, p) {  // to:提交动作（action）,p:参数
+	alert(to);
+	
+	var reqArticleForm = document.createElement("form");     
+	reqArticleForm.method = "post";
+	reqArticleForm.action = to; 
+	for (var i in p){    
+       	var paramInput = document.createElement("input");     
+       	paramInput.setAttribute("name", i);  //为input对象设置name
+       	paramInput.setAttribute("value", p[i]);  //为input对象设置value
+       	reqArticleForm.appendChild(paramInput);
+       	alert(i+p[i]);
+     }   
+     document.body.appendChild(reqArticleForm);   
+     reqArticleForm.submit(); 
+     document.body.removeChild(reqArticleForm);
+}

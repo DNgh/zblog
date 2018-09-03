@@ -214,9 +214,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	<div class="panel panel-default">
 				<div class="panel-body">
 				  	<!-- Article -->
-                  	<h3><a href="article/show/1">Docker简介</a></h3>
+                  	<h3><a href="javascript:void(0);" onclick="doPost('article/show', {'articleKey':'${article.id}'})"><s:property value="article.title"/></a></h3>
                   	<ul class="list-inline">
-                  		<li>发表时间：2018-07-17 11:18:16</li>
+                  		<li>发表时间：<s:property value="article.createTime"/></li>
                   		<li>阅读数：84</li>
                   	</ul>
                   	<div class="divider-h"></div>
@@ -325,15 +325,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       }
     });
     
+    //给table添加样式
     var renderer = new marked.Renderer();
     renderer.table = function (header, body) {
         return '<table class="table table-striped">'+header+body+'</table>'
     }
     
-    var val = "${article.content}";
-    $("#show").html(marked(val,{renderer: renderer}));
-    
-    alert('${article.content}');
+    $("#show").html(marked('${article.content}',{renderer: renderer}));
     
     $("[data-toggle='tooltip']").tooltip();
 </script>

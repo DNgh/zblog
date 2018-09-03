@@ -331,6 +331,7 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+				<!-- compiler插件 -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
@@ -339,6 +340,7 @@
 						<target>1.7</target>
 					</configuration>
 				</plugin>
+				<!-- aspectj插件 -->
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>aspectj-maven-plugin</artifactId>
@@ -361,6 +363,7 @@
 						</execution>
 					</executions>
 				</plugin>
+				<!-- querydsl插件 -->
 				<plugin>
 					<groupId>com.mysema.maven</groupId>
 					<artifactId>apt-maven-plugin</artifactId>
@@ -376,6 +379,20 @@
 							</configuration>
 						</execution>
 					</executions>
+				</plugin>
+				<!-- jar插件 -->  
+				<plugin>  
+					<groupId>org.apache.maven.plugins</groupId>  
+					<artifactId>maven-jar-plugin</artifactId>  
+					<version>2.3.1</version>  
+					<configuration>  
+						<archive>  
+							<manifest>  
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>  
+								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>  
+							</manifest>  
+						</archive>  
+					</configuration>  
 				</plugin>
 			</plugins>
 		</pluginManagement>

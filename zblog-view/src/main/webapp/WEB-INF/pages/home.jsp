@@ -186,16 +186,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
                  <li><a href="#">
-                	<strong>阅读第一</strong>
-              		<p class="text-muted">阅读量：200</p></a>
+                	<strong>阅读第一</strong></a>
+              		<p class="text-muted">阅读量：200</p>
                  </li>
                  <li><a href="#">
-                	<strong>阅读第一</strong>
-              		<p class="text-muted">阅读量：200</p></a>
+                	<strong>阅读第一</strong></a>
+              		<p class="text-muted">阅读量：200</p>
                  </li>
                  <li><a href="#">
-                	<strong>阅读第一</strong>
-              		<p class="text-muted">阅读量：200</p></a>
+                	<strong>阅读第一</strong></a>
+              		<p class="text-muted">阅读量：200</p>
                  </li>
               </ul>
             </div>
@@ -209,155 +209,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	<div class="panel panel-default">
 				<div class="panel-body">
                 <!-- Post -->
-                <div class="post">
-                	<h3><a href="article">Docker简介</a></h3>
-                  <p class="text-muted">
-                    Docker 使用客户端-服务器 (C/S) 架构模式。Docker 客户端会与 Docker 守护进程进行通信。Docker 守护进程会处理复杂繁重的任务，例如建立、运行、发布你的 Docker 容器。Docker 客户端和守护进程可以运行在同一个系统上，当然你也可以使用 Docker 客户端去...
-                  </p>
-                  <ul class="list-inline">
-                  	<li><i class="fa fa-calendar margin-r-5"></i>发表时间：2018-07-17 11:18:16</li>
-                  	<li><i class="fa fa-eye margin-r-5"></i>阅读数：84</li>
-                    <li>
-                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>评论数：5</a></li>
-                  </ul>
-                </div>
+                <s:iterator value="articleList" var="var">
+				    <div class="post">
+	                  <h3><a href="javascript:void(0);" onclick="doPost('article/show', {'articleKey':'${var.id}'})"><s:property value="#var.title"/></a></h3>
+	                  <p class="text-muted">
+	                    <s:property value="#var.description"/>
+	                  </p>
+	                  <ul class="list-inline">
+	                  	<li><i class="fa fa-calendar margin-r-5"></i>发表时间：<s:property value="#var.createTime"/></li>
+	                  	<li><i class="fa fa-eye margin-r-5"></i>阅读数：84</li>
+	                    <!-- <li><a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>评论数：5</a></li> -->
+	                    <li><i class="fa fa-comments-o margin-r-5"></i>评论数：5</li>
+	                  </ul>
+	                </div>
+				</s:iterator>
                 <!-- /.post -->
 
-                <!-- Post -->
-                <div class="post">
-                	<a href="#"><h3>Docker简介</h3></a>
-                  <p class="text-muted">
-                    Docker 使用客户端-服务器 (C/S) 架构模式。Docker 客户端会与 Docker 守护进程进行通信。Docker 守护进程会处理复杂繁重的任务，例如建立、运行、发布你的 Docker 容器。Docker 客户端和守护进程可以运行在同一个系统上，当然你也可以使用 Docker 客户端去...
-                  </p>
-                  <ul class="list-inline">
-                  	<li><i class="fa fa-calendar margin-r-5"></i>发表时间：2018-07-17 11:18:16</li>
-                  	<li><i class="fa fa-eye margin-r-5"></i>阅读数：84</li>
-                    <li>
-                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>评论数：5</a></li>
-                  </ul>
-                </div>
-                <!-- /.post -->
-                
-                <!-- Post -->
-                <div class="post">
-                	<a href="#"><h3>Docker简介</h3></a>
-                  <p class="text-muted">
-                    Docker 使用客户端-服务器 (C/S) 架构模式。Docker 客户端会与 Docker 守护进程进行通信。Docker 守护进程会处理复杂繁重的任务，例如建立、运行、发布你的 Docker 容器。Docker 客户端和守护进程可以运行在同一个系统上，当然你也可以使用 Docker 客户端去...
-                  </p>
-                  <ul class="list-inline">
-                  	<li><i class="fa fa-calendar margin-r-5"></i>发表时间：2018-07-17 11:18:16</li>
-                  	<li><i class="fa fa-eye margin-r-5"></i>阅读数：84</li>
-                    <li>
-                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>评论数：5</a></li>
-                  </ul>
-                </div>
-                <!-- /.post -->
-                
-                <!-- Post -->
-                <div class="post">
-                	<a href="#"><h3>Docker简介</h3></a>
-                  <p class="text-muted">
-                    Docker 使用客户端-服务器 (C/S) 架构模式。Docker 客户端会与 Docker 守护进程进行通信。Docker 守护进程会处理复杂繁重的任务，例如建立、运行、发布你的 Docker 容器。Docker 客户端和守护进程可以运行在同一个系统上，当然你也可以使用 Docker 客户端去...
-                  </p>
-                  <ul class="list-inline">
-                  	<li><i class="fa fa-calendar margin-r-5"></i>发表时间：2018-07-17 11:18:16</li>
-                  	<li><i class="fa fa-eye margin-r-5"></i>阅读数：84</li>
-                    <li>
-                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>评论数：5</a></li>
-                  </ul>
-                </div>
-                <!-- /.post -->
-                
-                <!-- Post -->
-                <div class="post">
-                	<a href="#"><h3>Docker简介</h3></a>
-                  <p class="text-muted">
-                    Docker 使用客户端-服务器 (C/S) 架构模式。Docker 客户端会与 Docker 守护进程进行通信。Docker 守护进程会处理复杂繁重的任务，例如建立、运行、发布你的 Docker 容器。Docker 客户端和守护进程可以运行在同一个系统上，当然你也可以使用 Docker 客户端去...
-                  </p>
-                  <ul class="list-inline">
-                  	<li><i class="fa fa-calendar margin-r-5"></i>发表时间：2018-07-17 11:18:16</li>
-                  	<li><i class="fa fa-eye margin-r-5"></i>阅读数：84</li>
-                    <li>
-                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>评论数：5</a></li>
-                  </ul>
-                </div>
-                <!-- /.post -->
-                
-                <!-- Post -->
-                <div class="post">
-                	<a href="#"><h3>Docker简介</h3></a>
-                  <p class="text-muted">
-                    Docker 使用客户端-服务器 (C/S) 架构模式。Docker 客户端会与 Docker 守护进程进行通信。Docker 守护进程会处理复杂繁重的任务，例如建立、运行、发布你的 Docker 容器。Docker 客户端和守护进程可以运行在同一个系统上，当然你也可以使用 Docker 客户端去...
-                  </p>
-                  <ul class="list-inline">
-                  	<li><i class="fa fa-calendar margin-r-5"></i>发表时间：2018-07-17 11:18:16</li>
-                  	<li><i class="fa fa-eye margin-r-5"></i>阅读数：84</li>
-                    <li>
-                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>评论数：5</a></li>
-                  </ul>
-                </div>
-                <!-- /.post -->
-                
-                <!-- Post -->
-                <div class="post">
-                	<a href="#"><h3>Docker简介</h3></a>
-                  <p class="text-muted">
-                    Docker 使用客户端-服务器 (C/S) 架构模式。Docker 客户端会与 Docker 守护进程进行通信。Docker 守护进程会处理复杂繁重的任务，例如建立、运行、发布你的 Docker 容器。Docker 客户端和守护进程可以运行在同一个系统上，当然你也可以使用 Docker 客户端去...
-                  </p>
-                  <ul class="list-inline">
-                  	<li><i class="fa fa-calendar margin-r-5"></i>发表时间：2018-07-17 11:18:16</li>
-                  	<li><i class="fa fa-eye margin-r-5"></i>阅读数：84</li>
-                    <li>
-                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>评论数：5</a></li>
-                  </ul>
-                </div>
-                <!-- /.post -->
-                
-                <!-- Post -->
-                <div class="post">
-                	<a href="#"><h3>Docker简介</h3></a>
-                  <p class="text-muted">
-                    Docker 使用客户端-服务器 (C/S) 架构模式。Docker 客户端会与 Docker 守护进程进行通信。Docker 守护进程会处理复杂繁重的任务，例如建立、运行、发布你的 Docker 容器。Docker 客户端和守护进程可以运行在同一个系统上，当然你也可以使用 Docker 客户端去...
-                  </p>
-                  <ul class="list-inline">
-                  	<li><i class="fa fa-calendar margin-r-5"></i>发表时间：2018-07-17 11:18:16</li>
-                  	<li><i class="fa fa-eye margin-r-5"></i>阅读数：84</li>
-                    <li>
-                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>评论数：5</a></li>
-                  </ul>
-                </div>
-                <!-- /.post -->
-                
-                <!-- Post -->
-                <div class="post">
-                	<a href="#"><h3>Docker简介</h3></a>
-                  <p class="text-muted">
-                    Docker 使用客户端-服务器 (C/S) 架构模式。Docker 客户端会与 Docker 守护进程进行通信。Docker 守护进程会处理复杂繁重的任务，例如建立、运行、发布你的 Docker 容器。Docker 客户端和守护进程可以运行在同一个系统上，当然你也可以使用 Docker 客户端去...
-                  </p>
-                  <ul class="list-inline">
-                  	<li><i class="fa fa-calendar margin-r-5"></i>发表时间：2018-07-17 11:18:16</li>
-                  	<li><i class="fa fa-eye margin-r-5"></i>阅读数：84</li>
-                    <li>
-                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>评论数：5</a></li>
-                  </ul>
-                </div>
-                <!-- /.post -->
-                
-                <!-- Post -->
-                <div class="post">
-                	<a href="#"><h3>Docker简介</h3></a>
-                  <p class="text-muted">
-                    Docker 使用客户端-服务器 (C/S) 架构模式。Docker 客户端会与 Docker 守护进程进行通信。Docker 守护进程会处理复杂繁重的任务，例如建立、运行、发布你的 Docker 容器。Docker 客户端和守护进程可以运行在同一个系统上，当然你也可以使用 Docker 客户端去...
-                  </p>
-                  <ul class="list-inline">
-                  	<li><i class="fa fa-calendar margin-r-5"></i>发表时间：2018-07-17 11:18:16</li>
-                  	<li><i class="fa fa-eye margin-r-5"></i>阅读数：84</li>
-                    <li>
-                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>评论数：5</a></li>
-                  </ul>
-                </div>
-                <!-- /.post -->
-								
 				<!-- Paginator -->
 				<!-- <div class="divider"></div> -->
 				<div class="text-center">
@@ -404,6 +271,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
 <!-- custom jQuery -->
 <script src="custom/js/zblog.js"></script>
-
+    
 </body>
 </html>
