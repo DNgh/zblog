@@ -82,18 +82,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       	</div>
 
         <div class="col-md-3">
-
-          <!-- Profile Image -->
-          <div class="box box-warning">
-            <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="custom/img/profile-128x128.jpg" alt="User profile picture">
-							<h3 class="profile-title text-center">上下求索</h3>
-							<hr />
-              <p class="text-muted text-center">码农一枚，从事Java软件开发，坚持学习技术，努力提升自己</p>
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-black" style="background: url('custom/img/photo1.png') center center;">
+              <h3 class="widget-user-username">周志民</h3>
+              <h5 class="widget-user-desc">软件开发</h5>
             </div>
-            <!-- /.box-body -->
+            <div class="widget-user-image">
+              <img class="img-circle" src="custom/img/profile-128x128.jpg" alt="User Avatar">
+            </div>
+            <div class="box-footer">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="description-block">
+                    <span class="description-text">码农一枚，从事Java软件开发，坚持学习技术，努力提升自己。</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header">3,200</h5>
+                    <span class="description-text">文章数</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header">13,000</h5>
+                    <span class="description-text">阅读数</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4">
+                  <div class="description-block">
+                    <h5 class="description-header">35</h5>
+                    <span class="description-text">评论数</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
           </div>
-          <!-- /.box -->
+          <!-- /.widget-user -->
 
           <!-- Categories Box -->
           <div class="box box-primary">
@@ -185,17 +221,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                 <li><a href="#">
-                	<strong>阅读第一</strong></a>
-              		<p class="text-muted">阅读量：200</p>
+                 <li class="nav-item" style="text-align: left;">
+                 	<a href="#" class="nav-link"><strong>阅读第YI</strong>
+                 		<span class="text-muted" style="display: block; width: 100%;">阅读量：200</span>
+                 	</a>
                  </li>
-                 <li><a href="#">
-                	<strong>阅读第一</strong></a>
-              		<p class="text-muted">阅读量：200</p>
+                 <li class="nav-item">
+                 	<a href="#" class="nav-link"><strong>阅读第二</strong>
+                 		<span class="text-muted" style="display: block; width: 100%;">阅读量：200</span>
+                 	</a>
                  </li>
-                 <li><a href="#">
-                	<strong>阅读第一</strong></a>
-              		<p class="text-muted">阅读量：200</p>
+                 <li class="nav-item">
+                 	<a href="#" class="nav-link"><strong>阅读第三</strong>
+                 		<span class="text-muted" style="display: block; width: 100%;">阅读量：200</span>
+                 	</a>
+                 </li>
+                 <li class="nav-item">
+                	<a href="#" class="nav-link"><strong>阅读第三</strong>
+                 		<span class="text-muted" style="display: block; width: 100%;">阅读量：200</span>
+                 	</a>
                  </li>
               </ul>
             </div>

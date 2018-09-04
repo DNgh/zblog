@@ -99,6 +99,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <div class="box-footer">
               <div class="row">
+                <div class="col-sm-12">
+                  <div class="description-block">
+                    <span class="description-text">码农一枚，从事Java软件开发，坚持学习技术，努力提升自己。</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-sm-4 border-right">
                   <div class="description-block">
                     <h5 class="description-header">3,200</h5>
@@ -129,18 +136,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </div>
           <!-- /.widget-user -->
           
-          <!-- Profile Image -->
-          <div class="box box-warning">
-            <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="custom/img/profile-128x128.jpg" alt="User profile picture">
-							<h3 class="profile-title text-center">上下求索</h3>
-							<hr />
-              <p class="text-muted text-center">码农一枚，从事Java软件开发，坚持学习技术，努力提升自己</p>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-
           <!-- Categories Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
