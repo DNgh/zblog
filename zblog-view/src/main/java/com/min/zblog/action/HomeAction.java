@@ -1,9 +1,11 @@
 package com.min.zblog.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.min.zblog.action.model.CategoryInfo;
 import com.min.zblog.entity.TmArticle;
 import com.min.zblog.service.ArticleService;
 import com.opensymphony.xwork2.ActionSupport;
@@ -16,8 +18,11 @@ public class HomeAction extends ActionSupport {
 	
 	private List<TmArticle> articleList;
 	
+	private List<CategoryInfo>  categoryInfoList = new ArrayList<CategoryInfo>();
+	
     public String home(){
     	//分类
+    	
     	//归档
     	//标签
     	//阅读排行
@@ -37,6 +42,19 @@ public class HomeAction extends ActionSupport {
 
 	public List<TmArticle> getArticleList() {
 		return articleList;
+	}
+	
+	public void setCategoryInfoList(List<TmArticle> articleList){
+		for(TmArticle article:articleList){
+			CategoryInfo info = new CategoryInfo();
+//			info.setCategoryName(article.getCategoryId());
+//			info.setArticleNum(articleNum);
+//			categoryInfoList.add(e);
+		}
+	}
+	
+	public List<CategoryInfo> getCategoryInfoList() {
+		return categoryInfoList;
 	}
     
 }

@@ -1,5 +1,12 @@
+/*下边界水平分割线，上下外边距10px*/
 .divider-h {
 	margin-top: 10px;
 	margin-bottom: 10px;
     border-bottom: 1px solid #ccc;
+}
+
+/*单独占一行*/
+.block-oneline {
+	display: block; 
+	width: 100%;
 }

@@ -26,6 +26,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
+  <!-- custom css -->
+  <link rel="stylesheet" href="custom/css/custom.css">
   
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -145,10 +147,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a href="#"><i class="fa fa-inbox"></i> Java
-                  <span class="label label-primary pull-right">12</span></a></li>
+                  <span class="label label-danger pull-right">12篇</span></a></li>
                 <li><a href="#"><i class="fa fa-tree"></i> Spring</a></li>
                 <li><a href="#"><i class="fa fa-file-text-o"></i> Hibernate</a></li>
-                <li><a href="#"><i class="fa fa-filter"></i> Struts <span class="label label-warning pull-right">65</span></a>
+                <li><a href="#"><i class="fa fa-filter"></i> Struts <span class="label label-danger pull-right">65篇</span></a>
                 </li>
                 <li><a href="#"><i class="fa fa-ship"></i> Docker</a></li>
               </ul>
@@ -173,8 +175,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <li class="active"><a href="#"><i class="fa fa-angle-double-right "></i> 2018-07
                   <span class="label label-primary pull-right">12</span></a></li>
                 <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-06</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-05</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-04 <span class="label label-warning pull-right">65</span></a>
+                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-05<span class="label label-success pull-right">10篇</span></a></li>
+                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-04 <span class="label label-default pull-right">65篇</span></a>
                 </li>
                 <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-03</a></li>
               </ul>
@@ -221,24 +223,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                 <li class="nav-item" style="text-align: left;">
+                 <li class="nav-item">
                  	<a href="#" class="nav-link"><strong>阅读第YI</strong>
-                 		<span class="text-muted" style="display: block; width: 100%;">阅读量：200</span>
+                 		<span class="text-muted block-oneline">阅读量：200</span>
                  	</a>
                  </li>
                  <li class="nav-item">
-                 	<a href="#" class="nav-link"><strong>阅读第二</strong>
-                 		<span class="text-muted" style="display: block; width: 100%;">阅读量：200</span>
+                 	<a href="#" class="nav-link"><strong>阅读第ER</strong>
+                 		<span class="text-muted block-oneline">阅读量：200</span>
                  	</a>
                  </li>
                  <li class="nav-item">
-                 	<a href="#" class="nav-link"><strong>阅读第三</strong>
-                 		<span class="text-muted" style="display: block; width: 100%;">阅读量：200</span>
-                 	</a>
-                 </li>
-                 <li class="nav-item">
-                	<a href="#" class="nav-link"><strong>阅读第三</strong>
-                 		<span class="text-muted" style="display: block; width: 100%;">阅读量：200</span>
+                 	<a href="#" class="nav-link"><strong>阅读第SAN</strong>
+                 		<span class="text-muted block-oneline">阅读量：200</span>
                  	</a>
                  </li>
               </ul>
