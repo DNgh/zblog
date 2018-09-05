@@ -26,10 +26,6 @@
     	<action name="show" class="articleAction" method="show">
             <result name="success">/WEB-INF/pages/detail.jsp</result>
         </action>
-        
-        <action name="markdown" class="articleAction" method="markdown">
-            <result name="success">/WEB-INF/pages/markdown.jsp</result>
-        </action>
     </package>
     
 </struts>

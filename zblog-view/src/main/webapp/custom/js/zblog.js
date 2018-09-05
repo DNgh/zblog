@@ -41,7 +41,20 @@ $(function () {
 	    }
 	}
 	$('.homePaginator').bootstrapPaginator(options);
-		
+    
+    $(window).scroll(function(event){
+    	var len = $(this).scrollTop();
+		if(len >= 100){
+			$("#goTop").show();
+		}else{
+			$("#goTop").hide();
+		}
+    });
+    
+	$("#goTop").click(function(event){
+		event.preventDefault();
+		$('body').animate({scrollTop:0},1000);
+	});
 })
 
 function doPost(to, p) {  // to:提交动作（action）,p:参数
@@ -61,3 +74,4 @@ function doPost(to, p) {  // to:提交动作（action）,p:参数
      reqArticleForm.submit(); 
      document.body.removeChild(reqArticleForm);
 }
+

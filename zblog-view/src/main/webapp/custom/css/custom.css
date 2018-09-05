@@ -10,3 +10,10 @@
 	display: block; 
 	width: 100%;
 }
+
+.back-to-top {
+	position:fixed;
+	bottom:60px;
+	right:30px;
+	display:none;
+}

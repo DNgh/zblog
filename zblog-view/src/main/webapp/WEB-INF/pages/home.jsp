@@ -280,6 +280,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <!-- /.col -->
         
         <div class="col-md-1">
+        	<a class="btn btn-app back-to-top" id="goTop"><i class="fa fa-chevron-up"></i>回到顶部</a>
       	</div>
         
       </div>
