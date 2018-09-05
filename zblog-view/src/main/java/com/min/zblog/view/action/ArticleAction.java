@@ -1,4 +1,4 @@
-package com.min.zblog.action;
+package com.min.zblog.view.action;
 
 import java.util.Map;
 

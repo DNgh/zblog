@@ -10,12 +10,12 @@
 	<import resource="classpath*:spring-hibernate.xml"/>
 	
     <!-- 扫描service自动注入为bean -->
-    <context:component-scan base-package="com.min.zblog.action" />
+    <context:component-scan base-package="com.min.zblog.view.action" />
                     
-	<bean id="homeAction" class="com.min.zblog.action.HomeAction" autowire="default">
+	<bean id="homeAction" class="com.min.zblog.view.action.HomeAction" autowire="default">
 	</bean>
 	
-	<bean id="articleAction" class="com.min.zblog.action.ArticleAction" autowire="default">
+	<bean id="articleAction" class="com.min.zblog.view.action.ArticleAction" autowire="default">
 	</bean>
 	
 </beans>
