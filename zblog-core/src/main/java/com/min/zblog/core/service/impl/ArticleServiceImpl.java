@@ -51,9 +51,4 @@ public class ArticleServiceImpl implements ArticleService {
 		articleQueryDsl.deleteVisitHstByArticleId(article.getId());
 		//删除评论
 	}
-
-	@Override
-	public void findTagInfo() {
-		
-	}
 }

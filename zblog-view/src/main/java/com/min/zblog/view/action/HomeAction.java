@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.min.zblog.core.service.ArticleService;
+import com.min.zblog.core.service.CategoryService;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.view.CategoryInfo;
 import com.opensymphony.xwork2.ActionSupport;
@@ -16,13 +17,16 @@ public class HomeAction extends ActionSupport {
 	@Autowired
 	private ArticleService articleService;
 	
+	@Autowired
+	private CategoryService categoryService;
+	
 	private List<TmArticle> articleList;
 	
 	private List<CategoryInfo>  categoryInfoList = new ArrayList<CategoryInfo>();
 	
     public String home(){
     	//分类
-    	
+    	categoryService.fetchCategoryInfo();
     	//归档
     	//标签
     	//阅读排行

@@ -92,7 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <h5 class="widget-user-desc">软件开发</h5>
             </div>
             <div class="widget-user-image">
-              <img class="img-circle" src="custom/img/profile-128x128.jpg" alt="User Avatar">
+              <img class="img-circle" src="custom/img/profile-128x128.jpg" alt="User zhouzm">
             </div>
             <div class="box-footer">
               <div class="row">

@@ -51,9 +51,9 @@ $(function () {
 		}
     });
     
-	$("#goTop").click(function(event){
-		event.preventDefault();
-		$('body').animate({scrollTop:0},1000);
+	$("#goTop").click(function(){
+		alert("click top button");
+		$('html,body').animate({scrollTop:0},1000);
 	});
 })
 

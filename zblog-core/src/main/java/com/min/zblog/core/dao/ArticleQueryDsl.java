@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.QTmArticle;
 import com.min.zblog.data.entity.QTmArticleTag;
+import com.min.zblog.data.entity.QTmCategory;
 import com.min.zblog.data.entity.QTmVisitHst;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -27,6 +28,8 @@ public class ArticleQueryDsl {
 	private QTmVisitHst qTmVisitHst = QTmVisitHst.tmVisitHst;
 	
 	private QTmArticleTag qTmArticleTag = QTmArticleTag.tmArticleTag;
+	
+	private QTmCategory qTmCategory = QTmCategory.tmCategory;
 	
 	@PostConstruct
     public void init() {
@@ -46,5 +49,11 @@ public class ArticleQueryDsl {
 	
 	public long deleteArticleTagByArticleId(Long id) {
 		return queryFactory.delete(qTmArticleTag).where(qTmArticleTag.articleId.eq(id)).execute();
+	}
+	
+	public long countArticleByCategoryId(Long id) {
+		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
+		return query.from(qTmArticle).where(qTmArticle.categoryId.eq(id))
+				.fetchCount();
 	}
 }

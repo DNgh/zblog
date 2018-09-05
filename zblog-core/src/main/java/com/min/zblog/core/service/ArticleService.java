@@ -9,5 +9,4 @@ public interface ArticleService {
 	public void addArticle(TmArticle article);
 	public TmArticle findOne(Long id);
 	public void deleteArticleById(Long id);
-	public void findTagInfo();
 }

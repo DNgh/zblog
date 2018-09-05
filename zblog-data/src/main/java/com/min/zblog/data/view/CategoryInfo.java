@@ -19,7 +19,7 @@ public class CategoryInfo implements Serializable {
 	/**
 	 * 所属分类，文章数 
 	 */
-	private int articleNum;
+	private long articleNum;
 	
 	/**
 	 * 分类图标
@@ -39,11 +39,11 @@ public class CategoryInfo implements Serializable {
 		this.categoryName = categoryName;
 	}
 
-	public int getArticleNum() {
+	public long getArticleNum() {
 		return articleNum;
 	}
 
-	public void setArticleNum(int articleNum) {
+	public void setArticleNum(long articleNum) {
 		this.articleNum = articleNum;
 	}
 
