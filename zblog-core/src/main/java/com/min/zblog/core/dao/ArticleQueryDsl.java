@@ -1,4 +1,4 @@
-package com.min.zblog.dao;
+package com.min.zblog.core.dao;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.min.zblog.dao;
+package com.min.zblog.core.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

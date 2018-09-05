@@ -1,4 +1,4 @@
-package com.min.zblog.service.impl;
+package com.min.zblog.core.service.impl;
 
 import java.util.List;
 
@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.min.zblog.dao.ArticleDao;
-import com.min.zblog.dao.ArticleQueryDsl;
-import com.min.zblog.dao.ArticleTagDao;
-import com.min.zblog.dao.VisitHstDao;
+import com.min.zblog.core.dao.ArticleDao;
+import com.min.zblog.core.dao.ArticleQueryDsl;
+import com.min.zblog.core.dao.ArticleTagDao;
+import com.min.zblog.core.dao.VisitHstDao;
+import com.min.zblog.core.service.ArticleService;
 import com.min.zblog.data.entity.TmArticle;
-import com.min.zblog.service.ArticleService;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {

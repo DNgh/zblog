@@ -1,4 +1,4 @@
-package com.min.zblog.action.facility;
+package com.min.zblog.view.facility;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

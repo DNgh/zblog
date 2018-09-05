@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.min.zblog.action.model.CategoryInfo;
+import com.min.zblog.core.service.ArticleService;
 import com.min.zblog.data.entity.TmArticle;
-import com.min.zblog.service.ArticleService;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class HomeAction extends ActionSupport {

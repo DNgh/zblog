@@ -1,4 +1,4 @@
-package com.min.zblog.service;
+package com.min.zblog.core.service;
 
 import java.util.List;
 
