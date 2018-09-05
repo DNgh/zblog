@@ -1,4 +1,4 @@
-package com.min.zblog.entity;
+package com.min.zblog.data.entity;
 // Generated 2018-8-19 21:26:30 by Hibernate Tools 4.3.1
 
 import java.util.Date;

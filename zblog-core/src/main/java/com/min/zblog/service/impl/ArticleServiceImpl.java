@@ -10,7 +10,7 @@ import com.min.zblog.dao.ArticleDao;
 import com.min.zblog.dao.ArticleQueryDsl;
 import com.min.zblog.dao.ArticleTagDao;
 import com.min.zblog.dao.VisitHstDao;
-import com.min.zblog.entity.TmArticle;
+import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.service.ArticleService;
 
 @Service

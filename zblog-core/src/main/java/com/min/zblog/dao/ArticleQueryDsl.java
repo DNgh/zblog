@@ -8,10 +8,10 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
+import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.entity.QTmArticle;
 import com.min.zblog.entity.QTmArticleTag;
 import com.min.zblog.entity.QTmVisitHst;
-import com.min.zblog.entity.TmArticle;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
