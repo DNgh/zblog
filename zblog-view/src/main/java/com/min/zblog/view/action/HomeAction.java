@@ -22,12 +22,13 @@ public class HomeAction extends ActionSupport {
 	
 	private List<TmArticle> articleList;
 	
-	private List<CategoryInfo>  categoryInfoList = new ArrayList<CategoryInfo>();
+	private List<CategoryInfo>  categoryInfoList;
 	
     public String home(){
     	//分类
-    	categoryService.fetchCategoryInfo();
+    	this.categoryInfoList = categoryService.fetchCategoryInfo();
     	//归档
+    	categoryService.
     	//标签
     	//阅读排行
     	//文章

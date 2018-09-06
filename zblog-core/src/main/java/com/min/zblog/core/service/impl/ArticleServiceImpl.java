@@ -12,6 +12,7 @@ import com.min.zblog.core.dao.ArticleTagDao;
 import com.min.zblog.core.dao.VisitHstDao;
 import com.min.zblog.core.service.ArticleService;
 import com.min.zblog.data.entity.TmArticle;
+import com.min.zblog.data.view.ArchiveInfo;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -50,5 +51,14 @@ public class ArticleServiceImpl implements ArticleService {
 		//删除标签关联记录
 		articleQueryDsl.deleteVisitHstByArticleId(article.getId());
 		//删除评论
+	}
+
+	/* (non-Javadoc)
+	 * @see com.min.zblog.core.service.ArticleService#fetchArchiveInfo()
+	 */
+	@Override
+	public ArchiveInfo fetchArchiveInfo() {
+		
+		return null;
 	}
 }
