@@ -2,11 +2,15 @@ package com.min.zblog.data.entity;
 // Generated 2018-8-19 21:26:30 by Hibernate Tools 4.3.1
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,11 +20,11 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "tm_article_tag", catalog = "zblog")
+@IdClass(TmArticleTagKey.class)
 public class TmArticleTag implements java.io.Serializable {
 
-	private Long id;
-	private long tagId;
-	private long articleId;
+	private Long tagId;
+	private Long articleId;
 	private Date createTime;
 	private Date updateTime;
 	private Integer jpaVersion;
@@ -28,12 +32,12 @@ public class TmArticleTag implements java.io.Serializable {
 	public TmArticleTag() {
 	}
 
-	public TmArticleTag(long tagId, long articleId) {
+	public TmArticleTag(Long tagId, Long articleId) {
 		this.tagId = tagId;
 		this.articleId = articleId;
 	}
 
-	public TmArticleTag(long tagId, long articleId, Date createTime, Date updateTime, Integer jpaVersion) {
+	public TmArticleTag(Long tagId, Long articleId, Date createTime, Date updateTime, Integer jpaVersion) {
 		this.tagId = tagId;
 		this.articleId = articleId;
 		this.createTime = createTime;
@@ -42,32 +46,22 @@ public class TmArticleTag implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
-
-	@Column(name = "id", unique = true, nullable = false)
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	@Column(name = "tag_id", nullable = false)
-	public long getTagId() {
+	public Long getTagId() {
 		return this.tagId;
 	}
 
-	public void setTagId(long tagId) {
+	public void setTagId(Long tagId) {
 		this.tagId = tagId;
 	}
-
+	
+	@Id
 	@Column(name = "article_id", nullable = false)
-	public long getArticleId() {
+	public Long getArticleId() {
 		return this.articleId;
 	}
 
-	public void setArticleId(long articleId) {
+	public void setArticleId(Long articleId) {
 		this.articleId = articleId;
 	}
 

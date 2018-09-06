@@ -27,31 +27,33 @@ import com.min.zblog.facility.enums.Indicator;
 public class TmArticle implements java.io.Serializable {
 
 	private Long id;
-	private long userId;
+	private Long userId;
 	private String title;
 	private String description;
 	private String content;
-	private long categoryId;
+	private Long categoryId;
 	private Indicator top;
 	private Indicator recommend;
 	private Indicator original;
 	private Indicator comment;
 	private String keywords;
 	private ArticleState state;
+	private Long archiveId;
 	private Date createTime;
 	private Date updateTime;
+	private Integer jpaVersion;
 
 	public TmArticle() {
 	}
 
-	public TmArticle(long userId, long categoryId) {
+	public TmArticle(Long userId, Long categoryId) {
 		this.userId = userId;
 		this.categoryId = categoryId;
 	}
 
-	public TmArticle(long userId, String title, String description, String content, long categoryId, Indicator top,
-			Indicator recommend, Indicator original, Indicator comment, String keywords, ArticleState state, Date createTime,
-			Date updateTime) {
+	public TmArticle(Long userId, String title, String description, String content, Long categoryId, Indicator top,
+			Indicator recommend, Indicator original, Indicator comment, String keywords, ArticleState state, Long archiveId,
+			Date createTime, Date updateTime, Integer jpaVersion) {
 		this.userId = userId;
 		this.title = title;
 		this.description = description;
@@ -63,8 +65,10 @@ public class TmArticle implements java.io.Serializable {
 		this.comment = comment;
 		this.keywords = keywords;
 		this.state = state;
+		this.archiveId = archiveId;
 		this.createTime = createTime;
 		this.updateTime = updateTime;
+		this.jpaVersion = jpaVersion;
 	}
 
 	@Id
@@ -79,11 +83,11 @@ public class TmArticle implements java.io.Serializable {
 	}
 
 	@Column(name = "user_id", nullable = false)
-	public long getUserId() {
+	public Long getUserId() {
 		return this.userId;
 	}
 
-	public void setUserId(long userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
@@ -114,12 +118,12 @@ public class TmArticle implements java.io.Serializable {
 		this.content = content;
 	}
 
-	@Column(name = "category_id", nullable = false)
-	public long getCategoryId() {
+	@Column(name = "category_id")
+	public Long getCategoryId() {
 		return this.categoryId;
 	}
 
-	public void setCategoryId(long categoryId) {
+	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
 	}
 
@@ -181,6 +185,15 @@ public class TmArticle implements java.io.Serializable {
 	public void setState(ArticleState state) {
 		this.state = state;
 	}
+	
+	@Column(name = "archive_id")
+	public Long getArchiveId() {
+		return this.archiveId;
+	}
+
+	public void setArchiveId(Long archiveId) {
+		this.archiveId = archiveId;
+	}
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_time", length = 19)
@@ -200,6 +213,15 @@ public class TmArticle implements java.io.Serializable {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+	
+	@Column(name = "jpa_version")
+	public Integer getJpaVersion() {
+		return this.jpaVersion;
+	}
+
+	public void setJpaVersion(Integer jpaVersion) {
+		this.jpaVersion = jpaVersion;
 	}
 
 }

@@ -19,6 +19,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<!-- javassist版本号 -->
 		<javassist.version>3.18.1-GA</javassist.version>
+		<commons-lang.version>2.6</commons-lang.version>
 		<!-- struts2版本号 -->
 		<struts.version>2.3.20</struts.version>
 		<!-- spring版本号 -->
@@ -52,6 +53,12 @@
 			   <groupId>org.javassist</groupId>
 			   <artifactId>javassist</artifactId>
 			   <version>${javassist.version}</version>
+			</dependency>
+			
+			<dependency>
+			   <groupId>commons-lang</groupId>
+			   <artifactId>commons-lang</artifactId>
+			   <version>${commons-lang.version}</version>
 			</dependency>
 			
 			<!-- 添加struts核心依赖 -->

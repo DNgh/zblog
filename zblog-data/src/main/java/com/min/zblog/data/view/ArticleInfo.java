@@ -35,12 +35,12 @@ public class ArticleInfo implements Serializable {
 	/**
 	 * 阅读数
 	 */
-	private int readNum;
+	private long readNum;
 	
 	/**
 	 * 评论数
 	 */
-	private int commentNum;
+	private long commentNum;
 
 	public Long getId() {
 		return id;
@@ -74,19 +74,19 @@ public class ArticleInfo implements Serializable {
 		this.createTime = createTime;
 	}
 	
-	public int getReadNum() {
+	public long getReadNum() {
 		return readNum;
 	}
 
-	public void setReadNum(int readNum) {
+	public void setReadNum(long readNum) {
 		this.readNum = readNum;
 	}
 
-	public int getCommentNum() {
+	public long getCommentNum() {
 		return commentNum;
 	}
 
-	public void setCommentNum(int commentNum) {
+	public void setCommentNum(long commentNum) {
 		this.commentNum = commentNum;
 	}
 }

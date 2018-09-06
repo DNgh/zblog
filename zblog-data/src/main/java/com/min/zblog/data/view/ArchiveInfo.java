@@ -19,7 +19,7 @@ public class ArchiveInfo implements Serializable {
 	/**
 	 * 归档文章个数
 	 */
-	private int articleNum;
+	private long articleNum;
 	
 	public String getCreateDate() {
 		return createDate;
@@ -29,11 +29,11 @@ public class ArchiveInfo implements Serializable {
 		this.createDate = createDate;
 	}
 
-	public int getArticleNum() {
+	public long getArticleNum() {
 		return articleNum;
 	}
 
-	public void setArticleNum(int articleNum) {
+	public void setArticleNum(long articleNum) {
 		this.articleNum = articleNum;
 	}
 }

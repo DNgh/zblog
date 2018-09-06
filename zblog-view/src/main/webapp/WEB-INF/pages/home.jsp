@@ -146,13 +146,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#"><i class="fa fa-inbox"></i> Java
-                  <span class="label label-danger pull-right">12篇</span></a></li>
-                <li><a href="#"><i class="fa fa-tree"></i> Spring</a></li>
-                <li><a href="#"><i class="fa fa-file-text-o"></i> Hibernate</a></li>
-                <li><a href="#"><i class="fa fa-filter"></i> Struts <span class="label label-danger pull-right">65篇</span></a>
-                </li>
-                <li><a href="#"><i class="fa fa-ship"></i> Docker</a></li>
+              	<!-- Category -->
+                <s:iterator value="categoryInfoList" var="var">
+				  <li><a href="javascript:void(0);" onclick="doPost('article/listArticleByCategoryName', {'categoryName':'${var.categoryName}'})"><i class="fa ${var.icon}"></i> <s:property value="#var.categoryName"/> <span class="label label-default pull-right"><s:property value="#var.articleNum"/>篇</span></a>  
+				</s:iterator>
+                <!-- /.Category -->
               </ul>
             </div>
             <!-- /.box-body -->
@@ -160,7 +158,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <!-- /.box -->
 
           <!-- Archive Box -->
-          <div class="box box-info">
+          <div class="box box-warning">
             <div class="box-header with-border">
               <i class="fa fa-archive"></i>
               <h3 class="box-title">归档</h3>
@@ -258,9 +256,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                  </p>
 	                  <ul class="list-inline">
 	                  	<li><i class="fa fa-calendar margin-r-5"></i>发表时间：<s:property value="#var.createTime"/></li>
-	                  	<li><i class="fa fa-eye margin-r-5"></i>阅读数：84</li>
+	                  	<li><i class="fa fa-eye margin-r-5"></i>阅读数：<s:property value="#var.readNum"/></li>
 	                    <!-- <li><a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i>评论数：5</a></li> -->
-	                    <li><i class="fa fa-comments-o margin-r-5"></i>评论数：5</li>
+	                    <li><i class="fa fa-comments-o margin-r-5"></i>评论数：<s:property value="#var.commentNum"/></li>
 	                  </ul>
 	                </div>
 				</s:iterator>

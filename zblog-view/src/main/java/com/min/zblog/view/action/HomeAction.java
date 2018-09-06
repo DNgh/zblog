@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.min.zblog.core.service.ArticleService;
 import com.min.zblog.core.service.CategoryService;
 import com.min.zblog.data.entity.TmArticle;
+import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.CategoryInfo;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -20,7 +21,7 @@ public class HomeAction extends ActionSupport {
 	@Autowired
 	private CategoryService categoryService;
 	
-	private List<TmArticle> articleList;
+	private List<ArticleInfo> articleList;
 	
 	private List<CategoryInfo>  categoryInfoList;
 	
@@ -28,11 +29,11 @@ public class HomeAction extends ActionSupport {
     	//分类
     	this.categoryInfoList = categoryService.fetchCategoryInfo();
     	//归档
-    	categoryService.
+    	
     	//标签
     	//阅读排行
     	//文章
-    	this.articleList = articleService.listAll();
+    	this.articleList = articleService.listAllArticles();
     	
     	return SUCCESS;
     }
@@ -45,17 +46,8 @@ public class HomeAction extends ActionSupport {
     	return SUCCESS;
     }
 
-	public List<TmArticle> getArticleList() {
+	public List<ArticleInfo> getArticleList() {
 		return articleList;
-	}
-	
-	public void setCategoryInfoList(List<TmArticle> articleList){
-		for(TmArticle article:articleList){
-			CategoryInfo info = new CategoryInfo();
-//			info.setCategoryName(article.getCategoryId());
-//			info.setArticleNum(articleNum);
-//			categoryInfoList.add(e);
-		}
 	}
 	
 	public List<CategoryInfo> getCategoryInfoList() {
