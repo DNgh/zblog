@@ -100,4 +100,29 @@ public class ArticleServiceImpl implements ArticleService {
 		return articleInfoList;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.min.zblog.core.service.ArticleService#listArticleByArchive(java.lang.String)
+	 */
+	@Override
+	public List<ArticleInfo> listArticleByArchive(String name) {
+		if(StringUtils.isBlank(name)) {
+			return null;
+		}
+		//根据分类名称，查找已经发布文章
+		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleByArchive(name, ArticleState.PUBLISH);
+		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();
+		for(TmArticle article:tmArticleList){
+			
+			ArticleInfo articleInfo = new ArticleInfo();
+			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
+			articleInfo.setCreateTime(article.getCreateTime());
+			articleInfo.setDescription(article.getDescription());
+			articleInfo.setId(article.getId());
+			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
+			articleInfo.setTitle(article.getTitle());
+			articleInfoList.add(articleInfo);
+		}
+		return articleInfoList;
+	}
+
 }

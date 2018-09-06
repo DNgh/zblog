@@ -9,10 +9,12 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import com.min.zblog.data.entity.TmArticle;
+import com.min.zblog.data.entity.QTmArchive;
 import com.min.zblog.data.entity.QTmArticle;
 import com.min.zblog.data.entity.QTmArticleTag;
 import com.min.zblog.data.entity.QTmCategory;
 import com.min.zblog.data.entity.QTmVisitHst;
+import com.min.zblog.data.entity.TmArchive;
 import com.min.zblog.data.entity.TmCategory;
 import com.min.zblog.data.entity.TmVisitHst;
 import com.min.zblog.data.view.ArticleInfo;
@@ -37,6 +39,8 @@ public class BlogQueryDsl {
 	private QTmArticleTag qTmArticleTag = QTmArticleTag.tmArticleTag;
 	
 	private QTmCategory qTmCategory = QTmCategory.tmCategory;
+	
+	private QTmArchive qTmArchive = QTmArchive.tmArchive;
 	
 	@PostConstruct
     public void init() {
@@ -102,6 +106,28 @@ public class BlogQueryDsl {
 		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
 		List<TmArticle> list = query.from(qTmArticle)
 				.where(qTmArticle.state.eq(state))
+				.orderBy(qTmArticle.createTime.desc()).fetch();
+		return list;
+	}
+	
+	public List<TmArchive> fetchArchives(Indicator sort) {
+		JPAQuery<TmArchive> query = new JPAQuery<TmArchive>(em);
+		List<TmArchive> list;
+		OrderSpecifier<String> order = qTmArchive.title.asc();
+		if(sort == Indicator.N){
+			order = qTmArchive.title.desc();
+		}
+		list = query.from(qTmArchive).orderBy(order).fetch();
+		
+		return list;
+	}
+	
+	public List<TmArticle> fetchArticleByArchive(String name, ArticleState state) {
+		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
+		List<TmArticle> list = query.from(qTmArticle, qTmArchive)
+				.where(qTmArticle.archiveId.eq(qTmArchive.id)
+						.and(qTmArticle.state.eq(state))
+						.and(qTmArchive.name.eq(name)))
 				.orderBy(qTmArticle.createTime.desc()).fetch();
 		return list;
 	}

@@ -148,7 +148,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <ul class="nav nav-pills nav-stacked">
               	<!-- Category -->
                 <s:iterator value="categoryInfoList" var="var">
-				  <li><a href="javascript:void(0);" onclick="doPost('article/listArticleByCategoryName', {'categoryName':'${var.categoryName}'})"><i class="fa ${var.icon}"></i> <s:property value="#var.categoryName"/> <span class="label label-default pull-right"><s:property value="#var.articleNum"/>篇</span></a>  
+				  <li><a href="javascript:void(0);" onclick="doPost('article/listArticleByCategory', {'categoryName':'${var.categoryName}'})">
+				  	<i class="fa ${var.icon}"></i> <s:property value="#var.categoryName"/> 
+				  	<span class="label label-default pull-right"><s:property value="#var.articleNum"/>篇</span></a>  
+				  </li>
 				</s:iterator>
                 <!-- /.Category -->
               </ul>
@@ -170,13 +173,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#"><i class="fa fa-angle-double-right "></i> 2018-07
-                  <span class="label label-primary pull-right">12</span></a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-06</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-05<span class="label label-success pull-right">10篇</span></a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-04 <span class="label label-default pull-right">65篇</span></a>
-                </li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-03</a></li>
+                <!-- Archive -->
+                <s:iterator value="archiveInfoList" var="var">
+				  <li><a href="javascript:void(0);" onclick="doPost('article/listArticleByArchive', {'archiveName':'${var.archiveName}'})">
+				  	<i class="fa fa-angle-double-right"></i> <s:property value="#var.archiveTitle"/> 
+				  	<span class="label label-default pull-right"><s:property value="#var.articleNum"/>篇</span></a>
+				  </li>  
+				</s:iterator>
+                <!-- /.Archive -->
               </ul>
             </div>
             <!-- /.box-body -->

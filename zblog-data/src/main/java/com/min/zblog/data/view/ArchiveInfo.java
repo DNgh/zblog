@@ -12,21 +12,34 @@ public class ArchiveInfo implements Serializable {
 	private static final long serialVersionUID = 8217913542038217099L;
 	
 	/**
-	 * 归档文章日期，取文章创建日期
+	 * 归档标题,按日期分类
 	 */
-	private String createDate;
+	private String archiveTitle;
+	
+	/**
+	 * 归档唯一性标识,按日期分类
+	 */
+	private String archiveName;
 	
 	/**
 	 * 归档文章个数
 	 */
 	private long articleNum;
-	
-	public String getCreateDate() {
-		return createDate;
+
+	public String getArchiveTitle() {
+		return archiveTitle;
 	}
 
-	public void setCreateDate(String createDate) {
-		this.createDate = createDate;
+	public void setArchiveTitle(String archiveTitle) {
+		this.archiveTitle = archiveTitle;
+	}
+
+	public String getArchiveName() {
+		return archiveName;
+	}
+
+	public void setArchiveName(String archiveName) {
+		this.archiveName = archiveName;
 	}
 
 	public long getArticleNum() {

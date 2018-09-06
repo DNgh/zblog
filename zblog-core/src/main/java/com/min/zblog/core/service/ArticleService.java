@@ -13,4 +13,5 @@ public interface ArticleService {
 	public void deleteArticleById(Long id);
 	public List<ArticleInfo> listArticleByCategoryName(String name);
 	public List<ArticleInfo> listAllArticles();
+	public List<ArticleInfo> listArticleByArchive(String name);
 }
