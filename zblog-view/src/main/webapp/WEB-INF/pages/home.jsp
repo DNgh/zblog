@@ -200,12 +200,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills">
-                <li><a href="#"><span class="label label-primary">大数据</span></a></li>
-                <li><a href="#"><span class="label label-info">大数据</span></a></li>
-                <li><a href="#"><span class="label label-danger">大数据</span></a></li>
-                <li><a href="#"><span class="label label-success">大数据</span></a></li>
-                <li><a href="#"><span class="label label-default">大数据</span></a></li>
-                <li><a href="#"><span class="label label-warning">大数据</span></a></li>
+                <!-- Tag -->
+                <s:iterator value="tagInfoList" var="var">
+				  <li><a href="javascript:void(0);" onclick="doPost('article/listArticleByTag', {'tagName':'${var.tagName}'})">
+				  	<span class="label ${var.style}"><s:property value="#var.tagName"/></span></a>
+				  </li>  
+				</s:iterator>
+                <!-- /.Tag -->
               </ul>
             </div>
             <!-- /.box-body -->

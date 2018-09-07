@@ -34,10 +34,6 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<CategoryInfo> fetchCategoryInfo() {
 		List<TmCategory> categoryList = blogQueryDsl.fetchCategoryOrderBySort(Indicator.Y, Indicator.Y);
-		if(categoryList == null || categoryList.isEmpty()){
-			return null;
-		}
-		
 		List<CategoryInfo> categoryInfoList = new ArrayList<CategoryInfo>();
 		for(TmCategory tmCategory:categoryList){
 			CategoryInfo categoryInfo = new CategoryInfo();

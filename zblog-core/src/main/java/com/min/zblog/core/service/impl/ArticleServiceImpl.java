@@ -124,5 +124,26 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		return articleInfoList;
 	}
+	//fetchArticleByTag
 
+	@Override
+	public List<ArticleInfo> listArticleByTag(String name) {
+		if(StringUtils.isBlank(name)) {
+			return null;
+		}
+		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleByTag(name, ArticleState.PUBLISH);
+		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();
+		for(TmArticle article:tmArticleList){
+			
+			ArticleInfo articleInfo = new ArticleInfo();
+			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
+			articleInfo.setCreateTime(article.getCreateTime());
+			articleInfo.setDescription(article.getDescription());
+			articleInfo.setId(article.getId());
+			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
+			articleInfo.setTitle(article.getTitle());
+			articleInfoList.add(articleInfo);
+		}
+		return articleInfoList;
+	}
 }

@@ -33,6 +33,10 @@
         <action name="listArticleByArchive" class="articleAction" method="listArticleByArchive">
             <result name="success">/WEB-INF/pages/home.jsp</result>
         </action>
+        <!-- listArticleByTag -->
+        <action name="listArticleByTag" class="articleAction" method="listArticleByTag">
+            <result name="success">/WEB-INF/pages/home.jsp</result>
+        </action>
     </package>
     
 </struts>

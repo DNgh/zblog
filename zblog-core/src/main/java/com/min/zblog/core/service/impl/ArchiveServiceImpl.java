@@ -36,10 +36,6 @@ public class ArchiveServiceImpl implements ArchiveService {
 	@Override
 	public List<ArchiveInfo> fetchArchiveInfo() {
 		List<TmArchive> archiveList = blogQueryDsl.fetchArchives(Indicator.Y);
-		if(archiveList == null || archiveList.isEmpty()){
-			return null;
-		}
-		
 		List<ArchiveInfo> archiveInfoList = new ArrayList<ArchiveInfo>();
 		for(TmArchive tmArchive:archiveList){
 			ArchiveInfo archiveInfo = new ArchiveInfo();

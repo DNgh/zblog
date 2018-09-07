@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
+import com.min.zblog.data.entity.QTmTag;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.QTmArchive;
 import com.min.zblog.data.entity.QTmArticle;
@@ -41,6 +42,8 @@ public class BlogQueryDsl {
 	private QTmCategory qTmCategory = QTmCategory.tmCategory;
 	
 	private QTmArchive qTmArchive = QTmArchive.tmArchive;
+	
+	private QTmTag qTmTag = QTmTag.tmTag;
 	
 	@PostConstruct
     public void init() {
@@ -128,6 +131,17 @@ public class BlogQueryDsl {
 				.where(qTmArticle.archiveId.eq(qTmArchive.id)
 						.and(qTmArticle.state.eq(state))
 						.and(qTmArchive.name.eq(name)))
+				.orderBy(qTmArticle.createTime.desc()).fetch();
+		return list;
+	}
+	
+	public List<TmArticle> fetchArticleByTag(String name, ArticleState state) {
+		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
+		List<TmArticle> list = query.from(qTmArticle, qTmTag, qTmArticleTag)
+				.where(qTmArticle.id.eq(qTmArticleTag.articleId)
+						.and(qTmArticleTag.tagId.eq(qTmTag.id))
+						.and(qTmTag.name.eq(name))
+						.and(qTmArticle.state.eq(state)))
 				.orderBy(qTmArticle.createTime.desc()).fetch();
 		return list;
 	}

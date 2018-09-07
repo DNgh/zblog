@@ -14,4 +14,5 @@ public interface ArticleService {
 	public List<ArticleInfo> listArticleByCategoryName(String name);
 	public List<ArticleInfo> listAllArticles();
 	public List<ArticleInfo> listArticleByArchive(String name);
+	public List<ArticleInfo> listArticleByTag(String name);
 }
