@@ -14,6 +14,7 @@ import com.min.zblog.core.service.TagService;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.ArticleInfo;
+import com.min.zblog.data.view.BlogInfo;
 import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.TagInfo;
 import com.opensymphony.xwork2.ActionContext;
@@ -38,13 +39,35 @@ public class ArticleAction extends ActionSupport {
 	@Autowired
 	private TagService tagService;
 	
+	/**
+	 * 右侧显示文章列表
+	 */
 	private List<ArticleInfo> articleList;
 	
+	/**
+	 * 分类信息
+	 */
 	private List<CategoryInfo>  categoryInfoList;
 	
+	/**
+	 * 归档信息
+	 */
 	private List<ArchiveInfo>  archiveInfoList;
 	
+	/**
+	 * 标签信息
+	 */
 	private List<TagInfo>  tagInfoList;
+	
+	/**
+	 * 文章阅读排行
+	 */
+	private List<ArticleInfo> articleRankList;
+	
+	/**
+	 * 博客统计信息
+	 */
+	private BlogInfo blogInfo;
 	
 	private String categoryName;
 	
@@ -91,7 +114,7 @@ public class ArticleAction extends ActionSupport {
     	fetchCommonData();
     	
     	//文章
-    	this.articleList = articleService.listArticleByArchive(this.archiveName);
+    	this.articleList = articleService.listArticleByTag(this.tagName);
     	
     	return SUCCESS;
     }
@@ -119,6 +142,10 @@ public class ArticleAction extends ActionSupport {
 	public List<ArchiveInfo> getArchiveInfoList() {
 		return this.archiveInfoList;
 	}
+	
+	public List<ArticleInfo> getArticleRankList() {
+		return this.articleRankList;
+	}
 
 	public String getArchiveName() {
 		return archiveName;
@@ -140,7 +167,13 @@ public class ArticleAction extends ActionSupport {
 		this.tagName = tagName;
 	}
 	
+	public BlogInfo getBlogInfo(){
+		return this.blogInfo;
+	}
+	
 	public void fetchCommonData(){
+		//博客统计信息
+		this.blogInfo = articleService.obtainBlogInfo();
 		//分类
     	this.categoryInfoList = categoryService.fetchCategoryInfo();
     	//归档
@@ -148,6 +181,7 @@ public class ArticleAction extends ActionSupport {
     	//标签
     	this.tagInfoList = tagService.fetchTagInfo();
     	//阅读排行
+    	this.articleRankList = articleService.listArticleByReadRank();
 	}
 	
 }

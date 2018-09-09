@@ -105,7 +105,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <div class="row">
                 <div class="col-sm-4 border-right">
                   <div class="description-block">
-                    <h5 class="description-header">3,200</h5>
+                    <h5 class="description-header"><s:property value="blogInfo.totalArticleNum"/></h5>
                     <span class="description-text">文章数</span>
                   </div>
                   <!-- /.description-block -->
@@ -113,7 +113,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <!-- /.col -->
                 <div class="col-sm-4 border-right">
                   <div class="description-block">
-                    <h5 class="description-header">13,000</h5>
+                    <h5 class="description-header"><s:property value="blogInfo.totalReadNum"/></h5>
                     <span class="description-text">阅读数</span>
                   </div>
                   <!-- /.description-block -->
@@ -121,7 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <!-- /.col -->
                 <div class="col-sm-4">
                   <div class="description-block">
-                    <h5 class="description-header">35</h5>
+                    <h5 class="description-header"><s:property value="blogInfo.totalCommentNum"/></h5>
                     <span class="description-text">评论数</span>
                   </div>
                   <!-- /.description-block -->
@@ -226,21 +226,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                 <li class="nav-item">
-                 	<a href="#" class="nav-link"><strong>阅读第YI</strong>
-                 		<span class="text-muted block-oneline">阅读量：200</span>
-                 	</a>
-                 </li>
-                 <li class="nav-item">
-                 	<a href="#" class="nav-link"><strong>阅读第ER</strong>
-                 		<span class="text-muted block-oneline">阅读量：200</span>
-                 	</a>
-                 </li>
-                 <li class="nav-item">
-                 	<a href="#" class="nav-link"><strong>阅读第SAN</strong>
-                 		<span class="text-muted block-oneline">阅读量：200</span>
-                 	</a>
-                 </li>
+              	<!-- Rank -->
+                <s:iterator value="articleRankList" var="var">
+				  <li class="nav-item">
+				    <a class="nav-link" href="javascript:void(0);" onclick="doPost('article/show', {'articleKey':'${var.id}'})">
+				      <strong><s:property value="#var.title"/></strong>
+				      <span class="text-muted block-oneline">阅读量：<s:property value="#var.readNum"/></span>
+				    </a>
+				  </li>  
+				</s:iterator>
+                <!-- /.Rank -->
               </ul>
             </div>
             <!-- /.box-body -->

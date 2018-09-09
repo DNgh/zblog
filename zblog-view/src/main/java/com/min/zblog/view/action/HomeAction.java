@@ -10,6 +10,7 @@ import com.min.zblog.core.service.CategoryService;
 import com.min.zblog.core.service.TagService;
 import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.ArticleInfo;
+import com.min.zblog.data.view.BlogInfo;
 import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.TagInfo;
 import com.opensymphony.xwork2.ActionSupport;
@@ -29,13 +30,35 @@ public class HomeAction extends ActionSupport {
 	@Autowired
 	private TagService tagService;
 	
+	/**
+	 * 右侧显示文章列表
+	 */
 	private List<ArticleInfo> articleList;
 	
+	/**
+	 * 分类信息
+	 */
 	private List<CategoryInfo>  categoryInfoList;
 	
+	/**
+	 * 归档信息
+	 */
 	private List<ArchiveInfo>  archiveInfoList;
 	
+	/**
+	 * 标签信息
+	 */
 	private List<TagInfo>  tagInfoList;
+	
+	/**
+	 * 文章阅读排行
+	 */
+	private List<ArticleInfo> articleRankList;
+	
+	/**
+	 * 博客统计信息
+	 */
+	private BlogInfo blogInfo;
 	
     public String home(){
     	fetchCommonData();
@@ -71,7 +94,17 @@ public class HomeAction extends ActionSupport {
 		return this.tagInfoList;
 	}
 	
+	public List<ArticleInfo> getArticleRankList() {
+		return this.articleRankList;
+	}
+	
+	public BlogInfo getBlogInfo(){
+		return this.blogInfo;
+	}
+	
 	public void fetchCommonData(){
+		//博客统计信息
+		this.blogInfo = articleService.obtainBlogInfo();
 		//分类
     	this.categoryInfoList = categoryService.fetchCategoryInfo();
     	//归档
@@ -79,6 +112,7 @@ public class HomeAction extends ActionSupport {
     	//标签
     	this.tagInfoList = tagService.fetchTagInfo();
     	//阅读排行
+    	this.articleRankList = articleService.listArticleByReadRank();
     	//文章
     	this.articleList = articleService.listAllArticles();
 	}

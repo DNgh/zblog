@@ -145,4 +145,38 @@ public class BlogQueryDsl {
 				.orderBy(qTmArticle.createTime.desc()).fetch();
 		return list;
 	}
+	
+	/**
+	 * 找出前n条数据
+	 * @param top
+	 * @param type
+	 * @param state
+	 * @return
+	 */
+	public List<TmArticle> fetchTopArticleByHst(int top, VisitType type, ArticleState state){
+		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
+		List<TmArticle> list = query.from(qTmArticle, qTmVisitHst)
+				.where(qTmArticle.id.eq(qTmVisitHst.articleId)
+						.and(qTmVisitHst.visitType.eq(type))
+						.and(qTmArticle.state.eq(state)))
+				.groupBy(qTmVisitHst.articleId)
+				.orderBy(qTmVisitHst.id.count().desc())
+				.limit(top)
+				.fetch();
+		return list;
+	}
+	
+	public long countVisitHstByType(VisitType type, ArticleState state){
+		JPAQuery<TmVisitHst> query = new JPAQuery<TmVisitHst>(em);
+		long count = query.from(qTmArticle, qTmVisitHst)
+				.where(qTmArticle.id.eq(qTmVisitHst.articleId)
+						.and(qTmVisitHst.visitType.eq(type))
+						.and(qTmArticle.state.eq(state)))
+				.fetchCount();
+		return count;
+	}
+	
+	public long countArticleByComment(int top, VisitType type, ArticleState state){
+		return 0;
+	}
 }

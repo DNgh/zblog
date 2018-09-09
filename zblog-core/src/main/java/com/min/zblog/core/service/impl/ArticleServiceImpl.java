@@ -16,6 +16,7 @@ import com.min.zblog.core.service.ArticleService;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.ArticleInfo;
+import com.min.zblog.data.view.BlogInfo;
 import com.min.zblog.facility.enums.ArticleState;
 import com.min.zblog.facility.enums.VisitType;
 
@@ -145,5 +146,39 @@ public class ArticleServiceImpl implements ArticleService {
 			articleInfoList.add(articleInfo);
 		}
 		return articleInfoList;
+	}
+
+	/* 查询已发布且阅读排行前5的文章
+	 * @see com.min.zblog.core.service.ArticleService#listArticleByReadRank()
+	 */
+	@Override
+	public List<ArticleInfo> listArticleByReadRank() {
+		List<TmArticle> tmArticleList = blogQueryDsl.fetchTopArticleByHst(5, VisitType.READ, ArticleState.PUBLISH);
+		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();
+		for(TmArticle article:tmArticleList){
+			
+			ArticleInfo articleInfo = new ArticleInfo();
+//			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
+//			articleInfo.setCreateTime(article.getCreateTime());
+//			articleInfo.setDescription(article.getDescription());
+			articleInfo.setId(article.getId());
+			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
+			articleInfo.setTitle(article.getTitle());
+			articleInfoList.add(articleInfo);
+		}
+		return articleInfoList;
+	}
+
+	/* 获取博客统计信息
+	 * @see com.min.zblog.core.service.ArticleService#obtainBlogInfo()
+	 */
+	@Override
+	public BlogInfo obtainBlogInfo() {
+		BlogInfo blogInfo = new BlogInfo();
+		blogInfo.setTotalArticleNum(articleDao.countByState(ArticleState.PUBLISH));
+		blogInfo.setTotalReadNum(blogQueryDsl.countVisitHstByType(VisitType.READ, ArticleState.PUBLISH));
+		blogInfo.setTotalCommentNum((long)0);
+		
+		return blogInfo;
 	}
 }
