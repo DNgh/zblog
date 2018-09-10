@@ -119,6 +119,10 @@ public class ArticleAction extends ActionSupport {
     	return SUCCESS;
     }
     
+    public void listAllArticle(){
+    	
+    }
+    
     public TmArticle getArticle(){
     	return article;
     }

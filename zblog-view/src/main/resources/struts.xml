@@ -23,6 +23,9 @@
     
     
     <package name="article" namespace="/article" extends="struts-default">
+    	<action name="listAll" class="articleAction" method="listAllArticle">
+            <result name="success" type="json">/WEB-INF/pages/home.jsp</result>
+        </action>
     	<action name="show" class="articleAction" method="show">
             <result name="success">/WEB-INF/pages/detail.jsp</result>
         </action>

@@ -4,7 +4,7 @@
  */
 $(function () {
     
-    var options = {
+    /*var options = {
 	    currentPage: 1,    
 	    totalPages: 10,    
 	    size:"large",    
@@ -40,7 +40,8 @@ $(function () {
 	        }
 	    }
 	}
-	$('.homePaginator').bootstrapPaginator(options);
+	$('.homePaginator').bootstrapPaginator(options);*/
+	pageFunction('article/listAll', {});
     
     $(window).scroll(function(event){
     	var len = $(this).scrollTop();
@@ -75,3 +76,111 @@ function doPost(to, p) {  // to:提交动作（action）,p:参数
      document.body.removeChild(reqArticleForm);
 }
 
+
+function pageFunction(to, map){
+	var firstPage = 1;
+    $.ajax({
+        url: to,
+        datatype: 'json',
+        type: "Post",
+        data: convertAjaxData(firstPage, map),
+        success: function (data) {
+        	var html = '';
+            if (data != null) {
+                $.each(eval("(" + data + ")").list, function (index, item) { //遍历返回的json
+                	html += '<div class="post">'+
+                		'<h3>'+
+                		'<a href="javascript:void(0);" onclick="doPost(\'article/show\', {\'articleKey\':\''+item.id+'\'})">'+item.title+'"/>'+
+                		'</a>'+
+                		'</h3>'+
+                		'<p class="text-muted">'+item.description+'</p>'+
+                		'<ul class="list-inline">'+
+                		'<li><i class="fa fa-calendar margin-r-5"></i>发表时间：'+item.createTime+'"/></li>'+
+                		'<li><i class="fa fa-eye margin-r-5"></i>阅读数：'+item.readNum+'"/></li>'+
+                		'<li><i class="fa fa-comments-o margin-r-5"></i>评论数：'+item.commentNum+'/></li>'+
+                		'</ul>'+
+                		'</div>';
+                });
+                $("#articlePanel").empty();
+                $("#articlePanel").append(html);
+                
+                var pageCount = eval("(" + data + ")").pageCount; //取到pageCount的值(把返回数据转成object类型)
+                var currentPage = eval("(" + data + ")").CurrentPage; //得到urrentPage
+                var options = {
+            	    currentPage: currentPage,    
+            	    totalPages: pageCount,    
+            	    size:"large",    
+            	    bootstrapMajorVersion: 3,    
+            	    alignment:"center",    
+            	    numberOfPages:5,
+            	    useBootstrapTooltip: true, 
+            	    tooltipTitles: function (type, page, current) {
+                        switch (type) {
+                        case "first":
+                            return "跳转到首页";
+                        case "prev":
+                            return "跳转到上一页";
+                        case "next":
+                            return "跳转到下一页";
+                        case "last":
+                            return "跳转到尾页";
+                        case "page":
+                            return "跳转到第" + page + "页";
+                        }
+                    },
+            	    shouldShowPage:true,
+            	    itemContainerClass: function (type, page, current) {
+                        return (type=="page" && page === current) ? "active" : "pointer-cursor"
+                    },
+            	    itemTexts: function (type, page, current) {        
+            	        switch (type) {            
+            	        case "first": return "首页";            
+            	        case "prev": return "上一页";            
+            	        case "next": return "下一页";            
+            	        case "last": return "末页";            
+            	        case "page": return page;
+            	        }
+            	    },//点击事件，用于通过Ajax来刷新整个list列表
+                    onPageClicked: function (event, originalEvent, type, page) {
+                        $.ajax({
+                            url: to,
+                            type: "Post",
+                            data: convertAjaxData(page, map),
+                            success: function (result) {
+                                if (result != null) {
+                                	$.each(eval("(" + result + ")").list, function (index, item) { //遍历返回的json
+                                    	html += '<div class="post">'+
+                                    		'<h3>'+
+                                    		'<a href="javascript:void(0);" onclick="doPost(\'article/show\', {\'articleKey\':\''+item.id+'\'})">'+item.title+'"/>'+
+                                    		'</a>'+
+                                    		'</h3>'+
+                                    		'<p class="text-muted">'+item.description+'</p>'+
+                                    		'<ul class="list-inline">'+
+                                    		'<li><i class="fa fa-calendar margin-r-5"></i>发表时间：'+item.createTime+'"/></li>'+
+                                    		'<li><i class="fa fa-eye margin-r-5"></i>阅读数：'+item.readNum+'"/></li>'+
+                                    		'<li><i class="fa fa-comments-o margin-r-5"></i>评论数：'+item.commentNum+'/></li>'+
+                                    		'</ul>'+
+                                    		'</div>';
+                                    });
+                                    $("#articlePanel").empty();
+                                    $("#articlePanel").append(html);
+                                }
+                            }
+                        });
+                    }
+            	};
+               
+                $('#homePaginator').bootstrapPaginator(options);
+            }
+        }
+    });
+}
+
+function convertAjaxData(page, map){
+	var data = "page="+page;
+	for (var i in p){
+		data += i+"="+p[i];
+       	alert("组装分页请求数据"+i+p[i]);
+     }
+	return data;
+}

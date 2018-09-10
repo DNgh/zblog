@@ -248,7 +248,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	<div class="panel panel-default">
 				<div class="panel-body">
                 <!-- Post -->
-                <s:iterator value="articleList" var="var">
+                <%-- <s:iterator value="articleList" var="var">
 				    <div class="post">
 	                  <h3><a href="javascript:void(0);" onclick="doPost('article/show', {'articleKey':'${var.id}'})"><s:property value="#var.title"/></a></h3>
 	                  <p class="text-muted">
@@ -261,9 +261,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                    <li><i class="fa fa-comments-o margin-r-5"></i>评论数：<s:property value="#var.commentNum"/></li>
 	                  </ul>
 	                </div>
-				</s:iterator>
+				</s:iterator> --%>
                 <!-- /.post -->
-
+				
+				<div id="articlePanel"></div>
 				<!-- Paginator -->
 				<!-- <div class="divider"></div> -->
 				<div class="text-center">
