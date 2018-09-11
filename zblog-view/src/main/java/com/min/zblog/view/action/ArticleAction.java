@@ -1,5 +1,6 @@
 package com.min.zblog.view.action;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -28,8 +29,6 @@ public class ArticleAction extends ActionSupport {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 	
-	private TmArticle article;
-	
 	@Autowired
 	private ArticleService articleService;
 	
@@ -41,6 +40,8 @@ public class ArticleAction extends ActionSupport {
 	
 	@Autowired
 	private TagService tagService;
+	
+	private ArticleInfo articleInfo;
 	
 	/**
 	 * 右侧显示文章列表
@@ -80,6 +81,20 @@ public class ArticleAction extends ActionSupport {
 	
 	private String pageInfoJStr;
 	
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+	
+	/**
+	 * 当前页数
+	 */
+	private long page;
+	
+	/**
+	 * 每页数据条数
+	 */
+	private long pageSize;
+	
+	private PageInfo<ArticleInfo> pageInfo;
+	
     public String show(){
     	fetchCommonData();
     	
@@ -90,58 +105,68 @@ public class ArticleAction extends ActionSupport {
     	logger.info("articleKey:"+obj[0]);
     	
     	//替换回车换行符，否则页面js脚本报语法错。
-    	article = articleService.findOne(Long.valueOf(obj[0]));
-    	article.setContent(article.getContent().replaceAll("\n", "\\\\n"));
-    	article.setContent(article.getContent().replaceAll("\r", ""));
+    	articleInfo = articleService.findOneArticle(Long.valueOf(obj[0]));
+    	
     	return SUCCESS;
     }
     
     public String listArticleByCategory() {
-    	fetchCommonData();
-    	
     	//文章
     	logger.info(this.categoryName);
-    	this.articleList = articleService.listArticleByCategoryName(this.categoryName);
+    	pageInfo = articleService.listArticleByPageCategoryName(pageSize, page, categoryName);
+    	
+    	ObjectMapper mapper = new ObjectMapper();
+    	try {
+    		mapper.setDateFormat(sdf); 
+			pageInfoJStr = mapper.writeValueAsString(pageInfo);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
     	
     	return SUCCESS;
     }
     
     public String listArticleByArchive() {
-    	fetchCommonData();
-    	
     	//文章
-    	this.articleList = articleService.listArticleByArchive(this.archiveName);
+    	pageInfo = articleService.listArticleByPageArchive(pageSize, page, archiveName);
+    	
+    	ObjectMapper mapper = new ObjectMapper();
+    	try {
+    		mapper.setDateFormat(sdf); 
+			pageInfoJStr = mapper.writeValueAsString(pageInfo);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
     	
     	return SUCCESS;
     }
     
     public String listArticleByTag(){
-    	fetchCommonData();
-    	
     	//文章
-    	this.articleList = articleService.listArticleByTag(this.tagName);
+    	pageInfo = articleService.listArticleByPageTag(pageSize, page, tagName);
+    	
+    	ObjectMapper mapper = new ObjectMapper();
+    	try {
+    		mapper.setDateFormat(sdf); 
+			pageInfoJStr = mapper.writeValueAsString(pageInfo);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
     	
     	return SUCCESS;
     }
     
     public String listAllArticles(){
-    	PageInfo<ArticleInfo> pageInfo = new PageInfo<ArticleInfo>();
-    	pageInfo.setCurrentPage(2);
-    	pageInfo.setTotalPages(10);
-    	pageInfo.setList(articleService.listAllArticles());
-    	
+    	pageInfo = articleService.listArticleByPage(pageSize, page);
     	
     	ObjectMapper mapper = new ObjectMapper();
     	try {
+    		mapper.setDateFormat(sdf); 
 			pageInfoJStr = mapper.writeValueAsString(pageInfo);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
     	return SUCCESS;
-    }
-    
-    public TmArticle getArticle(){
-    	return article;
     }
     
     public List<ArticleInfo> getArticleList(){
@@ -198,6 +223,30 @@ public class ArticleAction extends ActionSupport {
 
 	public void setPageInfoJStr(String pageInfoJStr) {
 		this.pageInfoJStr = pageInfoJStr;
+	}
+	
+	public long getPage() {
+		return page;
+	}
+
+	public void setPage(long page) {
+		this.page = page;
+	}
+
+	public long getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(long pageSize) {
+		this.pageSize = pageSize;
+	}
+	
+	public ArticleInfo getArticleInfo() {
+		return articleInfo;
+	}
+
+	public void setArticleInfo(ArticleInfo articleInfo) {
+		this.articleInfo = articleInfo;
 	}
 
 	public void fetchCommonData(){

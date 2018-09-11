@@ -85,17 +85,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       	
         <div class="col-md-3">
 
-          <!-- Profile Image -->
-          <div class="box box-warning">
-            <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="custom/img/profile-128x128.jpg" alt="User profile picture">
-							<h3 class="profile-title text-center">上下求索</h3>
-							<hr />
-              <p class="text-muted text-center">码农一枚，从事Java软件开发，坚持学习技术，努力提升自己</p>
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-black" style="background: url('custom/img/photo1.png') center center;">
+              <h3 class="widget-user-username">周志民</h3>
+              <h5 class="widget-user-desc">软件开发</h5>
             </div>
-            <!-- /.box-body -->
+            <div class="widget-user-image">
+              <img class="img-circle" src="custom/img/profile-128x128.jpg" alt="User zhouzm">
+            </div>
+            <div class="box-footer">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="description-block">
+                    <span class="description-text">码农一枚，从事Java软件开发，坚持学习技术，努力提升自己。</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header"><s:property value="blogInfo.totalArticleNum"/></h5>
+                    <span class="description-text">文章数</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header"><s:property value="blogInfo.totalReadNum"/></h5>
+                    <span class="description-text">阅读数</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4">
+                  <div class="description-block">
+                    <h5 class="description-header"><s:property value="blogInfo.totalCommentNum"/></h5>
+                    <span class="description-text">评论数</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
           </div>
-          <!-- /.box -->
+          <!-- /.widget-user -->
 
           <!-- Categories Box -->
           <div class="box box-primary">
@@ -110,13 +147,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#"><i class="fa fa-inbox"></i> Java
-                  <span class="label label-primary pull-right">12</span></a></li>
-                <li><a href="#"><i class="fa fa-tree"></i> Spring</a></li>
-                <li><a href="#"><i class="fa fa-file-text-o"></i> Hibernate</a></li>
-                <li><a href="#"><i class="fa fa-filter"></i> Struts <span class="label label-warning pull-right">65</span></a>
-                </li>
-                <li><a href="#"><i class="fa fa-ship"></i> Docker</a></li>
+              	<!-- Category -->
+                <s:iterator value="categoryInfoList" var="var">
+				  <li><a href="javascript:void(0);" onclick="pageFunction('article/listArticleByCategory', {'pageSize':'5','categoryName':'${var.categoryName}'})">
+				  	<i class="fa ${var.icon}"></i> <s:property value="#var.categoryName"/> 
+				  	<span class="label label-default pull-right"><s:property value="#var.articleNum"/>篇</span></a>  
+				  </li>
+				</s:iterator>
+                <!-- /.Category -->
               </ul>
             </div>
             <!-- /.box-body -->
@@ -124,7 +162,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <!-- /.box -->
 
           <!-- Archive Box -->
-          <div class="box box-info">
+          <div class="box box-warning">
             <div class="box-header with-border">
               <i class="fa fa-archive"></i>
               <h3 class="box-title">归档</h3>
@@ -136,13 +174,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#"><i class="fa fa-angle-double-right "></i> 2018-07
-                  <span class="label label-primary pull-right">12</span></a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-06</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-05</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-04 <span class="label label-warning pull-right">65</span></a>
-                </li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-03</a></li>
+                <!-- Archive -->
+                <s:iterator value="archiveInfoList" var="var">
+				  <li><a href="javascript:void(0);" onclick="pageFunction('article/listArticleByArchive', {'pageSize':'5', 'archiveName':'${var.archiveName}'})">
+				  	<i class="fa fa-angle-double-right"></i> <s:property value="#var.archiveTitle"/> 
+				  	<span class="label label-default pull-right"><s:property value="#var.articleNum"/>篇</span></a>
+				  </li>  
+				</s:iterator>
+                <!-- /.Archive -->
               </ul>
             </div>
             <!-- /.box-body -->
@@ -162,12 +201,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills">
-                <li><a href="#"><span class="label label-primary">大数据</span></a></li>
-                <li><a href="#"><span class="label label-info">大数据</span></a></li>
-                <li><a href="#"><span class="label label-danger">大数据</span></a></li>
-                <li><a href="#"><span class="label label-success">大数据</span></a></li>
-                <li><a href="#"><span class="label label-default">大数据</span></a></li>
-                <li><a href="#"><span class="label label-warning">大数据</span></a></li>
+                <!-- Tag -->
+                <s:iterator value="tagInfoList" var="var">
+				  <li><a href="javascript:void(0);" onclick="pageFunction('article/listArticleByTag', {'pageSize':'5','tagName':'${var.tagName}'})">
+				  	<span class="label ${var.style}"><s:property value="#var.tagName"/></span></a>
+				  </li>  
+				</s:iterator>
+                <!-- /.Tag -->
               </ul>
             </div>
             <!-- /.box-body -->
@@ -187,18 +227,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                 <li><a href="#">
-                	<strong>阅读第一</strong>
-              		<p class="text-muted">阅读量：200</p></a>
-                 </li>
-                 <li><a href="#">
-                	<strong>阅读第一</strong>
-              		<p class="text-muted">阅读量：200</p></a>
-                 </li>
-                 <li><a href="#">
-                	<strong>阅读第一</strong>
-              		<p class="text-muted">阅读量：200</p></a>
-                 </li>
+              	<!-- Rank -->
+                <s:iterator value="articleRankList" var="var">
+				  <li class="nav-item">
+				    <a class="nav-link" href="javascript:void(0);" onclick="doPost('article/show', {'articleKey':'${var.id}'})">
+				      <strong><s:property value="#var.title"/></strong>
+				      <span class="text-muted block-oneline">阅读量：<s:property value="#var.readNum"/></span>
+				    </a>
+				  </li>  
+				</s:iterator>
+                <!-- /.Rank -->
               </ul>
             </div>
             <!-- /.box-body -->
@@ -207,24 +245,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
         </div>
         <!-- /.col -->
+        
         <div class="col-md-7">
-        	<div class="nav-tabs-custom">
-            <div class="tab-content">
-              <div class="active tab-pane">
-                
-                <div>
-                  <h3>联系方式</h3>
-                  <p>github：https://github.com/DNgh</p>
-                  <p>邮箱：zzm.cloud@gmail.com</p>
-                  <p>住址：上海</p>
-                </div>
-
-              </div>
-              <!-- /.tab-pane -->
-            </div>
-            <!-- /.tab-content -->
-          </div>
-          <!-- /.nav-tabs-custom -->
+        	<div class="panel panel-default">
+				<div class="panel-body">
+	                <div id="contact">
+	                  <h3>联系方式</h3>
+	                  <p>github：https://github.com/DNgh</p>
+	                  <p>邮箱：zzm.cloud@gmail.com</p>
+	                  <p>住址：上海</p>
+	                </div>
+	                
+	                <div id="articlePanel"></div>
+					<!-- Paginator -->
+					<!-- <div class="divider"></div> -->
+					<div class="text-center">
+	             	   <ul id="homePaginator"></ul>
+	           		</div>
+	           		
+            	</div>
+            	<!-- /.panel-body -->
+           </div>
+           <!-- /.panel -->
         </div>
         <!-- /.col -->
         

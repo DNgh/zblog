@@ -17,31 +17,31 @@ public class PageInfo<T> implements Serializable {
 	/**
 	 * 总页数
 	 */
-	private int totalPages;
+	private long totalPages;
 	
 	/**
 	 * 当前页数
 	 */
-	private int currentPage;
+	private long currentPage;
 	
 	/**
 	 * 分页数据列表
 	 */
 	private List<T> list;
 
-	public int getTotalPages() {
+	public long getTotalPages() {
 		return totalPages;
 	}
 
-	public void setTotalPages(int totalPages) {
+	public void setTotalPages(long totalPages) {
 		this.totalPages = totalPages;
 	}
 
-	public int getCurrentPage() {
+	public long getCurrentPage() {
 		return currentPage;
 	}
 
-	public void setCurrentPage(int currentPage) {
+	public void setCurrentPage(long currentPage) {
 		this.currentPage = currentPage;
 	}
 

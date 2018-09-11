@@ -2,6 +2,7 @@ package com.min.zblog.data.view;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 页面显示文章统计信息
@@ -28,6 +29,11 @@ public class ArticleInfo implements Serializable {
 	private String description;
 	
 	/**
+	 * 内容
+	 */
+	private String content;
+	
+	/**
 	 * 创建日期
 	 */
 	private Date createTime;
@@ -41,6 +47,26 @@ public class ArticleInfo implements Serializable {
 	 * 评论数
 	 */
 	private long commentNum;
+	
+	/**
+	 * 点赞数
+	 */
+	private long favorNum;
+	
+	/**
+	 * 分享数
+	 */
+	private long shareNum;
+	
+	/**
+	 * 分类名
+	 */
+	private String categoryName;
+	
+	/**
+	 * 标签名
+	 */
+	private List<String> tagList;
 
 	public Long getId() {
 		return id;
@@ -65,7 +91,15 @@ public class ArticleInfo implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public String getContent() {
+		return content;
+	}
 
+	public void setContent(String content) {
+		this.content = content;
+	}
+	
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -89,4 +123,37 @@ public class ArticleInfo implements Serializable {
 	public void setCommentNum(long commentNum) {
 		this.commentNum = commentNum;
 	}
+	
+	public long getFavorNum() {
+		return favorNum;
+	}
+
+	public void setFavorNum(long favorNum) {
+		this.favorNum = favorNum;
+	}
+	
+	public long getShareNum() {
+		return shareNum;
+	}
+
+	public void setShareNum(long shareNum) {
+		this.shareNum = shareNum;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public List<String> getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(List<String> tagList) {
+		this.tagList = tagList;
+	}
+	
 }

@@ -41,7 +41,6 @@ $(function () {
 	    }
 	}
 	$('.homePaginator').bootstrapPaginator(options);*/
-	pageFunction('article/listAll', {});
     
     $(window).scroll(function(event){
     	var len = $(this).scrollTop();
@@ -78,6 +77,11 @@ function doPost(to, p) {  // to:提交动作（action）,p:参数
 
 
 function pageFunction(to, map){
+	$("#about").hide();
+	$("#contact").hide();
+	$("#detail").hide();
+	$("#preNext").hide();
+	
 	alert("pageFunction:"+to+","+map);
 	var firstPage = 1;
     $.ajax({
@@ -89,23 +93,25 @@ function pageFunction(to, map){
         	alert("success:"+data);
         	var html = '';
             if (data != null) {
-            	$("#articlePanel").empty();
                 $.each(eval("(" + data + ")").list, function (index, item) { //遍历返回的json
                 	html += '<div class="post">'+
                 		'<h3>'+
-                		'<a href="javascript:void(0);" onclick="doPost(\'article/show\', {\'articleKey\':\''+item.id+'\'})">'+item.title+'"/>'+
+                		'<a href="javascript:void(0);" onclick="doPost(\'article/show\', {\'articleKey\':\''+item.id+'\'})">'+item.title+
                 		'</a>'+
                 		'</h3>'+
                 		'<p class="text-muted">'+item.description+'</p>'+
                 		'<ul class="list-inline">'+
-                		'<li><i class="fa fa-calendar margin-r-5"></i>发表时间：'+item.createTime+'"/></li>'+
-                		'<li><i class="fa fa-eye margin-r-5"></i>阅读数：'+item.readNum+'"/></li>'+
-                		'<li><i class="fa fa-comments-o margin-r-5"></i>评论数：'+item.commentNum+'/></li>'+
+                		'<li><i class="fa fa-calendar margin-r-5"></i>发表时间：'+item.createTime+'</li>'+
+                		'<li><i class="fa fa-eye margin-r-5"></i>阅读数：'+item.readNum+'</li>'+
+                		'<li><i class="fa fa-comments-o margin-r-5"></i>评论数：'+item.commentNum+'</li>'+
                 		'</ul>'+
                 		'</div>';
-                	$("#articlePanel").append(html);
+                	
                 });
+                $("#articlePanel").empty();
+                $("#articlePanel").append(html);
                 
+                $('#homePaginator').empty();
                 var totalPages = eval("(" + data + ")").totalPages; //取到totalPages的值(把返回数据转成object类型)
                 var currentPage = eval("(" + data + ")").currentPage; //得到urrentPage
                 var options = {
@@ -149,29 +155,30 @@ function pageFunction(to, map){
                             type: "Post",
                             data: convertAjaxData(page, map),
                             success: function (result) {
+                            	alert("page result:"+result)
                                 if (result != null) {
-                                	$("#articlePanel").empty();
+                                	html = '';
                                 	$.each(eval("(" + result + ")").list, function (index, item) { //遍历返回的json
-                                    	html += '<div class="post">'+
-                                    		'<h3>'+
-                                    		'<a href="javascript:void(0);" onclick="doPost(\'article/show\', {\'articleKey\':\''+item.id+'\'})">'+item.title+'"/>'+
-                                    		'</a>'+
-                                    		'</h3>'+
-                                    		'<p class="text-muted">'+item.description+'</p>'+
-                                    		'<ul class="list-inline">'+
-                                    		'<li><i class="fa fa-calendar margin-r-5"></i>发表时间：'+item.createTime+'"/></li>'+
-                                    		'<li><i class="fa fa-eye margin-r-5"></i>阅读数：'+item.readNum+'"/></li>'+
-                                    		'<li><i class="fa fa-comments-o margin-r-5"></i>评论数：'+item.commentNum+'/></li>'+
-                                    		'</ul>'+
-                                    		'</div>';
-                                    	$("#articlePanel").append(html);
+                                		html += '<div class="post">'+
+	                                		'<h3>'+
+	                                		'<a href="javascript:void(0);" onclick="doPost(\'article/show\', {\'articleKey\':\''+item.id+'\'})">'+item.title+
+	                                		'</a>'+
+	                                		'</h3>'+
+	                                		'<p class="text-muted">'+item.description+'</p>'+
+	                                		'<ul class="list-inline">'+
+	                                		'<li><i class="fa fa-calendar margin-r-5"></i>发表时间：'+item.createTime+'</li>'+
+	                                		'<li><i class="fa fa-eye margin-r-5"></i>阅读数：'+item.readNum+'</li>'+
+	                                		'<li><i class="fa fa-comments-o margin-r-5"></i>评论数：'+item.commentNum+'</li>'+
+	                                		'</ul>'+
+	                                		'</div>';
                                     });
+                                	$("#articlePanel").empty();
+                                    $("#articlePanel").append(html);
                                 }
                             }
                         });
                     }
             	};
-               
                 $('#homePaginator').bootstrapPaginator(options);
             }
         }
@@ -181,7 +188,7 @@ function pageFunction(to, map){
 function convertAjaxData(page, map){
 	var data = "page="+page;
 	for (var i in map){
-		data = data + i + "=" + map[i];
+		data = data + "&" + i + "=" + map[i];
      }
 	alert("组装分页请求数据"+data);
 	

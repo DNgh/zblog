@@ -108,7 +108,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <div class="row">
                 <div class="col-sm-4 border-right">
                   <div class="description-block">
-                    <h5 class="description-header">3,200</h5>
+                    <h5 class="description-header"><s:property value="blogInfo.totalArticleNum"/></h5>
                     <span class="description-text">文章数</span>
                   </div>
                   <!-- /.description-block -->
@@ -116,7 +116,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <!-- /.col -->
                 <div class="col-sm-4 border-right">
                   <div class="description-block">
-                    <h5 class="description-header">13,000</h5>
+                    <h5 class="description-header"><s:property value="blogInfo.totalReadNum"/></h5>
                     <span class="description-text">阅读数</span>
                   </div>
                   <!-- /.description-block -->
@@ -124,7 +124,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <!-- /.col -->
                 <div class="col-sm-4">
                   <div class="description-block">
-                    <h5 class="description-header">35</h5>
+                    <h5 class="description-header"><s:property value="blogInfo.totalCommentNum"/></h5>
                     <span class="description-text">评论数</span>
                   </div>
                   <!-- /.description-block -->
@@ -149,13 +149,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#"><i class="fa fa-inbox"></i> Java
-                  <span class="label label-primary pull-right">12</span></a></li>
-                <li><a href="#"><i class="fa fa-tree"></i> Spring</a></li>
-                <li><a href="#"><i class="fa fa-file-text-o"></i> Hibernate</a></li>
-                <li><a href="#"><i class="fa fa-filter"></i> Struts <span class="label label-warning pull-right">65</span></a>
-                </li>
-                <li><a href="#"><i class="fa fa-ship"></i> Docker</a></li>
+                <!-- Category -->
+                <s:iterator value="categoryInfoList" var="var">
+				  <li><a href="javascript:void(0);" onclick="pageFunction('article/listArticleByCategory', {'pageSize':'5','categoryName':'${var.categoryName}'})">
+				  	<i class="fa ${var.icon}"></i> <s:property value="#var.categoryName"/> 
+				  	<span class="label label-default pull-right"><s:property value="#var.articleNum"/>篇</span></a>  
+				  </li>
+				</s:iterator>
+                <!-- /.Category -->
               </ul>
             </div>
             <!-- /.box-body -->
@@ -175,13 +176,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#"><i class="fa fa-angle-double-right "></i> 2018-07
-                  <span class="label label-primary pull-right">12</span></a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-06</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-05</a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-04 <span class="label label-warning pull-right">65</span></a>
-                </li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> 2018-03</a></li>
+                <!-- Archive -->
+                <s:iterator value="archiveInfoList" var="var">
+				  <li><a href="javascript:void(0);" onclick="pageFunction('article/listArticleByArchive', {'pageSize':'5', 'archiveName':'${var.archiveName}'})">
+				  	<i class="fa fa-angle-double-right"></i> <s:property value="#var.archiveTitle"/> 
+				  	<span class="label label-default pull-right"><s:property value="#var.articleNum"/>篇</span></a>
+				  </li>  
+				</s:iterator>
+                <!-- /.Archive -->
               </ul>
             </div>
             <!-- /.box-body -->
@@ -201,12 +203,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills">
-                <li><a href="#"><span class="label label-primary">大数据</span></a></li>
-                <li><a href="#"><span class="label label-info">大数据</span></a></li>
-                <li><a href="#"><span class="label label-danger">大数据</span></a></li>
-                <li><a href="#"><span class="label label-success">大数据</span></a></li>
-                <li><a href="#"><span class="label label-default">大数据</span></a></li>
-                <li><a href="#"><span class="label label-warning">大数据</span></a></li>
+               <!-- Tag -->
+                <s:iterator value="tagInfoList" var="var">
+				  <li><a href="javascript:void(0);" onclick="pageFunction('article/listArticleByTag', {'pageSize':'5','tagName':'${var.tagName}'})">
+				  	<span class="label ${var.style}"><s:property value="#var.tagName"/></span></a>
+				  </li>  
+				</s:iterator>
+                <!-- /.Tag -->
               </ul>
             </div>
             <!-- /.box-body -->
@@ -226,18 +229,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                 <li><a href="#">
-                	<strong>阅读第一</strong>
-              		<p class="text-muted">阅读量：200</p></a>
-                 </li>
-                 <li><a href="#">
-                	<strong>阅读第一</strong>
-              		<p class="text-muted">阅读量：200</p></a>
-                 </li>
-                 <li><a href="#">
-                	<strong>阅读第一</strong>
-              		<p class="text-muted">阅读量：200</p></a>
-                 </li>
+                 <!-- Rank -->
+                <s:iterator value="articleRankList" var="var">
+				  <li class="nav-item">
+				    <a class="nav-link" href="javascript:void(0);" onclick="doPost('article/show', {'articleKey':'${var.id}'})">
+				      <strong><s:property value="#var.title"/></strong>
+				      <span class="text-muted block-oneline">阅读量：<s:property value="#var.readNum"/></span>
+				    </a>
+				  </li>  
+				</s:iterator>
+                <!-- /.Rank -->
               </ul>
             </div>
             <!-- /.box-body -->
@@ -250,52 +251,64 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	<div class="panel panel-default">
 				<div class="panel-body">
 				  	<!-- Article -->
-                  	<h3><a href="javascript:void(0);" onclick="doPost('article/show', {'articleKey':'${article.id}'})"><s:property value="article.title"/></a></h3>
-                  	<ul class="list-inline">
-                  		<li>发表时间：<s:property value="article.createTime"/></li>
-                  		<li>阅读数：84</li>
-                  	</ul>
-                  	<div class="divider-h"></div>
-                  	
-                  	<!-- 文章显示块 -->
-			        <div id="show"></div>
-			        <div class="divider-h"></div>
-			        
-			        <!-- 点赞 分享：按钮 -->
-			        <div class="text-center">
+				  	<div id="detail">
+	                  	<h3><a href="javascript:void(0);" onclick="doPost('article/show', {'articleKey':'${articleInfo.id}'})"><s:property value="articleInfo.title"/></a></h3>
+	                  	<ul class="list-inline">
+	                  		<li>发表时间：<s:property value="articleInfo.createTime"/></li>
+	                  		<li>阅读数：<s:property value="articleInfo.readNum"/></li>
+	                  	</ul>
+	                  	<div class="divider-h"></div>
+	                  	
+	                  	<!-- 文章显示块 -->
+				        <div id="show"></div>
+				        <div class="divider-h"></div>
+				        
+				        <!-- 点赞 分享：按钮 -->
+				        <div class="text-center">
+				        	<ul class="list-inline">
+				        	  <li>
+				        	  	<button type="button" class="btn btn-block btn-default btn-lg" data-toggle="tooltip" data-placement="top" title="点赞">
+					              <i class="fa fa-heart"></i>
+					              <span class="badge bg-red"><s:property value="articleInfo.favorNum"/></span>
+					            </button>
+				        	  </li>
+				        	  <li>
+				        	    <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="tooltip" data-placement="top" title="分享">
+					              <i class="fa fa-share"></i>
+					              <span class="badge bg-green"><s:property value="articleInfo.shareNum"/></span>
+					            </button>
+				        	  </li>
+				        	</ul>
+	           			</div>
+	           			
 			        	<ul class="list-inline">
-			        	  <li>
-			        	  	<button type="button" class="btn btn-block btn-default btn-lg" data-toggle="tooltip" data-placement="top" title="点赞">
-				              <i class="fa fa-heart"></i>
-				              <span class="badge bg-red">10</span>
-				            </button>
-			        	  </li>
-			        	  <li>
-			        	    <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="tooltip" data-placement="top" title="分享">
-				              <i class="fa fa-share"></i>
-				              <span class="badge bg-green">10</span>
-				            </button>
-			        	  </li>
-			        	</ul>
-           			</div>
-           			
-		        	<ul class="list-inline">
-		        		<li>文章分类：</li>
-	                	<li><a href="#">网络开发</a></li>
-	                	<li><a href="#">编程语言</a></li>
-	               	</ul>
-			        	
-			        <ul class="list-inline">
-			        	<li>标签：</li>
-                  		<li><a href="#">java</a></li>
-                  		<li><a href="#">docker</a></li>
-                  	</ul>
+			        		<li>文章分类：</li>
+		                	<li><a href="#"><s:property value="articleInfo.categoryName"/></a></li>
+		               	</ul>
+				        	
+				        <ul class="list-inline">
+				        	<li>标签：</li>
+				        	<!-- Tag -->
+			                <s:iterator value="articleInfo.tagList" var="var">
+							  <li><a href="#"><s:property value="#var"/></a></li>
+							</s:iterator>
+			                <!-- /.Tag -->
+	                  	</ul>
+			    	</div>
+			    	
+			    	<div id="articlePanel"></div>
+					<!-- Paginator -->
+					<!-- <div class="divider"></div> -->
+					<div class="text-center">
+	             	   <ul id="homePaginator"></ul>
+	           		</div>
+	           		
 		    	</div>
 		    	<!-- /.panel-body -->
 		  	</div>
 		  	<!-- /.panel -->
 		  	
-		  	<div class="panel panel-default">
+		  	<div class="panel panel-default" id="preNext">
 				<div class="panel-body">
 				  	<div class="pull-left">
 				  		<a href="#">上一篇</a>
@@ -367,7 +380,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         return '<table class="table table-striped">'+header+body+'</table>'
     }
     
-    $("#show").html(marked('${article.content}',{renderer: renderer}));
+    $("#show").html(marked('${articleInfo.content}',{renderer: renderer}));
     
     $("[data-toggle='tooltip']").tooltip();
 </script>

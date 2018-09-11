@@ -148,7 +148,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <ul class="nav nav-pills nav-stacked">
               	<!-- Category -->
                 <s:iterator value="categoryInfoList" var="var">
-				  <li><a href="javascript:void(0);" onclick="doPost('article/listArticleByCategory', {'categoryName':'${var.categoryName}'})">
+				  <li><a href="javascript:void(0);" onclick="pageFunction('article/listArticleByCategory', {'pageSize':'5','categoryName':'${var.categoryName}'})">
 				  	<i class="fa ${var.icon}"></i> <s:property value="#var.categoryName"/> 
 				  	<span class="label label-default pull-right"><s:property value="#var.articleNum"/>篇</span></a>  
 				  </li>
@@ -175,7 +175,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <ul class="nav nav-pills nav-stacked">
                 <!-- Archive -->
                 <s:iterator value="archiveInfoList" var="var">
-				  <li><a href="javascript:void(0);" onclick="doPost('article/listArticleByArchive', {'archiveName':'${var.archiveName}'})">
+				  <li><a href="javascript:void(0);" onclick="pageFunction('article/listArticleByArchive', {'pageSize':'5', 'archiveName':'${var.archiveName}'})">
 				  	<i class="fa fa-angle-double-right"></i> <s:property value="#var.archiveTitle"/> 
 				  	<span class="label label-default pull-right"><s:property value="#var.articleNum"/>篇</span></a>
 				  </li>  
@@ -202,7 +202,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <ul class="nav nav-pills">
                 <!-- Tag -->
                 <s:iterator value="tagInfoList" var="var">
-				  <li><a href="javascript:void(0);" onclick="doPost('article/listArticleByTag', {'tagName':'${var.tagName}'})">
+				  <li><a href="javascript:void(0);" onclick="pageFunction('article/listArticleByTag', {'pageSize':'5','tagName':'${var.tagName}'})">
 				  	<span class="label ${var.style}"><s:property value="#var.tagName"/></span></a>
 				  </li>  
 				</s:iterator>
@@ -268,7 +268,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<!-- Paginator -->
 				<!-- <div class="divider"></div> -->
 				<div class="text-center">
-             	   <ul class="homePaginator"></ul>
+             	   <ul id="homePaginator"></ul>
            		</div>
                 
               </div>
@@ -312,6 +312,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
 <!-- custom jQuery -->
 <script src="custom/js/zblog.js"></script>
-    
+<script type="text/javascript">
+	pageFunction('article/listAll', {pageSize:5});
+</script>    
 </body>
 </html>

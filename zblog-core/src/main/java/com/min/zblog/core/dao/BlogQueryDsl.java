@@ -17,6 +17,7 @@ import com.min.zblog.data.entity.QTmCategory;
 import com.min.zblog.data.entity.QTmVisitHst;
 import com.min.zblog.data.entity.TmArchive;
 import com.min.zblog.data.entity.TmCategory;
+import com.min.zblog.data.entity.TmTag;
 import com.min.zblog.data.entity.TmVisitHst;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.facility.enums.ArticleState;
@@ -84,14 +85,27 @@ public class BlogQueryDsl {
 		return list;
 	}
 	
-	public List<TmArticle> fetchArticleByCategoryName(String name, ArticleState state) {
+	public List<TmArticle> fetchArticleByPageCategoryName(long pageSize, long currentPage, String name, ArticleState state) {
 		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
 		List<TmArticle> list = query.from(qTmArticle, qTmCategory)
 				.where(qTmArticle.categoryId.eq(qTmCategory.id)
 						.and(qTmArticle.state.eq(state))
 						.and(qTmCategory.name.eq(name)))
-				.orderBy(qTmArticle.createTime.desc()).fetch();
+				.orderBy(qTmArticle.createTime.desc())
+				.offset((currentPage-1)*pageSize)
+				.limit(pageSize)
+				.fetch();
 		return list;
+	}
+	
+	public long countArticleByCategoryName(String name, ArticleState state) {
+		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
+		return query.from(qTmArticle, qTmCategory)
+				.where(qTmArticle.categoryId.eq(qTmCategory.id)
+						.and(qTmArticle.state.eq(state))
+						.and(qTmCategory.name.eq(name)))
+				.orderBy(qTmArticle.createTime.desc())
+				.fetchCount();
 	}
 	
 	public long countCommentByArticleId(Long id) {
@@ -125,25 +139,50 @@ public class BlogQueryDsl {
 		return list;
 	}
 	
-	public List<TmArticle> fetchArticleByArchive(String name, ArticleState state) {
+	public List<TmArticle> fetchArticleByPageArchive(long pageSize, long currentPage, String name, ArticleState state) {
 		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
 		List<TmArticle> list = query.from(qTmArticle, qTmArchive)
 				.where(qTmArticle.archiveId.eq(qTmArchive.id)
 						.and(qTmArticle.state.eq(state))
 						.and(qTmArchive.name.eq(name)))
-				.orderBy(qTmArticle.createTime.desc()).fetch();
+				.orderBy(qTmArticle.createTime.desc())
+				.offset((currentPage-1)*pageSize)
+				.limit(pageSize).fetch();
 		return list;
 	}
 	
-	public List<TmArticle> fetchArticleByTag(String name, ArticleState state) {
+	public long countArticleByArchive(String name, ArticleState state){
+		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
+		return query.from(qTmArticle, qTmArchive)
+				.where(qTmArticle.archiveId.eq(qTmArchive.id)
+						.and(qTmArticle.state.eq(state))
+						.and(qTmArchive.name.eq(name)))
+				.orderBy(qTmArticle.createTime.desc())
+				.fetchCount();
+	}
+	
+	public List<TmArticle> fetchArticleByPageTag(long pageSize, long currentPage, String name, ArticleState state) {
 		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
 		List<TmArticle> list = query.from(qTmArticle, qTmTag, qTmArticleTag)
 				.where(qTmArticle.id.eq(qTmArticleTag.articleId)
 						.and(qTmArticleTag.tagId.eq(qTmTag.id))
 						.and(qTmTag.name.eq(name))
 						.and(qTmArticle.state.eq(state)))
-				.orderBy(qTmArticle.createTime.desc()).fetch();
+				.orderBy(qTmArticle.createTime.desc())
+				.offset((currentPage-1)*pageSize)
+				.limit(pageSize).fetch();
 		return list;
+	}
+	
+	public long countArticleByTag(String name, ArticleState state) {
+		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
+		return query.from(qTmArticle, qTmTag, qTmArticleTag)
+				.where(qTmArticle.id.eq(qTmArticleTag.articleId)
+						.and(qTmArticleTag.tagId.eq(qTmTag.id))
+						.and(qTmTag.name.eq(name))
+						.and(qTmArticle.state.eq(state)))
+				.orderBy(qTmArticle.createTime.desc())
+				.fetchCount();
 	}
 	
 	/**
@@ -178,5 +217,31 @@ public class BlogQueryDsl {
 	
 	public long countArticleByComment(int top, VisitType type, ArticleState state){
 		return 0;
+	}
+	
+	/**
+	 * 分页查询
+	 * @param currentPage
+	 * @param pageSize
+	 * @param state
+	 * @return
+	 */
+	public List<TmArticle> fetchArticleByPage(long currentPage, long pageSize, ArticleState state){
+		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
+		List<TmArticle> list = query.from(qTmArticle)
+				.where(qTmArticle.state.eq(state))
+				.orderBy(qTmArticle.createTime.desc())
+				.offset((currentPage-1)*pageSize)
+				.limit(pageSize).fetch();
+		return list;
+	}
+	
+	public List<TmTag> fetchTagByArticleId(Long id){
+		JPAQuery<TmTag> query = new JPAQuery<TmTag>(em);
+		return query.from(qTmTag, qTmArticleTag)
+				.where(qTmArticleTag.tagId.eq(qTmTag.id)
+						.and(qTmArticleTag.articleId.eq(id)))
+				.orderBy(qTmTag.createTime.desc())
+				.fetch();
 	}
 }

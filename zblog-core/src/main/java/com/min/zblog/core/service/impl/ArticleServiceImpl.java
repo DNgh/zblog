@@ -11,12 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 import com.min.zblog.core.dao.ArticleDao;
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.ArticleTagDao;
+import com.min.zblog.core.dao.CategoryDao;
+import com.min.zblog.core.dao.TagDao;
 import com.min.zblog.core.dao.VisitHstDao;
 import com.min.zblog.core.service.ArticleService;
 import com.min.zblog.data.entity.TmArticle;
+import com.min.zblog.data.entity.TmCategory;
+import com.min.zblog.data.entity.TmTag;
 import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.BlogInfo;
+import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.facility.enums.ArticleState;
 import com.min.zblog.facility.enums.VisitType;
 
@@ -28,6 +33,8 @@ public class ArticleServiceImpl implements ArticleService {
 	private VisitHstDao visitHstDao;
 	@Autowired
 	private ArticleTagDao articleTagDao;
+	@Autowired
+	private CategoryDao categoryDao;
 	@Autowired
 	private BlogQueryDsl blogQueryDsl;
 	
@@ -60,25 +67,33 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public List<ArticleInfo> listArticleByCategoryName(String name) {
+	public PageInfo<ArticleInfo> listArticleByPageCategoryName(long pageSize, long currentPage, String name) {
 		if(StringUtils.isBlank(name)) {
 			return null;
 		}
 		//根据分类名称，查找已经发布文章
-		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleByCategoryName(name, ArticleState.PUBLISH);
+		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleByPageCategoryName(pageSize, currentPage, name, ArticleState.PUBLISH);
 		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();
 		for(TmArticle article:tmArticleList){
 			
 			ArticleInfo articleInfo = new ArticleInfo();
-			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
-			articleInfo.setCreateTime(article.getCreateTime());
-			articleInfo.setDescription(article.getDescription());
 			articleInfo.setId(article.getId());
-			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
 			articleInfo.setTitle(article.getTitle());
+			articleInfo.setDescription(article.getDescription());
+			articleInfo.setCreateTime(article.getCreateTime());
+			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
+			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
+			
 			articleInfoList.add(articleInfo);
 		}
-		return articleInfoList;
+		
+		PageInfo<ArticleInfo> pageInfo = new PageInfo<ArticleInfo>();
+		pageInfo.setCurrentPage(currentPage);
+		long total = blogQueryDsl.countArticleByCategoryName(name, ArticleState.PUBLISH);
+		pageInfo.setTotalPages((total%pageSize == 0)?(total/pageSize):((total/pageSize)+1));
+		pageInfo.setList(articleInfoList);
+		
+		return pageInfo;
 	}
 
 	@Override
@@ -105,47 +120,62 @@ public class ArticleServiceImpl implements ArticleService {
 	 * @see com.min.zblog.core.service.ArticleService#listArticleByArchive(java.lang.String)
 	 */
 	@Override
-	public List<ArticleInfo> listArticleByArchive(String name) {
+	public PageInfo<ArticleInfo> listArticleByPageArchive(long pageSize, long currentPage, String name) {
 		if(StringUtils.isBlank(name)) {
 			return null;
 		}
 		//根据分类名称，查找已经发布文章
-		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleByArchive(name, ArticleState.PUBLISH);
+		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleByPageArchive(pageSize, currentPage, name, ArticleState.PUBLISH);
 		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();
 		for(TmArticle article:tmArticleList){
 			
 			ArticleInfo articleInfo = new ArticleInfo();
-			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
-			articleInfo.setCreateTime(article.getCreateTime());
-			articleInfo.setDescription(article.getDescription());
 			articleInfo.setId(article.getId());
-			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
 			articleInfo.setTitle(article.getTitle());
+			articleInfo.setDescription(article.getDescription());
+			articleInfo.setCreateTime(article.getCreateTime());
+			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
+			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
+			
 			articleInfoList.add(articleInfo);
 		}
-		return articleInfoList;
+		
+		PageInfo<ArticleInfo> pageInfo = new PageInfo<ArticleInfo>();
+		pageInfo.setCurrentPage(currentPage);
+		long total = blogQueryDsl.countArticleByArchive(name, ArticleState.PUBLISH);
+		pageInfo.setTotalPages((total%pageSize == 0)?(total/pageSize):((total/pageSize)+1));
+		pageInfo.setList(articleInfoList);
+		
+		return pageInfo;
 	}
 	//fetchArticleByTag
 
 	@Override
-	public List<ArticleInfo> listArticleByTag(String name) {
+	public PageInfo<ArticleInfo> listArticleByPageTag(long pageSize, long currentPage, String name) {
 		if(StringUtils.isBlank(name)) {
 			return null;
 		}
-		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleByTag(name, ArticleState.PUBLISH);
+		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleByPageTag(pageSize, currentPage, name, ArticleState.PUBLISH);
 		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();
 		for(TmArticle article:tmArticleList){
 			
 			ArticleInfo articleInfo = new ArticleInfo();
-			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
-			articleInfo.setCreateTime(article.getCreateTime());
-			articleInfo.setDescription(article.getDescription());
 			articleInfo.setId(article.getId());
-			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
+			articleInfo.setDescription(article.getDescription());
+			articleInfo.setCreateTime(article.getCreateTime());
 			articleInfo.setTitle(article.getTitle());
+			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
+			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
 			articleInfoList.add(articleInfo);
 		}
-		return articleInfoList;
+		
+		PageInfo<ArticleInfo> pageInfo = new PageInfo<ArticleInfo>();
+		pageInfo.setCurrentPage(currentPage);
+		long total = blogQueryDsl.countArticleByTag(name, ArticleState.PUBLISH);
+		pageInfo.setTotalPages((total%pageSize == 0)?(total/pageSize):((total/pageSize)+1));
+		pageInfo.setList(articleInfoList);
+		
+		return pageInfo;
 	}
 
 	/* 查询已发布且阅读排行前5的文章
@@ -180,5 +210,61 @@ public class ArticleServiceImpl implements ArticleService {
 		blogInfo.setTotalCommentNum((long)0);
 		
 		return blogInfo;
+	}
+
+	@Override
+	public PageInfo<ArticleInfo> listArticleByPage(long pageSize, long currentPage) {
+		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleByPage(currentPage, pageSize, ArticleState.PUBLISH);
+		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();
+		for(TmArticle article:tmArticleList){
+			
+			ArticleInfo articleInfo = new ArticleInfo();
+			articleInfo.setId(article.getId());
+			articleInfo.setTitle(article.getTitle());
+			articleInfo.setDescription(article.getDescription());
+			articleInfo.setCreateTime(article.getCreateTime());
+			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
+			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
+			
+			articleInfoList.add(articleInfo);
+		}
+		
+		PageInfo<ArticleInfo> pageInfo = new PageInfo<ArticleInfo>();
+		pageInfo.setCurrentPage(currentPage);
+		long total = articleDao.countByState(ArticleState.PUBLISH);
+		pageInfo.setTotalPages((total%pageSize == 0)?(total/pageSize):((total/pageSize)+1));
+		pageInfo.setList(articleInfoList);
+		
+		return pageInfo;
+	}
+
+	@Override
+	public ArticleInfo findOneArticle(Long id) {
+		ArticleInfo articleInfo = new ArticleInfo();
+		
+		TmArticle article = articleDao.findOne(id);
+		if(article != null){
+			articleInfo.setId(article.getId());
+			articleInfo.setTitle(article.getTitle());
+			articleInfo.setDescription(article.getDescription());
+			articleInfo.setContent(article.getContent().replaceAll("\n", "\\\\n").replaceAll("\r", ""));
+			articleInfo.setCreateTime(article.getCreateTime());
+			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
+			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
+			articleInfo.setFavorNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.FAVOR));
+			articleInfo.setShareNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.SHARE));
+			TmCategory category = categoryDao.findOne(article.getCategoryId());
+			if(category != null){
+				articleInfo.setCategoryName(category.getName());
+			}
+			List<TmTag> tmTagList = blogQueryDsl.fetchTagByArticleId(article.getId());
+			List<String> list = new ArrayList<String>();
+			for(TmTag tag:tmTagList){
+				list.add(tag.getName());
+			}
+			articleInfo.setTagList(list);
+		}
+		
+		return articleInfo;
 	}
 }
