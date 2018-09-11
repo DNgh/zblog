@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.min.zblog.core.service.ArchiveService;
 import com.min.zblog.core.service.ArticleService;
 import com.min.zblog.core.service.CategoryService;
@@ -16,6 +18,7 @@ import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.BlogInfo;
 import com.min.zblog.data.view.CategoryInfo;
+import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.data.view.TagInfo;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -75,6 +78,8 @@ public class ArticleAction extends ActionSupport {
 	
 	private String tagName;
 	
+	private String pageInfoJStr;
+	
     public String show(){
     	fetchCommonData();
     	
@@ -119,8 +124,20 @@ public class ArticleAction extends ActionSupport {
     	return SUCCESS;
     }
     
-    public void listAllArticle(){
+    public String listAllArticles(){
+    	PageInfo<ArticleInfo> pageInfo = new PageInfo<ArticleInfo>();
+    	pageInfo.setCurrentPage(2);
+    	pageInfo.setTotalPages(10);
+    	pageInfo.setList(articleService.listAllArticles());
     	
+    	
+    	ObjectMapper mapper = new ObjectMapper();
+    	try {
+			pageInfoJStr = mapper.writeValueAsString(pageInfo);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+    	return SUCCESS;
     }
     
     public TmArticle getArticle(){
@@ -175,6 +192,14 @@ public class ArticleAction extends ActionSupport {
 		return this.blogInfo;
 	}
 	
+	public String getPageInfoJStr() {
+		return pageInfoJStr;
+	}
+
+	public void setPageInfoJStr(String pageInfoJStr) {
+		this.pageInfoJStr = pageInfoJStr;
+	}
+
 	public void fetchCommonData(){
 		//博客统计信息
 		this.blogInfo = articleService.obtainBlogInfo();

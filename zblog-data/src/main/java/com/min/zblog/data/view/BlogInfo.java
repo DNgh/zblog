@@ -1,5 +1,7 @@
 package com.min.zblog.data.view;
 
+import java.io.Serializable;
+
 /**
  * <p>Title: BlogInfo</p>
  * <p>Description: 博客统计信息</p>
@@ -7,7 +9,10 @@ package com.min.zblog.data.view;
  * @date	2018年9月9日
  * @version 1.0
  */
-public class BlogInfo {
+public class BlogInfo implements Serializable {
+
+	private static final long serialVersionUID = 7502863706639982169L;
+
 	private long totalArticleNum;
 	
 	private long totalReadNum;

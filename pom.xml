@@ -84,6 +84,11 @@
 			    <artifactId>struts2-convention-plugin</artifactId>
 			    <version>${struts.version}</version>
 			</dependency>
+			<dependency>
+			    <groupId>org.apache.struts</groupId>
+			    <artifactId>struts2-json-plugin</artifactId>
+			    <version>${struts.version}</version>
+			</dependency>
 		
 			<!-- 添加spring核心依赖 -->
 			<dependency>

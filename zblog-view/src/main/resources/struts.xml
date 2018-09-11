@@ -22,9 +22,14 @@
     </package>
     
     
-    <package name="article" namespace="/article" extends="struts-default">
-    	<action name="listAll" class="articleAction" method="listAllArticle">
-            <result name="success" type="json">/WEB-INF/pages/home.jsp</result>
+    <package name="article" namespace="/article" extends="struts-default,json-default">
+    	<action name="listAll" class="articleAction" method="listAllArticles">
+            <result name="fail"></result>
+			<!-- 返回json类型数据 -->
+			<result type="json">
+			    <!-- result是action中设置的变量名，也是页面需要返回的数据，该变量必须有setter和getter方法 -->
+				<param name="root">pageInfoJStr</param>
+			</result>
         </action>
     	<action name="show" class="articleAction" method="show">
             <result name="success">/WEB-INF/pages/detail.jsp</result>

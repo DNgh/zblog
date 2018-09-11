@@ -78,6 +78,7 @@ function doPost(to, p) {  // to:提交动作（action）,p:参数
 
 
 function pageFunction(to, map){
+	alert("pageFunction:"+to+","+map);
 	var firstPage = 1;
     $.ajax({
         url: to,
@@ -85,8 +86,10 @@ function pageFunction(to, map){
         type: "Post",
         data: convertAjaxData(firstPage, map),
         success: function (data) {
+        	alert("success:"+data);
         	var html = '';
             if (data != null) {
+            	$("#articlePanel").empty();
                 $.each(eval("(" + data + ")").list, function (index, item) { //遍历返回的json
                 	html += '<div class="post">'+
                 		'<h3>'+
@@ -100,15 +103,14 @@ function pageFunction(to, map){
                 		'<li><i class="fa fa-comments-o margin-r-5"></i>评论数：'+item.commentNum+'/></li>'+
                 		'</ul>'+
                 		'</div>';
+                	$("#articlePanel").append(html);
                 });
-                $("#articlePanel").empty();
-                $("#articlePanel").append(html);
                 
-                var pageCount = eval("(" + data + ")").pageCount; //取到pageCount的值(把返回数据转成object类型)
-                var currentPage = eval("(" + data + ")").CurrentPage; //得到urrentPage
+                var totalPages = eval("(" + data + ")").totalPages; //取到totalPages的值(把返回数据转成object类型)
+                var currentPage = eval("(" + data + ")").currentPage; //得到urrentPage
                 var options = {
             	    currentPage: currentPage,    
-            	    totalPages: pageCount,    
+            	    totalPages: totalPages,    
             	    size:"large",    
             	    bootstrapMajorVersion: 3,    
             	    alignment:"center",    
@@ -148,6 +150,7 @@ function pageFunction(to, map){
                             data: convertAjaxData(page, map),
                             success: function (result) {
                                 if (result != null) {
+                                	$("#articlePanel").empty();
                                 	$.each(eval("(" + result + ")").list, function (index, item) { //遍历返回的json
                                     	html += '<div class="post">'+
                                     		'<h3>'+
@@ -161,9 +164,8 @@ function pageFunction(to, map){
                                     		'<li><i class="fa fa-comments-o margin-r-5"></i>评论数：'+item.commentNum+'/></li>'+
                                     		'</ul>'+
                                     		'</div>';
+                                    	$("#articlePanel").append(html);
                                     });
-                                    $("#articlePanel").empty();
-                                    $("#articlePanel").append(html);
                                 }
                             }
                         });
@@ -178,9 +180,10 @@ function pageFunction(to, map){
 
 function convertAjaxData(page, map){
 	var data = "page="+page;
-	for (var i in p){
-		data += i+"="+p[i];
-       	alert("组装分页请求数据"+i+p[i]);
+	for (var i in map){
+		data = data + i + "=" + map[i];
      }
+	alert("组装分页请求数据"+data);
+	
 	return data;
 }

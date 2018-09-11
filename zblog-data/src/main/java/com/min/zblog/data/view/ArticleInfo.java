@@ -9,7 +9,7 @@ import java.util.Date;
  *
  */
 public class ArticleInfo implements Serializable {
-	
+
 	private static final long serialVersionUID = -2090308250539116291L;
 	
 	/**

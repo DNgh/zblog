@@ -60,6 +60,11 @@
 	    <groupId>org.apache.struts</groupId>
 	    <artifactId>struts2-convention-plugin</artifactId>
 	</dependency>
+	<dependency>
+	    <groupId>org.apache.struts</groupId>
+	    <artifactId>struts2-json-plugin</artifactId>
+	</dependency>
+	
 
 	<!-- 添加spring核心依赖 -->
 	<dependency>
@@ -83,6 +88,20 @@
 		<artifactId>spring-aop</artifactId>
 	</dependency>
 	
+	<!-- 映入JSON -->
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-core</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-annotations</artifactId>
+	</dependency>
+			
 	<!-- 添加日志相关jar包 -->
 	<dependency>
 		<groupId>log4j</groupId>
