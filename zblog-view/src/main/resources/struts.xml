@@ -26,6 +26,12 @@
     	<action name="show" class="articleAction" method="show">
             <result name="success">/WEB-INF/pages/detail.jsp</result>
         </action>
+        <action name="showPre" class="articleAction" method="showPre">
+            <result name="success">/WEB-INF/pages/detail.jsp</result>
+        </action>
+        <action name="showNext" class="articleAction" method="showNext">
+            <result name="success">/WEB-INF/pages/detail.jsp</result>
+        </action>
     	<action name="listAll" class="articleAction" method="listAllArticles">
             <result name="fail"></result>
 			<!-- 返回json类型数据 -->

@@ -20,4 +20,6 @@ public interface ArticleService {
 	public BlogInfo obtainBlogInfo();
 	public PageInfo<ArticleInfo> listArticleByPage(long pageSize, long currentPage);
 	public ArticleInfo findOneArticle(Long id);
+	public ArticleInfo findPreOneArticle(Long id);
+	public ArticleInfo findNextOneArticle(Long id);
 }

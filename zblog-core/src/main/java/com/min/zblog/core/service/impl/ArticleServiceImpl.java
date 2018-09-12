@@ -23,6 +23,7 @@ import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.BlogInfo;
 import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.facility.enums.ArticleState;
+import com.min.zblog.facility.enums.Indicator;
 import com.min.zblog.facility.enums.VisitType;
 
 @Service
@@ -265,6 +266,62 @@ public class ArticleServiceImpl implements ArticleService {
 			articleInfo.setTagList(list);
 		}
 		
+		return articleInfo;
+	}
+
+	@Override
+	public ArticleInfo findPreOneArticle(Long id) {
+		TmArticle article = blogQueryDsl.fetchFirstArticleByIdNear(id, ArticleState.PUBLISH, Indicator.Y);
+		ArticleInfo articleInfo = new ArticleInfo();
+		if(article != null){
+			articleInfo.setId(article.getId());
+			articleInfo.setTitle(article.getTitle());
+			articleInfo.setDescription(article.getDescription());
+			articleInfo.setContent(article.getContent().replaceAll("\n", "\\\\n").replaceAll("\r", ""));
+			articleInfo.setCreateTime(article.getCreateTime());
+			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
+			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
+			articleInfo.setFavorNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.FAVOR));
+			articleInfo.setShareNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.SHARE));
+			TmCategory category = categoryDao.findOne(article.getCategoryId());
+			if(category != null){
+				articleInfo.setCategoryName(category.getName());
+			}
+			List<TmTag> tmTagList = blogQueryDsl.fetchTagByArticleId(article.getId());
+			List<String> list = new ArrayList<String>();
+			for(TmTag tag:tmTagList){
+				list.add(tag.getName());
+			}
+			articleInfo.setTagList(list);
+		}
+		return articleInfo;
+	}
+
+	@Override
+	public ArticleInfo findNextOneArticle(Long id) {
+		TmArticle article = blogQueryDsl.fetchFirstArticleByIdNear(id, ArticleState.PUBLISH, Indicator.N);
+		ArticleInfo articleInfo = new ArticleInfo();
+		if(article != null){
+			articleInfo.setId(article.getId());
+			articleInfo.setTitle(article.getTitle());
+			articleInfo.setDescription(article.getDescription());
+			articleInfo.setContent(article.getContent().replaceAll("\n", "\\\\n").replaceAll("\r", ""));
+			articleInfo.setCreateTime(article.getCreateTime());
+			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
+			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
+			articleInfo.setFavorNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.FAVOR));
+			articleInfo.setShareNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.SHARE));
+			TmCategory category = categoryDao.findOne(article.getCategoryId());
+			if(category != null){
+				articleInfo.setCategoryName(category.getName());
+			}
+			List<TmTag> tmTagList = blogQueryDsl.fetchTagByArticleId(article.getId());
+			List<String> list = new ArrayList<String>();
+			for(TmTag tag:tmTagList){
+				list.add(tag.getName());
+			}
+			articleInfo.setTagList(list);
+		}
 		return articleInfo;
 	}
 }

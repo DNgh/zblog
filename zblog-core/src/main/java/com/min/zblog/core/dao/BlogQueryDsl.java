@@ -24,6 +24,7 @@ import com.min.zblog.facility.enums.ArticleState;
 import com.min.zblog.facility.enums.Indicator;
 import com.min.zblog.facility.enums.VisitType;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -243,5 +244,27 @@ public class BlogQueryDsl {
 						.and(qTmArticleTag.articleId.eq(id)))
 				.orderBy(qTmTag.createTime.desc())
 				.fetch();
+	}
+	
+	/**
+	 * 查找ID临近的文章
+	 * @param id
+	 * @param state
+	 * @param less
+	 * @return
+	 */
+	public TmArticle fetchFirstArticleByIdNear(Long id, ArticleState state, Indicator less){
+		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
+		BooleanExpression exp = qTmArticle.state.eq(state);
+		OrderSpecifier<Long> order;
+		if(less == Indicator.Y){
+			exp = exp.and(qTmArticle.id.lt(id));
+			order = qTmArticle.id.desc();
+		}else{
+			exp = exp.and(qTmArticle.id.gt(id));
+			order = qTmArticle.id.asc();
+		}
+		
+		return query.from(qTmArticle).where(exp).orderBy(order).fetchFirst();
 	}
 }

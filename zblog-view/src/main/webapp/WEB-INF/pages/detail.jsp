@@ -311,10 +311,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  	<div class="panel panel-default" id="preNext">
 				<div class="panel-body">
 				  	<div class="pull-left">
-				  		<a href="#">上一篇</a>
+				  		<a href="javascript:void(0);" onclick="doPost('article/showPre', {'articleKey':'${articleInfo.id}'})">上一篇</a>
                     </div>
 	                <div class="pull-right">
-	                	<a href="#">下一篇</a>
+	                	<a href="javascript:void(0);" onclick="doPost('article/showNext', {'articleKey':'${articleInfo.id}'})">下一篇</a>
 	                </div>
 		    	</div>
 		  	</div>

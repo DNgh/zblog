@@ -110,6 +110,36 @@ public class ArticleAction extends ActionSupport {
     	return SUCCESS;
     }
     
+    public String showPre(){
+    	fetchCommonData();
+    	
+    	//文章
+    	ActionContext context = ActionContext.getContext();
+    	Map<String, Object> map = context.getParameters();
+    	String[] obj = (String[])map.get("articleKey");
+    	logger.info("articleKey:"+obj[0]);
+    	
+    	//替换回车换行符，否则页面js脚本报语法错。
+    	articleInfo = articleService.findPreOneArticle(Long.valueOf(obj[0]));
+    	
+    	return SUCCESS;
+    }
+    
+    public String showNext(){
+    	fetchCommonData();
+    	
+    	//文章
+    	ActionContext context = ActionContext.getContext();
+    	Map<String, Object> map = context.getParameters();
+    	String[] obj = (String[])map.get("articleKey");
+    	logger.info("articleKey:"+obj[0]);
+    	
+    	//替换回车换行符，否则页面js脚本报语法错。
+    	articleInfo = articleService.findNextOneArticle(Long.valueOf(obj[0]));
+    	
+    	return SUCCESS;
+    }
+
     public String listArticleByCategory() {
     	//文章
     	logger.info(this.categoryName);
