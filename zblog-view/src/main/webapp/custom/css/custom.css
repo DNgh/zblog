@@ -24,3 +24,26 @@
 	right:30px;
 	display:none;
 }
+
+/*评论区样式*/
+.comment-area {
+	width: 100%;
+}
+
+/*边框圆角*/
+.rounded-border {
+	width: 100%;
+	border-radius: 5px;
+}
+
+/*行外边距*/
+.row-margin-bottom {
+    margin-top: 10px;
+}
+
+/*选中显示阴影*/
+.blue-border-focus:focus {
+    border: 1px solid #3c8dbc;
+    box-shadow: 0 0 0 0.2rem rgba(60, 141, 188, .25);
+}
+

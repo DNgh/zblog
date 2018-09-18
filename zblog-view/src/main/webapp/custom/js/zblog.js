@@ -194,3 +194,8 @@ function convertAjaxData(page, map){
 	
 	return data;
 }
+
+//回车换行符转换
+var convertLineCtrl=function(strValue){
+	return strValue.replace(/\r\n/g, '<br/>').replace(/\r/g, '<br/>').replace(/\n/g, '<br/>').replace(/\s/g, '&nbsp;');
+}
