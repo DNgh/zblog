@@ -19,6 +19,10 @@
         <action name="contact" class="homeAction" method="contact">
             <result name="success">/WEB-INF/pages/contact.jsp</result>
         </action>
+        
+        <action name="test" class="homeAction" method="test">
+            <result name="success">/WEB-INF/pages/test.jsp</result>
+        </action>
     </package>
     
     

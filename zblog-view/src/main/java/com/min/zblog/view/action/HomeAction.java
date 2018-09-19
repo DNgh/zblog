@@ -77,6 +77,11 @@ public class HomeAction extends ActionSupport {
     	
     	return SUCCESS;
     }
+    
+    public String test(){
+    	
+    	return SUCCESS;
+    }
 
 	public List<ArticleInfo> getArticleList() {
 		return articleList;

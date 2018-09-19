@@ -26,16 +26,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
-  <!-- typo.css -->
-  <!-- <link rel="stylesheet" href="components/typo.css/typo.css"> -->
-  <link rel="stylesheet" href="components/wangEditor/wangEditor.min.css">
-  <link rel="stylesheet" href="custom/css/zyd.comment.css">
-  <link rel="stylesheet" href="components/jquery-emoji/css/jquery.emoji.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css">
   <link rel="stylesheet" href="components/jquery-mCustomScrollbar/css/jquery.mCustomScrollbar.min.css">
+  <link rel="stylesheet" href="components/jquery-emoji/css/jquery.emoji.css">
   <link rel="stylesheet" href="custom/css/custom.css">
   
   <!-- markdown 0.5.0 -->
-  <script src="components/marked/marked.min.js"></script>
+  <%-- <script src="components/marked/marked.min.js"></script> --%>
   
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -392,7 +389,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- ./wrapper -->
 
 <!-- jQuery 3.3.1 -->
-<script src="components/jquery/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="components/bootstrap/js/bootstrap.min.js"></script>
 <!-- FastClick -->
@@ -401,16 +398,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="components/AdminLTE/js/adminlte.min.js"></script>
 <!-- bootstrap-paginator -->
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
+<script src="https://cdn.bootcss.com/markdown-it/8.4.1/markdown-it.min.js"></script>
 <!-- highlight -->
-<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
-<script src="components/wangEditor/wangEditor.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 <script src="components/jquery-mCustomScrollbar/js/jquery.mousewheel-3.0.6.min.js"></script>
 <script src="components/jquery-mCustomScrollbar/js/jquery.mCustomScrollbar.min.js"></script>
 <script src="components/jquery-emoji/js/jquery.emoji.min.js"></script>
 <!-- custom js -->
 <script src="custom/js/zblog.js"></script>
 <script>
-    marked.setOptions({
+	hljs.initHighlightingOnLoad();
+
+	
+    /* marked.setOptions({
         renderer: new marked.Renderer(),
         gfm: true,
         tables: true,
@@ -421,9 +421,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         smartLists: true,
         smartypants: false,
         highlight: function (code, lang) {
-            console.log('code',code)
-        // return   hljs.highlight(lang, code, false,true).value;
-        return hljs.highlightAuto(code).value;
+        	console.log('code',code);
+        	// return   hljs.highlight(lang, code, false,true).value;
+        	return hljs.highlightAuto(code).value;
+        	//return hljs.highlightBlock(code).value;
       }
     });
     
@@ -433,9 +434,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         return '<table class="table table-striped">'+header+body+'</table>'
     }
     
-    $("#show").html(marked('${articleInfo.content}',{renderer: renderer}));
+    $("#show").html(marked('${articleInfo.content}',{renderer: renderer})); */
     
-    $("[data-toggle='tooltip']").tooltip();
+    var md = window.markdownit({
+   	  highlight: function (str, lang) {
+   		    if (lang && hljs.getLanguage(lang)) {
+   		      try {
+   		        return hljs.highlight(lang, str, true).value;
+   		      } catch (__) {}
+   		    }
+
+   		    return ''; // use external default escaping
+      	  }
+      });
+      
+	$("#show").html(md.render('${articleInfo.content}'));
     
     //提交评论
     function submitComment() {
@@ -448,6 +461,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     function clearComment() {
     	$("#comment-content").val("");
     }
+  	
+    $("[data-toggle='tooltip']").tooltip();
     
     $("#editor").emoji({
     	button: "#btn",
