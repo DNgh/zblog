@@ -335,18 +335,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 						<div class="row row-margin-bottom">
 							<div class="col-md-12">
-								<textarea id="comment-content" class="rounded-border blue-border-focus" rows="7" placeholder="添加评论..."></textarea>
+								<textarea id="commentEditor" class="rounded-border blue-border-focus" rows="7" placeholder="添加评论..."></textarea>
 							</div>
 						</div>
 						<div class="row row-margin-bottom">
-							<div class="col-md-12">
-					            <div id="editor" class="rounded-border blue-border-focus" contenteditable="true"></div>
-					        </div>
-						</div>
-						<div class="row row-margin-bottom">
 							<div class="col-md-2">
-								<!-- <a href="javascript:;">表情</a> -->
-								<button id="btn" class="btn btn-sm btn-default">表情</button>
+								<button id="faceBtn" class="btn btn-sm btn-default">表情</button>
 							</div>
 							<div class="col-md-2 col-md-push-6">
 								<button type="button" class="btn btn-block btn-danger" onclick="submitComment()">评论</button>
@@ -388,7 +382,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery 3.3.1 -->
+<!-- jQuery 1.12.4 -->
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="components/bootstrap/js/bootstrap.min.js"></script>
@@ -452,20 +446,84 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     //提交评论
     function submitComment() {
-    	var commentVal = $("#comment-content").val();
+    	var commentVal = $("#commentEditor").val();
     	commentVal = convertLineCtrl(commentVal);
     	$("#comment-result").html(commentVal);
+    	
+    	$("#comment-result").emojiParse({
+    	    icons: [{
+    	        path: "components/jquery-emoji/img/tieba/",
+    	        file: ".jpg",
+    	        placeholder: ":{alias}:",
+    	        alias: {
+    	            1: "hehe",
+    	            2: "haha",
+    	            3: "tushe",
+    	            4: "a",
+    	            5: "ku",
+    	            6: "lu",
+    	            7: "kaixin",
+    	            8: "han",
+    	            9: "lei",
+    	            10: "heixian",
+    	            11: "bishi",
+    	            12: "bugaoxing",
+    	            13: "zhenbang",
+    	            14: "qian",
+    	            15: "yiwen",
+    	            16: "yinxian",
+    	            17: "tu",
+    	            18: "yi",
+    	            19: "weiqu",
+    	            20: "huaxin",
+    	            21: "hu",
+    	            22: "xiaonian",
+    	            23: "neng",
+    	            24: "taikaixin",
+    	            25: "huaji",
+    	            26: "mianqiang",
+    	            27: "kuanghan",
+    	            28: "guai",
+    	            29: "shuijiao",
+    	            30: "jinku",
+    	            31: "shengqi",
+    	            32: "jinya",
+    	            33: "pen",
+    	            34: "aixin",
+    	            35: "xinsui",
+    	            36: "meigui",
+    	            37: "liwu",
+    	            38: "caihong",
+    	            39: "xxyl",
+    	            40: "taiyang",
+    	            41: "qianbi",
+    	            42: "dnegpao",
+    	            43: "chabei",
+    	            44: "dangao",
+    	            45: "yinyue",
+    	            46: "haha2",
+    	            47: "shenli",
+    	            48: "damuzhi",
+    	            49: "ruo",
+    	            50: "OK"
+    	        }
+    	    }, {
+    	        path: "components/jquery-emoji/img/qq/",
+    	        file: ".gif",
+    	        placeholder: "#qq_{alias}#"
+    	    }]
+    	});
     }
     
   	//清除评论
     function clearComment() {
-    	$("#comment-content").val("");
+    	$("#commentEditor").val("");
     }
   	
     $("[data-toggle='tooltip']").tooltip();
     
-    $("#editor").emoji({
-    	button: "#btn",
+    $("#commentEditor").emoji({
+    	button: "#faceBtn",
         showTab: true,
         animation: 'fade',
         icons: [{

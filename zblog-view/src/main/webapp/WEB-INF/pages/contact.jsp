@@ -291,8 +291,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery 3.3.1 -->
-<script src="components/jquery/jquery.min.js"></script>
+<!-- jQuery 1.12.4 -->
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="components/bootstrap/js/bootstrap.min.js"></script>
 <!-- FastClick -->
