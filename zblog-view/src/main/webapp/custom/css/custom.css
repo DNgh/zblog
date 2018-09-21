@@ -26,7 +26,7 @@
 }
 
 /*评论区样式*/
-.comment-area {
+.comment-editor {
 	width: 100%;
 }
 
@@ -47,3 +47,104 @@
     box-shadow: 0 0 0 0.2rem rgba(60, 141, 188, .25);
 }
 
+/* 评论样式*/
+.comment {
+  padding: 5px 20px 5px 10px;
+}
+.comment .item {
+  margin-bottom: 10px;
+}
+.comment .item:before,
+.comment .item:after {
+  content: " ";
+  display: table;
+}
+.comment .item:after {
+  clear: both;
+}
+.comment .item > img {
+  width: 40px;
+  height: 40px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+}
+.comment .item > .online {
+  border: 2px solid #00a65a;
+}
+.comment .item > .offline {
+  border: 2px solid #dd4b39;
+}
+.comment .item > .header {
+  margin-left: 55px;
+  margin-top: -40px;
+}
+.comment .item > .header > .name {
+  display: block;
+  font-weight: 600;
+}
+.comment .item > .message {
+  margin-left: 55px;
+  margin-top: 5px;
+}
+.comment .item > .footer {
+  margin-left: 55px;
+  margin-top: 0px;
+  display:block;
+  font-weight: 600;
+  font-size: 13px;
+}
+.comment .item > .review {
+  border-radius: 3px;
+  background: #f4f4f4;
+  margin-left: 55px;
+  margin-top: 5px;
+  padding: 10px;
+}
+.comment .item > .review > h4 {
+  margin: 0 0 5px 0;
+  font-weight: 600;
+  font-size: 14px;
+}
+.comment .item > .review > p {
+  font-weight: 600;
+  font-size: 13px;
+  font-style: italic;
+  margin: 0;
+}
+.comment .item > .review > .subitem {
+  margin-bottom: 5px;
+}
+.comment .item > .review > .subitem > .header {
+  margin-left: 5px;
+  margin-top: 5px;
+}
+.comment .item > .review > .subitem > .message {
+  margin-left: 5px;
+  margin-top: 5px;
+  font-weight: 600;
+  font-size: 13px;
+  font-style: italic;
+  margin: 0;
+}
+.comment .item > .review > .subitem > .footer {
+  margin-left: 5px;
+  margin-top: 5px;
+  display:block;
+  font-weight: 600;
+  font-size: 13px;
+}
+.comment .item > .review:before,
+.comment .item > .review:after {
+  content: " ";
+  display: table;
+}
+.comment .item > .review:after {
+  clear: both;
+}
+
+em {
+	font-family: "Georgia";
+	font-size: 24px;
+	font-weight: bold;
+	color: #f54343;
+}

@@ -326,8 +326,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  	<!-- 评论 -->
 		  	<div class="panel panel-default" id="preNext">
 				<div class="panel-body">
-				  	<!--评论区域-->
-					<div class="comment-area">
+				  	<!--评论编辑区域-->
+					<div class="comment-editor">
 						<div class="row row-margin-bottom">
 							<div class="col-md-12">
 								<h3><i class="fa fa-commenting-o fa-fw"></i>评论</h3>
@@ -351,14 +351,135 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 						</div>
 					</div>
-					<!-- /.comment-area -->
+					<!-- /.comment-editor -->
 					<p id="comment-result"></p>
-		    	</div>
-		    	<!-- /.panel-body -->
-		  	</div>
-		  	<!-- /.panel -->
-		  	
-		  	
+					
+					<div class="divider-h"></div>
+					<h3><i class="fa fa-comments-o fa-fw"></i><em>20</em>条评论~~~</h3>
+					<div class="comment" id="commentShow">
+		              <!-- comment item -->
+		              <div class="item">
+		                <img src="custom/img/boy.png" alt="user image">
+						<div class="header">
+							<a href="javascript:;" class="name">Mike Doe</a>
+						</div>
+		                <p class="message">
+		                  	发现的问题有这些 1. 加粗的快捷键老是和添加表情的快捷键使用混乱了 2. 保存的草稿已经丢失了三份了，最近心都碎了，快要弃博客了 3. 回退删除的时候，光标经常乱跳，总是删除不该删的信息，导致效率特别低。蛋疼的不是一点点 做的好的： 1.图片插如更加方便，支持复制粘贴 2.表格功能更加强大
+		                </p>
+		                <div class="footer clearfix">
+		                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
+		                	<div class="pull-right">
+		                        <a href="javascript:;"><i class="fa fa-reply"></i>回复</a>
+		                        <span>|</span>
+		                        <a href="javascript:;"><i class="fa fa-heart"></i>赞 </a>
+		                    </div>
+		                </div>
+		                	
+		                <div class="review">
+		                  <!-- review item -->
+			              <div class="subitem">
+							<div class="header">
+								<a href="javascript:;" class="name">jack:回复@Mike Doe:</a>
+							</div>
+			                <p class="message">
+			                  	有道理，我也这么想的。
+			                </p>
+			                <div class="footer clearfix">
+			                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
+			                	<div class="pull-right">
+			                        <a href="javascript:;"><i class="fa fa-reply"></i>回复</a>
+			                        <span>|</span>
+			                        <a href="javascript:;"><i class="fa fa-heart"></i>赞 </a>
+			                    </div>
+			                </div>
+			              </div>
+			              <!-- review item -->
+			              <div class="subitem">
+							<div class="header">
+								<a href="javascript:;" class="name">jack:回复@Mike Doe:</a>
+							</div>
+			                <p class="message">
+			                  	有道理，我也这么想的。
+			                </p>
+			                <div class="footer clearfix">
+			                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
+			                	<div class="pull-right">
+			                        <a href="javascript:;"><i class="fa fa-reply"></i>回复</a>
+			                        <span>|</span>
+			                        <a href="javascript:;"><i class="fa fa-heart"></i>赞 </a>
+			                    </div>
+			                </div>
+			              </div>
+		                </div>
+		                <!-- /.review -->
+		              </div>
+		              <!-- /.item -->
+		              
+		              <!-- comment item -->
+		              <div class="item">
+		                <img src="custom/img/boy.png" alt="user image">
+						<div class="header">
+							<a href="javascript:;" class="name">Mike Doe</a>
+						</div>
+		                <p class="message">
+		                  	发现的问题有这些 1. 加粗的快捷键老是和添加表情的快捷键使用混乱了 2. 保存的草稿已经丢失了三份了，最近心都碎了，快要弃博客了 3. 回退删除的时候，光标经常乱跳，总是删除不该删的信息，导致效率特别低。蛋疼的不是一点点 做的好的： 1.图片插如更加方便，支持复制粘贴 2.表格功能更加强大
+		                </p>
+		                <div class="footer clearfix">
+		                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
+		                	<div class="pull-right">
+		                        <a href="javascript:;"><i class="fa fa-reply"></i>回复</a>
+		                        <span>|</span>
+		                        <a href="javascript:;"><i class="fa fa-heart"></i>赞 </a>
+		                    </div>
+		                </div>
+		                	
+		                <div class="review">
+		                  <!-- review item -->
+			              <div class="subitem">
+							<div class="header">
+								<a href="javascript:;" class="name">jack:回复@Mike Doe:</a>
+							</div>
+			                <p class="message">
+			                  	有道理，我也这么想的。
+			                </p>
+			                <div class="footer clearfix">
+			                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
+			                	<div class="pull-right">
+			                        <a href="javascript:;"><i class="fa fa-reply"></i>回复</a>
+			                        <span>|</span>
+			                        <a href="javascript:;"><i class="fa fa-heart"></i>赞 </a>
+			                    </div>
+			                </div>
+			              </div>
+			              <!-- review item -->
+			              <div class="subitem">
+							<div class="header">
+								<a href="javascript:;" class="name">jack:回复@Mike Doe:</a>
+							</div>
+			                <p class="message">
+			                  	有道理，我也这么想的。
+			                </p>
+			                <div class="footer clearfix">
+			                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
+			                	<div class="pull-right">
+			                        <a href="javascript:;"><i class="fa fa-reply"></i>回复</a>
+			                        <span>|</span>
+			                        <a href="javascript:;"><i class="fa fa-heart"></i>赞 </a>
+			                    </div>
+			                </div>
+			              </div>
+		                </div>
+		                <!-- /.review -->
+		              </div>
+		              <!-- /.item -->
+		              
+		            </div>
+		            <!-- /.comment -->
+		  		</div>
+		  		<!-- /.panel-body -->
+			</div>
+			<!-- /.panel -->
+			
         </div>
         <!-- /.col -->
         
