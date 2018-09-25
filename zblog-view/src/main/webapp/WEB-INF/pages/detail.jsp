@@ -336,8 +336,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="row row-margin-bottom">
 							<div class="col-md-12">
 								<input type="hidden" id="articleId" value="${articleInfo.id}">
-								<input type="hidden" id="commentRid" value="0">
-								<input type="hidden" id="commentPid" value="0">
+								<input type="hidden" id="commentRid" value="N">
+								<input type="hidden" id="commentPid" value="N">
 								<input type="hidden" id="commentUrl" value="comment/add">
 								<textarea id="commentEditor" class="rounded-border blue-border-focus" rows="7" placeholder="添加评论..."></textarea>
 							</div>
@@ -602,7 +602,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	    icons: iconsCfg
     	});
     	
-    	var articleId = $("articleId").val();
+    	var articleId = $("#articleId").val();
     	var rid = $("#commentRid").val();
     	var pid = $("#commentPid").val();
 		var to = $("#commentUrl").val();
