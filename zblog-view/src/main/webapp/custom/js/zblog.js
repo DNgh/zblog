@@ -185,8 +185,20 @@ function pageFunction(to, map){
     });
 }
 
+//分页
 function convertAjaxData(page, map){
 	var data = "page="+page;
+	for (var i in map){
+		data = data + "&" + i + "=" + map[i];
+     }
+	alert("组装分页请求数据"+data);
+	
+	return data;
+}
+
+//无分页
+function convertAjaxDataNP(map){
+	var data = "";
 	for (var i in map){
 		data = data + "&" + i + "=" + map[i];
      }
