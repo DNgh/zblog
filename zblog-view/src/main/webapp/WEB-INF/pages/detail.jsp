@@ -619,22 +619,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             success: function (result) {
             	alert("comment result:"+result)
                 if (result != null) {
-                	var html = "<div class=\"subitem\">";
-						+"<div class=\"header\">";
-			/* 			<a href="javascript:void(0);" class="name">jack:回复@Mike Doe:</a>
-					</div>
-	                <p class="message">
-	                  	有道理，我也这么想的。
-	                </p>
-	                <div class="footer clearfix">
-	                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
-	                	<div class="pull-right">
-	                        <a href="javascript:void(0);"><i class="fa fa-reply"></i>回复</a>
-	                        <span>|</span>
-	                        <a href="javascript:void(0);"><i class="fa fa-heart"></i>赞 </a>
-	                    </div>
-	                </div>
-	              </div> */
+                	var html = '<div class="subitem">'+
+						'<div class="header">'+
+			 			'<a href="javascript:void(0);" class="name">'+result.username+':回复@'+result.pusername+':</a>'+
+						'</div>'+
+	                    '<p class="message">'+result.content+'</p>'+
+	                    '<div class="footer clearfix">'+
+	                    '<span class="text-muted"><i class="fa fa-clock-o"></i>'+result.createTime'</span>'+
+	                    '<div class="pull-right">'+
+	                    '<a href="javascript:void(0);" onclick="addReview('+${result.rid}+','+${result.id}+','+${result.username}+')"><i class="fa fa-reply"></i>回复</a>'+
+	                    '<span>|</span>'+
+	                    '<a href="javascript:void(0);" onclick="favorReview('+${result.id}+')"><i class="fa fa-heart"></i>赞('+result.favor+')</a>'+
+	                    '</div>'+
+	                    '</div>'+
+	                    '</div>';
+	              
                     $("#"+"review"+rid).append(html);
                 }
             }
