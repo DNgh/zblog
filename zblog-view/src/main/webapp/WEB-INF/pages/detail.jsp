@@ -607,10 +607,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	var pid = $("#commentPid").val();
 		var to = $("#commentUrl").val();
 		var map = {
-			articleId:articleId,
-			commentRid:rid,
-			commentPid:pid,
-			commentContent:commentVal
+			'articleId':articleId,
+			'commentRid':rid,
+			'commentPid':pid,
+			'commentContent':commentVal
 		};
 		$.ajax({
             url: to,
@@ -619,7 +619,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             success: function (result) {
             	alert("comment result:"+result)
                 if (result != null) {
-                	var html = '<div class="subitem">'+
+                	if(rid == "N" || pid == "N"){
+                		//根评论 
+                		var html = '<div class="subitem">'+
 						'<div class="header">'+
 			 			'<a href="javascript:void(0);" class="name">'+result.username+':回复@'+result.pusername+':</a>'+
 						'</div>'+
@@ -633,8 +635,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                    '</div>'+
 	                    '</div>'+
 	                    '</div>';
+              
+                		$("#"+"review"+rid).append(html);
+                	}else{
+                		//子评论 
+                		var html = '<div class="subitem">'+
+							'<div class="header">'+
+				 			'<a href="javascript:void(0);" class="name">'+result.username+':回复@'+result.pusername+':</a>'+
+							'</div>'+
+		                    '<p class="message">'+result.content+'</p>'+
+		                    '<div class="footer clearfix">'+
+		                    '<span class="text-muted"><i class="fa fa-clock-o"></i>'+result.createTime'</span>'+
+		                    '<div class="pull-right">'+
+		                    '<a href="javascript:void(0);" onclick="addReview('+${result.rid}+','+${result.id}+','+${result.username}+')"><i class="fa fa-reply"></i>回复</a>'+
+		                    '<span>|</span>'+
+		                    '<a href="javascript:void(0);" onclick="favorReview('+${result.id}+')"><i class="fa fa-heart"></i>赞('+result.favor+')</a>'+
+		                    '</div>'+
+		                    '</div>'+
+		                    '</div>';
 	              
-                    $("#"+"review"+rid).append(html);
+                    	$("#"+"review"+rid).append(html);
+                	}
                 }
             }
         });

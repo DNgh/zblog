@@ -51,17 +51,21 @@
 .comment {
   padding: 5px 20px 5px 10px;
 }
+/*评论保持下边距*/
 .comment .item {
   margin-bottom: 10px;
 }
+/*评论显示块级表格*/
 .comment .item:before,
 .comment .item:after {
   content: " ";
   display: table;
 }
+/*评论后清除浮动*/
 .comment .item:after {
   clear: both;
 }
+/*评论头像*/
 .comment .item > img {
   width: 40px;
   height: 40px;
@@ -74,18 +78,22 @@
 .comment .item > .offline {
   border: 2px solid #dd4b39;
 }
+/*评论头部上移和图片对齐*/
 .comment .item > .header {
   margin-left: 55px;
   margin-top: -40px;
 }
+/*评论头部姓名*/
 .comment .item > .header > .name {
   display: block;
   font-weight: 600;
 }
+/*评论内容保持间距*/
 .comment .item > .message {
   margin-left: 55px;
   margin-top: 5px;
 }
+/*评论尾部块级显示*/
 .comment .item > .footer {
   margin-left: 55px;
   margin-top: 0px;
@@ -93,6 +101,7 @@
   font-weight: 600;
   font-size: 13px;
 }
+/*回复区样式,背景灰色区分*/
 .comment .item > .review {
   border-radius: 3px;
   background: #f4f4f4;
@@ -111,13 +120,16 @@
   font-style: italic;
   margin: 0;
 }
+/*回复区子评论保持下间距*/
 .comment .item > .review > .subitem {
   margin-bottom: 5px;
 }
+/*回复区子评论头部块级显示*/
 .comment .item > .review > .subitem > .header {
   margin-left: 5px;
   margin-top: 5px;
 }
+/*回复区子评论内容块级显示*/
 .comment .item > .review > .subitem > .message {
   margin-left: 5px;
   margin-top: 5px;
@@ -126,6 +138,7 @@
   font-style: italic;
   margin: 0;
 }
+/*回复区子评论尾部块级显示*/
 .comment .item > .review > .subitem > .footer {
   margin-left: 5px;
   margin-top: 5px;
@@ -133,15 +146,17 @@
   font-weight: 600;
   font-size: 13px;
 }
+/*回复区前后插入空格，块级表格显示*/
 .comment .item > .review:before,
 .comment .item > .review:after {
   content: " ";
   display: table;
 }
+/*回复区清除浮动*/
 .comment .item > .review:after {
   clear: both;
 }
-
+/*着重显示红色*/
 em {
 	font-family: "Georgia";
 	font-size: 24px;
