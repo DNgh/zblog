@@ -361,63 +361,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="divider-h"></div>
 					<h3><i class="fa fa-comments-o fa-fw"></i><em>20</em>条评论~~~</h3>
 					<div class="comment" id="commentShow">
-		              <!-- comment item -->
-		              <div class="item">
-		                <img src="custom/img/boy.png" alt="user image">
-						<div class="header">
-							<a href="javascript:void(0);" class="name">Mike Doe</a>
-						</div>
-		                <p class="message">
-		                  	发现的问题有这些 1. 加粗的快捷键老是和添加表情的快捷键使用混乱了 2. 保存的草稿已经丢失了三份了，最近心都碎了，快要弃博客了 3. 回退删除的时候，光标经常乱跳，总是删除不该删的信息，导致效率特别低。蛋疼的不是一点点 做的好的： 1.图片插如更加方便，支持复制粘贴 2.表格功能更加强大
-		                </p>
-		                <div class="footer clearfix">
-		                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
-		                	<div class="pull-right">
-		                        <a href="javascript:void(0);" onclick="addReview(${commentInfo.id},${commentInfo.id},${commentInfo.username})"><i class="fa fa-reply"></i>回复</a>
-		                        <span>|</span>
-		                        <a href="javascript:void(0);" onclick="favorReview(${commentInfo.id})"><i class="fa fa-heart"></i>赞 (5)</a>
-		                    </div>
-		                </div>
-		                	
-		                <div class="review" id="review${commentInfo.id}">
-		                  <!-- review item -->
-			              <div class="subitem">
+					  <s:iterator value="commentInfoList" var="commentInfo">
+			              <!-- comment item -->
+			              <div class="item">
+			                <img src="custom/img/boy.png" alt="user image">
 							<div class="header">
-								<a href="javascript:void(0);" class="name">jack:回复@Mike Doe:</a>
+								<a href="javascript:void(0);" class="name">${commentInfo.username}</a>
 							</div>
-			                <p class="message">
-			                  	有道理，我也这么想的。
-			                </p>
+			                <p class="message">${commentInfo.content}</p>
 			                <div class="footer clearfix">
 			                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
 			                	<div class="pull-right">
-			                        <a href="javascript:void(0);" onclick="addReview(${review.rid},${review.id},${review.username})"><i class="fa fa-reply"></i>回复</a>
+			                        <a href="javascript:void(0);" onclick="addReview(${commentInfo.id},${commentInfo.id},${commentInfo.username})"><i class="fa fa-reply"></i>回复</a>
 			                        <span>|</span>
-			                        <a href="javascript:void(0);" onclick="favorReview(${review.id})"><i class="fa fa-heart"></i>赞 (5)</a>
+			                        <a href="javascript:void(0);" onclick="favorReview(${commentInfo.id})"><i class="fa fa-heart"></i>赞 (5)</a>
 			                    </div>
 			                </div>
+			                <!-- 定义变量：子评论列表 -->
+			                <s:set name="subCommentList" value="subCommentMap[#commentInfo.id]" />
+			                <s:if test='#subCommentList == null || #subCommentList.size <= 0'>
+			                	<div class="review" id="review${commentInfo.id}" style="display:none;"></div>
+			                </s:if>
+			                <s:else>
+				                <div class="review" id="review${commentInfo.id}">
+				                  <s:iterator value="#subCommentList" var="review">
+					                  <!-- review item -->
+						              <div class="subitem">
+										<div class="header">
+											<a href="javascript:void(0);" class="name">${review.username}:回复@${review.pusername}:</a>
+										</div>
+						                <p class="message">${review.content}</p>
+						                <div class="footer clearfix">
+						                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
+						                	<div class="pull-right">
+						                        <a href="javascript:void(0);" onclick="addReview(${review.rid},${review.id},${review.username})"><i class="fa fa-reply"></i>回复</a>
+						                        <span>|</span>
+						                        <a href="javascript:void(0);" onclick="favorReview(${review.id})"><i class="fa fa-heart"></i>赞 (5)</a>
+						                    </div>
+						                </div>
+						              </div>
+					                </div>
+					                <!-- /.review -->
+				                </s:iterator>
+			                </s:else>
+			                
 			              </div>
-			              <!-- review item -->
-			              <div class="subitem">
-							<div class="header">
-								<a href="javascript:void(0);" class="name">jack:回复@Mike Doe:</a>
-							</div>
-			                <p class="message">
-			                  	有道理，我也这么想的。
-			                </p>
-			                <div class="footer clearfix">
-			                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
-			                	<div class="pull-right">
-			                        <a href="javascript:void(0);"><i class="fa fa-reply"></i>回复</a>
-			                        <span>|</span>
-			                        <a href="javascript:void(0);"><i class="fa fa-heart"></i>赞 </a>
-			                    </div>
-			                </div>
-			              </div>
-		                </div>
-		                <!-- /.review -->
-		              </div>
-		              <!-- /.item -->
+			              <!-- /.item -->
+		               </s:iterator>
 		              
 		              <!-- comment item -->
 		              <div class="item">
@@ -621,22 +611,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 if (result != null) {
                 	if(rid == "N" || pid == "N"){
                 		//根评论 
-                		var html = '<div class="subitem">'+
+                		var html = '<div class="item">'+
+                		'<img src="custom/img/boy.png" alt="user image">'+
 						'<div class="header">'+
-			 			'<a href="javascript:void(0);" class="name">'+result.username+':回复@'+result.pusername+':</a>'+
+			 			'<a href="javascript:void(0);" class="name">'+result.username+'</a>'+
 						'</div>'+
 	                    '<p class="message">'+result.content+'</p>'+
 	                    '<div class="footer clearfix">'+
 	                    '<span class="text-muted"><i class="fa fa-clock-o"></i>'+result.createTime'</span>'+
 	                    '<div class="pull-right">'+
-	                    '<a href="javascript:void(0);" onclick="addReview('+${result.rid}+','+${result.id}+','+${result.username}+')"><i class="fa fa-reply"></i>回复</a>'+
+	                    '<a href="javascript:void(0);" onclick="addReview('+result.id+','+result.id+','+result.username+')"><i class="fa fa-reply"></i>回复</a>'+
 	                    '<span>|</span>'+
-	                    '<a href="javascript:void(0);" onclick="favorReview('+${result.id}+')"><i class="fa fa-heart"></i>赞('+result.favor+')</a>'+
+	                    '<a href="javascript:void(0);" onclick="favorReview('+result.id+')"><i class="fa fa-heart"></i>赞('+result.favor+')</a>'+
 	                    '</div>'+
 	                    '</div>'+
+	                    '<div class="review" id="review'+result.id+'">'+
+                    	'</div>'+
 	                    '</div>';
               
-                		$("#"+"review"+rid).append(html);
+                		$("#commentShow").append(html);
+                		//没有回复，则隐藏回复区域 
+                		$("#review"+result.id).hide();
                 	}else{
                 		//子评论 
                 		var html = '<div class="subitem">'+
@@ -647,18 +642,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                    '<div class="footer clearfix">'+
 		                    '<span class="text-muted"><i class="fa fa-clock-o"></i>'+result.createTime'</span>'+
 		                    '<div class="pull-right">'+
-		                    '<a href="javascript:void(0);" onclick="addReview('+${result.rid}+','+${result.id}+','+${result.username}+')"><i class="fa fa-reply"></i>回复</a>'+
+		                    '<a href="javascript:void(0);" onclick="addReview('+result.rid+','+result.id+','+result.username+')"><i class="fa fa-reply"></i>回复</a>'+
 		                    '<span>|</span>'+
-		                    '<a href="javascript:void(0);" onclick="favorReview('+${result.id}+')"><i class="fa fa-heart"></i>赞('+result.favor+')</a>'+
+		                    '<a href="javascript:void(0);" onclick="favorReview('+result.id+')"><i class="fa fa-heart"></i>赞('+result.favor+')</a>'+
 		                    '</div>'+
 		                    '</div>'+
 		                    '</div>';
 	              
-                    	$("#"+"review"+rid).append(html);
+                    	$("#review"+result.rid).append(html);
+                    	//显示回复区域  
+                    	$("#review"+result.rid).show();
                 	}
                 }
+            	//清除默认值
+            	$("#commentRid").val("N");
+        		$("#commentPid").val("N");
+        		$("#commentUrl").val("comment/add");
+            },
+            error: function(result){
+            	//清除默认值
+            	$("#commentRid").val("N");
+        		$("#commentPid").val("N");
+        		$("#commentUrl").val("comment/add");
             }
         });
+		
     }
     
   	//清除评论
@@ -668,6 +676,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	
     $("[data-toggle='tooltip']").tooltip();
     
+    //显示文本框表情样式 
     $("#commentEditor").emoji({
     	button: "#faceBtn",
         showTab: true,
@@ -675,6 +684,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         icons: iconsCfg
     });
     
+    //定位到评论框
     function addReview(rId, pId, username){
 		$("#commentRid").val(rId);
 		$("#commentPid").val(pId);
