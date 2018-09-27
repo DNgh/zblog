@@ -11,4 +11,5 @@
   <table-filter match-catalog="zblog" match-name="ts_role"/>
   <table-filter match-catalog="zblog" match-name="ts_user"/>
   <table-filter match-catalog="zblog" match-name="ts_user_role"/>
+  <table-filter match-catalog="zblog" match-name="tm_comment"/>
 </hibernate-reverse-engineering>

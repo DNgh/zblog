@@ -335,17 +335,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 						<div class="row row-margin-bottom">
 							<div class="col-md-12">
-								<input type="hidden" id="articleId" value="${articleInfo.id}">
-								<input type="hidden" id="commentRid" value="N">
-								<input type="hidden" id="commentPid" value="N">
-								<input type="hidden" id="commentUrl" value="comment/add">
+								<input type="hidden" id="articleId" value="${articleInfo.id}"/>
+								<input type="hidden" id="commentRid" value="N"/>
+								<input type="hidden" id="commentPid" value="N"/>
+								<input type="hidden" id="commentUrl" value="comment/add"/>
 								<textarea id="commentEditor" class="rounded-border blue-border-focus" rows="7" placeholder="添加评论..."></textarea>
 							</div>
 						</div>
 						<div class="row row-margin-bottom">
 							<div class="col-md-2">
 								<!-- <button id="faceBtn" class="btn btn-sm btn-default">表情</button> -->
-								<img id="faceBtn" alt="表情" src="custom/img/happy.png" class="img-circle" data-toggle="tooltip" data-placement="top" title="表情">
+								<img id="faceBtn" alt="表情" src="custom/img/happy.png" class="img-circle" data-toggle="tooltip" data-placement="top" title="表情"/>
 							</div>
 							<div class="col-md-2 col-md-push-6">
 								<button type="button" class="btn btn-block btn-danger" onclick="addComment()">评论</button>
@@ -372,9 +372,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			                <div class="footer clearfix">
 			                	<span class="text-muted"><i class="fa fa-clock-o"></i><s:property value="#commentInfo.createTime"/></span>
 			                	<div class="pull-right">
-			                        <a href="javascript:void(0);" onclick="addReview('${commentInfo.id}','${commentInfo.id}','${commentInfo.nickname}')"><i class="fa fa-reply"></i>回复</a>
+			                        <a href="javascript:void(0);" onclick="addReview(${commentInfo.id},${commentInfo.id},${commentInfo.nickname})"><i class="fa fa-reply"></i>回复</a>
 			                        <span>|</span>
-			                        <a href="javascript:void(0);" onclick="favorReview('${commentInfo.id}')"><i class="fa fa-heart"></i>赞 (<s:property value="#review.favorNum"/>)</a>
+			                        <a href="javascript:void(0);" onclick="favorReview(${commentInfo.id})"><i class="fa fa-heart"></i>赞 (<s:property value="#review.favorNum"/>)</a>
 			                    </div>
 			                </div>
 			                <!-- 定义变量：子评论列表 -->
@@ -404,72 +404,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				                </div>
 					            <!-- /.review -->
 			                </s:else>
-			                
 			              </div>
 			              <!-- /.item -->
-		               </s:iterator>
-		              
-		              <!-- comment item -->
-		              <div class="item">
-		                <img src="custom/img/boy.png" alt="user image">
-						<div class="header">
-							<a href="javascript:void(0);" class="name">Mike Doe</a>
-						</div>
-		                <p class="message">
-		                  	发现的问题有这些 1. 加粗的快捷键老是和添加表情的快捷键使用混乱了 2. 保存的草稿已经丢失了三份了，最近心都碎了，快要弃博客了 3. 回退删除的时候，光标经常乱跳，总是删除不该删的信息，导致效率特别低。蛋疼的不是一点点 做的好的： 1.图片插如更加方便，支持复制粘贴 2.表格功能更加强大
-		                </p>
-		                <div class="footer clearfix">
-		                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
-		                	<div class="pull-right">
-		                        <a href="javascript:void(0);"><i class="fa fa-reply"></i>回复</a>
-		                        <span>|</span>
-		                        <a href="javascript:void(0);"><i class="fa fa-heart"></i>赞 </a>
-		                    </div>
-		                </div>
-		                	
-		                <div class="review">
-		                  <!-- review item -->
-			              <div class="subitem">
-							<div class="header">
-								<a href="javascript:void(0);" class="name">jack:回复@Mike Doe:</a>
-							</div>
-			                <p class="message">
-			                  	有道理，我也这么想的。
-			                </p>
-			                <div class="footer clearfix">
-			                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
-			                	<div class="pull-right">
-			                        <a href="javascript:void(0);"><i class="fa fa-reply"></i>回复</a>
-			                        <span>|</span>
-			                        <a href="javascript:void(0);"><i class="fa fa-heart"></i>赞 </a>
-			                    </div>
-			                </div>
-			              </div>
-			              <!-- review item -->
-			              <div class="subitem">
-							<div class="header">
-								<a href="javascript:void(0);" class="name">jack:回复@Mike Doe:</a>
-							</div>
-			                <p class="message">
-			                  	有道理，我也这么想的。
-			                </p>
-			                <div class="footer clearfix">
-			                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
-			                	<div class="pull-right">
-			                        <a href="javascript:void(0);"><i class="fa fa-reply"></i>回复</a>
-			                        <span>|</span>
-			                        <a href="javascript:void(0);"><i class="fa fa-heart"></i>赞 </a>
-			                    </div>
-			                </div>
-			              </div>
-		                </div>
-		                <!-- /.review -->
-		              </div>
-		              <!-- /.item -->
-		              
+		               </s:iterator>  
 		            </div>
 		            <!-- /.comment -->
-		  		</div>
+				</div>
 		  		<!-- /.panel-body -->
 			</div>
 			<!-- /.panel -->
@@ -543,7 +483,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     renderer.table = function (header, body) {
         return '<table class="table table-striped">'+header+body+'</table>'
     }
-    
     $("#show").html(marked('${articleInfo.content}',{renderer: renderer})); */
     
     var md = window.markdownit({
