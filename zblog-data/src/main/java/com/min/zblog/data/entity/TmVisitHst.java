@@ -30,7 +30,6 @@ public class TmVisitHst implements java.io.Serializable {
 	private Long userId;
 	private String ip;
 	private String browser;
-	private Date visitTime;
 	private VisitType visitType;
 	private Date createTime;
 	private Integer jpaVersion;
@@ -42,13 +41,12 @@ public class TmVisitHst implements java.io.Serializable {
 		this.articleId = articleId;
 	}
 
-	public TmVisitHst(Long articleId, Long userId, String ip, String browser, Date visitTime, VisitType visitType,
+	public TmVisitHst(Long articleId, Long userId, String ip, String browser, VisitType visitType,
 			Date createTime, Integer jpaVersion) {
 		this.articleId = articleId;
 		this.userId = userId;
 		this.ip = ip;
 		this.browser = browser;
-		this.visitTime = visitTime;
 		this.visitType = visitType;
 		this.createTime = createTime;
 		this.jpaVersion = jpaVersion;
@@ -99,16 +97,6 @@ public class TmVisitHst implements java.io.Serializable {
 
 	public void setBrowser(String browser) {
 		this.browser = browser;
-	}
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "visit_time", length = 19)
-	public Date getVisitTime() {
-		return this.visitTime;
-	}
-
-	public void setVisitTime(Date visitTime) {
-		this.visitTime = visitTime;
 	}
 
 	@Column(name = "visit_type", length = 1)

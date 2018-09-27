@@ -106,6 +106,8 @@ public class ArticleAction extends ActionSupport {
     	
     	//替换回车换行符，否则页面js脚本报语法错。
     	articleInfo = articleService.findOneArticle(Long.valueOf(obj[0]));
+    	//加载评论
+    	
     	
     	return SUCCESS;
     }

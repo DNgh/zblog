@@ -366,15 +366,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					      <div class="item">
 			                <img src="custom/img/boy.png" alt="user image">
 							<div class="header">
-								<a href="javascript:void(0);" class="name"><s:property value="#commentInfo.username"/></a>
+								<a href="javascript:void(0);" class="name"><s:property value="#commentInfo.nickname"/></a>
 							</div>
 			                <p class="message"><s:property value="#commentInfo.content"/></p>
 			                <div class="footer clearfix">
 			                	<span class="text-muted"><i class="fa fa-clock-o"></i><s:property value="#commentInfo.createTime"/></span>
 			                	<div class="pull-right">
-			                        <a href="javascript:void(0);" onclick="addReview('${commentInfo.id}','${commentInfo.id}','${commentInfo.username}')"><i class="fa fa-reply"></i>回复</a>
+			                        <a href="javascript:void(0);" onclick="addReview('${commentInfo.id}','${commentInfo.id}','${commentInfo.nickname}')"><i class="fa fa-reply"></i>回复</a>
 			                        <span>|</span>
-			                        <a href="javascript:void(0);" onclick="favorReview('${commentInfo.id}')"><i class="fa fa-heart"></i>赞 (5)</a>
+			                        <a href="javascript:void(0);" onclick="favorReview('${commentInfo.id}')"><i class="fa fa-heart"></i>赞 (<s:property value="#review.favorNum"/>)</a>
 			                    </div>
 			                </div>
 			                <!-- 定义变量：子评论列表 -->
@@ -388,15 +388,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					                  <!-- review item -->
 						              <div class="subitem">
 										<div class="header">
-											<a href="javascript:void(0);" class="name"><s:property value="#review.username"/>:回复@<s:property value="#review.pusername"/>:</a>
+											<a href="javascript:void(0);" class="name"><s:property value="#review.nickname"/>:回复@<s:property value="#review.pnickname"/>:</a>
 										</div>
 						                <p class="message"><s:property value="#review.content"/></p>
 						                <div class="footer clearfix">
 						                    <span class="text-muted"><i class="fa fa-clock-o"></i><s:property value="#review.createTime"/></span>
 						                	<div class="pull-right">
-						                        <a href="javascript:void(0);" onclick="addReview(${review.rid},${review.id},${review.username})"><i class="fa fa-reply"></i>回复</a>
+						                        <a href="javascript:void(0);" onclick="addReview(${review.rid},${review.id},${review.nickname})"><i class="fa fa-reply"></i>回复</a>
 						                        <span>|</span>
-						                        <a href="javascript:void(0);" onclick="favorReview(${review.id})"><i class="fa fa-heart"></i>赞(<s:property value="#review.favor"/>)</a>
+						                        <a href="javascript:void(0);" onclick="favorReview(${review.id})"><i class="fa fa-heart"></i>赞(<s:property value="#review.favorNum"/>)</a>
 						                    </div>
 						                </div>
 						              </div>
@@ -614,15 +614,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 		var html = '<div class="item">'+
                 		'<img src="custom/img/boy.png" alt="user image">'+
 						'<div class="header">'+
-			 			'<a href="javascript:void(0);" class="name">'+result.username+'</a>'+
+			 			'<a href="javascript:void(0);" class="name">'+result.nickname+'</a>'+
 						'</div>'+
 	                    '<p class="message">'+result.content+'</p>'+
 	                    '<div class="footer clearfix">'+
 	                    '<span class="text-muted"><i class="fa fa-clock-o"></i>'+result.createTime'</span>'+
 	                    '<div class="pull-right">'+
-	                    '<a href="javascript:void(0);" onclick="addReview('+result.id+','+result.id+','+result.username+')"><i class="fa fa-reply"></i>回复</a>'+
+	                    '<a href="javascript:void(0);" onclick="addReview('+result.id+','+result.id+','+result.nickname+')"><i class="fa fa-reply"></i>回复</a>'+
 	                    '<span>|</span>'+
-	                    '<a href="javascript:void(0);" onclick="favorReview('+result.id+')"><i class="fa fa-heart"></i>赞('+result.favor+')</a>'+
+	                    '<a href="javascript:void(0);" onclick="favorReview('+result.id+')"><i class="fa fa-heart"></i>赞('+result.favorNum+')</a>'+
 	                    '</div>'+
 	                    '</div>'+
 	                    '<div class="review" id="review'+result.id+'">'+
@@ -636,15 +636,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 		//子评论 
                 		var html = '<div class="subitem">'+
 							'<div class="header">'+
-				 			'<a href="javascript:void(0);" class="name">'+result.username+':回复@'+result.pusername+':</a>'+
+				 			'<a href="javascript:void(0);" class="name">'+result.nickname+':回复@'+result.pnickname+':</a>'+
 							'</div>'+
 		                    '<p class="message">'+result.content+'</p>'+
 		                    '<div class="footer clearfix">'+
 		                    '<span class="text-muted"><i class="fa fa-clock-o"></i>'+result.createTime'</span>'+
 		                    '<div class="pull-right">'+
-		                    '<a href="javascript:void(0);" onclick="addReview('+result.rid+','+result.id+','+result.username+')"><i class="fa fa-reply"></i>回复</a>'+
+		                    '<a href="javascript:void(0);" onclick="addReview('+result.rid+','+result.id+','+result.nickname+')"><i class="fa fa-reply"></i>回复</a>'+
 		                    '<span>|</span>'+
-		                    '<a href="javascript:void(0);" onclick="favorReview('+result.id+')"><i class="fa fa-heart"></i>赞('+result.favor+')</a>'+
+		                    '<a href="javascript:void(0);" onclick="favorReview('+result.id+')"><i class="fa fa-heart"></i>赞('+result.favorNum+')</a>'+
 		                    '</div>'+
 		                    '</div>'+
 		                    '</div>';
@@ -685,12 +685,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     });
     
     //定位到评论框
-    function addReview(rId, pId, username){
+    function addReview(rId, pId, nickname){
 		$("#commentRid").val(rId);
 		$("#commentPid").val(pId);
 		$("#commentUrl").val("comment/add");
 		var commetEditor = $("#commentEditor");
-		commetEditor.val("回复@"+username+":");
+		commetEditor.val("回复@"+nickname+":");
 		commetEditor.focus();
 		var pos = commetEditor.val().length;
 		var range = commetEditor.createTextRange();
