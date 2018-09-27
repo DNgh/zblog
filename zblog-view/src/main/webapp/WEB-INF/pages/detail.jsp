@@ -362,19 +362,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<h3><i class="fa fa-comments-o fa-fw"></i><em>20</em>条评论~~~</h3>
 					<div class="comment" id="commentShow">
 					  <s:iterator value="commentInfoList" var="commentInfo">
-			              <!-- comment item -->
-			              <div class="item">
+					      <!-- comment item -->
+					      <div class="item">
 			                <img src="custom/img/boy.png" alt="user image">
 							<div class="header">
-								<a href="javascript:void(0);" class="name">${commentInfo.username}</a>
+								<a href="javascript:void(0);" class="name"><s:property value="#commentInfo.username"/></a>
 							</div>
-			                <p class="message">${commentInfo.content}</p>
+			                <p class="message"><s:property value="#commentInfo.content"/></p>
 			                <div class="footer clearfix">
-			                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
+			                	<span class="text-muted"><i class="fa fa-clock-o"></i><s:property value="#commentInfo.createTime"/></span>
 			                	<div class="pull-right">
-			                        <a href="javascript:void(0);" onclick="addReview(${commentInfo.id},${commentInfo.id},${commentInfo.username})"><i class="fa fa-reply"></i>回复</a>
+			                        <a href="javascript:void(0);" onclick="addReview('${commentInfo.id}','${commentInfo.id}','${commentInfo.username}')"><i class="fa fa-reply"></i>回复</a>
 			                        <span>|</span>
-			                        <a href="javascript:void(0);" onclick="favorReview(${commentInfo.id})"><i class="fa fa-heart"></i>赞 (5)</a>
+			                        <a href="javascript:void(0);" onclick="favorReview('${commentInfo.id}')"><i class="fa fa-heart"></i>赞 (5)</a>
 			                    </div>
 			                </div>
 			                <!-- 定义变量：子评论列表 -->
@@ -388,21 +388,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					                  <!-- review item -->
 						              <div class="subitem">
 										<div class="header">
-											<a href="javascript:void(0);" class="name">${review.username}:回复@${review.pusername}:</a>
+											<a href="javascript:void(0);" class="name"><s:property value="#review.username"/>:回复@<s:property value="#review.pusername"/>:</a>
 										</div>
-						                <p class="message">${review.content}</p>
+						                <p class="message"><s:property value="#review.content"/></p>
 						                <div class="footer clearfix">
-						                	<span class="text-muted"><i class="fa fa-clock-o"></i> 2018-09-21 02:15:50</span>
+						                    <span class="text-muted"><i class="fa fa-clock-o"></i><s:property value="#review.createTime"/></span>
 						                	<div class="pull-right">
 						                        <a href="javascript:void(0);" onclick="addReview(${review.rid},${review.id},${review.username})"><i class="fa fa-reply"></i>回复</a>
 						                        <span>|</span>
-						                        <a href="javascript:void(0);" onclick="favorReview(${review.id})"><i class="fa fa-heart"></i>赞 (5)</a>
+						                        <a href="javascript:void(0);" onclick="favorReview(${review.id})"><i class="fa fa-heart"></i>赞(<s:property value="#review.favor"/>)</a>
 						                    </div>
 						                </div>
 						              </div>
-					                </div>
-					                <!-- /.review -->
-				                </s:iterator>
+				                	</s:iterator>
+				                </div>
+					            <!-- /.review -->
 			                </s:else>
 			                
 			              </div>
