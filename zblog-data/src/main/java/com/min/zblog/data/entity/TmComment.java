@@ -79,7 +79,7 @@ public class TmComment implements java.io.Serializable {
 		this.articleId = articleId;
 	}
 
-	@Column(name = "rid", nullable = false)
+	@Column(name = "rid")
 	public Long getRid() {
 		return this.rid;
 	}
@@ -88,7 +88,7 @@ public class TmComment implements java.io.Serializable {
 		this.rid = rid;
 	}
 
-	@Column(name = "pid", nullable = false)
+	@Column(name = "pid")
 	public Long getPid() {
 		return this.pid;
 	}

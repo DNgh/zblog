@@ -1,5 +1,6 @@
 package com.min.zblog.core.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,6 +9,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
+import com.min.zblog.data.entity.QTmComment;
 import com.min.zblog.data.entity.QTmTag;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.QTmArchive;
@@ -17,6 +19,7 @@ import com.min.zblog.data.entity.QTmCategory;
 import com.min.zblog.data.entity.QTmVisitHst;
 import com.min.zblog.data.entity.TmArchive;
 import com.min.zblog.data.entity.TmCategory;
+import com.min.zblog.data.entity.TmComment;
 import com.min.zblog.data.entity.TmTag;
 import com.min.zblog.data.entity.TmVisitHst;
 import com.min.zblog.data.view.ArticleInfo;
@@ -46,6 +49,8 @@ public class BlogQueryDsl {
 	private QTmArchive qTmArchive = QTmArchive.tmArchive;
 	
 	private QTmTag qTmTag = QTmTag.tmTag;
+	
+	private QTmComment qTmComment = QTmComment.tmComment;
 	
 	@PostConstruct
     public void init() {
@@ -266,5 +271,30 @@ public class BlogQueryDsl {
 		}
 		
 		return query.from(qTmArticle).where(exp).orderBy(order).fetchFirst();
+	}
+	
+	/**
+	 * 查询评论
+	 * @param articleId 文章id
+	 * @param containSub 是否包含子评论，包含Y
+	 * @param less 降序排序Y
+	 * @return
+	 */
+	public List<TmComment> fetchCommentByArticleIdByOrder(Long articleId, Indicator containSub, Indicator less) {
+		JPAQuery<TmComment> query = new JPAQuery<TmComment>(em);
+		
+		BooleanExpression exp = qTmComment.articleId.eq(articleId);
+		if(containSub == Indicator.N){
+			exp = exp.and(qTmComment.rid.isNull());
+		}
+		
+		OrderSpecifier<Date> order;
+		if(less == Indicator.Y){
+			order = qTmComment.createTime.desc();
+		}else{
+			order = qTmComment.createTime.asc();
+		}
+		
+		return query.from(qTmComment).where(exp).orderBy(order).fetch();
 	}
 }

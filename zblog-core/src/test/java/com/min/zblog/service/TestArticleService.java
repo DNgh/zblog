@@ -52,13 +52,13 @@ public class TestArticleService {
 	
 	
 	public void testDeleteArticle(){
-		articleService.deleteArticleById(Long.valueOf(2));
+//		articleService.deleteArticleById(Long.valueOf(2));
 	}
 	
 	@Test
 	public void testArticle(){
 //		testDeleteArticle();
-		testAddArticle();
-		testListArticle();
+//		testAddArticle();
+//		testListArticle();
 	}
 }

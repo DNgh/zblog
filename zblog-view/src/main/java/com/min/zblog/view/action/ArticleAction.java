@@ -1,6 +1,7 @@
 package com.min.zblog.view.action;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,12 +14,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.min.zblog.core.service.ArchiveService;
 import com.min.zblog.core.service.ArticleService;
 import com.min.zblog.core.service.CategoryService;
+import com.min.zblog.core.service.CommentService;
 import com.min.zblog.core.service.TagService;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.BlogInfo;
 import com.min.zblog.data.view.CategoryInfo;
+import com.min.zblog.data.view.CommentInfo;
 import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.data.view.TagInfo;
 import com.opensymphony.xwork2.ActionContext;
@@ -40,6 +43,9 @@ public class ArticleAction extends ActionSupport {
 	
 	@Autowired
 	private TagService tagService;
+	
+	@Autowired
+	private CommentService commentService;
 	
 	private ArticleInfo articleInfo;
 	
@@ -72,6 +78,16 @@ public class ArticleAction extends ActionSupport {
 	 * 博客统计信息
 	 */
 	private BlogInfo blogInfo;
+	
+	/**
+	 * 主评论列表
+	 */
+	private List<CommentInfo> commentInfoList;
+	
+	/**
+	 * 子评论列表
+	 */
+	private Map<Long, List<CommentInfo>> subCommentMap;
 	
 	private String categoryName;
 	
@@ -107,7 +123,16 @@ public class ArticleAction extends ActionSupport {
     	//替换回车换行符，否则页面js脚本报语法错。
     	articleInfo = articleService.findOneArticle(Long.valueOf(obj[0]));
     	//加载评论
-    	
+    	//根评论
+    	commentInfoList = commentService.listCommentByArticleId(articleInfo.getId());
+    	//子评论
+    	subCommentMap = new HashMap<Long, List<CommentInfo>>();
+    	for(CommentInfo commentInfo:commentInfoList){
+    		List<CommentInfo> infoList = commentService.listCommentByRId(commentInfo.getId());
+    		if(infoList != null && infoList.size()>0){
+    			subCommentMap.put(commentInfo.getId(), infoList);
+    		}
+    	}
     	
     	return SUCCESS;
     }
@@ -123,6 +148,17 @@ public class ArticleAction extends ActionSupport {
     	
     	//替换回车换行符，否则页面js脚本报语法错。
     	articleInfo = articleService.findPreOneArticle(Long.valueOf(obj[0]));
+    	//加载评论
+    	//根评论
+    	commentInfoList = commentService.listCommentByArticleId(articleInfo.getId());
+    	//子评论
+    	subCommentMap = new HashMap<Long, List<CommentInfo>>();
+    	for(CommentInfo commentInfo:commentInfoList){
+    		List<CommentInfo> infoList = commentService.listCommentByRId(commentInfo.getId());
+    		if(infoList != null && infoList.size()>0){
+    			subCommentMap.put(commentInfo.getId(), infoList);
+    		}
+    	}
     	
     	return SUCCESS;
     }
@@ -138,6 +174,17 @@ public class ArticleAction extends ActionSupport {
     	
     	//替换回车换行符，否则页面js脚本报语法错。
     	articleInfo = articleService.findNextOneArticle(Long.valueOf(obj[0]));
+    	//加载评论
+    	//根评论
+    	commentInfoList = commentService.listCommentByArticleId(articleInfo.getId());
+    	//子评论
+    	subCommentMap = new HashMap<Long, List<CommentInfo>>();
+    	for(CommentInfo commentInfo:commentInfoList){
+    		List<CommentInfo> infoList = commentService.listCommentByRId(commentInfo.getId());
+    		if(infoList != null && infoList.size()>0){
+    			subCommentMap.put(commentInfo.getId(), infoList);
+    		}
+    	}
     	
     	return SUCCESS;
     }
@@ -279,6 +326,14 @@ public class ArticleAction extends ActionSupport {
 
 	public void setArticleInfo(ArticleInfo articleInfo) {
 		this.articleInfo = articleInfo;
+	}
+	
+	public List<CommentInfo> getCommentInfoList() {
+		return commentInfoList;
+	}
+
+	public Map<Long, List<CommentInfo>> getSubCommentMap() {
+		return subCommentMap;
 	}
 
 	public void fetchCommonData(){
