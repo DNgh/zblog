@@ -124,7 +124,7 @@ public class TmComment implements java.io.Serializable {
 		this.nickname = nickname;
 	}
 
-	@Column(name = "content")
+	@Column(name = "content", nullable = false)
 	public String getContent() {
 		return this.content;
 	}
@@ -133,7 +133,7 @@ public class TmComment implements java.io.Serializable {
 		this.content = content;
 	}
 
-	@Column(name = "favor_num")
+	@Column(name = "favor_num", nullable = false)
 	public Integer getFavorNum() {
 		return this.favorNum;
 	}
@@ -180,7 +180,7 @@ public class TmComment implements java.io.Serializable {
 		this.updateTime = updateTime;
 	}
 
-	@Column(name = "jpa_version")
+	@Column(name = "jpa_version", nullable = false)
 	public Integer getJpaVersion() {
 		return this.jpaVersion;
 	}

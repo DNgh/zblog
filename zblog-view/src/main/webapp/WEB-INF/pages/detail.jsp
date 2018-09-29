@@ -557,7 +557,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						'</div>'+
 	                    '<p class="message">'+result.content+'</p>'+
 	                    '<div class="footer clearfix">'+
-	                    '<span class="text-muted"><i class="fa fa-clock-o"></i>'+result.createTime'</span>'+
+	                    '<span class="text-muted"><i class="fa fa-clock-o"></i>'+result.createTime+'</span>'+
 	                    '<div class="pull-right">'+
 	                    '<a href="javascript:void(0);" onclick="addReview('+result.id+','+result.id+','+result.nickname+')"><i class="fa fa-reply"></i>回复</a>'+
 	                    '<span>|</span>'+
@@ -579,7 +579,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							'</div>'+
 		                    '<p class="message">'+result.content+'</p>'+
 		                    '<div class="footer clearfix">'+
-		                    '<span class="text-muted"><i class="fa fa-clock-o"></i>'+result.createTime'</span>'+
+		                    '<span class="text-muted"><i class="fa fa-clock-o"></i>'+result.createTime+'</span>'+
 		                    '<div class="pull-right">'+
 		                    '<a href="javascript:void(0);" onclick="addReview('+result.rid+','+result.id+','+result.nickname+')"><i class="fa fa-reply"></i>回复</a>'+
 		                    '<span>|</span>'+

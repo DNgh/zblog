@@ -109,7 +109,7 @@ public class TmArticle implements java.io.Serializable {
 		this.description = description;
 	}
 
-	@Column(name = "content")
+	@Column(name = "content", nullable = false)
 	public String getContent() {
 		return this.content;
 	}
@@ -215,7 +215,7 @@ public class TmArticle implements java.io.Serializable {
 		this.updateTime = updateTime;
 	}
 	
-	@Column(name = "jpa_version")
+	@Column(name = "jpa_version", nullable = false)
 	public Integer getJpaVersion() {
 		return this.jpaVersion;
 	}

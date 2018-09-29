@@ -92,7 +92,7 @@ public class TmCategory implements java.io.Serializable {
 		this.description = description;
 	}
 
-	@Column(name = "sort")
+	@Column(name = "sort", nullable = false)
 	public Integer getSort() {
 		return this.sort;
 	}
@@ -120,7 +120,7 @@ public class TmCategory implements java.io.Serializable {
 		this.available = available;
 	}
 	
-	@Column(name = "count")
+	@Column(name = "count", nullable = false)
 	public Integer getCount() {
 		return this.count;
 	}
@@ -149,7 +149,7 @@ public class TmCategory implements java.io.Serializable {
 		this.updateTime = updateTime;
 	}
 
-	@Column(name = "jpa_version")
+	@Column(name = "jpa_version", nullable = false)
 	public Integer getJpaVersion() {
 		return this.jpaVersion;
 	}

@@ -119,7 +119,7 @@ public class TmVisitHst implements java.io.Serializable {
 		this.createTime = createTime;
 	}
 
-	@Column(name = "jpa_version")
+	@Column(name = "jpa_version", nullable = false)
 	public Integer getJpaVersion() {
 		return this.jpaVersion;
 	}

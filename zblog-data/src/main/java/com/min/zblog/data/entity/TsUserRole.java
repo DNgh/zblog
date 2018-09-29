@@ -86,7 +86,7 @@ public class TsUserRole implements java.io.Serializable {
 		this.updateTime = updateTime;
 	}
 
-	@Column(name = "jpa_version")
+	@Column(name = "jpa_version", nullable = false)
 	public Integer getJpaVersion() {
 		return this.jpaVersion;
 	}

@@ -75,7 +75,7 @@ public class TmArchive implements java.io.Serializable {
 		this.title = title;
 	}
 
-	@Column(name = "count")
+	@Column(name = "count", nullable = false)
 	public Integer getCount() {
 		return this.count;
 	}
@@ -104,7 +104,7 @@ public class TmArchive implements java.io.Serializable {
 		this.updateTime = updateTime;
 	}
 	
-	@Column(name = "jpa_version")
+	@Column(name = "jpa_version", nullable = false)
 	public Integer getJpaVersion() {
 		return this.jpaVersion;
 	}
