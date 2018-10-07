@@ -324,7 +324,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  	<!-- /.panel -->
 		  	
 		  	<!-- 评论 -->
-		  	<div class="panel panel-default" id="preNext">
+		  	<div class="panel panel-default" id="commentArea">
 				<div class="panel-body">
 				  	<!--评论编辑区域-->
 					<div class="comment-editor">
@@ -374,7 +374,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			                	<div class="pull-right">
 			                        <a href="javascript:void(0);" onclick="addReview(${commentInfo.id},${commentInfo.id},${commentInfo.nickname})"><i class="fa fa-reply"></i>回复</a>
 			                        <span>|</span>
-			                        <a href="javascript:void(0);" onclick="favorReview(${commentInfo.id})"><i class="fa fa-heart"></i>赞 (<s:property value="#review.favorNum"/>)</a>
+			                        <a href="javascript:void(0);" onclick="favorReview(${commentInfo.id})"><i class="fa fa-heart"></i>赞 (<i class="num"><s:property value="#commentInfo.favorNum"/></i>)</a>
 			                    </div>
 			                </div>
 			                <!-- 定义变量：子评论列表 -->
@@ -384,19 +384,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			                </s:if>
 			                <s:else>
 				                <div class="review" id="review${commentInfo.id}">
-				                  <s:iterator value="#subCommentList" var="review">
+				                  <s:iterator value="#subCommentList" var="reviewInfo">
 					                  <!-- review item -->
 						              <div class="subitem">
 										<div class="header">
-											<a href="javascript:void(0);" class="name"><s:property value="#review.nickname"/>:回复@<s:property value="#review.pnickname"/>:</a>
+											<a href="javascript:void(0);" class="name"><s:property value="#reviewInfo.nickname"/>:回复@<s:property value="#reviewInfo.pnickname"/>:</a>
 										</div>
-						                <p class="message"><s:property value="#review.content"/></p>
+						                <p class="message"><s:property value="#reviewInfo.content"/></p>
 						                <div class="footer clearfix">
-						                    <span class="text-muted"><i class="fa fa-clock-o"></i><s:property value="#review.createTime"/></span>
+						                    <span class="text-muted"><i class="fa fa-clock-o"></i><s:property value="#reviewInfo.createTime"/></span>
 						                	<div class="pull-right">
-						                        <a href="javascript:void(0);" onclick="addReview(${review.rid},${review.id},${review.nickname})"><i class="fa fa-reply"></i>回复</a>
+						                        <a href="javascript:void(0);" onclick="addReview(${reviewInfo.rid},${reviewInfo.id},${reviewInfo.nickname})"><i class="fa fa-reply"></i>回复</a>
 						                        <span>|</span>
-						                        <a href="javascript:void(0);" onclick="favorReview(${review.id})"><i class="fa fa-heart"></i>赞(<s:property value="#review.favorNum"/>)</a>
+						                        <a href="javascript:void(0);" onclick="favorReview(${reviewInfo.id})"><i class="fa fa-heart"></i>赞(<i class="num"><s:property value="#reviewInfo.favorNum"/></i>)</a>
 						                    </div>
 						                </div>
 						              </div>
@@ -440,6 +440,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <!-- jQuery 1.12.4 -->
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.0/jquery.cookie.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="components/bootstrap/js/bootstrap.min.js"></script>
 <!-- FastClick -->
@@ -561,7 +562,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                    '<div class="pull-right">'+
 	                    '<a href="javascript:void(0);" onclick="addReview('+result.id+','+result.id+','+result.nickname+')"><i class="fa fa-reply"></i>回复</a>'+
 	                    '<span>|</span>'+
-	                    '<a href="javascript:void(0);" onclick="favorReview('+result.id+')"><i class="fa fa-heart"></i>赞('+result.favorNum+')</a>'+
+	                    '<a href="javascript:void(0);" onclick="favorReview('+result.id+')"><i class="fa fa-heart"></i>赞(<i class="num">'+result.favorNum+'</i>)</a>'+
 	                    '</div>'+
 	                    '</div>'+
 	                    '<div class="review" id="review'+result.id+'">'+
@@ -583,7 +584,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                    '<div class="pull-right">'+
 		                    '<a href="javascript:void(0);" onclick="addReview('+result.rid+','+result.id+','+result.nickname+')"><i class="fa fa-reply"></i>回复</a>'+
 		                    '<span>|</span>'+
-		                    '<a href="javascript:void(0);" onclick="favorReview('+result.id+')"><i class="fa fa-heart"></i>赞('+result.favorNum+')</a>'+
+		                    '<a href="javascript:void(0);" onclick="favorReview('+result.id+')"><i class="fa fa-heart"></i>赞(<i class="num">'+result.favorNum+'</i>)</a>'+
 		                    '</div>'+
 		                    '</div>'+
 		                    '</div>';
@@ -598,11 +599,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         		$("#commentPid").val("N");
         		$("#commentUrl").val("comment/add");
             },
-            error: function(result){
+            error: function(XMLHttpRequest, textStatus, errorThrown){
             	//清除默认值
             	$("#commentRid").val("N");
         		$("#commentPid").val("N");
         		$("#commentUrl").val("comment/add");
+        		alert("请求失败");
             }
         });
 		
@@ -637,8 +639,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		range.select();
     }
     
+    //点赞
     function favorReview(id){
+    	var favorCommentId = $.cookie("favorComment"+id);
     	
+    	if(id == null || id == undefined || id < 0){
+    		alert("评论id错误");
+    	}else if(favorCommentId != null){
+    		alert("不能再评论");
+    	}else{
+    		var map = {
+    	 		'commentId':id
+   		   	};
+   	    	$.ajax({
+   	            url: "comment/favor",
+   	            type: "Post",
+   	            data: convertAjaxDataNP(map),
+   	            success: function (result) {
+   	            	if(result.success == true){
+   	            	    //成功，点赞个数+1
+   	            		var fNum = $(this).find(".num").html();
+   	            		fNum++;
+   	            		$(this).find(".num").html(fNum);
+   	            		//保存信息到cookies
+   	            		$.cookie('favorComment'+id,'true',{expire:1});
+   	            	}else{
+   	            		//失败，提示信息
+   	            		alert(result.message);
+   	            	}
+   	            },
+   	            error: function(XMLHttpRequest, textStatus, errorThrown){
+   	            	//清除默认值
+   	            	alert("请求失败");
+   	            }
+   	        });
+    	}
     }
 </script>
 </body>

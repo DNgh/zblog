@@ -18,4 +18,7 @@
 	<bean id="articleAction" class="com.min.zblog.view.action.ArticleAction" autowire="default">
 	</bean>
 	
+	<bean id="commentAction" class="com.min.zblog.view.action.CommentAction" autowire="default">
+	</bean>
+	
 </beans>

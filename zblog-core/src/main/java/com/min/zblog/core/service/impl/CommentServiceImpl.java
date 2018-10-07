@@ -1,8 +1,11 @@
 package com.min.zblog.core.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,6 +66,24 @@ public class CommentServiceImpl implements CommentService {
 			commentInfoList.add(commentInfo);
 		}
 		return commentInfoList;
+	}
+
+	/**
+	 * 点赞数累计
+	 * 找不到评论，返回false；找到，点赞数加1，返回true。
+	 */
+	@Override
+	public boolean addFavorNum(Long commentId) {
+		TmComment comment = commentDao.findOne(commentId);
+		if(comment == null){
+			return false;
+		}
+		
+		comment.setFavorNum(comment.getFavorNum()+1);
+		comment.setUpdateTime(new Date());
+		commentDao.save(comment);
+		
+		return true;
 	}
 
 }
