@@ -26,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
-  <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css">
   <link rel="stylesheet" href="components/jquery-mCustomScrollbar/css/jquery.mCustomScrollbar.min.css">
   <link rel="stylesheet" href="components/jquery-emoji/css/jquery.emoji.css">
   <link rel="stylesheet" href="custom/css/custom.css">
@@ -372,9 +372,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			                <div class="footer clearfix">
 			                	<span class="text-muted"><i class="fa fa-clock-o"></i><s:property value="#commentInfo.createTime"/></span>
 			                	<div class="pull-right">
-			                        <a href="javascript:void(0);" onclick="addReview(${commentInfo.id},${commentInfo.id},${commentInfo.nickname})"><i class="fa fa-reply"></i>回复</a>
+			                        <a href="javascript:void(0);" onclick="addReview(${commentInfo.id},${commentInfo.id},'${commentInfo.nickname}')"><i class="fa fa-reply"></i>回复</a>
 			                        <span>|</span>
-			                        <a href="javascript:void(0);" onclick="favorReview(${commentInfo.id})"><i class="fa fa-heart"></i>赞 (<i class="num"><s:property value="#commentInfo.favorNum"/></i>)</a>
+			                        <a href="javascript:void(0);" onclick="favorReview(this, ${commentInfo.id})"><i class="fa fa-heart"></i>赞 (<i class="num"><s:property value="#commentInfo.favorNum"/></i>)</a>
 			                    </div>
 			                </div>
 			                <!-- 定义变量：子评论列表 -->
@@ -394,9 +394,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						                <div class="footer clearfix">
 						                    <span class="text-muted"><i class="fa fa-clock-o"></i><s:property value="#reviewInfo.createTime"/></span>
 						                	<div class="pull-right">
-						                        <a href="javascript:void(0);" onclick="addReview(${reviewInfo.rid},${reviewInfo.id},${reviewInfo.nickname})"><i class="fa fa-reply"></i>回复</a>
+						                        <a href="javascript:void(0);" onclick="addReview(${reviewInfo.rid},${reviewInfo.id},'${reviewInfo.nickname}')"><i class="fa fa-reply"></i>回复</a>
 						                        <span>|</span>
-						                        <a href="javascript:void(0);" onclick="favorReview(${reviewInfo.id})"><i class="fa fa-heart"></i>赞(<i class="num"><s:property value="#reviewInfo.favorNum"/></i>)</a>
+						                        <a href="javascript:void(0);" onclick="favorReview(this, ${reviewInfo.id})"><i class="fa fa-heart"></i>赞(<i class="num"><s:property value="#reviewInfo.favorNum"/></i>)</a>
 						                    </div>
 						                </div>
 						              </div>
@@ -439,7 +439,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- ./wrapper -->
 
 <!-- jQuery 1.12.4 -->
-<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.0/jquery.cookie.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="components/bootstrap/js/bootstrap.min.js"></script>
@@ -449,9 +449,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="components/AdminLTE/js/adminlte.min.js"></script>
 <!-- bootstrap-paginator -->
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
-<script src="https://cdn.bootcss.com/markdown-it/8.4.1/markdown-it.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.4.1/markdown-it.min.js"></script>
 <!-- highlight -->
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script src="components/jquery-mCustomScrollbar/js/jquery.mousewheel-3.0.6.min.js"></script>
 <script src="components/jquery-mCustomScrollbar/js/jquery.mCustomScrollbar.min.js"></script>
 <script src="components/jquery-emoji/js/jquery.emoji.min.js"></script>
@@ -560,9 +560,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                    '<div class="footer clearfix">'+
 	                    '<span class="text-muted"><i class="fa fa-clock-o"></i>'+result.createTime+'</span>'+
 	                    '<div class="pull-right">'+
-	                    '<a href="javascript:void(0);" onclick="addReview('+result.id+','+result.id+','+result.nickname+')"><i class="fa fa-reply"></i>回复</a>'+
+	                    '<a href="javascript:void(0);" onclick="addReview('+result.id+','+result.id+',\''+result.nickname+'\')"><i class="fa fa-reply"></i>回复</a>'+
 	                    '<span>|</span>'+
-	                    '<a href="javascript:void(0);" onclick="favorReview('+result.id+')"><i class="fa fa-heart"></i>赞(<i class="num">'+result.favorNum+'</i>)</a>'+
+	                    '<a href="javascript:void(0);" onclick="favorReview(this,'+result.id+')"><i class="fa fa-heart"></i>赞(<i class="num">'+result.favorNum+'</i>)</a>'+
 	                    '</div>'+
 	                    '</div>'+
 	                    '<div class="review" id="review'+result.id+'">'+
@@ -582,9 +582,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                    '<div class="footer clearfix">'+
 		                    '<span class="text-muted"><i class="fa fa-clock-o"></i>'+result.createTime+'</span>'+
 		                    '<div class="pull-right">'+
-		                    '<a href="javascript:void(0);" onclick="addReview('+result.rid+','+result.id+','+result.nickname+')"><i class="fa fa-reply"></i>回复</a>'+
+		                    '<a href="javascript:void(0);" onclick="addReview('+result.rid+','+result.id+',\''+result.nickname+'\')"><i class="fa fa-reply"></i>回复</a>'+
 		                    '<span>|</span>'+
-		                    '<a href="javascript:void(0);" onclick="favorReview('+result.id+')"><i class="fa fa-heart"></i>赞(<i class="num">'+result.favorNum+'</i>)</a>'+
+		                    '<a href="javascript:void(0);" onclick="favorReview(this,'+result.id+')"><i class="fa fa-heart"></i>赞(<i class="num">'+result.favorNum+'</i>)</a>'+
 		                    '</div>'+
 		                    '</div>'+
 		                    '</div>';
@@ -633,20 +633,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var commetEditor = $("#commentEditor");
 		commetEditor.val("回复@"+nickname+":");
 		commetEditor.focus();
-		var pos = commetEditor.val().length;
-		var range = commetEditor.createTextRange();
-		range.move('character', pos);
-		range.select();
     }
     
     //点赞
-    function favorReview(id){
+    function favorReview(obj, id){
     	var favorCommentId = $.cookie("favorComment"+id);
     	
     	if(id == null || id == undefined || id < 0){
     		alert("评论id错误");
     	}else if(favorCommentId != null){
-    		alert("不能再评论");
+    		alert("不能重复点赞");
     	}else{
     		var map = {
     	 		'commentId':id
@@ -658,9 +654,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	            success: function (result) {
    	            	if(result.success == true){
    	            	    //成功，点赞个数+1
-   	            		var fNum = $(this).find(".num").html();
+   	            		var fNum = $(obj).find(".num").html();
    	            		fNum++;
-   	            		$(this).find(".num").html(fNum);
+   	            		$(obj).find(".num").html(fNum);
    	            		//保存信息到cookies
    	            		$.cookie('favorComment'+id,'true',{expire:1});
    	            	}else{

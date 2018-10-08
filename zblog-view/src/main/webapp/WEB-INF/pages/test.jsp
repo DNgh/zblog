@@ -37,8 +37,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <button class="btn btn-primary" id="btnLoad2">加载表情 load emoji</button>
     
 <!-- jQuery 1.12.4 -->
-<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="components/jquery-mCustomScrollbar/js/jquery.mousewheel-3.0.6.min.js"></script>
 <script src="components/jquery-mCustomScrollbar/js/jquery.mCustomScrollbar.min.js"></script>
 <script src="components/jquery-emoji/js/jquery.emoji.min.js"></script>
 <!-- custom js -->
