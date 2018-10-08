@@ -414,6 +414,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 			<!-- /.panel -->
 			
+			<!--信息提示模态框-->
+			<div class="modal fade bs-example-modal-sm" id="detail-modal" tabindex="-1" role="dialog" aria-labelledby="detail-modal-label">
+				<div class="modal-dialog modal-sm" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="detail-modal-label">评论信息框</h4>
+						</div>
+						<div class="modal-body">
+							<form id="detail-form">
+								<div class="form-group input-logo">
+									<input type="text" class="form-control" placeholder="必填" value="匿名">
+									<span class="fa fa-user pull-left" aria-hidden="true">昵称</span>
+								</div>
+								<div class="form-group input-logo">
+									<input type="text" class="form-control" placeholder="选填">
+									<span class="fa fa-envelope pull-left" aria-hidden="true">邮箱</span>
+								</div>
+								<div class="form-group input-logo">
+									<input type="text" class="form-control" placeholder="选填">
+									<span class="fa fa-globe pull-left" aria-hidden="true">网址</span>
+								</div>
+								<div class="form-group">
+									<button type="button" class="btn btn-default btn-sm" id="detail-form-btn">提交评论</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		
         </div>
         <!-- /.col -->
         
