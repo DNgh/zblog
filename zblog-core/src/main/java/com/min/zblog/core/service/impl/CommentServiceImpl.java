@@ -86,4 +86,33 @@ public class CommentServiceImpl implements CommentService {
 		return true;
 	}
 
+	@Override
+	public CommentInfo addComment(Long articleId, Long commentRid,
+			Long commentPid, String commentContent, String pnickname, String nickname,
+			String email, String website) {
+		TmComment tmComment = new TmComment();
+		tmComment.setArticleId(articleId);
+		tmComment.setContent(commentContent);
+		tmComment.setCreateTime(new Date());
+		tmComment.setFavorNum(0);
+		tmComment.setNickname(nickname);
+		tmComment.setPid(commentPid);
+		tmComment.setRid(commentRid);
+		tmComment.setPnickname(pnickname);
+		tmComment.setUpdateTime(new Date());
+		commentDao.save(tmComment);
+		
+		CommentInfo commentInfo = new CommentInfo();
+		commentInfo.setContent(tmComment.getContent());
+		commentInfo.setCreateTime(tmComment.getCreateTime());
+		commentInfo.setFavorNum(tmComment.getFavorNum());
+		commentInfo.setId(tmComment.getId());
+		commentInfo.setNickname(tmComment.getNickname());
+		commentInfo.setPid(tmComment.getPid());
+		commentInfo.setPnickname(tmComment.getPnickname());
+		commentInfo.setRid(tmComment.getRid());
+		
+		return commentInfo;
+	}
+
 }

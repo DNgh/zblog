@@ -338,6 +338,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<input type="hidden" id="articleId" value="${articleInfo.id}"/>
 								<input type="hidden" id="commentRid" value="N"/>
 								<input type="hidden" id="commentPid" value="N"/>
+								<input type="hidden" id="pnickname" value=""/>
 								<input type="hidden" id="commentUrl" value="comment/add"/>
 								<textarea id="commentEditor" class="rounded-border blue-border-focus" rows="7" placeholder="添加评论..."></textarea>
 							</div>
@@ -348,10 +349,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<img id="faceBtn" alt="表情" src="custom/img/happy.png" class="img-circle" data-toggle="tooltip" data-placement="top" title="表情"/>
 							</div>
 							<div class="col-md-2 col-md-push-6">
-								<button type="button" class="btn btn-block btn-danger" onclick="addComment()">评论</button>
+								<button id="promptCommentBtn" type="button" class="btn btn-block btn-danger" onclick="promptComment()">评论</button>
 							</div>
 							<div class="col-md-2 col-md-push-6">
-								<button type="button" class="btn btn-block btn-success" onclick="clearComment()">清空</button>
+								<button id="clearCommentBtn" type="button" class="btn btn-block btn-success" onclick="clearComment()">清空</button>
 							</div>
 						</div>
 					</div>
@@ -425,19 +426,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="modal-body">
 							<form id="detail-form">
 								<div class="form-group input-logo">
-									<input type="text" class="form-control" placeholder="必填" value="匿名">
+									<input id="nickname" type="text" class="form-control" placeholder="必填" value="匿名">
 									<span class="fa fa-user pull-left" aria-hidden="true">昵称</span>
 								</div>
 								<div class="form-group input-logo">
-									<input type="text" class="form-control" placeholder="选填">
+									<input id="email" type="text" class="form-control" placeholder="选填">
 									<span class="fa fa-envelope pull-left" aria-hidden="true">邮箱</span>
 								</div>
 								<div class="form-group input-logo">
-									<input type="text" class="form-control" placeholder="选填">
+									<input id="website" type="text" class="form-control" placeholder="选填">
 									<span class="fa fa-globe pull-left" aria-hidden="true">网址</span>
 								</div>
 								<div class="form-group">
-									<button type="button" class="btn btn-default btn-sm" id="detail-form-btn">提交评论</button>
+									<button type="button" class="btn btn-default btn-sm" id="detail-form-btn" onclick="addComment()">提交评论</button>
 								</div>
 							</form>
 						</div>
@@ -551,34 +552,63 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         placeholder: "#emoji_{alias}#"
     }];
 	
+	//提示评论人信息 
+    function promptComment() {
+    	//提示框，填入用户名、邮箱
+    	$("#detail-modal").modal("show");
+    	//提交信息提示框，然后取值，请求后端  addComment处理 
+	}
+	
     //添加评论
     function addComment() {
-    	//提示框，填入邮箱
+    	//隐藏提示框 
+    	$("#detail-modal").modal("hide");
+    	//按钮显示“正在提交”，禁用清除按钮 
+    	$("#promptCommentBtn").val("正在提交");
+    	$("#clearCommentBtn").attr('disabled',true);
     	
-    	//取值，请求后端 
+    	//读取评论值，转换换行符</br>
     	var commentVal = $("#commentEditor").val();
-    	commentVal = convertLineCtrl(commentVal);
+    	commentVal = convertLineCtrl(commentVal.substring(commentVal.indexOf(":")+1));
     	$("#comment-result").html(commentVal);
     	$("#comment-result").emojiParse({
     	    icons: iconsCfg
     	});
     	
+    	//读取评论人信息 
+    	var nickname = $("#nickname").val();
+		var email = $("#email").val();
+		var website = $("#website").val();
+			
+    	//读取文章id、根评论id，父评论id，url
     	var articleId = $("#articleId").val();
     	var rid = $("#commentRid").val();
     	var pid = $("#commentPid").val();
+    	var pnickname = $("#pnickname").val();
 		var to = $("#commentUrl").val();
+		
+		//组装参数 
 		var map = {
 			'articleId':articleId,
 			'commentRid':rid,
 			'commentPid':pid,
-			'commentContent':commentVal
+			'commentContent':commentVal,
+			'pnickname':pnickname,
+			'nickname':nickname,
+			'email':email,
+			'website':website
 		};
+		
 		$.ajax({
             url: to,
             type: "Post",
             data: convertAjaxDataNP(map),
             success: function (result) {
             	alert("comment result:"+result)
+            	//按钮显示“评论”，启用清除按钮
+    			$("#promptCommentBtn").val("评论");
+    			$("#clearCommentBtn").attr('disabled',false);
+    	
                 if (result != null) {
                 	if(rid == "N" || pid == "N"){
                 		//根评论 
@@ -628,12 +658,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             	//清除默认值
             	$("#commentRid").val("N");
         		$("#commentPid").val("N");
+        		$("#pnickname").val("");
         		$("#commentUrl").val("comment/add");
             },
             error: function(XMLHttpRequest, textStatus, errorThrown){
             	//清除默认值
             	$("#commentRid").val("N");
         		$("#commentPid").val("N");
+        		$("#pnickname").val("");
         		$("#commentUrl").val("comment/add");
         		alert("请求失败");
             }
@@ -643,6 +675,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
   	//清除评论
     function clearComment() {
+    	$("#commentRid").val("N");
+		$("#commentPid").val("N");
+		$("#pnickname").val("");
+		$("#commentUrl").val("comment/add");
     	$("#commentEditor").val("");
     }
   	
@@ -660,6 +696,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     function addReview(rId, pId, nickname){
 		$("#commentRid").val(rId);
 		$("#commentPid").val(pId);
+		$("#pnickname").val(nickname);
 		$("#commentUrl").val("comment/add");
 		var commetEditor = $("#commentEditor");
 		commetEditor.val("回复@"+nickname+":");

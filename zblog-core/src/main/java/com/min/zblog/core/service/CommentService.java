@@ -8,4 +8,7 @@ public interface CommentService {
 	public List<CommentInfo> listCommentByArticleId(Long id);
 	public List<CommentInfo> listCommentByRId(Long id);
 	public boolean addFavorNum(Long commentId);
+	public CommentInfo addComment(Long articleId, Long commentRid,
+			Long commentPid, String commentContent, String pnickname, String nickname,
+			String email, String website);
 }

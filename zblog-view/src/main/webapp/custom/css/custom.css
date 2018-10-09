@@ -166,3 +166,31 @@ em {
 .num {
 	font-style:normal;
 }
+
+.input-logo {
+	position: relative;
+}
+/*输入框,带图标*/
+.input-logo span {
+	display: block!important;
+    border-right: 1px solid #ccc;
+    left: 6px;
+    margin-top: 6px;
+    color: #000;
+    font-size: 12px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    width: 50px;
+    height: 23px;
+    line-height: 23px;
+    text-align: center;
+    pointer-events: none;
+}
+.input-logo span:before {
+	padding-right: 5px;
+}
+.input-logo input {
+	padding-left: 60px;
+}

@@ -82,6 +82,15 @@
 				<param name="root">respMap</param>
 			</result>
     	</action>
+    	<action name="add" class="commentAction" method="add">
+    	    <result name="fail"></result>
+			<!-- 返回json类型数据 -->
+			<result type="json">
+			    <!-- result是action中设置的变量名，也是页面需要返回的数据，该变量必须有setter和getter方法 -->
+			    <!-- 只返回指定对象的json值 -->
+				<param name="root">respMap</param>
+			</result>
+    	</action>
     </package>
     
 </struts>

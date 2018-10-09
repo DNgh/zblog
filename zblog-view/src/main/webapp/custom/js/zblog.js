@@ -202,7 +202,7 @@ function convertAjaxDataNP(map){
 	for (var i in map){
 		data = data + "&" + i + "=" + map[i];
      }
-	alert("组装分页请求数据"+data);
+	alert("组装请求数据"+data);
 	
 	return data;
 }
