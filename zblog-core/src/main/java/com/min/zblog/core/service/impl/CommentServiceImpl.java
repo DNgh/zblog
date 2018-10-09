@@ -100,6 +100,7 @@ public class CommentServiceImpl implements CommentService {
 		tmComment.setRid(commentRid);
 		tmComment.setPnickname(pnickname);
 		tmComment.setUpdateTime(new Date());
+		tmComment.setJpaVersion(0);
 		commentDao.save(tmComment);
 		
 		CommentInfo commentInfo = new CommentInfo();

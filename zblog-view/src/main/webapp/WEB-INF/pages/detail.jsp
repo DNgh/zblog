@@ -424,7 +424,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<h4 class="modal-title" id="detail-modal-label">评论信息框</h4>
 						</div>
 						<div class="modal-body">
-							<form id="detail-form">
+							<!-- <form id="detail-form"> -->
 								<div class="form-group input-logo">
 									<input id="nickname" type="text" class="form-control" placeholder="必填" value="匿名">
 									<span class="fa fa-user pull-left" aria-hidden="true">昵称</span>
@@ -440,7 +440,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="form-group">
 									<button type="button" class="btn btn-default btn-sm" id="detail-form-btn" onclick="addComment()">提交评论</button>
 								</div>
-							</form>
+							<!-- </form> -->
 						</div>
 					</div>
 				</div>
@@ -601,6 +601,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		$.ajax({
             url: to,
+            datatype: 'json',
             type: "Post",
             data: convertAjaxDataNP(map),
             success: function (result) {
@@ -660,6 +661,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         		$("#commentPid").val("N");
         		$("#pnickname").val("");
         		$("#commentUrl").val("comment/add");
+        		$("#commentEditor").val("");
             },
             error: function(XMLHttpRequest, textStatus, errorThrown){
             	//清除默认值
@@ -667,6 +669,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         		$("#commentPid").val("N");
         		$("#pnickname").val("");
         		$("#commentUrl").val("comment/add");
+        		$("#commentEditor").val("");
         		alert("请求失败");
             }
         });
@@ -717,6 +720,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    		   	};
    	    	$.ajax({
    	            url: "comment/favor",
+   	            datatype: 'json',
    	            type: "Post",
    	            data: convertAjaxDataNP(map),
    	            success: function (result) {

@@ -61,12 +61,13 @@ public class CommentAction extends ActionSupport {
 	}
 	
 	public String add(){
+		System.out.println("进入add");
 		CommentInfo commentInfo = commentService.addComment(articleId, commentRid, commentPid, commentContent, pnickname, nickname, email, website);
 		logger.info("CommentInfo:"+commentInfo.getId()+"|"+commentInfo.getContent());
 		
 		respMap = CommonUtils.convertToMap(commentInfo);
 		logger.info("Map:"+respMap.toString());
-		
+		System.out.println("退出add");
 		return SUCCESS;
 	}
 	
