@@ -336,8 +336,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="row row-margin-bottom">
 							<div class="col-md-12">
 								<input type="hidden" id="articleId" value="${articleInfo.id}"/>
-								<input type="hidden" id="commentRid" value="N"/>
-								<input type="hidden" id="commentPid" value="N"/>
+								<input type="hidden" id="commentRid" value=""/>
+								<input type="hidden" id="commentPid" value=""/>
 								<input type="hidden" id="pnickname" value=""/>
 								<input type="hidden" id="commentUrl" value="comment/add"/>
 								<textarea id="commentEditor" class="rounded-border blue-border-focus" rows="7" placeholder="添加评论..."></textarea>
@@ -360,7 +360,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p id="comment-result"></p>
 					
 					<div class="divider-h"></div>
-					<h3><i class="fa fa-comments-o fa-fw"></i><em>20</em>条评论~~~</h3>
+					<h3><i class="fa fa-comments-o fa-fw"></i><em><s:property value="articleInfo.commentNum"/></em>条评论~~~</h3>
 					<div class="comment" id="commentShow">
 					  <s:iterator value="commentInfoList" var="commentInfo">
 					      <!-- comment item -->
@@ -611,7 +611,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			$("#clearCommentBtn").attr('disabled',false);
     	
                 if (result != null) {
-                	if(rid == "N" || pid == "N"){
+                	if(rid == "" || pid == ""){
                 		//根评论 
                 		var html = '<div class="item">'+
                 		'<img src="custom/img/boy.png" alt="user image">'+
@@ -631,7 +631,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     	'</div>'+
 	                    '</div>';
               
-                		$("#commentShow").append(html);
+                		$("#commentShow").prepend(html);
                 		//没有回复，则隐藏回复区域 
                 		$("#review"+result.id).hide();
                 	}else{
@@ -651,22 +651,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                    '</div>'+
 		                    '</div>';
 	              
-                    	$("#review"+result.rid).append(html);
+                    	$("#review"+result.rid).prepend(html);
                     	//显示回复区域  
                     	$("#review"+result.rid).show();
                 	}
                 }
             	//清除默认值
-            	$("#commentRid").val("N");
-        		$("#commentPid").val("N");
+            	$("#commentRid").val("");
+        		$("#commentPid").val("");
         		$("#pnickname").val("");
         		$("#commentUrl").val("comment/add");
         		$("#commentEditor").val("");
             },
             error: function(XMLHttpRequest, textStatus, errorThrown){
             	//清除默认值
-            	$("#commentRid").val("N");
-        		$("#commentPid").val("N");
+            	$("#commentRid").val("");
+        		$("#commentPid").val("");
         		$("#pnickname").val("");
         		$("#commentUrl").val("comment/add");
         		$("#commentEditor").val("");
@@ -678,8 +678,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
   	//清除评论
     function clearComment() {
-    	$("#commentRid").val("N");
-		$("#commentPid").val("N");
+    	$("#commentRid").val("");
+		$("#commentPid").val("");
 		$("#pnickname").val("");
 		$("#commentUrl").val("comment/add");
     	$("#commentEditor").val("");

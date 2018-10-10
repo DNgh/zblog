@@ -6,8 +6,35 @@
 <struts>
 	<!-- 存放静态资源的路径，不拦截对此文件夹下文件的请求 -->
 	<constant name="struts.action.excludePattern" value="/components/.*?,/custom/.*?" />
+	<!-- json数据日期格式化 -->
+	<constant name="struts.json.dateformat" value="yyyy-MM-dd HH:mm:ss" />
+	
+	<package name="global-default" extends="struts-default">
+		<interceptors>
+			<!-- 定义权限控制拦截 -->
+			<!-- 定义一个包含权限控制的拦截器 -->
+			<interceptor-stack name="defaultInterceptors">
+				<interceptor-ref name="defaultStack">
+					<param name="exception.logEnabled">true</param>
+					<param name="exception.logLevel">info</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!-- 修改默认的拦截器stack，原来是defaultStack -->
+		<default-interceptor-ref name="defaultInterceptors" />
+		<!--全局跳转 --> 
+		<global-results> 
+			<result name="exception">/error.jsp</result>
+			<result name="throwable">/error.jsp</result> 
+		</global-results> 
+		<!-- 定义要捕获的异常 --> 
+		<global-exception-mappings> 
+			<exception-mapping result="exception" exception="java.lang.Exception" />
+			<exception-mapping result="throwable" exception="java.lang.Throwable" />
+		</global-exception-mappings>
+	</package>
 
-    <package name="default" namespace="/" extends="struts-default">
+    <package name="default" namespace="/" extends="global-default">
         <action name="home" class="homeAction" method="home">
             <result name="success">/WEB-INF/pages/home.jsp</result>
         </action>
@@ -26,7 +53,7 @@
     </package>
     
     
-    <package name="article" namespace="/article" extends="struts-default,json-default">
+    <package name="article" namespace="/article" extends="global-default,json-default">
     	<action name="show" class="articleAction" method="show">
             <result name="success">/WEB-INF/pages/detail.jsp</result>
         </action>
@@ -72,7 +99,7 @@
         </action>
     </package>
     
-    <package name="comment" namespace="/comment" extends="struts-default,json-default">
+    <package name="comment" namespace="/comment" extends="global-default,json-default">
     	<action name="favor" class="commentAction" method="favor">
     	    <result name="fail"></result>
 			<!-- 返回json类型数据 -->
