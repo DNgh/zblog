@@ -360,7 +360,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p id="comment-result"></p>
 					
 					<div class="divider-h"></div>
-					<h3><i class="fa fa-comments-o fa-fw"></i><em><s:property value="articleInfo.commentNum"/></em>条评论~~~</h3>
+					<h3><i class="fa fa-comments-o fa-fw"></i><em id="commentNumId"><s:property value="articleInfo.commentNum"/></em>条评论~~~</h3>
 					<div class="comment" id="commentShow">
 					  <s:iterator value="commentInfoList" var="commentInfo">
 					      <!-- comment item -->
@@ -611,6 +611,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			$("#clearCommentBtn").attr('disabled',false);
     	
                 if (result != null) {
+                	//评论个数+1
+            		var cmtNum = $("#commentNumId").html();
+            		cmtNum++;
+            		$("#commentNumId").html(cmtNum);
+	            		
                 	if(rid == "" || pid == ""){
                 		//根评论 
                 		var html = '<div class="item">'+

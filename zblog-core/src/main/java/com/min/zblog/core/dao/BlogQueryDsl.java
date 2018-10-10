@@ -115,7 +115,9 @@ public class BlogQueryDsl {
 	}
 	
 	public long countCommentByArticleId(Long id) {
-		return 0;
+		JPAQuery<TmComment> query = new JPAQuery<TmComment>(em);
+		
+		return query.from(qTmComment).where(qTmComment.articleId.eq(id)).fetchCount();
 	}
 	
 	public long countVisitHstByArticleId(Long id, VisitType type) {
@@ -211,6 +213,7 @@ public class BlogQueryDsl {
 		return list;
 	}
 	
+	//统计总历史记录数
 	public long countVisitHstByType(VisitType type, ArticleState state){
 		JPAQuery<TmVisitHst> query = new JPAQuery<TmVisitHst>(em);
 		long count = query.from(qTmArticle, qTmVisitHst)
@@ -221,8 +224,14 @@ public class BlogQueryDsl {
 		return count;
 	}
 	
-	public long countArticleByComment(int top, VisitType type, ArticleState state){
-		return 0;
+	//统计总评论数
+	public long countCommentByState(ArticleState state){
+		JPAQuery<TmComment> query = new JPAQuery<TmComment>(em);
+		long count = query.from(qTmArticle, qTmComment)
+				.where(qTmArticle.id.eq(qTmComment.articleId)
+						.and(qTmArticle.state.eq(state)))
+				.fetchCount();
+		return count;
 	}
 	
 	/**

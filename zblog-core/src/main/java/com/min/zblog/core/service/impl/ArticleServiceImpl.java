@@ -208,7 +208,7 @@ public class ArticleServiceImpl implements ArticleService {
 		BlogInfo blogInfo = new BlogInfo();
 		blogInfo.setTotalArticleNum(articleDao.countByState(ArticleState.PUBLISH));
 		blogInfo.setTotalReadNum(blogQueryDsl.countVisitHstByType(VisitType.READ, ArticleState.PUBLISH));
-		blogInfo.setTotalCommentNum((long)0);
+		blogInfo.setTotalCommentNum(blogQueryDsl.countCommentByState(ArticleState.PUBLISH));
 		
 		return blogInfo;
 	}
