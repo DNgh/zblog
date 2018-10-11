@@ -357,7 +357,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 					</div>
 					<!-- /.comment-editor -->
-					<p id="comment-result"></p>
 					
 					<div class="divider-h"></div>
 					<h3><i class="fa fa-comments-o fa-fw"></i><em id="commentNumId"><s:property value="articleInfo.commentNum"/></em>条评论~~~</h3>
@@ -490,9 +489,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- custom js -->
 <script src="custom/js/zblog.js"></script>
 <script>
-	hljs.initHighlightingOnLoad();
 
-	
     /* marked.setOptions({
         renderer: new marked.Renderer(),
         gfm: true,
@@ -517,20 +514,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         return '<table class="table table-striped">'+header+body+'</table>'
     }
     $("#show").html(marked('${articleInfo.content}',{renderer: renderer})); */
-    
-    var md = window.markdownit({
-   	  highlight: function (str, lang) {
-   		    if (lang && hljs.getLanguage(lang)) {
-   		      try {
-   		        return hljs.highlight(lang, str, true).value;
-   		      } catch (__) {}
-   		    }
-
-   		    return ''; // use external default escaping
-      	  }
-      });
-      
-	$("#show").html(md.render('${articleInfo.content}'));
     
 	var iconsCfg = [{
         name: "贴吧表情",
@@ -567,14 +550,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	$("#promptCommentBtn").val("正在提交");
     	$("#clearCommentBtn").attr('disabled',true);
     	
-    	//读取评论值，转换换行符</br>
-    	var commentVal = $("#commentEditor").val();
-    	commentVal = convertLineCtrl(commentVal.substring(commentVal.indexOf(":")+1));
-    	$("#comment-result").html(commentVal);
-    	$("#comment-result").emojiParse({
-    	    icons: iconsCfg
-    	});
-    	
     	//读取评论人信息 
     	var nickname = $("#nickname").val();
 		var email = $("#email").val();
@@ -586,6 +561,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	var pid = $("#commentPid").val();
     	var pnickname = $("#pnickname").val();
 		var to = $("#commentUrl").val();
+		
+		//读取评论值，转换换行符</br>
+    	var commentVal = $("#commentEditor").val();
+		if(rid == "" || pid == ""){
+    		commentVal = convertLineCtrl(commentVal);
+    	}else{
+    		commentVal = convertLineCtrl(commentVal.substring(commentVal.indexOf(":")+1));
+    	}
 		
 		//组装参数 
 		var map = {
@@ -639,6 +622,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 		$("#commentShow").prepend(html);
                 		//没有回复，则隐藏回复区域 
                 		$("#review"+result.id).hide();
+                		$(".comment .message").emojiParse({
+                    	    icons: iconsCfg
+                    	});
                 	}else{
                 		//子评论 
                 		var html = '<div class="subitem">'+
@@ -659,6 +645,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     	$("#review"+result.rid).prepend(html);
                     	//显示回复区域  
                     	$("#review"+result.rid).show();
+                    	$(".comment .message").emojiParse({
+                    	    icons: iconsCfg
+                    	});
                 	}
                 }
             	//清除默认值
@@ -690,16 +679,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	$("#commentEditor").val("");
     }
   	
-    $("[data-toggle='tooltip']").tooltip();
-    
-    //显示文本框表情样式 
-    $("#commentEditor").emoji({
-    	button: "#faceBtn",
-        showTab: true,
-        animation: 'fade',
-        icons: iconsCfg
-    });
-    
     //定位到评论框
     function addReview(rId, pId, nickname){
 		$("#commentRid").val(rId);
@@ -748,6 +727,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	        });
     	}
     }
+    
+    $(function () {
+    	hljs.initHighlightingOnLoad();
+    	
+   	 	var md = window.markdownit({
+   	   	  highlight: function (str, lang) {
+   	   		    if (lang && hljs.getLanguage(lang)) {
+   	   		      try {
+   	   		        return hljs.highlight(lang, str, true).value;
+   	   		      } catch (__) {}
+   	   		    }
+
+   	   		    return ''; // use external default escaping
+   	      	  }
+   	    });
+   	      
+   		$("#show").html(md.render('${articleInfo.content}'));
+    	
+   		//按钮提示
+   		$("[data-toggle='tooltip']").tooltip();
+   	    
+   	    //显示文本框表情样式 
+   	    $("#commentEditor").emoji({
+   	    	button: "#faceBtn",
+   	        showTab: true,
+   	        animation: 'fade',
+   	        icons: iconsCfg
+   	    });
+   	    
+    	//表情初始化
+    	$(".comment .message").emojiParse({
+    	    icons: iconsCfg
+    	});
+    });
 </script>
 </body>
 </html>
