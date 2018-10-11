@@ -3,6 +3,9 @@ package com.min.zblog.view.action;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.min.zblog.core.service.CommentService;
 import com.min.zblog.data.view.CommentInfo;
 import com.min.zblog.facility.utils.CommonUtils;
+import com.min.zblog.view.facility.NetworkUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -61,13 +65,14 @@ public class CommentAction extends ActionSupport {
 	}
 	
 	public String add(){
-		System.out.println("进入add");
-		CommentInfo commentInfo = commentService.addComment(articleId, commentRid, commentPid, commentContent, pnickname, nickname, email, website);
-		logger.info("CommentInfo:"+commentInfo.getId()+"|"+commentInfo.getContent());
+		//获取ip和浏览器版本
+		HttpServletRequest req = ServletActionContext.getRequest();
+		String ip = NetworkUtils.getIpAddress(req);
+		String browser = NetworkUtils.getBrowserVersion(req);
 		
+		CommentInfo commentInfo = commentService.addComment(articleId, commentRid, commentPid, commentContent, pnickname, nickname, email, website);
 		respMap = CommonUtils.convertToMap(commentInfo);
-		logger.info("Map:"+respMap.toString());
-		System.out.println("退出add");
+		
 		return SUCCESS;
 	}
 	

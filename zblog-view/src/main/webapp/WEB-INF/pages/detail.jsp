@@ -137,7 +137,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </div>
           <!-- /.widget-user -->
           
-          <!-- Categories Box -->
+                    <!-- Categories Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
               <i class="fa fa-th"></i>
@@ -150,7 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                <!-- Category -->
+              	<!-- Category -->
                 <s:iterator value="categoryInfoList" var="var">
 				  <li><a href="javascript:void(0);" onclick="pageFunction('article/listArticleByCategory', {'pageSize':'5','categoryName':'${var.categoryName}'})">
 				  	<i class="fa ${var.icon}"></i> <s:property value="#var.categoryName"/> 
@@ -165,7 +165,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <!-- /.box -->
 
           <!-- Archive Box -->
-          <div class="box box-info">
+          <div class="box box-warning">
             <div class="box-header with-border">
               <i class="fa fa-archive"></i>
               <h3 class="box-title">归档</h3>
@@ -204,7 +204,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills">
-               <!-- Tag -->
+                <!-- Tag -->
                 <s:iterator value="tagInfoList" var="var">
 				  <li><a href="javascript:void(0);" onclick="pageFunction('article/listArticleByTag', {'pageSize':'5','tagName':'${var.tagName}'})">
 				  	<span class="label ${var.style}"><s:property value="#var.tagName"/></span></a>
@@ -230,7 +230,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                 <!-- Rank -->
+              	<!-- Rank -->
                 <s:iterator value="articleRankList" var="var">
 				  <li class="nav-item">
 				    <a class="nav-link" href="javascript:void(0);" onclick="doPost('article/show', {'articleKey':'${var.id}'})">

@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,7 +116,7 @@ public class ArticleAction extends ActionSupport {
 	
     public String show(){
     	fetchCommonData();
-    	
+
     	//文章
     	ActionContext context = ActionContext.getContext();
     	Map<String, Object> map = context.getParameters();
