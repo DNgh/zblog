@@ -10,5 +10,5 @@ public interface CommentService {
 	public boolean addFavorNum(Long commentId);
 	public CommentInfo addComment(Long articleId, Long commentRid,
 			Long commentPid, String commentContent, String pnickname, String nickname,
-			String email, String website);
+			String email, String website, String ip, String browser);
 }

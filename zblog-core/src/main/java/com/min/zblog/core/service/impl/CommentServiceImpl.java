@@ -89,7 +89,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public CommentInfo addComment(Long articleId, Long commentRid,
 			Long commentPid, String commentContent, String pnickname, String nickname,
-			String email, String website) {
+			String email, String website, String ip, String browser) {
 		TmComment tmComment = new TmComment();
 		tmComment.setArticleId(articleId);
 		tmComment.setContent(commentContent);
@@ -100,6 +100,8 @@ public class CommentServiceImpl implements CommentService {
 		tmComment.setRid(commentRid);
 		tmComment.setPnickname(pnickname);
 		tmComment.setUpdateTime(new Date());
+		tmComment.setIp(ip);
+		tmComment.setBrowser(browser);
 		tmComment.setJpaVersion(0);
 		commentDao.save(tmComment);
 		

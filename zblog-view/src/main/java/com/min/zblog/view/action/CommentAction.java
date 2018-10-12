@@ -70,7 +70,8 @@ public class CommentAction extends ActionSupport {
 		String ip = NetworkUtil.getIpAddress(req);
 		String browser = NetworkUtil.getBrowserVersion(req);
 		
-		CommentInfo commentInfo = commentService.addComment(articleId, commentRid, commentPid, commentContent, pnickname, nickname, email, website);
+		CommentInfo commentInfo = commentService.addComment(articleId, commentRid, commentPid, 
+				commentContent, pnickname, nickname, email, website, ip, browser);
 		respMap = CommonUtil.convertToMap(commentInfo);
 		
 		return SUCCESS;

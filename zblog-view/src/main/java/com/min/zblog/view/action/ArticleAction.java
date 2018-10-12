@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
@@ -27,6 +29,9 @@ import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.CommentInfo;
 import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.data.view.TagInfo;
+import com.min.zblog.facility.utils.CommonUtil;
+import com.min.zblog.facility.utils.Constants;
+import com.min.zblog.view.facility.NetworkUtil;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -136,6 +141,9 @@ public class ArticleAction extends ActionSupport {
     			subCommentMap.put(commentInfo.getId(), infoList);
     		}
     	}
+    	
+    	//统计阅读次数
+    	calReadNum(ServletActionContext.getRequest(), ServletActionContext.getResponse(), articleInfo.getId());
     	
     	return SUCCESS;
     }
@@ -350,6 +358,21 @@ public class ArticleAction extends ActionSupport {
     	this.tagInfoList = tagService.fetchTagInfo();
     	//阅读排行
     	this.articleRankList = articleService.listArticleByReadRank();
+	}
+	
+	public void calReadNum(HttpServletRequest req, HttpServletResponse resp, Long id){
+		//存在，则返回
+		if(NetworkUtil.existCookie(req.getCookies(), Constants.COOKIE_READ+"_"+id)){
+			return;
+		}
+		
+		//不存在，则数据库阅读记录+1
+		
+		
+		//保存阅读文章id到cookie
+		Cookie cookie = new Cookie(Constants.COOKIE_READ+"_"+id, "true");
+		cookie.setMaxAge(30*60);//30分钟
+		resp.addCookie(cookie);
 	}
 	
 }

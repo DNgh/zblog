@@ -1,9 +1,12 @@
 package com.min.zblog.view.facility;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 /**
  * <p>
@@ -115,4 +118,13 @@ public class NetworkUtil {
              return "Others";
          }
     }
+    
+	public static boolean existCookie(Cookie[] cookies, String name){
+		for(Cookie cookie:cookies){
+			if(name.equals(cookie.getName()) && StringUtils.isNotBlank(cookie.getValue())){
+				return true;
+			}
+		}
+		return false;
+	}
 }
