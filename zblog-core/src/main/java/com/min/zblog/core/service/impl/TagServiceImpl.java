@@ -12,7 +12,7 @@ import com.min.zblog.core.dao.TagDao;
 import com.min.zblog.core.service.TagService;
 import com.min.zblog.data.entity.TmTag;
 import com.min.zblog.data.view.TagInfo;
-import com.min.zblog.facility.utils.PageUtils;
+import com.min.zblog.facility.utils.PageUtil;
 
 @Service
 public class TagServiceImpl implements TagService {
@@ -27,14 +27,14 @@ public class TagServiceImpl implements TagService {
 		List<TagInfo> tagInfoList = new ArrayList<TagInfo>();
 		int count = 0;
 		for(TmTag tmTag:tagList){
-			logger.info("count:"+count+"|"+PageUtils.LABEL_STYTLE[count]);
+			logger.info("count:"+count+"|"+PageUtil.LABEL_STYTLE[count]);
 			
 			TagInfo tagInfo = new TagInfo();
 			tagInfo.setTagName(tmTag.getName());
-			tagInfo.setStyle(PageUtils.LABEL_STYTLE[count]);
+			tagInfo.setStyle(PageUtil.LABEL_STYTLE[count]);
 			tagInfoList.add(tagInfo);
 			
-			count = ((++count)%PageUtils.LABEL_STYTLE.length);
+			count = ((++count)%PageUtil.LABEL_STYTLE.length);
 		}
 		return tagInfoList;
 	}

@@ -17,8 +17,8 @@ import org.slf4j.LoggerFactory;
  * @date 2018年10月11日
  * @version 1.0
  */
-public class NetworkUtils {
-	private static Logger logger = LoggerFactory.getLogger(NetworkUtils.class);
+public class NetworkUtil {
+	private static Logger logger = LoggerFactory.getLogger(NetworkUtil.class);
 
 	/**
 	 * 获取请求主机IP地址,如果通过代理进来，则透过防火墙获取真实IP地址;

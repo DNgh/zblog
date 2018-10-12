@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommonUtils {
+public class CommonUtil {
 	public static Map<String, Object> convertToMap(Object obj){
 		if(obj == null){
             return null;  

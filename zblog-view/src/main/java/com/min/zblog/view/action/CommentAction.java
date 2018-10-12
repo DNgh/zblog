@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.min.zblog.core.service.CommentService;
 import com.min.zblog.data.view.CommentInfo;
-import com.min.zblog.facility.utils.CommonUtils;
-import com.min.zblog.view.facility.NetworkUtils;
+import com.min.zblog.facility.utils.CommonUtil;
+import com.min.zblog.view.facility.NetworkUtil;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -67,11 +67,11 @@ public class CommentAction extends ActionSupport {
 	public String add(){
 		//获取ip和浏览器版本
 		HttpServletRequest req = ServletActionContext.getRequest();
-		String ip = NetworkUtils.getIpAddress(req);
-		String browser = NetworkUtils.getBrowserVersion(req);
+		String ip = NetworkUtil.getIpAddress(req);
+		String browser = NetworkUtil.getBrowserVersion(req);
 		
 		CommentInfo commentInfo = commentService.addComment(articleId, commentRid, commentPid, commentContent, pnickname, nickname, email, website);
-		respMap = CommonUtils.convertToMap(commentInfo);
+		respMap = CommonUtil.convertToMap(commentInfo);
 		
 		return SUCCESS;
 	}
