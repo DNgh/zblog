@@ -97,6 +97,15 @@
 				<param name="root">pageInfoJStr</param>
 			</result>
         </action>
+        <!-- 点赞favorArticle -->
+        <action name="favor" class="articleAction" method="favor">
+        	<result name="fail"></result>
+			<!-- 返回json类型数据 -->
+			<result type="json">
+			    <!-- result是action中设置的变量名，也是页面需要返回的数据，该变量必须有setter和getter方法 -->
+				<param name="root">respMap</param>
+			</result>
+        </action>
     </package>
     
     <package name="comment" namespace="/comment" extends="global-default,json-default">

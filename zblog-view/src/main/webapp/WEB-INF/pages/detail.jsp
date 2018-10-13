@@ -268,15 +268,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        <div class="text-center">
 				        	<ul class="list-inline">
 				        	  <li>
-				        	  	<button type="button" class="btn btn-block btn-default btn-lg" data-toggle="tooltip" data-placement="top" title="点赞">
+				        	  	<button type="button" class="btn btn-block btn-default btn-lg" data-toggle="tooltip" data-placement="top" title="点赞" onclick="favorArticle(${articleInfo.id})">
 					              <i class="fa fa-heart"></i>
-					              <span class="badge bg-red"><s:property value="articleInfo.favorNum"/></span>
+					              <span id="favorNumId" class="badge bg-red"><s:property value="articleInfo.favorNum"/></span>
 					            </button>
 				        	  </li>
 				        	  <li>
-				        	    <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="tooltip" data-placement="top" title="分享">
+				        	    <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="tooltip" data-placement="top" title="分享" onclick="shareArticle(${articleInfo.id})">
 					              <i class="fa fa-share"></i>
-					              <span class="badge bg-green"><s:property value="articleInfo.shareNum"/></span>
+					              <span id="shareNumId" class="badge bg-green"><s:property value="articleInfo.shareNum"/></span>
 					            </button>
 				        	  </li>
 				        	</ul>
@@ -297,12 +297,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                  	</ul>
 			    	</div>
 			    	
-			    	<div id="articlePanel"></div>
+			    	<!-- <div id="articlePanel"></div> -->
 					<!-- Paginator -->
 					<!-- <div class="divider"></div> -->
-					<div class="text-center">
+					<!-- <div class="text-center">
 	             	   <ul id="homePaginator"></ul>
-	           		</div>
+	           		</div> -->
 	           		
 		    	</div>
 		    	<!-- /.panel-body -->
@@ -690,7 +690,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		commetEditor.focus();
     }
     
-    //点赞
+    //点赞评论
     function favorReview(obj, id){
     	var favorCommentId = $.cookie("favorComment"+id);
     	
@@ -727,6 +727,49 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	        });
     	}
     }
+    
+    //点赞文章按钮
+	//同一天只能点赞一次
+	function favorArticle(id){
+		var favorArticle = $.cookie("favorArticle"+id);
+    	
+		if(id == null || id == undefined || id < 0){
+    		alert("文章id错误");
+    	}else if(favorArticle != null){
+    		alert("不能重复点赞");
+    	}else{
+       		var map = {
+     	 		'articleKey':id
+   		   	};
+   	    	$.ajax({
+   	            url: "article/favor",
+   	            datatype: 'json',
+   	            type: "Post",
+   	            data: convertAjaxDataNP(map),
+   	            success: function (result) {
+   	            	if(result.success == true){
+   	            	    //成功，点赞个数+1
+   	            		var fNum = $("#favorNumId").html();
+   	            		fNum++;
+   	            		$("#favorNumId").html(fNum);
+   	            		//保存信息到cookies
+   	            		$.cookie('favorArticle'+id,'true',{expire:1});
+   	            	}else{
+   	            		//失败，提示信息
+   	            		alert(result.message);
+   	            	}
+   	            },
+   	            error: function(XMLHttpRequest, textStatus, errorThrown){
+   	            	//清除默认值
+   	            	alert("请求失败");
+   	            }
+   	        });	
+    	}
+	};
+	
+	function shareArticle(id){
+		
+	};
     
     $(function () {
     	hljs.initHighlightingOnLoad();

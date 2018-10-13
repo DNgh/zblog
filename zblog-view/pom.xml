@@ -40,6 +40,12 @@
 	   <artifactId>javassist</artifactId>
 	</dependency>
 	
+	<dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>javax.servlet-api</artifactId>
+	    <scope>provided</scope>
+	</dependency>
+	
   	<!-- 添加struts核心依赖 -->
 	<!-- 去掉javassist，防止和hibernate下载的依赖冲突 -->
 	<dependency>

@@ -21,6 +21,7 @@ import com.min.zblog.core.service.ArticleService;
 import com.min.zblog.core.service.CategoryService;
 import com.min.zblog.core.service.CommentService;
 import com.min.zblog.core.service.TagService;
+import com.min.zblog.core.service.VisitHstService;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.ArticleInfo;
@@ -29,6 +30,7 @@ import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.CommentInfo;
 import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.data.view.TagInfo;
+import com.min.zblog.facility.enums.VisitType;
 import com.min.zblog.facility.utils.CommonUtil;
 import com.min.zblog.facility.utils.Constants;
 import com.min.zblog.view.facility.NetworkUtil;
@@ -54,6 +56,9 @@ public class ArticleAction extends ActionSupport {
 	
 	@Autowired
 	private CommentService commentService;
+	
+	@Autowired
+	private VisitHstService visitHstService;
 	
 	private ArticleInfo articleInfo;
 	
@@ -119,6 +124,11 @@ public class ArticleAction extends ActionSupport {
 	
 	private PageInfo<ArticleInfo> pageInfo;
 	
+	/**
+	 * 异步请求结果，返回map，struts2转json
+	 */
+	private Map<String, Object> respMap;
+	
     public String show(){
     	fetchCommonData();
 
@@ -171,6 +181,9 @@ public class ArticleAction extends ActionSupport {
     		}
     	}
     	
+    	//统计阅读次数
+    	calReadNum(ServletActionContext.getRequest(), ServletActionContext.getResponse(), articleInfo.getId());
+    	
     	return SUCCESS;
     }
     
@@ -196,6 +209,9 @@ public class ArticleAction extends ActionSupport {
     			subCommentMap.put(commentInfo.getId(), infoList);
     		}
     	}
+    	
+    	//统计阅读次数
+    	calReadNum(ServletActionContext.getRequest(), ServletActionContext.getResponse(), articleInfo.getId());
     	
     	return SUCCESS;
     }
@@ -257,6 +273,23 @@ public class ArticleAction extends ActionSupport {
 			e.printStackTrace();
 		}
     	return SUCCESS;
+    }
+    
+    public String favor(){
+    	ActionContext context = ActionContext.getContext();
+    	Map<String, Object> map = context.getParameters();
+    	String[] obj = (String[])map.get("articleKey");
+    	logger.info("articleKey:"+obj[0]);
+    	
+    	respMap = new HashMap<String, Object>();
+    	//文章id,ip,浏览器类型，访问类型，时间
+		visitHstService.addVisitHst(Long.valueOf(obj[0]), 
+				NetworkUtil.getIpAddress(ServletActionContext.getRequest()), 
+				NetworkUtil.getBrowserVersion(ServletActionContext.getRequest()),
+				VisitType.FAVOR);
+		respMap.put("success", true);
+
+		return SUCCESS;
     }
     
     public List<ArticleInfo> getArticleList(){
@@ -347,6 +380,14 @@ public class ArticleAction extends ActionSupport {
 		return subCommentMap;
 	}
 
+	public Map<String, Object> getRespMap() {
+		return respMap;
+	}
+
+	public void setRespMap(Map<String, Object> respMap) {
+		this.respMap = respMap;
+	}
+
 	public void fetchCommonData(){
 		//博客统计信息
 		this.blogInfo = articleService.obtainBlogInfo();
@@ -367,7 +408,9 @@ public class ArticleAction extends ActionSupport {
 		}
 		
 		//不存在，则数据库阅读记录+1
-		
+		//文章id,ip,浏览器类型，访问类型，时间
+		visitHstService.addVisitHst(id, NetworkUtil.getIpAddress(req), 
+				NetworkUtil.getBrowserVersion(req), VisitType.READ);
 		
 		//保存阅读文章id到cookie
 		Cookie cookie = new Cookie(Constants.COOKIE_READ+"_"+id, "true");
