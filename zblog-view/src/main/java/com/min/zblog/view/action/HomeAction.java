@@ -19,7 +19,7 @@ public class HomeAction extends ActionSupport {
 	private static final long serialVersionUID = 7939126579870842596L;
 	
 	@Autowired
-	private ArticleService articleService;
+	 private ArticleService articleService;
 	
 	@Autowired
 	private CategoryService categoryService;

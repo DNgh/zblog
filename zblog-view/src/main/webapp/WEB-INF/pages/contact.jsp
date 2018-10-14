@@ -256,12 +256,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                  <p>住址：上海</p>
 	                </div>
 	                
-	                <!-- <div id="articlePanel"></div> -->
+	                <!-- 点击左侧目录，加载分页数据，不能删除 -->
+	                <div id="articlePanel"></div>
 					<!-- Paginator -->
 					<!-- <div class="divider"></div> -->
-					<!-- <div class="text-center">
+					<div class="text-center">
 	             	   <ul id="homePaginator"></ul>
-	           		</div> -->
+	           		</div>
 	           		
             	</div>
             	<!-- /.panel-body -->

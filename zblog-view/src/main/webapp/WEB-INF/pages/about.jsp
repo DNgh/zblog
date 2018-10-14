@@ -256,12 +256,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                  	出于学习和总结开发技术的目的，搭建本博客，使用经典框架SSH实现后台，前台采用bootstrap框架。</p>
 	                </div>
 	                
-	                <!-- <div id="articlePanel"></div> -->
+	                <!-- 点击左侧目录，加载分页数据，不能删除 -->
+	                <div id="articlePanel"></div>
 					<!-- Paginator -->
 					<!-- <div class="divider"></div> -->
-					<!-- <div class="text-center">
+					<div class="text-center">
 	             	   <ul id="homePaginator"></ul>
-	           		</div> -->
+	           		</div>
 
                </div>
                <!-- /.panel-body -->

@@ -273,12 +273,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					              <span id="favorNumId" class="badge bg-red"><s:property value="articleInfo.favorNum"/></span>
 					            </button>
 				        	  </li>
-				        	  <li>
+				        	  <%-- <li>
 				        	    <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="tooltip" data-placement="top" title="分享" onclick="shareArticle(${articleInfo.id})">
 					              <i class="fa fa-share"></i>
 					              <span id="shareNumId" class="badge bg-green"><s:property value="articleInfo.shareNum"/></span>
 					            </button>
-				        	  </li>
+				        	  </li> --%>
 				        	</ul>
 	           			</div>
 	           			
@@ -297,12 +297,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                  	</ul>
 			    	</div>
 			    	
-			    	<!-- <div id="articlePanel"></div> -->
+			    	<!-- 点击左侧目录，加载分页数据，不能删除 -->
+			    	<div id="articlePanel"></div>
 					<!-- Paginator -->
 					<!-- <div class="divider"></div> -->
-					<!-- <div class="text-center">
+					<div class="text-center">
 	             	   <ul id="homePaginator"></ul>
-	           		</div> -->
+	           		</div>
 	           		
 		    	</div>
 		    	<!-- /.panel-body -->

@@ -73,6 +73,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 				</div>
 			</div>
+		
+		<button class="btn btn-primary" id="shareBtn">加载分享</button>
+		<button class="btn btn-primary" id="shareBtn2">加载分享</button>
 			
 <!-- jQuery 1.12.4 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -81,10 +84,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="components/jquery-mCustomScrollbar/js/jquery.mousewheel-3.0.6.min.js"></script>
 <script src="components/jquery-mCustomScrollbar/js/jquery.mCustomScrollbar.min.js"></script>
 <script src="components/jquery-emoji/js/jquery.emoji.min.js"></script>
+<script src="components/layer/layer.js"></script>
 <!-- custom js -->
 <script src="custom/js/zblog.js"></script>
 <script>
-  	
+	/* $("#shareBtn").click(function(){
+		alert("点击分享");
+	}); */
+	
+	$("#shareBtn2").click(function(){
+		alert("点击分享2");
+	});
+	
     $("#btnLoad2").click(function () {
         $("#editor").emoji({
             button: "#btn",
@@ -103,7 +114,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     $("#modalBtn").click(function () {
     	//提示框，填入用户名、邮箱
     	$("#detail-modal").modal("show");
-    })
+    });
   //添加评论
     function addComment() {
     	//隐藏提示框 
@@ -163,7 +174,65 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         });
 		
     }
-  
+    
+     $("#shareBtn").click(function(){
+    	alert("点击分享");
+    	 /* layer.open({
+    	      type: 2,
+    	      title: 'iframe父子操作',
+    	      maxmin: true,
+    	      shadeClose: true, //点击遮罩关闭层
+    	      area : ['800px' , '520px'],
+    	      content: ''
+    	}); */
+    	 
+    	layer.closeAll();
+        layer.open({
+            type: 1, //page层
+            area: ['256px', '256px'],
+            title: '分享知识',
+            shade: 0.6, //遮罩透明度
+            moveType: 1, //拖拽风格，0是默认，1是传统拖动
+            shift: 0, //0-6的动画形式，-1不开启'
+            content:'<div class="bdsharebuttonbox" data-tag="share_1">'+
+	            '<a class="bds_weixin" data-cmd="weixin"></a>'+
+	            '<a class="bds_sqq" data-cmd="sqq"></a>'+
+	        	'<a class="bds_tqq" data-cmd="tqq"></a>'+
+	        	'<a class="bds_tsina" data-cmd="tsina"></a>'+
+	        	'<a class="bds_douban" data-cmd="douban"></a>'+
+            '</div>'
+        });
+        
+     	window._bd_share_config = {
+      		common : {
+      			bdText : '自定义分享内容',	
+      			bdDesc : '自定义分享摘要',	
+      			bdUrl : 'http://localhost:8080/zblog-view/test', 	
+      			bdPic : '自定义分享图片'
+      		},
+      		share : [{
+      			"bdSize" : 32
+      		}],
+      		slide : [{	   
+      			bdImg : 0,
+      			bdPos : "right",
+      			bdTop : 100
+      		}],
+      		image : [{
+      			viewType : 'list',
+      			viewPos : 'top',
+      			viewColor : 'black',
+      			viewSize : '16',
+      			viewList : ['qzone','tsina','huaban','tqq','renren']
+      		}],
+      		selectShare : [{
+      			"bdselectMiniList" : ['qzone','tqq','kaixin001','bdxc','tqf']
+      		}]
+      	}
+      	with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+    }); 
+    
+     
 </script>
 </body>
 </html>

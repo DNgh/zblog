@@ -264,6 +264,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</s:iterator> --%>
                 <!-- /.post -->
 				
+				<!-- 点击左侧目录，加载分页数据，不能删除 -->
 				<div id="articlePanel"></div>
 				<!-- Paginator -->
 				<!-- <div class="divider"></div> -->

@@ -81,6 +81,7 @@ function pageFunction(to, map){
 	$("#contact").hide();
 	$("#detail").hide();
 	$("#preNext").hide();
+	$("#commentArea").hide();
 	
 	alert("pageFunction:"+to+","+map);
 	var firstPage = 1;
