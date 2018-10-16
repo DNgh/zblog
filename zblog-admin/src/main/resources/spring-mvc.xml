@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd
+      http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+ 
+    <mvc:annotation-driven />
+    <!-- 配置spring不拦截静态资源-->
+    <mvc:resources location="components" mapping="/components/**"/>
+    <mvc:resources location="custom" mapping="/custom/**"/>
+    <!-- 自动扫描  @Controller-->
+    <context:component-scan base-package="com.min.zblog.admin.controller"/>
+ 
+    <!-- 视图解析器配置 -->
+    <!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/" />
+        <property name="suffix" value=".jsp"/>
+    </bean>
+ 
+</beans>
