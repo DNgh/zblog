@@ -24,7 +24,7 @@
 		<!-- struts2版本号 -->
 		<struts.version>2.3.20</struts.version>
 		<!-- spring版本号 -->
-		<spring.version>4.2.5.RELEASE</spring.version>
+		<spring.version>4.2.9.RELEASE</spring.version>
 		<spring-jpa.version>1.8.2.RELEASE</spring-jpa.version>
 		<!-- querydsl版本号 -->
 		<querydsl.version>4.1.4</querydsl.version>
@@ -38,7 +38,7 @@
 		<mysql-driver.version>5.1.34</mysql-driver.version>
 		<dbcp.version>2.1.1</dbcp.version>
 		<jstl.version>1.2</jstl.version>
-		<jackjson.version>2.9.0</jackjson.version>
+		<jackjson.version>2.8.9</jackjson.version>
 		<!-- tomcat跨域 -->
 		<cors-filter.version>2.5</cors-filter.version>
 		<java-property.version>1.10</java-property.version>
