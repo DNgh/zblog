@@ -15,7 +15,6 @@ public class ArticleController {
 //    ArticleService articleService;
     
     @RequestMapping("/index")
-    @ResponseBody
     public ModelAndView index(){
     	ModelAndView modelAndView =new ModelAndView("index");
         modelAndView.addObject("hello", "access index success");

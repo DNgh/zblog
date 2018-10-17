@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="components/Ionicons/css/ionicons.min.css">
-  <!-- Theme style -->
+  <!-- Theme style 修改页面头、页面内容、页面脚注，左外边距0px-->
   <link rel="stylesheet" href="components/AdminLTE/css/AdminLTE.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
