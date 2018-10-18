@@ -20,4 +20,11 @@ public class ArticleController {
         modelAndView.addObject("hello", "access index success");
         return modelAndView;
     }
+    
+    @RequestMapping("/editorPage")
+    public ModelAndView editorPage(){
+    	ModelAndView modelAndView =new ModelAndView("editArticle");
+        modelAndView.addObject("hello", "access index success");
+        return modelAndView;
+    }
 }

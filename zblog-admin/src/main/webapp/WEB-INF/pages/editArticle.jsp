@@ -26,6 +26,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
+  <!-- editormd -->
+  <link rel="stylesheet" href="components/editor.md/css/editormd.min.css" />
+  <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
   <!-- custom css -->
   <!-- <link rel="stylesheet" href="custom/css/custom.css"> -->
   
@@ -274,16 +277,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-                    主页
+                    编辑文章
       </h1>
       <ol class="breadcrumb">
-        <li class="active"><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="#"><i class="fa fa-home"></i> 主页</a></li>
+        <li class="active">创建文章</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
-		<p class="text-center" style="font-size:50px;">欢迎使用zblog后台管理系统</p>
+		<div id="articleEditor"></div>
     </section>
     <!-- /.content -->
   </div>
@@ -309,14 +313,56 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="components/AdminLTE/js/adminlte.min.js"></script>
 <!-- bootstrap-paginator -->
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
+<!-- editormd 1.15-->
+<script src="components/editor.md/editormd.min.js"></script>
 <!-- custom jQuery -->
 <!-- <script src="custom/js/zblog.js"></script> -->
 <script type="text/javascript">
-	/* $(function(){
-		$("").click(function(){
-			
-		});
-	}); */
+	$(function(){
+		var articleEditor = editormd("articleEditor", {
+	        width: "90%",
+	        height: 740,
+	        path : '../lib/',
+	        theme : "dark",
+	        previewTheme : "dark",
+	        editorTheme : "pastel-on-dark",
+	        markdown : "hahaha",
+	        codeFold : true,
+	        //syncScrolling : false,
+	        saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
+	        searchReplace : true,
+	        //watch : false,                // 关闭实时预览
+	        htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
+	        //toolbar  : false,             //关闭工具栏
+	        //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+	        emoji : true,
+	        taskList : true,
+	        tocm            : true,         // Using [TOCM]
+	        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+	        flowChart : true,             // 开启流程图支持，默认关闭
+	        sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+	        //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+	        //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+	        //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+	        //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+	        //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+	        imageUpload : true,
+	        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+	        imageUploadURL : "./php/upload.php",
+	        onload : function() {
+	            console.log('onload', this);
+	            //this.fullscreen();
+	            //this.unwatch();
+	            //this.watch().fullscreen();
+
+	            //this.setMarkdown("#PHP");
+	            //this.width("100%");
+	            //this.height(480);
+	            //this.resize("100%", 640);
+	        }
+	    });			
+	});
+	
 </script>
 </body>
 </html>
