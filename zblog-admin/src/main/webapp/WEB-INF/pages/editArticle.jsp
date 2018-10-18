@@ -28,7 +28,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
   <!-- editormd -->
   <link rel="stylesheet" href="components/editor.md/css/editormd.min.css" />
-  <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
   <!-- custom css -->
   <!-- <link rel="stylesheet" href="custom/css/custom.css"> -->
   
@@ -318,8 +317,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- custom jQuery -->
 <!-- <script src="custom/js/zblog.js"></script> -->
 <script type="text/javascript">
+	var articleEditor;
 	$(function(){
-		var articleEditor = editormd("articleEditor", {
+		articleEditor = editormd("articleEditor", {
 	        width: "90%",
 	        height: 740,
 	        path : '../lib/',
