@@ -322,7 +322,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		articleEditor = editormd("articleEditor", {
 	        width: "90%",
 	        height: 740,
-	        path : '../lib/',
+	        path : "components/editor.md/lib/",
 	        theme : "dark",
 	        previewTheme : "dark",
 	        editorTheme : "pastel-on-dark",
