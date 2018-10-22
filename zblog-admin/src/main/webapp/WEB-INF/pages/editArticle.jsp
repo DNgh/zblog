@@ -329,7 +329,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-1">内容</label>
-						<div id="articleEditor"></div>
+						<div class="col-sm-11">
+							<div id="articleEditor"></div>
+						</div>
 					</div>
 				</form>
 		   </div>
@@ -367,8 +369,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	var articleEditor;
 	$(function(){
 		articleEditor = editormd("articleEditor", {
-	        width: "90%",
-	        height: 740,
+	        width: "100%",
+	        height: 800,
 	        path : "components/editor.md/lib/",
 	        theme : "default",
 	        previewTheme : "default",
