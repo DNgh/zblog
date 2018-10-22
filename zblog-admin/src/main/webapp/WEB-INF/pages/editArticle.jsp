@@ -288,8 +288,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <section class="content">
     	<div class="panel panel-default">
 		   <div class="panel-body">
-		      <input id="title" name=""/>
-		      <div id="articleEditor"></div>
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-sm-1 control-label">标题</label>
+						<div class="col-sm-11">
+							<input class="form-control" type="text" placeholder="文章标题，必填">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label">简介</label>
+						<div class="col-sm-11">
+							<textarea class="form-control" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-1 col-sm-11">
+					    <input type="checkbox" id="top" value="option3"> 是否置顶
+					    <input type="checkbox" id="recommend" value="option3"> 是否推荐
+					    <input type="checkbox" id="original" value="option3"> 是否原创
+					    <input type="checkbox" id="comment" value="option3"> 是否允许评论
+					    </div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label">分类</label>
+						<div class="col-sm-11">
+							<select class="form-control">
+								<option>web</option>
+								<option>编程</option>
+								<option>服务器</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-1">标签</label>
+						<div class="col-sm-11">
+						    <input type="checkbox" id="recommend" value="option3"> java
+						    <input type="checkbox" id="original" value="option3"> spring
+						    <input type="checkbox" id="comment" value="option3"> hibernate
+					    </div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-1">内容</label>
+						<div id="articleEditor"></div>
+					</div>
+				</form>
 		   </div>
 		</div>
     </section>
@@ -325,12 +367,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	var articleEditor;
 	$(function(){
 		articleEditor = editormd("articleEditor", {
-	        width: "100%",
+	        width: "90%",
 	        height: 740,
 	        path : "components/editor.md/lib/",
-	        theme : "dark",
-	        previewTheme : "dark",
-	        editorTheme : "pastel-on-dark",
+	        theme : "default",
+	        previewTheme : "default",
+	        editorTheme : "default",
 	        markdown : "hahaha",
 	        codeFold : true,
 	        //syncScrolling : false,
