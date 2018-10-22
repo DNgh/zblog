@@ -286,7 +286,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
     <!-- Main content -->
     <section class="content">
-		<div id="articleEditor"></div>
+    	<div class="panel panel-default">
+		   <div class="panel-body">
+		      <input id="title" name=""/>
+		      <div id="articleEditor"></div>
+		   </div>
+		</div>
     </section>
     <!-- /.content -->
   </div>
@@ -320,7 +325,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	var articleEditor;
 	$(function(){
 		articleEditor = editormd("articleEditor", {
-	        width: "90%",
+	        width: "100%",
 	        height: 740,
 	        path : "components/editor.md/lib/",
 	        theme : "dark",
