@@ -335,13 +335,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-1">
-					    	<button type="button" class="btn btn-success" id="detail-form-btn">发布</button>
+					    	<button type="button" class="btn btn-success" id="publishBtn">发布</button>
 					    </div>
 					    <div class="col-sm-1">
-					    	<button type="button" class="btn btn-info" id="detail-form-btn">保存</button>
+					    	<button type="button" class="btn btn-info" id="saveBtn">保存</button>
 					    </div>
 					    <div class="col-sm-1">
-					    	<button type="button" class="btn btn-danger" id="detail-form-btn">清除</button>
+					    	<button type="button" class="btn btn-danger" id="clearBtn">清除</button>
 					    </div>
 					</div>
 				</form>
