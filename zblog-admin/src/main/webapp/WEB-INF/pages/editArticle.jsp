@@ -27,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
   <!-- editormd -->
-  <link rel="stylesheet" href="components/editor.md/css/editormd.min.css" />
+  <link rel="stylesheet" href="components/editor.md/css/editormd.css" />
   <!-- custom css -->
   <!-- <link rel="stylesheet" href="custom/css/custom.css"> -->
   
