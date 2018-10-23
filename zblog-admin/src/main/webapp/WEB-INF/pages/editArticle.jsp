@@ -292,27 +292,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="form-group">
 						<label class="col-sm-1 control-label">标题</label>
 						<div class="col-sm-11">
-							<input class="form-control" type="text" placeholder="文章标题，必填">
+							<input id="title" class="form-control" type="text" placeholder="文章标题，必填">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-1 control-label">简介</label>
 						<div class="col-sm-11">
-							<textarea class="form-control" rows="3"></textarea>
+							<textarea id="description" class="form-control" rows="3"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-11">
-					    <input type="checkbox" id="top" value="option3"> 是否置顶
-					    <input type="checkbox" id="recommend" value="option3"> 是否推荐
+					    <input type="checkbox" id="top" value="option1"> 是否置顶
+					    <input type="checkbox" id="recommend" value="option2"> 是否推荐
 					    <input type="checkbox" id="original" value="option3"> 是否原创
-					    <input type="checkbox" id="comment" value="option3"> 是否允许评论
+					    <input type="checkbox" id="comment" value="option4"> 是否允许评论
 					    </div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-1 control-label">分类</label>
 						<div class="col-sm-11">
-							<select class="form-control">
+							<select id="category" class="form-control">
 								<option>web</option>
 								<option>编程</option>
 								<option>服务器</option>
@@ -321,10 +321,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-1">标签</label>
-						<div class="col-sm-11">
-						    <input type="checkbox" id="recommend" value="option3"> java
-						    <input type="checkbox" id="original" value="option3"> spring
-						    <input type="checkbox" id="comment" value="option3"> hibernate
+						<div id="tag" class="col-sm-11">
+						    <input type="checkbox" value="${var.id}"> java
+						    <input type="checkbox" value="spring"> spring
+						    <input type="checkbox" value="hibernate"> hibernate
 					    </div>
 					</div>
 					<div class="form-group">
@@ -332,6 +332,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="col-sm-11">
 							<div id="articleEditor"></div>
 						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-1 col-sm-1">
+					    	<button type="button" class="btn btn-success" id="detail-form-btn">发布</button>
+					    </div>
+					    <div class="col-sm-1">
+					    	<button type="button" class="btn btn-info" id="detail-form-btn">保存</button>
+					    </div>
+					    <div class="col-sm-1">
+					    	<button type="button" class="btn btn-danger" id="detail-form-btn">清除</button>
+					    </div>
 					</div>
 				</form>
 		   </div>
