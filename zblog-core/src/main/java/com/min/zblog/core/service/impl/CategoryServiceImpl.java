@@ -37,6 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
 		List<CategoryInfo> categoryInfoList = new ArrayList<CategoryInfo>();
 		for(TmCategory tmCategory:categoryList){
 			CategoryInfo categoryInfo = new CategoryInfo();
+			categoryInfo.setId(tmCategory.getId());
 			categoryInfo.setIcon(tmCategory.getIcon());
 			categoryInfo.setCategoryName(tmCategory.getName());
 			categoryInfo.setArticleNum(tmCategory.getCount());

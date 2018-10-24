@@ -12,6 +12,11 @@ public class TagInfo implements Serializable {
 	private static final long serialVersionUID = -1085778405285680739L;
 	
 	/**
+	 * 标签id
+	 */
+	private Long id;
+	
+	/**
 	 * 标签名称
 	 */
 	private String tagName;
@@ -48,5 +53,13 @@ public class TagInfo implements Serializable {
 
 	public void setHtml(String html) {
 		this.html = html;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

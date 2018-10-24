@@ -275,9 +275,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-                    编辑文章
-      </h1>
+      <h1>编辑文章</h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-home"></i> 主页</a></li>
         <li class="active">创建文章</li>
@@ -313,18 +311,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label class="col-sm-1 control-label">分类</label>
 						<div class="col-sm-11">
 							<select id="category" class="form-control">
-								<option>web</option>
-								<option>编程</option>
-								<option>服务器</option>
+								<!-- Category -->
+								<c:forEach items="${categoryInfoList}" var="categoryInfo">  
+								    <option value="${categoryInfo.id}">${categoryInfo.categoryName}</option> 
+								</c:forEach>
+				                <!-- /.Category -->
 							</select>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-1">标签</label>
 						<div id="tag" class="col-sm-11">
-						    <input type="checkbox" value="${var.id}"> java
-						    <input type="checkbox" value="spring"> spring
-						    <input type="checkbox" value="hibernate"> hibernate
+							<!-- Tag -->
+							<c:forEach items="${tagInfoList}" var="tagInfo">
+								<input type="checkbox" value="${tagInfo.id}"> ${tagInfo.tagName}  
+							</c:forEach>
+			                <!-- /.Tag -->
 					    </div>
 					</div>
 					<div class="form-group">

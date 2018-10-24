@@ -30,6 +30,7 @@ public class TagServiceImpl implements TagService {
 			logger.info("count:"+count+"|"+PageUtil.LABEL_STYTLE[count]);
 			
 			TagInfo tagInfo = new TagInfo();
+			tagInfo.setId(tmTag.getId());
 			tagInfo.setTagName(tmTag.getName());
 			tagInfo.setStyle(PageUtil.LABEL_STYTLE[count]);
 			tagInfoList.add(tagInfo);

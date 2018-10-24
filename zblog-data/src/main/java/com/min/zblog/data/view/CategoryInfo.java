@@ -12,6 +12,11 @@ public class CategoryInfo implements Serializable {
 	private static final long serialVersionUID = -4391562715087734051L;
 	
 	/**
+	 * 分类id
+	 */
+	private Long id;
+	
+	/**
 	 * 分类名称
 	 */
 	private String categoryName;
@@ -62,4 +67,13 @@ public class CategoryInfo implements Serializable {
 	public void setHtml(String html) {
 		this.html = html;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 }
