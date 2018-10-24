@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- editormd -->
   <link rel="stylesheet" href="components/editor.md/css/editormd.css" />
   <!-- custom css -->
-  <!-- <link rel="stylesheet" href="custom/css/custom.css"> -->
+  <link rel="stylesheet" href="custom/css/custom.css">
   
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -290,6 +290,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="form-group">
 						<label class="col-sm-1 control-label">标题</label>
 						<div class="col-sm-11">
+							<em style="font-size: 12px;">*必输项</em>
 							<input id="title" class="form-control" type="text" placeholder="文章标题，必填">
 						</div>
 					</div>
@@ -324,7 +325,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div id="tag" class="col-sm-11">
 							<!-- Tag -->
 							<c:forEach items="${tagInfoList}" var="tagInfo">
-								<input type="checkbox" value="${tagInfo.id}"> ${tagInfo.tagName}  
+								<input name="tags" type="checkbox" value="${tagInfo.id}"> ${tagInfo.tagName}  
 							</c:forEach>
 			                <!-- /.Tag -->
 					    </div>
@@ -332,6 +333,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="form-group">
 						<label class="control-label col-sm-1">内容</label>
 						<div class="col-sm-11">
+							<em style="font-size: 12px;">*必输项</em>
 							<div id="articleEditor"></div>
 						</div>
 					</div>
@@ -376,6 +378,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
 <!-- editormd 1.15-->
 <script src="components/editor.md/editormd.min.js"></script>
+<script src="components/layer/layer.js"></script>
 <!-- custom jQuery -->
 <!-- <script src="custom/js/zblog.js"></script> -->
 <script type="text/javascript">
@@ -422,7 +425,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            //this.height(480);
 	            //this.resize("100%", 640);
 	        }
-	    });			
+	    });	
+		
+		//发布博客
+		$("#publishBtn").click(function(){
+			//获取文章标题
+			var title = $("#title").val();
+			//获取文章简介
+			var description = $("#description").val();
+			//是否置顶、是否推荐、是否原创、是否允许评论
+			var top = $("#description").val();
+			var recommend = $("#description").val();
+			var original = $("#description").val();
+			var comment = $("#description").val();
+			//获取分类id列表
+			var categoryId = $("#category option:selected").val();
+			//获取标签id列表
+			var tagIdList = new Array();
+			$("input[name='tags']:checked").each(function(index, item){
+				tagIdList.push($(item).val());
+			});
+			//获取markdown
+			var markdown = articleEditor.getMarkdown()
+			
+			//标题判空
+			if(title==null||title==undefined||title==""){
+				layer.msg('标题不能为空');
+				return;
+			}
+			//内容判空
+			if(markdown==null||markdown==undefined||markdown==""){
+				layer.msg('内容不能为空');
+				return;
+			}
+			
+			//ajax请求后端
+			
+		});
 	});
 	
 </script>
