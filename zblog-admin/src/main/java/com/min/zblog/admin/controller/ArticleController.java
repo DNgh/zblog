@@ -42,9 +42,9 @@ public class ArticleController {
         return modelAndView;
     }
     
-    @RequestMapping("/editorPage")
+    @RequestMapping("/newPage")
     public ModelAndView editorPage(){
-    	ModelAndView modelAndView =new ModelAndView("editArticle");
+    	ModelAndView modelAndView =new ModelAndView("newArticle");
     	//加载分类信息和标签信息
     	categoryInfoList = categoryservice.fetchCategoryInfo();
     	tagInfoList = tagService.fetchTagInfo();
