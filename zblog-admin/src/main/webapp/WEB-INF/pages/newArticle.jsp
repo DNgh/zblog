@@ -380,7 +380,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="components/editor.md/editormd.min.js"></script>
 <script src="components/layer/layer.js"></script>
 <!-- custom jQuery -->
-<!-- <script src="custom/js/zblog.js"></script> -->
+<script src="custom/js/zblog.js"></script>
 <script type="text/javascript">
 	var articleEditor;
 	$(function(){
@@ -434,10 +434,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			//获取文章简介
 			var description = $("#description").val();
 			//是否置顶、是否推荐、是否原创、是否允许评论
-			var top = $("#description").val();
-			var recommend = $("#description").val();
-			var original = $("#description").val();
-			var comment = $("#description").val();
+			var top = false;
+			if($('#top').is(':checked')) {
+				top = true;
+			}
+			
+			var recommend = false;
+			if($('#recommend').is(':checked')) {
+				recommend = true;
+			}
+			
+			var original = false;
+			if($('#original').is(':checked')) {
+				original = true;
+			}
+			
+			var comment = false;
+			if($('#comment').is(':checked')) {
+				comment = true;
+			}
 			//获取分类id列表
 			var categoryId = $("#category option:selected").val();
 			//获取标签id列表
@@ -465,6 +480,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 			
 			var map = {
+				'title':title,
 				'description':description,
 				'top':top,
 				'recommend':recommend,
@@ -475,6 +491,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				'markdown':markdown,
 				'state':'PUBLISH'
 	   		};
+			//var newWindow = window.open();
 			//ajax请求后端
 			$.ajax({
    	            url: "article/add",
@@ -483,7 +500,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	            data: convertAjaxDataNP(map),
    	            success: function (result) {
    	            	if(result.success == true){
-   	            		window.open("article/editorPage");
+   	            		//newWindow.location.href = "article/editorPage";
+   	            		//window.open("article/editorPage");
+   	            		window.location.href = "article/editorPage";
    	            	}else{
    	            		//失败，提示信息
    	            		layer.alert(result.message, {icon: 5});
@@ -534,6 +553,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 			
 			var map = {
+				'title':title,
 				'description':description,
 				'top':top,
 				'recommend':recommend,
