@@ -453,14 +453,116 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				layer.msg('标题不能为空');
 				return;
 			}
+			//简介判空
+			if(description==null||description==undefined||description==""){
+				layer.msg('简介不能为空');
+				return;
+			}
 			//内容判空
 			if(markdown==null||markdown==undefined||markdown==""){
 				layer.msg('内容不能为空');
 				return;
 			}
 			
+			var map = {
+				'description':description,
+				'top':top,
+				'recommend':recommend,
+				'original':original,
+				'comment':comment,
+				'categoryId':categoryId,
+				'tagIdList':tagIdList,
+				'markdown':markdown,
+				'state':'PUBLISH'
+	   		};
 			//ajax请求后端
+			$.ajax({
+   	            url: "article/add",
+   	            datatype: 'json',
+   	            type: "POST",
+   	            data: convertAjaxDataNP(map),
+   	            success: function (result) {
+   	            	if(result.success == true){
+   	            		window.open("article/editorPage");
+   	            	}else{
+   	            		//失败，提示信息
+   	            		layer.alert(result.message, {icon: 5});
+   	            	}
+   	            },
+   	            error: function(XMLHttpRequest, textStatus, errorThrown){
+   	            	//清除默认值
+   	            	alert("请求失败");
+   	            }
+   	        });
+		});
+		
+		//保存博客到草稿箱
+		$("#saveBtn").click(function(){
+			//获取文章标题
+			var title = $("#title").val();
+			//获取文章简介
+			var description = $("#description").val();
+			//是否置顶、是否推荐、是否原创、是否允许评论
+			var top = $("#description").val();
+			var recommend = $("#description").val();
+			var original = $("#description").val();
+			var comment = $("#description").val();
+			//获取分类id列表
+			var categoryId = $("#category option:selected").val();
+			//获取标签id列表
+			var tagIdList = new Array();
+			$("input[name='tags']:checked").each(function(index, item){
+				tagIdList.push($(item).val());
+			});
+			//获取markdown
+			var markdown = articleEditor.getMarkdown()
 			
+			//标题判空
+			if(title==null||title==undefined||title==""){
+				layer.msg('标题不能为空');
+				return;
+			}
+			//简介判空
+			if(description==null||description==undefined||description==""){
+				layer.msg('简介不能为空');
+				return;
+			}
+			//内容判空
+			if(markdown==null||markdown==undefined||markdown==""){
+				layer.msg('内容不能为空');
+				return;
+			}
+			
+			var map = {
+				'description':description,
+				'top':top,
+				'recommend':recommend,
+				'original':original,
+				'comment':comment,
+				'categoryId':categoryId,
+				'tagIdList':tagIdList,
+				'markdown':markdown,
+				'state':'CREATE'
+	   		};
+			//ajax请求后端
+			$.ajax({
+   	            url: "article/add",
+   	            datatype: 'json',
+   	            type: "POST",
+   	            data: convertAjaxDataNP(map),
+   	            success: function (result) {
+   	            	if(result.success == true){
+   	            		window.open("article/editorPage");
+   	            	}else{
+   	            		//失败，提示信息
+   	            		layer.alert(result.message, {icon: 5});
+   	            	}
+   	            },
+   	            error: function(XMLHttpRequest, textStatus, errorThrown){
+   	            	//清除默认值
+   	            	alert("请求失败");
+   	            }
+   	        });
 		});
 	});
 	

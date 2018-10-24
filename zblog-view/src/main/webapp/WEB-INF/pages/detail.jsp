@@ -586,7 +586,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$.ajax({
             url: to,
             datatype: 'json',
-            type: "Post",
+            type: "POST",
             data: convertAjaxDataNP(map),
             success: function (result) {
             	alert("comment result:"+result)
@@ -706,7 +706,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	    	$.ajax({
    	            url: "comment/favor",
    	            datatype: 'json',
-   	            type: "Post",
+   	            type: "POST",
    	            data: convertAjaxDataNP(map),
    	            success: function (result) {
    	            	if(result.success == true){
@@ -745,7 +745,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	    	$.ajax({
    	            url: "article/favor",
    	            datatype: 'json',
-   	            type: "Post",
+   	            type: "POST",
    	            data: convertAjaxDataNP(map),
    	            success: function (result) {
    	            	if(result.success == true){

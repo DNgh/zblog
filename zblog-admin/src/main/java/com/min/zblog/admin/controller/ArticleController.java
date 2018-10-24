@@ -43,8 +43,34 @@ public class ArticleController {
     }
     
     @RequestMapping("/newPage")
-    public ModelAndView editorPage(){
+    public ModelAndView newPage(){
     	ModelAndView modelAndView =new ModelAndView("newArticle");
+    	//加载分类信息和标签信息
+    	categoryInfoList = categoryservice.fetchCategoryInfo();
+    	tagInfoList = tagService.fetchTagInfo();
+    	
+        modelAndView.addObject("categoryInfoList", categoryInfoList);
+        modelAndView.addObject("tagInfoList", tagInfoList);
+        
+        return modelAndView;
+    }
+    
+    @RequestMapping("/add")
+    public ModelAndView addArticle(){
+    	ModelAndView modelAndView =new ModelAndView("newArticle");
+    	//加载分类信息和标签信息
+    	categoryInfoList = categoryservice.fetchCategoryInfo();
+    	tagInfoList = tagService.fetchTagInfo();
+    	
+        modelAndView.addObject("categoryInfoList", categoryInfoList);
+        modelAndView.addObject("tagInfoList", tagInfoList);
+        
+        return modelAndView;
+    }
+    
+    @RequestMapping("/editorPage")
+    public ModelAndView editorPage(){
+    	ModelAndView modelAndView =new ModelAndView("editArticle");
     	//加载分类信息和标签信息
     	categoryInfoList = categoryservice.fetchCategoryInfo();
     	tagInfoList = tagService.fetchTagInfo();
