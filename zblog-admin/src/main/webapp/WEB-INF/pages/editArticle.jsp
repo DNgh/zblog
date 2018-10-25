@@ -275,10 +275,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>创建文章</h1>
+      <h1>编辑文章</h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-home"></i> 主页</a></li>
-        <li class="active">创建文章</li>
+        <li class="active">编辑文章</li>
       </ol>
     </section>
 
@@ -291,13 +291,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label class="col-sm-1 control-label">标题</label>
 						<div class="col-sm-11">
 							<em style="font-size: 12px;">*必输项</em>
-							<input id="title" class="form-control" type="text" placeholder="文章标题，必填">
+							<input id="title" class="form-control" type="text" placeholder="文章标题，必填" value="${article.title}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-1 control-label">简介</label>
 						<div class="col-sm-11">
-							<textarea id="description" class="form-control" rows="3"></textarea>
+							<textarea id="description" class="form-control" rows="3">${article.description}</textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -343,9 +343,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    </div>
 					    <div class="col-sm-1">
 					    	<button type="button" class="btn btn-info" id="saveBtn">保存</button>
-					    </div>
-					    <div class="col-sm-1">
-					    	<button type="button" class="btn btn-danger" id="clearBtn">清除</button>
 					    </div>
 					</div>
 				</form>
@@ -491,18 +488,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				'markdown':markdown,
 				'state':'PUBLISH'
 	   		};
-			//var newWindow = window.open();
 			//ajax请求后端
 			$.ajax({
-   	            url: "article/add",
+   	            url: "article/save",
    	            datatype: 'json',
    	            type: "POST",
    	            data: convertAjaxDataNP(map),
    	            success: function (result) {
    	            	if(result.success == true){
-   	            		//newWindow.location.href = "article/editorPage";
-   	            		//window.open("article/editorPage");
-   	            		window.location.href = "article/editorPage?articleId="+result.articleId;
+   	            		layer.msg("发布成功");
    	            	}else{
    	            		//失败，提示信息
    	            		layer.alert(result.message, {icon: 5});
@@ -522,26 +516,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			//获取文章简介
 			var description = $("#description").val();
 			//是否置顶、是否推荐、是否原创、是否允许评论
-			//是否置顶、是否推荐、是否原创、是否允许评论
-			var top = false;
-			if($('#top').is(':checked')) {
-				top = true;
-			}
-			
-			var recommend = false;
-			if($('#recommend').is(':checked')) {
-				recommend = true;
-			}
-			
-			var original = false;
-			if($('#original').is(':checked')) {
-				original = true;
-			}
-			
-			var comment = false;
-			if($('#comment').is(':checked')) {
-				comment = true;
-			}
+			var top = $("#description").val();
+			var recommend = $("#description").val();
+			var original = $("#description").val();
+			var comment = $("#description").val();
 			//获取分类id列表
 			var categoryId = $("#category option:selected").val();
 			//获取标签id列表
@@ -582,13 +560,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   		};
 			//ajax请求后端
 			$.ajax({
-   	            url: "article/add",
+   	            url: "article/save",
    	            datatype: 'json',
    	            type: "POST",
    	            data: convertAjaxDataNP(map),
    	            success: function (result) {
    	            	if(result.success == true){
-   	            		window.location.href = "article/editorPage?articleId="+result.articleId;
+   	            		layer.msg("保存成功");
    	            	}else{
    	            		//失败，提示信息
    	            		layer.alert(result.message, {icon: 5});

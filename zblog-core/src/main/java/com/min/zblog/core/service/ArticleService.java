@@ -1,6 +1,7 @@
 package com.min.zblog.core.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.view.ArticleInfo;
@@ -9,7 +10,7 @@ import com.min.zblog.data.view.PageInfo;
 
 public interface ArticleService {
 	public List<TmArticle> listAll();
-	public void addArticle(TmArticle article);
+	public TmArticle addArticle(Map<String, Object> map);
 	public TmArticle findOne(Long id);
 	public void deleteArticleById(Long id);
 	public PageInfo<ArticleInfo> listArticleByPageCategoryName(long pageSize, long currentPage, String name);

@@ -51,6 +51,7 @@
                 <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
                 <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <!-- <prop key="hibernate.enable_lazy_load_no_trans">true</prop> --><!--解决延迟加载问题，开销大 -->
             </props>
         </property>
     </bean>
