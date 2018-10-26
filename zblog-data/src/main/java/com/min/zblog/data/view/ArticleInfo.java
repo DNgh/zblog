@@ -67,7 +67,37 @@ public class ArticleInfo implements Serializable {
 	 * 标签名
 	 */
 	private List<String> tagList;
-
+	
+	/**
+	 * 是否置顶
+	 */
+	private boolean top;
+	
+	/**
+	 * 是否推荐
+	 */
+	private boolean recommend;
+	
+	/**
+	 * 是否原创
+	 */
+	private boolean original;
+	
+	/**
+	 * 是否评论
+	 */
+	private boolean comment;
+	
+	/**
+	 * 文章id
+	 */
+	private Long categoryId;
+	
+	/**
+	 * 标签id
+	 */
+	private List<Long> tagIdList;
+	
 	public Long getId() {
 		return id;
 	}
@@ -154,6 +184,54 @@ public class ArticleInfo implements Serializable {
 
 	public void setTagList(List<String> tagList) {
 		this.tagList = tagList;
+	}
+
+	public boolean isTop() {
+		return top;
+	}
+
+	public void setTop(boolean top) {
+		this.top = top;
+	}
+
+	public boolean isRecommend() {
+		return recommend;
+	}
+
+	public void setRecommend(boolean recommend) {
+		this.recommend = recommend;
+	}
+
+	public boolean isOriginal() {
+		return original;
+	}
+
+	public void setOriginal(boolean original) {
+		this.original = original;
+	}
+
+	public boolean isComment() {
+		return comment;
+	}
+
+	public void setComment(boolean comment) {
+		this.comment = comment;
+	}
+
+	public Long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public List<Long> getTagIdList() {
+		return tagIdList;
+	}
+
+	public void setTagIdList(List<Long> tagIdList) {
+		this.tagIdList = tagIdList;
 	}
 	
 }

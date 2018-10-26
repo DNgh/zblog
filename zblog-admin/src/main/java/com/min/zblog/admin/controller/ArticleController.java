@@ -113,6 +113,11 @@ public class ArticleController {
     	ModelAndView modelAndView =new ModelAndView("editArticle");
     	//加载文章
     	ArticleInfo articleInfo = articleService.findOneArticle(id);
+    	categoryInfoList = categoryservice.fetchCategoryInfo();
+    	tagInfoList = tagService.fetchTagInfo();
+    	
+        modelAndView.addObject("categoryInfoList", categoryInfoList);
+        modelAndView.addObject("tagInfoList", tagInfoList);
         modelAndView.addObject("articleInfo", articleInfo);
         
         return modelAndView;

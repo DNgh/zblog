@@ -317,16 +317,24 @@ public class ArticleServiceImpl implements ArticleService {
 			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
 			articleInfo.setFavorNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.FAVOR));
 			articleInfo.setShareNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.SHARE));
+			articleInfo.setTop(article.getTop() == Indicator.Y?true:false);
+			articleInfo.setRecommend(article.getRecommend() == Indicator.Y?true:false);
+			articleInfo.setOriginal(article.getOriginal() == Indicator.Y?true:false);
+			articleInfo.setComment(article.getComment() == Indicator.Y?true:false);
 			TmCategory category = categoryDao.findOne(article.getCategoryId());
 			if(category != null){
+				articleInfo.setCategoryId(category.getId());
 				articleInfo.setCategoryName(category.getName());
 			}
 			List<TmTag> tmTagList = blogQueryDsl.fetchTagByArticleId(article.getId());
 			List<String> list = new ArrayList<String>();
+			List<Long> tagIdList = new ArrayList<Long>();
 			for(TmTag tag:tmTagList){
 				list.add(tag.getName());
+				tagIdList.add(tag.getId());
 			}
 			articleInfo.setTagList(list);
+			articleInfo.setTagIdList(tagIdList);
 		}
 		
 		return articleInfo;

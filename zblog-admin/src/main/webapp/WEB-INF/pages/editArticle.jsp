@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -291,21 +292,49 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label class="col-sm-1 control-label">标题</label>
 						<div class="col-sm-11">
 							<em style="font-size: 12px;">*必输项</em>
-							<input id="title" class="form-control" type="text" placeholder="文章标题，必填" value="${article.title}">
+							<input id="title" class="form-control" type="text" placeholder="文章标题，必填" value="${articleInfo.title}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-1 control-label">简介</label>
 						<div class="col-sm-11">
-							<textarea id="description" class="form-control" rows="3">${article.description}</textarea>
+							<textarea id="description" class="form-control" rows="3">${articleInfo.description}</textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-11">
-					    <input type="checkbox" id="top" value="option1"> 是否置顶
-					    <input type="checkbox" id="recommend" value="option2"> 是否推荐
-					    <input type="checkbox" id="original" value="option3"> 是否原创
-					    <input type="checkbox" id="comment" value="option4"> 是否允许评论
+						<c:choose>
+							<c:when test="${articleInfo.top}">
+								<input type="checkbox" id="top" value="option1" checked> 是否置顶
+							</c:when>
+							<c:otherwise>
+								<input type="checkbox" id="top" value="option1"> 是否置顶
+							</c:otherwise>
+						</c:choose>
+					    <c:choose>
+							<c:when test="${articleInfo.recommend}">
+								<input type="checkbox" id="recommend" value="option2" checked> 是否推荐
+							</c:when>
+							<c:otherwise>
+								<input type="checkbox" id="recommend" value="option2"> 是否推荐
+							</c:otherwise>
+						</c:choose>
+						<c:choose>
+							<c:when test="${articleInfo.original}">
+								<input type="checkbox" id="original" value="option3" checked> 是否原创
+							</c:when>
+							<c:otherwise>
+								<input type="checkbox" id="original" value="option3"> 是否原创
+							</c:otherwise>
+						</c:choose>
+						<c:choose>
+							<c:when test="${articleInfo.comment}">
+								<input type="checkbox" id="comment" value="option4" checked> 是否允许评论
+							</c:when>
+							<c:otherwise>
+								<input type="checkbox" id="comment" value="option4"> 是否允许评论
+							</c:otherwise>
+						</c:choose>
 					    </div>
 					</div>
 					<div class="form-group">
@@ -314,7 +343,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<select id="category" class="form-control">
 								<!-- Category -->
 								<c:forEach items="${categoryInfoList}" var="categoryInfo">  
-								    <option value="${categoryInfo.id}">${categoryInfo.categoryName}</option> 
+								    <c:choose>
+										<c:when test="${articleInfo.categoryId == categoryInfo.id}">
+											<option value="${categoryInfo.id}" selected>${categoryInfo.categoryName}</option>
+										</c:when>
+										<c:otherwise>
+											<option value="${categoryInfo.id}">${categoryInfo.categoryName}</option>
+										</c:otherwise>
+									</c:choose> 
 								</c:forEach>
 				                <!-- /.Category -->
 							</select>
@@ -325,7 +361,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div id="tag" class="col-sm-11">
 							<!-- Tag -->
 							<c:forEach items="${tagInfoList}" var="tagInfo">
-								<input name="tags" type="checkbox" value="${tagInfo.id}"> ${tagInfo.tagName}  
+								<c:choose>
+									<c:when test="${fn:contains(articleInfo.tagIdList, tagInfo.id)}">
+										<input name="tags" type="checkbox" value="${tagInfo.id}" checked> ${tagInfo.tagName}
+									</c:when>
+									<c:otherwise>
+										<input name="tags" type="checkbox" value="${tagInfo.id}"> ${tagInfo.tagName}
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 			                <!-- /.Tag -->
 					    </div>
@@ -334,7 +377,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label class="control-label col-sm-1">内容</label>
 						<div class="col-sm-11">
 							<em style="font-size: 12px;">*必输项</em>
-							<div id="articleEditor"></div>
+							<div id="articleEditor"><textarea style="display:none;">${articleInfo.content}</textarea></div>
 						</div>
 					</div>
 					<div class="form-group">
@@ -516,10 +559,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			//获取文章简介
 			var description = $("#description").val();
 			//是否置顶、是否推荐、是否原创、是否允许评论
-			var top = $("#description").val();
-			var recommend = $("#description").val();
-			var original = $("#description").val();
-			var comment = $("#description").val();
+			var top = false;
+			if($('#top').is(':checked')) {
+				top = true;
+			}
+			
+			var recommend = false;
+			if($('#recommend').is(':checked')) {
+				recommend = true;
+			}
+			
+			var original = false;
+			if($('#original').is(':checked')) {
+				original = true;
+			}
+			
+			var comment = false;
+			if($('#comment').is(':checked')) {
+				comment = true;
+			}
 			//获取分类id列表
 			var categoryId = $("#category option:selected").val();
 			//获取标签id列表
