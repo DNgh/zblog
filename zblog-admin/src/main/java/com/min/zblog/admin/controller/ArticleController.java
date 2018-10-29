@@ -98,8 +98,8 @@ public class ArticleController {
     	}
     	
     	TmArticle saveArticle = articleService.addArticle(reqMap);
-    	//返回json格式结果
     	
+    	//返回json格式结果
     	Map<String, Object> result = new HashMap<String, Object>();
     	result.put("success", true);
     	result.put("message", "");
@@ -121,5 +121,49 @@ public class ArticleController {
         modelAndView.addObject("articleInfo", articleInfo);
         
         return modelAndView;
+    }
+    
+    @ResponseBody
+    @RequestMapping("/save")
+    public Map<String, Object> saveArticle(
+    		@RequestParam(value="articleId") Long articleId,
+    		@RequestParam(value="title") String title, @RequestParam(value="description") String description,
+    		@RequestParam(value="top") boolean top, @RequestParam(value="recommend") boolean recommend,
+    		@RequestParam(value="original") boolean original, @RequestParam(value="comment") boolean comment,
+    		@RequestParam(value="categoryId") Long categoryId, @RequestParam(value="tagIdList") List<Long> tagIdList,
+    		@RequestParam(value="markdown") String markdown, @RequestParam(value="state") String state){
+
+    	//保存到数据库
+    	Map<String, Object> reqMap = new HashMap<String, Object>();
+    	reqMap.put("articleId", articleId);
+    	reqMap.put("title", title); 
+    	reqMap.put("description", description);
+    	reqMap.put("top", top?Indicator.Y:Indicator.N); 
+    	reqMap.put("recommend", recommend?Indicator.Y:Indicator.N);
+    	reqMap.put("original", original?Indicator.Y:Indicator.N); 
+    	reqMap.put("comment", comment?Indicator.Y:Indicator.N);
+    	reqMap.put("categoryId", categoryId); 
+    	reqMap.put("tagIdList", tagIdList);
+    	reqMap.put("markdown", markdown); 
+    	if(StringUtils.isNotBlank(state)){
+    		reqMap.put("state", ArticleState.valueOf(state));
+    	}else{
+    		reqMap.put("state", ArticleState.CREATE);
+    	}
+    	
+    	//加载文章
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	try{
+    		articleService.saveArticle(reqMap);
+    		//返回json格式结果
+        	result.put("success", true);
+        	result.put("message", "");
+    	}catch(Exception e){
+    		//返回json格式结果
+        	result.put("success", false);
+        	result.put("message", e.getMessage());
+    	}
+    	
+        return result;
     }
 }

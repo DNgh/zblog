@@ -22,6 +22,7 @@ import com.min.zblog.core.service.ArticleService;
 import com.min.zblog.data.entity.TmArchive;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.TmArticleTag;
+import com.min.zblog.data.entity.TmArticleTagKey;
 import com.min.zblog.data.entity.TmCategory;
 import com.min.zblog.data.entity.TmTag;
 import com.min.zblog.data.view.ArchiveInfo;
@@ -31,6 +32,8 @@ import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.facility.enums.ArticleState;
 import com.min.zblog.facility.enums.Indicator;
 import com.min.zblog.facility.enums.VisitType;
+import com.min.zblog.facility.exception.ProcessException;
+import com.min.zblog.facility.utils.Constants;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -311,7 +314,7 @@ public class ArticleServiceImpl implements ArticleService {
 			articleInfo.setId(article.getId());
 			articleInfo.setTitle(article.getTitle());
 			articleInfo.setDescription(article.getDescription());
-			articleInfo.setContent(article.getContent().replaceAll("\n", "\\\\n").replaceAll("\r", ""));
+			articleInfo.setContent(article.getContent());
 			articleInfo.setCreateTime(article.getCreateTime());
 			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
 			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
@@ -348,7 +351,7 @@ public class ArticleServiceImpl implements ArticleService {
 			articleInfo.setId(article.getId());
 			articleInfo.setTitle(article.getTitle());
 			articleInfo.setDescription(article.getDescription());
-			articleInfo.setContent(article.getContent().replaceAll("\n", "\\\\n").replaceAll("\r", ""));
+			articleInfo.setContent(article.getContent());
 			articleInfo.setCreateTime(article.getCreateTime());
 			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
 			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
@@ -376,7 +379,7 @@ public class ArticleServiceImpl implements ArticleService {
 			articleInfo.setId(article.getId());
 			articleInfo.setTitle(article.getTitle());
 			articleInfo.setDescription(article.getDescription());
-			articleInfo.setContent(article.getContent().replaceAll("\n", "\\\\n").replaceAll("\r", ""));
+			articleInfo.setContent(article.getContent());
 			articleInfo.setCreateTime(article.getCreateTime());
 			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
 			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
@@ -394,5 +397,55 @@ public class ArticleServiceImpl implements ArticleService {
 			articleInfo.setTagList(list);
 		}
 		return articleInfo;
+	}
+
+	@Override
+	public TmArticle saveArticle(Map<String, Object> map) throws ProcessException {
+		TmArticle article = articleDao.findOne((Long)map.get("articleId"));
+		if(article == null){
+			throw new ProcessException(Constants.ERRA001_CODE, Constants.ERRA001_MSG);
+		}
+		
+		Date time = new Date();
+		article.setTitle((String)map.get("title"));
+		article.setDescription((String)map.get("description"));
+		article.setTop((Indicator)map.get("top"));
+		article.setRecommend((Indicator)map.get("recommend"));
+    	article.setOriginal((Indicator)map.get("original"));
+    	article.setComment((Indicator)map.get("comment"));
+    	article.setCategoryId((Long)map.get("categoryId"));
+    	article.setContent((String)map.get("markdown"));
+    	if(ArticleState.CREATE == article.getState()){
+    		article.setState((ArticleState)map.get("state"));
+    	}
+    	article.setUpdateTime(time);
+//    	article.setJpaVersion(0);
+    	
+		articleDao.save(article);
+		
+		//更新标签
+		List<Long> tagIdList = (List<Long>)map.get("tagIdList");
+		if(tagIdList != null){
+			for(Long tagId:tagIdList){
+				//保存关联表tm_article_tag
+				//如果不存在，则保存
+				TmArticleTagKey key = new TmArticleTagKey(tagId, article.getId());
+				if(!articleTagDao.exists(key)){
+					TmArticleTag articleTag = new TmArticleTag(tagId, article.getId(), time, time, 0);
+					articleTagDao.save(articleTag);
+				}
+			}
+		}
+		
+		//更新分类
+		//getOne委托给JPA实体管理器,返回实体引用，导致LazyInitializationException，建议使用findOne
+		TmCategory category = categoryDao.findOne((Long)map.get("categoryId"));
+		if(category != null){
+			category.setCount(category.getCount()+1);
+			category.setUpdateTime(time);
+			categoryDao.save(category);
+		}
+		
+		return article;
 	}
 }

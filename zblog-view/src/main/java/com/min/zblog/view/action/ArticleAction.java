@@ -140,6 +140,8 @@ public class ArticleAction extends ActionSupport {
     	
     	//替换回车换行符，否则页面js脚本报语法错。
     	articleInfo = articleService.findOneArticle(Long.valueOf(obj[0]));
+    	//转换换行符
+    	articleInfo.setContent(articleInfo.getContent().replaceAll("\n", "\\\\n").replaceAll("\r", ""));
     	//加载评论
     	//根评论
     	commentInfoList = commentService.listCommentByArticleId(articleInfo.getId());
@@ -169,6 +171,8 @@ public class ArticleAction extends ActionSupport {
     	
     	//替换回车换行符，否则页面js脚本报语法错。
     	articleInfo = articleService.findPreOneArticle(Long.valueOf(obj[0]));
+    	//转换换行符
+    	articleInfo.setContent(articleInfo.getContent().replaceAll("\n", "\\\\n").replaceAll("\r", ""));
     	//加载评论
     	//根评论
     	commentInfoList = commentService.listCommentByArticleId(articleInfo.getId());
@@ -198,6 +202,8 @@ public class ArticleAction extends ActionSupport {
     	
     	//替换回车换行符，否则页面js脚本报语法错。
     	articleInfo = articleService.findNextOneArticle(Long.valueOf(obj[0]));
+    	//转换换行符
+    	articleInfo.setContent(articleInfo.getContent().replaceAll("\n", "\\\\n").replaceAll("\r", ""));
     	//加载评论
     	//根评论
     	commentInfoList = commentService.listCommentByArticleId(articleInfo.getId());

@@ -7,6 +7,7 @@ import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.BlogInfo;
 import com.min.zblog.data.view.PageInfo;
+import com.min.zblog.facility.exception.ProcessException;
 
 public interface ArticleService {
 	public List<TmArticle> listAll();
@@ -23,4 +24,5 @@ public interface ArticleService {
 	public ArticleInfo findOneArticle(Long id);
 	public ArticleInfo findPreOneArticle(Long id);
 	public ArticleInfo findNextOneArticle(Long id);
+	public TmArticle saveArticle(Map<String, Object> map) throws ProcessException;
 }

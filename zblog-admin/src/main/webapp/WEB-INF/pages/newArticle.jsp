@@ -149,7 +149,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="article/editorPage"><i class="fa fa-circle-o"></i> 创建文章</a></li>
+            <li class="active"><a href="article/newPage"><i class="fa fa-circle-o"></i> 创建文章</a></li>
             <li><a href="article/queryPage"><i class="fa fa-circle-o"></i> 查询文章</a></li>
           </ul>
         </li>
@@ -510,7 +510,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	            },
    	            error: function(XMLHttpRequest, textStatus, errorThrown){
    	            	//清除默认值
-   	            	alert("请求失败");
+   	            	layer.alert("请求失败", {icon: 5});
    	            }
    	        });
 		});
@@ -596,7 +596,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	            },
    	            error: function(XMLHttpRequest, textStatus, errorThrown){
    	            	//清除默认值
-   	            	alert("请求失败");
+   	            	layer.alert("请求失败", {icon: 5});
    	            }
    	        });
 		});

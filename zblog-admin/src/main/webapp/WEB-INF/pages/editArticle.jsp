@@ -150,7 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="article/editorPage"><i class="fa fa-circle-o"></i> 创建文章</a></li>
+            <li class="active"><a href="article/newPage"><i class="fa fa-circle-o"></i> 创建文章</a></li>
             <li><a href="article/queryPage"><i class="fa fa-circle-o"></i> 查询文章</a></li>
           </ul>
         </li>
@@ -287,6 +287,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <section class="content">
     	<div class="panel panel-default">
 		   <div class="panel-body">
+		   		<input type="hidden" id="articleId" value="${articleInfo.id}"/>
 				<form class="form-horizontal" role="form">
 					<div class="form-group">
 						<label class="col-sm-1 control-label">标题</label>
@@ -431,7 +432,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        theme : "default",
 	        previewTheme : "default",
 	        editorTheme : "default",
-	        markdown : "hahaha",
+	        //markdown : "",
 	        codeFold : true,
 	        //syncScrolling : false,
 	        saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
@@ -469,6 +470,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		//发布博客
 		$("#publishBtn").click(function(){
+			//获取文章id
+			var articleId = $("#articleId").val();
+			
 			//获取文章标题
 			var title = $("#title").val();
 			//获取文章简介
@@ -520,6 +524,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 			
 			var map = {
+				'articleId':articleId,
 				'title':title,
 				'description':description,
 				'top':top,
@@ -547,13 +552,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	            },
    	            error: function(XMLHttpRequest, textStatus, errorThrown){
    	            	//清除默认值
-   	            	alert("请求失败");
+   	            	layer.alert("请求失败", {icon: 5});
    	            }
    	        });
 		});
 		
 		//保存博客到草稿箱
 		$("#saveBtn").click(function(){
+			//获取文章id
+			var articleId = $("#articleId").val();
+			
 			//获取文章标题
 			var title = $("#title").val();
 			//获取文章简介
@@ -605,6 +613,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 			
 			var map = {
+				'articleId':articleId,
 				'title':title,
 				'description':description,
 				'top':top,
@@ -632,7 +641,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	            },
    	            error: function(XMLHttpRequest, textStatus, errorThrown){
    	            	//清除默认值
-   	            	alert("请求失败");
+   	            	layer.alert("请求失败", {icon: 5});
    	            }
    	        });
 		});
