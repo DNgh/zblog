@@ -166,4 +166,11 @@ public class ArticleController {
     	
         return result;
     }
+    
+    @RequestMapping("/queryPage")
+    public ModelAndView queryPage(){
+    	ModelAndView modelAndView =new ModelAndView("queryArticle");
+        
+        return modelAndView;
+    }
 }
