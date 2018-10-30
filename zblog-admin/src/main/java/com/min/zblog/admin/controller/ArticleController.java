@@ -173,4 +173,16 @@ public class ArticleController {
         
         return modelAndView;
     }
+    
+    @ResponseBody
+    @RequestMapping("/query")
+    public Map<String, Object> query(){
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
+        map.put("code", 0);
+        map.put("count", 23);
+        map.put("data", "");
+        map.put("msg", "");
+        return map;
+    }
 }
