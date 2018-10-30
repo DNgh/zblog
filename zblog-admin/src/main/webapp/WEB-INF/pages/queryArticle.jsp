@@ -26,8 +26,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="components/layui/css/layui.css">
   <!-- custom css -->
-  <!-- <link rel="stylesheet" href="custom/css/custom.css"> -->
+  <link rel="stylesheet" href="custom/css/custom.css">
   
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -290,11 +291,96 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</ul>
 		<div id="articleTabContent" class="tab-content">
 			<div class="tab-pane fade in active" id="all">
-				<p>菜鸟教程是一个提供最新的web技术站点，本站免费提供了建站相关的技术文档，帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，更是梦想。</p>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="searchArea">
+							<form class="form-inline" role="form">
+								<div class="form-group col-sm-5">
+									<label class="control-label">创建时间:</label>
+									<select id="year" class="form-control">
+										<!-- 年 -->
+										<option value="" selected>不限年份</option>
+										<c:forEach items="${categoryInfoList}" var="categoryInfo">  
+											<option value="${categoryInfo.id}">${categoryInfo.categoryName}</option>
+										</c:forEach>
+						        		<!-- /.年 -->
+									</select>
+									<select id="month" class="form-control">
+										<!-- 月 -->
+										<option value="" selected>不限月份</option>
+										<c:forEach items="${categoryInfoList}" var="categoryInfo">  
+											<option value="${categoryInfo.id}">${categoryInfo.categoryName}</option>
+										</c:forEach>
+						        		<!-- /.月 -->
+									</select>
+								</div>
+								<div class="form-group col-sm-5">
+									<label class="control-label">分类:</label>
+									<select id="category" class="form-control">
+										<!-- 分类 -->
+										<option value="" selected>不限分类</option>
+										<c:forEach items="${categoryInfoList}" var="categoryInfo">  
+											<option value="${categoryInfo.id}">${categoryInfo.categoryName}</option>
+										</c:forEach>
+						        		<!-- /.分类 -->
+									</select>
+								</div>
+								<div class="form-group col-sm-2">
+									<button type="button" class="btn btn-info" id="searchBtn">查询</button>
+								</div>
+							</form>
+						</div>
+						<!-- /.searchArea -->
+					
+						<table id="example2" class="table table-bordered table-hover">
+			                <thead>
+			                <tr class="info">
+			                  <th>Rendering engine</th>
+			                  <th>Browser</th>
+			                  <th>Platform(s)</th>
+			                  <th>Engine version</th>
+			                  <th>CSS grade</th>
+			                </tr>
+			                </thead>
+			                <tbody>
+			                <tr>
+			                  <td>Trident</td>
+			                  <td>Internet
+			                    Explorer 4.0
+			                  </td>
+			                  <td>Win 95+</td>
+			                  <td> 4</td>
+			                  <td>X</td>
+			                </tr>
+			                <tr>
+			                  <td>Trident</td>
+			                  <td>Internet
+			                    Explorer 5.0
+			                  </td>
+			                  <td>Win 95+</td>
+			                  <td>5</td>
+			                  <td>C</td>
+			                </tr>
+			                <tr>
+			                  <td>Trident</td>
+			                  <td>Internet
+			                    Explorer 5.5
+			                  </td>
+			                  <td>Win 95+</td>
+			                  <td>5.5</td>
+			                  <td>A</td>
+			                </tr>
+			            	</tbody>
+		            	</table>
+            		</div>
+				</div>
 			</div>
 			<div class="tab-pane fade" id="publish">
-				<p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple 
-					TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。</p>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<table class="layui-hide" id="test" lay-filter="test"></table>
+					</div>
+				</div>
 			</div>
 			<div class="tab-pane fade" id="draft">
 				<p>jMeter 是一款开源的测试软件。它是 100% 纯 Java 应用程序，用于负载和性能测试。</p>
@@ -319,6 +405,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <!-- ./wrapper -->
 
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+    <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+    <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+  </div>
+</script>
+ 
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
 <!-- jQuery 1.12.4 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
@@ -329,14 +428,80 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="components/AdminLTE/js/adminlte.min.js"></script>
 <!-- bootstrap-paginator -->
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
+<script src="components/layui/layui.js"></script>
 <!-- custom jQuery -->
-<!-- <script src="custom/js/zblog.js"></script> -->
+<script src="custom/js/zblog.js"></script>
 <script type="text/javascript">
-	 /* $(function(){
-		$("").click(function(){
-			
+	$(function(){
+	});
+	
+	layui.use('table', function(){
+		  var table = layui.table;
+		  
+		  table.render({
+		    elem: '#test'
+		    ,url:''
+		    ,toolbar: '#toolbarDemo'
+		    ,title: '用户数据表'
+		    ,cols: [[
+		      {type: 'checkbox', fixed: 'left'}
+		      ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
+		      ,{field:'username', title:'用户名', width:120, edit: 'text'}
+		      ,{field:'email', title:'邮箱', width:150, edit: 'text', templet: function(res){
+		        return '<em>'+ res.email +'</em>'
+		      }}
+		      ,{field:'sex', title:'性别', width:80, edit: 'text', sort: true}
+		      ,{field:'city', title:'城市', width:100}
+		      ,{field:'sign', title:'签名'}
+		      ,{field:'experience', title:'积分', width:80, sort: true}
+		      ,{field:'ip', title:'IP', width:120}
+		      ,{field:'logins', title:'登入次数', width:100, sort: true}
+		      ,{field:'joinTime', title:'加入时间', width:120}
+		      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+		    ]]
+		    ,page: true
+		  });
+		  
+		  //头工具栏事件
+		  table.on('toolbar(test)', function(obj){
+		    var checkStatus = table.checkStatus(obj.config.id);
+		    switch(obj.event){
+		      case 'getCheckData':
+		        var data = checkStatus.data;
+		        layer.alert(JSON.stringify(data));
+		      break;
+		      case 'getCheckLength':
+		        var data = checkStatus.data;
+		        layer.msg('选中了：'+ data.length + ' 个');
+		      break;
+		      case 'isAll':
+		        layer.msg(checkStatus.isAll ? '全选': '未全选');
+		      break;
+		    };
+		  });
+		  
+		  //监听行工具事件
+		  table.on('tool(test)', function(obj){
+		    var data = obj.data;
+		    //console.log(obj)
+		    if(obj.event === 'del'){
+		      layer.confirm('真的删除行么', function(index){
+		        obj.del();
+		        layer.close(index);
+		      });
+		    } else if(obj.event === 'edit'){
+		      layer.prompt({
+		        formType: 2
+		        ,value: data.email
+		      }, function(value, index){
+		        obj.update({
+		          email: value
+		        });
+		        layer.close(index);
+		      });
+		    }
+		  });
 		});
-	}); */
 </script>
 </body>
 </html>

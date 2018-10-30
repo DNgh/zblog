@@ -194,3 +194,21 @@ em {
 .input-logo input {
 	padding-left: 60px;
 }
+
+/*搜索区样式,背景灰色区分*/
+.searchArea {
+  border-radius: 3px;
+  background: #C0C0C0;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 10px;
+}
+.searchArea:before,
+.searchArea:after {
+  content: " ";
+  display: table;
+}
+.searchArea:after {
+  clear: both;
+}
