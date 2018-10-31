@@ -13,7 +13,12 @@ import java.util.List;
 public class PageInfo<T> implements Serializable {
 
 	private static final long serialVersionUID = 1655694949353977273L;
-
+	
+	/**
+	 * 总条数
+	 */
+	private long count;
+	
 	/**
 	 * 总页数
 	 */
@@ -51,6 +56,14 @@ public class PageInfo<T> implements Serializable {
 
 	public void setList(List<T> list) {
 		this.list = list;
+	}
+
+	public long getCount() {
+		return count;
+	}
+
+	public void setCount(long count) {
+		this.count = count;
 	}
 	
 }

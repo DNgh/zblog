@@ -30,6 +30,7 @@ import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.CommentInfo;
 import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.data.view.TagInfo;
+import com.min.zblog.facility.enums.ArticleState;
 import com.min.zblog.facility.enums.VisitType;
 import com.min.zblog.facility.utils.CommonUtil;
 import com.min.zblog.facility.utils.Constants;
@@ -269,7 +270,7 @@ public class ArticleAction extends ActionSupport {
     }
     
     public String listAllArticles(){
-    	pageInfo = articleService.listArticleByPage(pageSize, page);
+    	pageInfo = articleService.listArticleByPage(pageSize, page, ArticleState.PUBLISH);
     	
     	ObjectMapper mapper = new ObjectMapper();
     	try {

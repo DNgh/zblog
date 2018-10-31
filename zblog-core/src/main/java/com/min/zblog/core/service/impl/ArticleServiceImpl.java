@@ -280,8 +280,8 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public PageInfo<ArticleInfo> listArticleByPage(long pageSize, long currentPage) {
-		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleByPage(currentPage, pageSize, ArticleState.PUBLISH);
+	public PageInfo<ArticleInfo> listArticleByPage(long pageSize, long currentPage, ArticleState state) {
+		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleByPage(currentPage, pageSize, state);
 		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();
 		for(TmArticle article:tmArticleList){
 			
@@ -298,7 +298,8 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		PageInfo<ArticleInfo> pageInfo = new PageInfo<ArticleInfo>();
 		pageInfo.setCurrentPage(currentPage);
-		long total = articleDao.countByState(ArticleState.PUBLISH);
+		long total = articleDao.countByState(state);
+		pageInfo.setCount(total);
 		pageInfo.setTotalPages((total%pageSize == 0)?(total/pageSize):((total/pageSize)+1));
 		pageInfo.setList(articleInfoList);
 		

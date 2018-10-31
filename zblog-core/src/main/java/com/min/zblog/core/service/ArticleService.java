@@ -7,6 +7,7 @@ import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.BlogInfo;
 import com.min.zblog.data.view.PageInfo;
+import com.min.zblog.facility.enums.ArticleState;
 import com.min.zblog.facility.exception.ProcessException;
 
 public interface ArticleService {
@@ -20,7 +21,7 @@ public interface ArticleService {
 	public PageInfo<ArticleInfo> listArticleByPageTag(long pageSize, long currentPage, String name);
 	public List<ArticleInfo> listArticleByReadRank();
 	public BlogInfo obtainBlogInfo();
-	public PageInfo<ArticleInfo> listArticleByPage(long pageSize, long currentPage);
+	public PageInfo<ArticleInfo> listArticleByPage(long pageSize, long currentPage, ArticleState state);
 	public ArticleInfo findOneArticle(Long id);
 	public ArticleInfo findPreOneArticle(Long id);
 	public ArticleInfo findNextOneArticle(Long id);

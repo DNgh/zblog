@@ -378,7 +378,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="tab-pane fade" id="publish">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<table class="layui-hide" id="publishTable"></table>
+						<table id="publishTable" lay-filter="publishTable"></table>
 					</div>
 				</div>
 			</div>
@@ -424,24 +424,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- custom jQuery -->
 <script src="custom/js/zblog.js"></script>
 <script type="text/javascript">
-	$(function(){
-	});
+	var allTable;//所有文章
+	var publishTable;//已发布文章
+	var draftTable;//已保存文章，未发布
+	var trashTable;//已删除，放入回收箱
 	
 	layui.use('table', function(){
 	  var table = layui.table;
 	  
-	  table.render({
+	  publishTable = table.render({
 	    elem: '#publishTable'
-	    ,url:'article/'
-	    ,title: '文章数据表'
+	    ,url:'article/query'
+	    ,where:{
+	    	state:'PUBLISH'//已发布文章
+	    }
 	    ,limit: 10 //每页默认显示的数量
         ,method:'post'  //提交方式
+        ,title: '文章数据表'
 	    ,cols: [[
-	      {field:'articleId', title:'ID', width:80, sort: true}
-	      ,{field:'title', title:'标题', width:150}
-	      ,{field:'state', title:'状态', width:100}
-	      ,{field:'createTime', title:'创建时间', width:100, sort: true}
-	      ,{field:'option', title:'操作', fixed: 'right', toolbar: '#optionBar', width:150}
+	      {field:'id', title:'ID', width:'10%', sort: true}
+	      ,{field:'title', title:'标题', width:'20%'}
+	      ,{field:'readNum', title:'阅读数', width:'10%'}
+	      ,{field:'commentNum', title:'评论数', width:'10%'}
+	      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
+	      ,{field:'option', title:'操作', toolbar: '#optionBar'}
 	    ]]
 	    ,page: true
 	  });
@@ -467,6 +473,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      });
 	    }
 	  });
+	});
+	
+	$(function(){
 	});
 </script>
 </body>

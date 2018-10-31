@@ -21,6 +21,7 @@ import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.CategoryInfo;
+import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.data.view.TagInfo;
 import com.min.zblog.facility.enums.ArticleState;
 import com.min.zblog.facility.enums.Indicator;
@@ -176,13 +177,16 @@ public class ArticleController {
     
     @ResponseBody
     @RequestMapping("/query")
-    public Map<String, Object> query(){
+    public Map<String, Object> query(@RequestParam(value="page")Integer page, 
+    		@RequestParam(value="limit")Integer limit){
+    	PageInfo<ArticleInfo> pageInfo = articleService.listArticleByPage(limit, page, ArticleState.PUBLISH);
+    	logger.debug("currentPage:"+pageInfo.getCurrentPage()+",totalPages:"+pageInfo.getTotalPages());
     	
     	Map<String, Object> map = new HashMap<String, Object>();
         map.put("code", 0);
-        map.put("count", 23);
-        map.put("data", "");
-        map.put("msg", "");
+        map.put("count", pageInfo.getCount());
+        map.put("data", pageInfo.getList());
+        map.put("msg", "加载成功");
         return map;
     }
 }
