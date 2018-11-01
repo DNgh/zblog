@@ -25,6 +25,7 @@ import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.data.view.TagInfo;
 import com.min.zblog.facility.enums.ArticleState;
 import com.min.zblog.facility.enums.Indicator;
+import com.min.zblog.facility.utils.Constants;
 
 //import com.min.service.ArticleService;
 
@@ -178,8 +179,16 @@ public class ArticleController {
     @ResponseBody
     @RequestMapping("/query")
     public Map<String, Object> query(@RequestParam(value="page")Integer page, 
-    		@RequestParam(value="limit")Integer limit){
-    	PageInfo<ArticleInfo> pageInfo = articleService.listArticleByPage(limit, page, ArticleState.PUBLISH);
+    		@RequestParam(value="limit")Integer limit, @RequestParam(value="state")String state,
+    		@RequestParam(value="createTime")String createTime, @RequestParam(value="categoryId")Long categoryId){
+    	Map<String, Object> reqMap = new HashMap<String, Object>();
+    	if(StringUtils.isNotBlank(state) && !StringUtils.equals("ALL", state)){
+    		reqMap.put(Constants.STATE, ArticleState.valueOf(state));
+    	}
+    	reqMap.put(Constants.CREATE_TIME, createTime);
+    	reqMap.put(Constants.CATEGORY_ID, categoryId);
+    	
+    	PageInfo<ArticleInfo> pageInfo = articleService.queryArticleByPage(limit, page, reqMap);
     	logger.debug("currentPage:"+pageInfo.getCurrentPage()+",totalPages:"+pageInfo.getTotalPages());
     	
     	Map<String, Object> map = new HashMap<String, Object>();

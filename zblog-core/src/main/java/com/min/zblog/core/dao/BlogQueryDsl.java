@@ -2,6 +2,7 @@ package com.min.zblog.core.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -26,6 +27,7 @@ import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.facility.enums.ArticleState;
 import com.min.zblog.facility.enums.Indicator;
 import com.min.zblog.facility.enums.VisitType;
+import com.min.zblog.facility.utils.Constants;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -245,6 +247,52 @@ public class BlogQueryDsl {
 		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
 		List<TmArticle> list = query.from(qTmArticle)
 				.where(qTmArticle.state.eq(state))
+				.orderBy(qTmArticle.createTime.desc())
+				.offset((currentPage-1)*pageSize)
+				.limit(pageSize).fetch();
+		return list;
+	}
+	
+	/**
+	 * 分页查询,多个查询条件
+	 * @param currentPage
+	 * @param pageSize
+	 * @param map:state createTime categoryId
+	 * @return
+	 */
+	public List<TmArticle> fetchArticleConditionByPage(long currentPage, long pageSize, Map<String, Object> map){
+		BooleanExpression exp = null;
+		if(map != null){
+			if(map.get(Constants.STATE) != null){
+				exp = qTmArticle.state.eq((ArticleState)map.get(Constants.STATE));
+			}
+			
+			if(map.get(Constants.CREATE_TIME) != null){
+				JPAQuery<TmArchive> vQuery = new JPAQuery<TmArchive>(em);
+				TmArchive tmArchive = vQuery.from(qTmArchive)
+						.where(qTmArchive.name.eq((String)map.get(Constants.CREATE_TIME)))
+						.fetchOne();
+				if(tmArchive != null){
+					if(exp != null){
+						exp = exp.and(qTmArticle.archiveId.eq(tmArchive.getId()));
+					}else{
+						exp = qTmArticle.archiveId.eq(tmArchive.getId());
+					}
+				}
+			}
+			
+			if(map.get(Constants.CATEGORY_ID) != null){
+				if(exp != null){
+					exp = exp.and(qTmArticle.categoryId.eq((Long)map.get(Constants.CATEGORY_ID)));
+				}else{
+					exp = qTmArticle.categoryId.eq((Long)map.get(Constants.CATEGORY_ID));
+				}
+			}
+		}
+		
+		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
+		List<TmArticle> list = query.from(qTmArticle)
+				.where(exp)
 				.orderBy(qTmArticle.createTime.desc())
 				.offset((currentPage-1)*pageSize)
 				.limit(pageSize).fetch();

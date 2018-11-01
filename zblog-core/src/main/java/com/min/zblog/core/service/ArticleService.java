@@ -22,6 +22,7 @@ public interface ArticleService {
 	public List<ArticleInfo> listArticleByReadRank();
 	public BlogInfo obtainBlogInfo();
 	public PageInfo<ArticleInfo> listArticleByPage(long pageSize, long currentPage, ArticleState state);
+	public PageInfo<ArticleInfo> queryArticleByPage(long pageSize, long currentPage, Map<String, Object> map);
 	public ArticleInfo findOneArticle(Long id);
 	public ArticleInfo findPreOneArticle(Long id);
 	public ArticleInfo findNextOneArticle(Long id);

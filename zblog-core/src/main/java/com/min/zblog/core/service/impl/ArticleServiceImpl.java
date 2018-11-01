@@ -305,6 +305,38 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		return pageInfo;
 	}
+	
+	@Override
+	public PageInfo<ArticleInfo> queryArticleByPage(long pageSize, long currentPage, Map<String, Object> map) {
+		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleConditionByPage(currentPage, pageSize, map);
+		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();
+		for(TmArticle article:tmArticleList){
+			
+			ArticleInfo articleInfo = new ArticleInfo();
+			articleInfo.setId(article.getId());
+			articleInfo.setTitle(article.getTitle());
+			articleInfo.setDescription(article.getDescription());
+			articleInfo.setCreateTime(article.getCreateTime());
+			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
+			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
+			
+			articleInfoList.add(articleInfo);
+		}
+		
+		PageInfo<ArticleInfo> pageInfo = new PageInfo<ArticleInfo>();
+		pageInfo.setCurrentPage(currentPage);
+		long total = 0;
+		if(map != null && map.get(Constants.STATE) != null){
+			total = articleDao.countByState((ArticleState)map.get(Constants.STATE));
+		}else{
+			total = articleDao.count();
+		}
+		pageInfo.setCount(total);
+		pageInfo.setTotalPages((total%pageSize == 0)?(total/pageSize):((total/pageSize)+1));
+		pageInfo.setList(articleInfoList);
+		
+		return pageInfo;
+	}
 
 	@Override
 	public ArticleInfo findOneArticle(Long id) {
