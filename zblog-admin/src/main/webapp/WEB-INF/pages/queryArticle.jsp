@@ -331,63 +331,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</form>
 						</div>
 						<!-- /.searchArea -->
-					
-						<table id="example2" class="table table-bordered table-hover">
-			                <thead>
-			                <tr class="info">
-			                  <th>Rendering engine</th>
-			                  <th>Browser</th>
-			                  <th>Platform(s)</th>
-			                  <th>Engine version</th>
-			                  <th>CSS grade</th>
-			                </tr>
-			                </thead>
-			                <tbody>
-			                <tr>
-			                  <td>Trident</td>
-			                  <td>Internet
-			                    Explorer 4.0
-			                  </td>
-			                  <td>Win 95+</td>
-			                  <td> 4</td>
-			                  <td>X</td>
-			                </tr>
-			                <tr>
-			                  <td>Trident</td>
-			                  <td>Internet
-			                    Explorer 5.0
-			                  </td>
-			                  <td>Win 95+</td>
-			                  <td>5</td>
-			                  <td>C</td>
-			                </tr>
-			                <tr>
-			                  <td>Trident</td>
-			                  <td>Internet
-			                    Explorer 5.5
-			                  </td>
-			                  <td>Win 95+</td>
-			                  <td>5.5</td>
-			                  <td>A</td>
-			                </tr>
-			            	</tbody>
-		            	</table>
+						<!-- 全部文章检索 -->
+						<table id="allTable" lay-filter="allTable"></table>
             		</div>
 				</div>
 			</div>
 			<div class="tab-pane fade" id="publish">
 				<div class="panel panel-default">
 					<div class="panel-body">
+						<!-- 已发布文章检索 -->
 						<table id="publishTable" lay-filter="publishTable"></table>
 					</div>
 				</div>
 			</div>
 			<div class="tab-pane fade" id="draft">
-				<p>jMeter 是一款开源的测试软件。它是 100% 纯 Java 应用程序，用于负载和性能测试。</p>
+				<!-- 草稿箱文章检索 -->
+				<table id="draftTable" lay-filter="draftTable"></table>
 			</div>
 			<div class="tab-pane fade" id="trash">
-				<p>Enterprise Java Beans（EJB）是一个创建高度可扩展性和强大企业级应用程序的开发架构，部署在兼容应用程序服务器（比如 JBOSS、Web Logic 等）的 J2EE 上。
-				</p>
+				<!-- 回收箱文章检索 -->
+				<table id="trashTable" lay-filter="trashTable"></table>
 			</div>
 		</div>
     </section>
@@ -432,6 +395,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	layui.use('table', function(){
 	  var table = layui.table;
 	  
+	  allTable = table.render({
+	    elem: '#allTable'
+	    ,url:'article/query'
+	    ,where:{
+	    	state:'ALL'//所有文章
+	    }
+	    ,limit: 10 //每页默认显示的数量
+	       ,method:'post'  //提交方式
+	       ,title: '文章数据表'
+	    ,cols: [[
+	      {field:'id', title:'ID', width:'10%', sort: true}
+	      ,{field:'title', title:'标题', width:'20%'}
+	      ,{field:'readNum', title:'阅读数', width:'10%'}
+	      ,{field:'commentNum', title:'评论数', width:'10%'}
+	      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
+	      ,{field:'option', title:'操作', toolbar: '#optionBar'}
+	    ]]
+	    ,page: true
+	  });
+	  
 	  publishTable = table.render({
 	    elem: '#publishTable'
 	    ,url:'article/query'
@@ -452,7 +435,68 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    ,page: true
 	  });
 	  
+	  draftTable = table.render({
+	    elem: '#draftTable'
+	    ,url:'article/query'
+	    ,where:{
+	    	state:'CREATE'//草稿箱
+	    }
+	    ,limit: 10 //每页默认显示的数量
+        ,method:'post'  //提交方式
+        ,title: '文章数据表'
+	    ,cols: [[
+	      {field:'id', title:'ID', width:'10%', sort: true}
+	      ,{field:'title', title:'标题', width:'20%'}
+	      ,{field:'readNum', title:'阅读数', width:'10%'}
+	      ,{field:'commentNum', title:'评论数', width:'10%'}
+	      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
+	      ,{field:'option', title:'操作', toolbar: '#optionBar'}
+	    ]]
+	    ,page: true
+	  });
+	  
+	  trashTable = table.render({
+	    elem: '#trashTable'
+	    ,url:'article/query'
+	    ,where:{
+	    	state:'DELETE'//回收箱
+	    }
+	    ,limit: 10 //每页默认显示的数量
+        ,method:'post'  //提交方式
+        ,title: '文章数据表'
+	    ,cols: [[
+	      {field:'id', title:'ID', width:'10%', sort: true}
+	      ,{field:'title', title:'标题', width:'20%'}
+	      ,{field:'readNum', title:'阅读数', width:'10%'}
+	      ,{field:'commentNum', title:'评论数', width:'10%'}
+	      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
+	      ,{field:'option', title:'操作', toolbar: '#optionBar'}
+	    ]]
+	    ,page: true
+	  });
+	  
 	  //监听行工具事件
+	  table.on('tool(allTable)', function(obj){
+	    var data = obj.data;
+	    //console.log(obj)
+	    if(obj.event === 'del'){
+	      layer.confirm('真的删除行么', function(index){
+	        obj.del();
+	        layer.close(index);
+	      });
+	    } else if(obj.event === 'edit'){
+	      layer.prompt({
+	        formType: 2
+	        ,value: data.email
+	      }, function(value, index){
+	        obj.update({
+	          email: value
+	        });
+	        layer.close(index);
+	      });
+	    }
+	  });
+	  
 	  table.on('tool(publishTable)', function(obj){
 	    var data = obj.data;
 	    //console.log(obj)
@@ -473,6 +517,49 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      });
 	    }
 	  });
+	  
+	  table.on('tool(draftTable)', function(obj){
+	    var data = obj.data;
+	    //console.log(obj)
+	    if(obj.event === 'del'){
+	      layer.confirm('真的删除行么', function(index){
+	        obj.del();
+	        layer.close(index);
+	      });
+	    } else if(obj.event === 'edit'){
+	      layer.prompt({
+	        formType: 2
+	        ,value: data.email
+	      }, function(value, index){
+	        obj.update({
+	          email: value
+	        });
+	        layer.close(index);
+	      });
+	    }
+	  });
+	  
+	  table.on('tool(trashTable)', function(obj){
+	    var data = obj.data;
+	    //console.log(obj)
+	    if(obj.event === 'del'){
+	      layer.confirm('真的删除行么', function(index){
+	        obj.del();
+	        layer.close(index);
+	      });
+	    } else if(obj.event === 'edit'){
+	      layer.prompt({
+	        formType: 2
+	        ,value: data.email
+	      }, function(value, index){
+	        obj.update({
+	          email: value
+	        });
+	        layer.close(index);
+	      });
+	    }
+	  });
+	  
 	});
 	
 	$(function(){

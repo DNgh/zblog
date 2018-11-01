@@ -179,8 +179,10 @@ public class ArticleController {
     @ResponseBody
     @RequestMapping("/query")
     public Map<String, Object> query(@RequestParam(value="page")Integer page, 
-    		@RequestParam(value="limit")Integer limit, @RequestParam(value="state")String state,
-    		@RequestParam(value="createTime")String createTime, @RequestParam(value="categoryId")Long categoryId){
+    		@RequestParam(value="limit")Integer limit, 
+    		@RequestParam(value="state",required=false)String state,
+    		@RequestParam(value="createTime",required=false)String createTime, 
+    		@RequestParam(value="categoryId",required=false)Long categoryId){
     	Map<String, Object> reqMap = new HashMap<String, Object>();
     	if(StringUtils.isNotBlank(state) && !StringUtils.equals("ALL", state)){
     		reqMap.put(Constants.STATE, ArticleState.valueOf(state));
