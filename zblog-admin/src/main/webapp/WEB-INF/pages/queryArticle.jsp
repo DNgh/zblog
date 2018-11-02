@@ -332,7 +332,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 						<!-- /.searchArea -->
 						<!-- 全部文章检索 -->
-						<table id="allTable" lay-filter="allTable"></table>
+						<table id="allTable" lay-filter="allTable" style="width:100%"></table>
             		</div>
 				</div>
 			</div>
@@ -340,17 +340,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<!-- 已发布文章检索 -->
-						<table id="publishTable" lay-filter="publishTable"></table>
+						<table id="publishTable" lay-filter="publishTable" style="width:100%"></table>
 					</div>
 				</div>
 			</div>
 			<div class="tab-pane fade" id="draft">
-				<!-- 草稿箱文章检索 -->
-				<table id="draftTable" lay-filter="draftTable"></table>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<!-- 草稿箱文章检索 -->
+						<table id="draftTable" lay-filter="draftTable" style="width:100%"></table>
+					</div>
+				</div>
 			</div>
 			<div class="tab-pane fade" id="trash">
-				<!-- 回收箱文章检索 -->
-				<table id="trashTable" lay-filter="trashTable"></table>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<!-- 回收箱文章检索 -->
+						<table id="trashTable" lay-filter="trashTable" style="width:100%"></table>
+					</div>
+				</div>
 			</div>
 		</div>
     </section>
@@ -392,177 +400,182 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	var draftTable;//已保存文章，未发布
 	var trashTable;//已删除，放入回收箱
 	
-	layui.use('table', function(){
-	  var table = layui.table;
-	  
-	  allTable = table.render({
-	    elem: '#allTable'
-	    ,url:'article/query'
-	    ,where:{
-	    	state:'ALL'//所有文章
-	    }
-	    ,limit: 10 //每页默认显示的数量
-	       ,method:'post'  //提交方式
-	       ,title: '文章数据表'
-	    ,cols: [[
-	      {field:'id', title:'ID', width:'10%', sort: true}
-	      ,{field:'title', title:'标题', width:'20%'}
-	      ,{field:'readNum', title:'阅读数', width:'10%'}
-	      ,{field:'commentNum', title:'评论数', width:'10%'}
-	      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
-	      ,{field:'option', title:'操作', toolbar: '#optionBar'}
-	    ]]
-	    ,page: true
-	  });
-	  
-	  publishTable = table.render({
-	    elem: '#publishTable'
-	    ,url:'article/query'
-	    ,where:{
-	    	state:'PUBLISH'//已发布文章
-	    }
-	    ,limit: 10 //每页默认显示的数量
-        ,method:'post'  //提交方式
-        ,title: '文章数据表'
-	    ,cols: [[
-	      {field:'id', title:'ID', width:'10%', sort: true}
-	      ,{field:'title', title:'标题', width:'20%'}
-	      ,{field:'readNum', title:'阅读数', width:'10%'}
-	      ,{field:'commentNum', title:'评论数', width:'10%'}
-	      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
-	      ,{field:'option', title:'操作', toolbar: '#optionBar'}
-	    ]]
-	    ,page: true
-	  });
-	  
-	  draftTable = table.render({
-	    elem: '#draftTable'
-	    ,url:'article/query'
-	    ,where:{
-	    	state:'CREATE'//草稿箱
-	    }
-	    ,limit: 10 //每页默认显示的数量
-        ,method:'post'  //提交方式
-        ,title: '文章数据表'
-	    ,cols: [[
-	      {field:'id', title:'ID', width:'10%', sort: true}
-	      ,{field:'title', title:'标题', width:'20%'}
-	      ,{field:'readNum', title:'阅读数', width:'10%'}
-	      ,{field:'commentNum', title:'评论数', width:'10%'}
-	      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
-	      ,{field:'option', title:'操作', toolbar: '#optionBar'}
-	    ]]
-	    ,page: true
-	  });
-	  
-	  trashTable = table.render({
-	    elem: '#trashTable'
-	    ,url:'article/query'
-	    ,where:{
-	    	state:'DELETE'//回收箱
-	    }
-	    ,limit: 10 //每页默认显示的数量
-        ,method:'post'  //提交方式
-        ,title: '文章数据表'
-	    ,cols: [[
-	      {field:'id', title:'ID', width:'10%', sort: true}
-	      ,{field:'title', title:'标题', width:'20%'}
-	      ,{field:'readNum', title:'阅读数', width:'10%'}
-	      ,{field:'commentNum', title:'评论数', width:'10%'}
-	      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
-	      ,{field:'option', title:'操作', toolbar: '#optionBar'}
-	    ]]
-	    ,page: true
-	  });
-	  
-	  //监听行工具事件
-	  table.on('tool(allTable)', function(obj){
-	    var data = obj.data;
-	    //console.log(obj)
-	    if(obj.event === 'del'){
-	      layer.confirm('真的删除行么', function(index){
-	        obj.del();
-	        layer.close(index);
-	      });
-	    } else if(obj.event === 'edit'){
-	      layer.prompt({
-	        formType: 2
-	        ,value: data.email
-	      }, function(value, index){
-	        obj.update({
-	          email: value
-	        });
-	        layer.close(index);
-	      });
-	    }
-	  });
-	  
-	  table.on('tool(publishTable)', function(obj){
-	    var data = obj.data;
-	    //console.log(obj)
-	    if(obj.event === 'del'){
-	      layer.confirm('真的删除行么', function(index){
-	        obj.del();
-	        layer.close(index);
-	      });
-	    } else if(obj.event === 'edit'){
-	      layer.prompt({
-	        formType: 2
-	        ,value: data.email
-	      }, function(value, index){
-	        obj.update({
-	          email: value
-	        });
-	        layer.close(index);
-	      });
-	    }
-	  });
-	  
-	  table.on('tool(draftTable)', function(obj){
-	    var data = obj.data;
-	    //console.log(obj)
-	    if(obj.event === 'del'){
-	      layer.confirm('真的删除行么', function(index){
-	        obj.del();
-	        layer.close(index);
-	      });
-	    } else if(obj.event === 'edit'){
-	      layer.prompt({
-	        formType: 2
-	        ,value: data.email
-	      }, function(value, index){
-	        obj.update({
-	          email: value
-	        });
-	        layer.close(index);
-	      });
-	    }
-	  });
-	  
-	  table.on('tool(trashTable)', function(obj){
-	    var data = obj.data;
-	    //console.log(obj)
-	    if(obj.event === 'del'){
-	      layer.confirm('真的删除行么', function(index){
-	        obj.del();
-	        layer.close(index);
-	      });
-	    } else if(obj.event === 'edit'){
-	      layer.prompt({
-	        formType: 2
-	        ,value: data.email
-	      }, function(value, index){
-	        obj.update({
-	          email: value
-	        });
-	        layer.close(index);
-	      });
-	    }
-	  });
-	  
-	});
-	
 	$(function(){
+		
+		layui.use('table', function(){
+		  var table = layui.table;
+		  
+		  allTable = table.render({
+		    elem: '#allTable'
+		    ,url:'article/query'
+		    ,where:{
+		    	state:'ALL'//所有文章
+		    }
+		    ,limit: 10 //每页默认显示的数量
+		    ,method:'post'  //提交方式
+		    ,title: '文章数据表'
+		    ,cellMinWidth: 100
+		    ,cols: [[
+		      {field:'id', title:'ID', width:'10%', sort: true}
+		      ,{field:'title', title:'标题', width:'20%'}
+		      ,{field:'readNum', title:'阅读数', width:'10%'}
+		      ,{field:'commentNum', title:'评论数', width:'10%'}
+		      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
+		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
+		    ]]
+		    ,page: true
+		  });
+		  
+		  publishTable = table.render({
+		    elem: '#publishTable'
+		    ,url:'article/query'
+		    ,where:{
+		    	state:'PUBLISH'//已发布文章
+		    }
+		    ,limit: 10 //每页默认显示的数量
+	        ,method:'post'  //提交方式
+	        ,title: '文章数据表'
+	        ,cellMinWidth: 100
+		    ,cols: [[
+		      {field:'id', title:'ID', width:'10%', sort: true}
+		      ,{field:'title', title:'标题', width:'20%'}
+		      ,{field:'readNum', title:'阅读数', width:'10%'}
+		      ,{field:'commentNum', title:'评论数', width:'10%'}
+		      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
+		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
+		    ]]
+		    ,page: true
+		  });
+		  
+		  draftTable = table.render({
+		    elem: '#draftTable'
+		    ,url:'article/query'
+		    ,where:{
+		    	state:'CREATE'//草稿箱
+		    }
+		    ,limit: 10 //每页默认显示的数量
+	        ,method:'post'  //提交方式
+	        ,title: '文章数据表'
+	        ,cellMinWidth: 100
+		    ,cols: [[
+		      {field:'id', title:'ID', width:'10%', sort: true}
+		      ,{field:'title', title:'标题', width:'20%'}
+		      ,{field:'readNum', title:'阅读数', width:'10%'}
+		      ,{field:'commentNum', title:'评论数', width:'10%'}
+		      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
+		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
+		    ]]
+		    ,page: true
+		  });
+		  
+		  trashTable = table.render({
+		    elem: '#trashTable'
+		    ,url:'article/query'
+		    ,where:{
+		    	state:'DELETE'//回收箱
+		    }
+		    ,limit: 10 //每页默认显示的数量
+	        ,method:'post'  //提交方式
+	        ,title: '文章数据表'
+	        ,cellMinWidth: 100
+		    ,cols: [[
+		      {field:'id', title:'ID', width:'10%', sort: true}
+		      ,{field:'title', title:'标题', width:'20%'}
+		      ,{field:'readNum', title:'阅读数', width:'10%'}
+		      ,{field:'commentNum', title:'评论数', width:'10%'}
+		      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
+		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
+		    ]]
+		    ,page: true
+		  });
+		  
+		  //监听行工具事件
+		  table.on('tool(allTable)', function(obj){
+		    var data = obj.data;
+		    //console.log(obj)
+		    if(obj.event === 'del'){
+		      layer.confirm('真的删除行么', function(index){
+		        obj.del();
+		        layer.close(index);
+		      });
+		    } else if(obj.event === 'edit'){
+		      layer.prompt({
+		        formType: 2
+		        ,value: data.email
+		      }, function(value, index){
+		        obj.update({
+		          email: value
+		        });
+		        layer.close(index);
+		      });
+		    }
+		  });
+		  
+		  table.on('tool(publishTable)', function(obj){
+		    var data = obj.data;
+		    //console.log(obj)
+		    if(obj.event === 'del'){
+		      layer.confirm('真的删除行么', function(index){
+		        obj.del();
+		        layer.close(index);
+		      });
+		    } else if(obj.event === 'edit'){
+		      layer.prompt({
+		        formType: 2
+		        ,value: data.email
+		      }, function(value, index){
+		        obj.update({
+		          email: value
+		        });
+		        layer.close(index);
+		      });
+		    }
+		  });
+		  
+		  table.on('tool(draftTable)', function(obj){
+		    var data = obj.data;
+		    //console.log(obj)
+		    if(obj.event === 'del'){
+		      layer.confirm('真的删除行么', function(index){
+		        obj.del();
+		        layer.close(index);
+		      });
+		    } else if(obj.event === 'edit'){
+		      layer.prompt({
+		        formType: 2
+		        ,value: data.email
+		      }, function(value, index){
+		        obj.update({
+		          email: value
+		        });
+		        layer.close(index);
+		      });
+		    }
+		  });
+		  
+		  table.on('tool(trashTable)', function(obj){
+		    var data = obj.data;
+		    //console.log(obj)
+		    if(obj.event === 'del'){
+		      layer.confirm('真的删除行么', function(index){
+		        obj.del();
+		        layer.close(index);
+		      });
+		    } else if(obj.event === 'edit'){
+		      layer.prompt({
+		        formType: 2
+		        ,value: data.email
+		      }, function(value, index){
+		        obj.update({
+		          email: value
+		        });
+		        layer.close(index);
+		      });
+		    }
+		  });
+		  
+		});
+	
 	});
 </script>
 </body>
