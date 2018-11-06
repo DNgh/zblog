@@ -1,5 +1,6 @@
 package com.min.zblog.admin.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.min.zblog.core.service.ArchiveService;
 import com.min.zblog.core.service.ArticleService;
 import com.min.zblog.core.service.CategoryService;
 import com.min.zblog.core.service.TagService;
@@ -42,6 +46,9 @@ public class ArticleController {
 	
 	@Autowired
     ArticleService articleService;
+	
+	@Autowired
+	private ArchiveService  archiveService;
 	
 	/**
 	 * 分类信息
@@ -173,6 +180,48 @@ public class ArticleController {
     public ModelAndView queryPage(){
     	ModelAndView modelAndView =new ModelAndView("queryArticle");
         
+    	categoryInfoList = categoryservice.fetchCategoryInfo();
+    	//加载日期信息
+    	List<ArchiveInfo> archiveInfoList = archiveService.fetchArchiveInfo();
+    	List<String> years = new ArrayList<String>();
+    	Map<String,List<String>> months = new HashMap<String, List<String>>();
+    	if(archiveInfoList != null){
+    		for(ArchiveInfo archiveInfo: archiveInfoList){
+    			String archiveName = archiveInfo.getArchiveName();
+    			if(archiveName != null && archiveName.length() == Constants.ARCHIVENAME_LENGTH){
+    				String year = archiveName.substring(0,4);
+    				String month = archiveName.substring(4);
+    				//不存在，则新增
+    				if(!years.contains(year)){
+    					years.add(year);
+    				}
+    				if(!months.containsKey(year)){
+    					List<String> monthList = new ArrayList<String>();
+    					monthList.add(month);
+    					months.put(year, monthList);
+    				}else{
+    					List<String> monthList = months.get(year);
+    					if(monthList != null && !monthList.contains(monthList)){
+    						monthList.add(month);
+    						months.put(year, monthList);
+    					}
+    				}
+    			}
+        	}
+    	}
+    	
+    	ObjectMapper mapper = new ObjectMapper();
+    	String monthsJSON="";
+    	try {//转换为JSON格式，方便js取值；spring转换map用等于分割。
+    		monthsJSON = mapper.writeValueAsString(months);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+    	
+    	modelAndView.addObject("years", years);
+    	modelAndView.addObject("months", monthsJSON);
+    	modelAndView.addObject("categoryInfoList", categoryInfoList);
+       
         return modelAndView;
     }
     

@@ -299,18 +299,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<label class="control-label">创建时间:</label>
 									<select id="year" class="form-control">
 										<!-- 年 -->
-										<option value="" selected>不限年份</option>
-										<c:forEach items="${categoryInfoList}" var="categoryInfo">  
-											<option value="${categoryInfo.id}">${categoryInfo.categoryName}</option>
-										</c:forEach>
+										<option value="0" selected>不限年份</option>
 						        		<!-- /.年 -->
 									</select>
 									<select id="month" class="form-control">
 										<!-- 月 -->
-										<option value="" selected>不限月份</option>
-										<c:forEach items="${categoryInfoList}" var="categoryInfo">  
-											<option value="${categoryInfo.id}">${categoryInfo.categoryName}</option>
-										</c:forEach>
+										<option value="0" selected>不限月份</option>
 						        		<!-- /.月 -->
 									</select>
 								</div>
@@ -399,9 +393,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	var publishTable;//已发布文章
 	var draftTable;//已保存文章，未发布
 	var trashTable;//已删除，放入回收箱
+	var monthMap;//月份map，key为年，value为月
+	var yearList;//年list
 	
 	$(function(){
+		//初始化参数
+		initParam();
 		
+		//初始化表格
 		layui.use('table', function(){
 		  var table = layui.table;
 		  
@@ -575,8 +574,49 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  });
 		  
 		});
-	
+		
+		//点击查询，获取参数，查询分页数据
+		$("#searchBtn").click(function(){
+			//归档年月
+			//分类id
+			
+		});
+		
+		//点击年列表，加载月份
+		$("#year").change(function(){
+			//获取年
+			var year = $("#year").val()
+			//填充月
+			if(year == null || year == undefined || year == 0){
+				$("#month").html("");
+				$("#month").append("<option value='0' selected>不限月份</option>");
+				return;
+			}
+			var monthList = monthMap[year];
+			$("#month").html("");
+			$("#month").append("<option value='0' selected>不限月份</option>");
+			for(var i=0; i<monthList.length; i++){
+				var month = monthList[i];
+				$("#month").append("<option value='"+month+"'>"+month+"</option>");
+			}
+		});
 	});
+	
+	function initParam(){
+		yearList = ${years};
+		monthMap=${months};
+		
+		if(yearList == null || yearList == undefined){
+			return;
+		}
+		
+		$("#year").html("");
+		$("#year").append("<option value='0' selected>不限年份</option>");
+		for(var i=0; i<yearList.length; i++){
+			var year = yearList[i];
+			$("#year").append("<option value='"+year+"'>"+year+"</option>");
+		}
+	}
 </script>
 </body>
 </html>

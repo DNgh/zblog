@@ -22,4 +22,6 @@ public class Constants {
 	
 	public static final String ERRA001_CODE = "A001";
 	public static final String ERRA001_MSG = "不存在该文章";
+	
+	public static final int ARCHIVENAME_LENGTH = 6;
 }
