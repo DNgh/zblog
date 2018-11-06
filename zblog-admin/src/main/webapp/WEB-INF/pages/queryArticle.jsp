@@ -575,17 +575,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  
 		});
 		
-		//点击查询，获取参数，查询分页数据
-		$("#searchBtn").click(function(){
-			//归档年月
-			//分类id
-			
-		});
-		
 		//点击年列表，加载月份
 		$("#year").change(function(){
 			//获取年
-			var year = $("#year").val()
+			var year = $("#year option:selected").val()
 			//填充月
 			if(year == null || year == undefined || year == 0){
 				$("#month").html("");
@@ -599,6 +592,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var month = monthList[i];
 				$("#month").append("<option value='"+month+"'>"+month+"</option>");
 			}
+		});
+		
+		//点击查询，获取参数，查询分页数据
+		$("#searchBtn").click(function(){
+			//归档年月
+			var year = $("#year option:selected").val();
+			if(year == null || year == undefined || year == 0){
+				year = "";
+			}
+			var month = $("#month option:selected").val();
+			if(month == null || month == undefined || month == 0){
+				month = "";
+			}
+			//分类id
+			var categoryId = $("#category option:selected").val();
+			//重新加载数据
+			allTable.reload({
+				page:{
+					curr:1
+				}
+				,where:{
+					'state':'ALL',
+					'year':year,
+					'month':month,
+					'categoryId':categoryId
+				}
+			});
 		});
 	});
 	

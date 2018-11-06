@@ -12,6 +12,10 @@ public class Constants {
 	
 	public static final String CREATE_TIME = "createTime";
 	
+	public static final String YEAR = "year";
+	
+	public static final String MONTH = "month";
+	
 	public static final String CATEGORY_ID = "categoryId";//分类id
 	
 	public static final String STATE = "state";

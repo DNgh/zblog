@@ -230,13 +230,15 @@ public class ArticleController {
     public Map<String, Object> query(@RequestParam(value="page")Integer page, 
     		@RequestParam(value="limit")Integer limit, 
     		@RequestParam(value="state",required=false)String state,
-    		@RequestParam(value="createTime",required=false)String createTime, 
+    		@RequestParam(value="year",required=false)String year,
+    		@RequestParam(value="month",required=false)String month,
     		@RequestParam(value="categoryId",required=false)Long categoryId){
     	Map<String, Object> reqMap = new HashMap<String, Object>();
     	if(StringUtils.isNotBlank(state) && !StringUtils.equals("ALL", state)){
     		reqMap.put(Constants.STATE, ArticleState.valueOf(state));
     	}
-    	reqMap.put(Constants.CREATE_TIME, createTime);
+    	reqMap.put(Constants.YEAR, year);
+    	reqMap.put(Constants.MONTH, month);
     	reqMap.put(Constants.CATEGORY_ID, categoryId);
     	
     	PageInfo<ArticleInfo> pageInfo = articleService.queryArticleByPage(limit, page, reqMap);

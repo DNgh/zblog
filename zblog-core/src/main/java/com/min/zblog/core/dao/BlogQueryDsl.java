@@ -1,5 +1,6 @@
 package com.min.zblog.core.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import com.min.zblog.data.entity.QTmComment;
@@ -267,16 +269,31 @@ public class BlogQueryDsl {
 				exp = qTmArticle.state.eq((ArticleState)map.get(Constants.STATE));
 			}
 			
-			if(map.get(Constants.CREATE_TIME) != null){
+			//年不为空，则作为查询条件；月不为空，则作为查询条件
+			if(StringUtils.isNotBlank((String)map.get(Constants.YEAR))){
+				BooleanExpression archiveExp = null;
+				if(StringUtils.isNotBlank((String)map.get(Constants.MONTH)) ){
+					String name = (String)map.get(Constants.YEAR)
+							+(String)map.get(Constants.MONTH);
+					archiveExp = qTmArchive.name.eq(name);
+				}else{
+					archiveExp = qTmArchive.name.goe((String)map.get(Constants.YEAR)+"01")
+								.and(qTmArchive.name.loe((String)map.get(Constants.YEAR)+"12"));
+				}
+				
 				JPAQuery<TmArchive> vQuery = new JPAQuery<TmArchive>(em);
-				TmArchive tmArchive = vQuery.from(qTmArchive)
-						.where(qTmArchive.name.eq((String)map.get(Constants.CREATE_TIME)))
-						.fetchOne();
-				if(tmArchive != null){
+				List<TmArchive> tmArchiveList = vQuery.from(qTmArchive)
+						.where(archiveExp)
+						.fetch();
+				if(tmArchiveList != null){
+					List<Long> idList = new ArrayList<>();
+					for(TmArchive archive:tmArchiveList){
+						idList.add(archive.getId());
+					}
 					if(exp != null){
-						exp = exp.and(qTmArticle.archiveId.eq(tmArchive.getId()));
+						exp = exp.and(qTmArticle.archiveId.in(idList));
 					}else{
-						exp = qTmArticle.archiveId.eq(tmArchive.getId());
+						exp = qTmArticle.archiveId.in(idList);
 					}
 				}
 			}
