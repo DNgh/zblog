@@ -316,6 +316,63 @@ public class BlogQueryDsl {
 		return list;
 	}
 	
+	/**
+	 * 结合分页查询,统计个数
+	 * @param map:state year month categoryId
+	 * @return
+	 */
+	public Long countArticleByCondition(Map<String, Object> map){
+		BooleanExpression exp = null;
+		if(map != null){
+			if(map.get(Constants.STATE) != null){
+				exp = qTmArticle.state.eq((ArticleState)map.get(Constants.STATE));
+			}
+			
+			//年不为空，则作为查询条件；月不为空，则作为查询条件
+			if(StringUtils.isNotBlank((String)map.get(Constants.YEAR))){
+				BooleanExpression archiveExp = null;
+				if(StringUtils.isNotBlank((String)map.get(Constants.MONTH)) ){
+					String name = (String)map.get(Constants.YEAR)
+							+(String)map.get(Constants.MONTH);
+					archiveExp = qTmArchive.name.eq(name);
+				}else{
+					archiveExp = qTmArchive.name.goe((String)map.get(Constants.YEAR)+"01")
+								.and(qTmArchive.name.loe((String)map.get(Constants.YEAR)+"12"));
+				}
+				
+				JPAQuery<TmArchive> vQuery = new JPAQuery<TmArchive>(em);
+				List<TmArchive> tmArchiveList = vQuery.from(qTmArchive)
+						.where(archiveExp)
+						.fetch();
+				if(tmArchiveList != null){
+					List<Long> idList = new ArrayList<>();
+					for(TmArchive archive:tmArchiveList){
+						idList.add(archive.getId());
+					}
+					if(exp != null){
+						exp = exp.and(qTmArticle.archiveId.in(idList));
+					}else{
+						exp = qTmArticle.archiveId.in(idList);
+					}
+				}
+			}
+			
+			if(map.get(Constants.CATEGORY_ID) != null){
+				if(exp != null){
+					exp = exp.and(qTmArticle.categoryId.eq((Long)map.get(Constants.CATEGORY_ID)));
+				}else{
+					exp = qTmArticle.categoryId.eq((Long)map.get(Constants.CATEGORY_ID));
+				}
+			}
+		}
+		
+		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
+		Long total = query.from(qTmArticle)
+				.where(exp)
+				.fetchCount();
+		return total;
+	}
+	
 	public List<TmTag> fetchTagByArticleId(Long id){
 		JPAQuery<TmTag> query = new JPAQuery<TmTag>(em);
 		return query.from(qTmTag, qTmArticleTag)

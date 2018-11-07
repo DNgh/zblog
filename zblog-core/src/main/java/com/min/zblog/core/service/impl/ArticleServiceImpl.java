@@ -325,12 +325,8 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		PageInfo<ArticleInfo> pageInfo = new PageInfo<ArticleInfo>();
 		pageInfo.setCurrentPage(currentPage);
-		long total = 0;
-		if(map != null && map.get(Constants.STATE) != null){
-			total = articleDao.countByState((ArticleState)map.get(Constants.STATE));
-		}else{
-			total = articleDao.count();
-		}
+		long total = blogQueryDsl.countArticleByCondition(map);
+		
 		pageInfo.setCount(total);
 		pageInfo.setTotalPages((total%pageSize == 0)?(total/pageSize):((total/pageSize)+1));
 		pageInfo.setList(articleInfoList);

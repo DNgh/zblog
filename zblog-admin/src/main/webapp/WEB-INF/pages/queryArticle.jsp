@@ -284,10 +284,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- Main content -->
     <section class="content">
 		<ul id="articleTab" class="nav nav-tabs">
-			<li class="active"><a href="#all" data-toggle="tab">全部(10)</a></li>
-			<li><a href="#publish" data-toggle="tab">已发布(5)</a></li>
-			<li><a href="#draft" data-toggle="tab">草稿箱(2)</a></li>
-			<li><a href="#trash" data-toggle="tab">回收箱(3)</a></li>
+			<li class="active"><a href="#all" data-toggle="tab">全部</a></li>
+			<li><a href="#publish" data-toggle="tab">已发布</a></li>
+			<li><a href="#draft" data-toggle="tab">草稿箱</a></li>
+			<li><a href="#trash" data-toggle="tab">回收箱</a></li>
 		</ul>
 		<div id="articleTabContent" class="tab-content">
 			<div class="tab-pane fade in active" id="all">
@@ -389,6 +389,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- custom jQuery -->
 <script src="custom/js/zblog.js"></script>
 <script type="text/javascript">
+	var table;//全局表格
 	var allTable;//所有文章
 	var publishTable;//已发布文章
 	var draftTable;//已保存文章，未发布
@@ -402,10 +403,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		//初始化表格
 		layui.use('table', function(){
-		  var table = layui.table;
+		  table = layui.table;
 		  
 		  allTable = table.render({
-		    elem: '#allTable'
+			id: 'layAllTable'
+		    ,elem: '#allTable'
 		    ,url:'article/query'
 		    ,where:{
 		    	state:'ALL'//所有文章
@@ -423,10 +425,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
 		    ]]
 		    ,page: true
+		    ,done: function(res, curr, count){
+		    	table.resize('layAllTable');
+			}
 		  });
 		  
 		  publishTable = table.render({
-		    elem: '#publishTable'
+			id: 'layPublishTable'
+			,elem: '#publishTable'
 		    ,url:'article/query'
 		    ,where:{
 		    	state:'PUBLISH'//已发布文章
@@ -444,10 +450,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
 		    ]]
 		    ,page: true
+		    ,done: function(res, curr, count){
+		    	table.resize('layPublishTable');
+			}
 		  });
 		  
 		  draftTable = table.render({
-		    elem: '#draftTable'
+			id: 'layDraftTable'
+		    ,elem: '#draftTable'
 		    ,url:'article/query'
 		    ,where:{
 		    	state:'CREATE'//草稿箱
@@ -465,10 +475,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
 		    ]]
 		    ,page: true
+		    ,done: function(res, curr, count){
+		    	table.resize('layDraftTable');
+			}
 		  });
 		  
 		  trashTable = table.render({
-		    elem: '#trashTable'
+			id: 'layTrashTable'
+		    ,elem: '#trashTable'
 		    ,url:'article/query'
 		    ,where:{
 		    	state:'DELETE'//回收箱
@@ -486,6 +500,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
 		    ]]
 		    ,page: true
+		    ,done: function(res, curr, count){
+		    	table.resize('layTrashTable');
+			}
 		  });
 		  
 		  //监听行工具事件
@@ -609,14 +626,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var categoryId = $("#category option:selected").val();
 			//重新加载数据
 			allTable.reload({
-				page:{
-					curr:1
-				}
-				,where:{
+				page: {
+					curr: 1
+				},
+				where:{
 					'state':'ALL',
 					'year':year,
 					'month':month,
 					'categoryId':categoryId
+				},
+				done: function(res, curr, count){
+					table.resize('layAllTable');
 				}
 			});
 		});
