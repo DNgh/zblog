@@ -16,6 +16,7 @@ import com.min.zblog.core.dao.ArticleDao;
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.ArticleTagDao;
 import com.min.zblog.core.dao.CategoryDao;
+import com.min.zblog.core.dao.CommentDao;
 import com.min.zblog.core.dao.TagDao;
 import com.min.zblog.core.dao.VisitHstDao;
 import com.min.zblog.core.service.ArticleService;
@@ -121,16 +122,28 @@ public class ArticleServiceImpl implements ArticleService {
 	public void deleteArticleById(Long id) {
 		TmArticle article = articleDao.findOne(id);
 		if(article == null){
-			
+			throw new ProcessException(Constants.ERRA001_CODE, Constants.ERRA001_MSG);
 		}
 		
-		//删除文章
-		articleDao.delete(id);
+		//更新分类数、更新归档数
+		TmCategory category = categoryDao.findOne(article.getCategoryId());
+		if(category != null && category.getCount() != null){
+			category.setCount(category.getCount()-1);
+			categoryDao.save(category);
+		}
+		TmArchive archive = archiveDao.findOne(article.getArchiveId());
+		if(archive != null && archive.getCount() != null){
+			archive.setCount(archive.getCount()-1);
+			archiveDao.save(archive);
+		}
 		//删除访问历史
 		blogQueryDsl.deleteVisitHstByArticleId(article.getId());
 		//删除标签关联记录
-		blogQueryDsl.deleteVisitHstByArticleId(article.getId());
+		//blogQueryDsl.deleteVisitHstByArticleId(article.getId());
 		//删除评论
+		
+		//删除文章
+		articleDao.delete(id);
 	}
 
 	@Override
@@ -476,5 +489,31 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		
 		return article;
+	}
+
+	/* 软删除，更改文章状态
+	 * @see com.min.zblog.core.service.ArticleService#deleteArticleVirtualById(java.lang.Long)
+	 */
+	@Override
+	public void deleteArticleVirtualById(Long articleId) throws ProcessException {
+		TmArticle article = articleDao.findOne(articleId);
+		if(article == null){
+			throw new ProcessException(Constants.ERRA001_CODE, Constants.ERRA001_MSG);
+		}
+		
+		//更新分类数、更新归档数、文章状态
+		TmCategory category = categoryDao.findOne(article.getCategoryId());
+		if(category != null && category.getCount() != null){
+			category.setCount(category.getCount()-1);
+			categoryDao.save(category);
+		}
+		TmArchive archive = archiveDao.findOne(article.getArchiveId());
+		if(archive != null && archive.getCount() != null){
+			archive.setCount(archive.getCount()-1);
+			archiveDao.save(archive);
+		}
+		
+		article.setState(ArticleState.DELETE);
+		articleDao.save(article);
 	}
 }

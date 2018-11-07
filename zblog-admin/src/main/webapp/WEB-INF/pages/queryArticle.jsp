@@ -511,19 +511,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    //console.log(obj)
 		    if(obj.event === 'del'){
 		      layer.confirm('真的删除行么', function(index){
-		        obj.del();
-		        layer.close(index);
+		    	layer.close(index);
+		        var map = {
+					'articleId':data.id,
+			   	};
+		      	//ajax请求后端
+				$.ajax({
+	   	            url: "article/delete",
+	   	            datatype: 'json',
+	   	            type: "POST",
+	   	            data: convertAjaxDataNP(map),
+	   	            success: function (result) {
+	   	            	if(result.success == true){
+	   	            		obj.del();
+	   	            		layer.msg("成功删除");
+	   	            	}else{
+	   	            		//失败，提示信息
+	   	            		layer.alert(result.message, {icon: 5});
+	   	            	}
+	   	            },
+	   	            error: function(XMLHttpRequest, textStatus, errorThrown){
+	   	            	//清除默认值
+	   	            	layer.alert("请求失败", {icon: 5});
+	   	            }
+	   	        });
+		      	
 		      });
 		    } else if(obj.event === 'edit'){
-		      layer.prompt({
-		        formType: 2
-		        ,value: data.email
-		      }, function(value, index){
-		        obj.update({
-		          email: value
-		        });
-		        layer.close(index);
-		      });
+		    	//跳转到编辑页面
+		      	window.location.href = "article/editorPage?articleId="+data.id;
 		    }
 		  });
 		  
@@ -536,15 +552,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        layer.close(index);
 		      });
 		    } else if(obj.event === 'edit'){
-		      layer.prompt({
-		        formType: 2
-		        ,value: data.email
-		      }, function(value, index){
-		        obj.update({
-		          email: value
-		        });
-		        layer.close(index);
-		      });
+		    	//跳转到编辑页面
+		      	window.location.href = "article/editorPage?articleId="+data.id;
 		    }
 		  });
 		  
@@ -557,15 +566,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        layer.close(index);
 		      });
 		    } else if(obj.event === 'edit'){
-		      layer.prompt({
-		        formType: 2
-		        ,value: data.email
-		      }, function(value, index){
-		        obj.update({
-		          email: value
-		        });
-		        layer.close(index);
-		      });
+		    	//跳转到编辑页面
+		      	window.location.href = "article/editorPage?articleId="+data.id;
 		    }
 		  });
 		  
@@ -578,15 +580,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        layer.close(index);
 		      });
 		    } else if(obj.event === 'edit'){
-		      layer.prompt({
-		        formType: 2
-		        ,value: data.email
-		      }, function(value, index){
-		        obj.update({
-		          email: value
-		        });
-		        layer.close(index);
-		      });
+		    	//跳转到编辑页面
+		      	window.location.href = "article/editorPage?articleId="+data.id;
 		    }
 		  });
 		  

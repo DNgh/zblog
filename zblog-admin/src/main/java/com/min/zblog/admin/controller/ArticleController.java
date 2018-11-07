@@ -251,4 +251,38 @@ public class ArticleController {
         map.put("msg", "加载成功");
         return map;
     }
+    
+    @ResponseBody
+    @RequestMapping("/delete")
+    public Map<String, Object> deleteArticle(
+    		@RequestParam(value="articleId") Long articleId,
+    		@RequestParam(value="realDelete") boolean realDelete){
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	//真正删除文章，关联数据
+    	if(realDelete){
+    		try{
+    			articleService.deleteArticleById(articleId);
+    			//返回json格式结果
+            	result.put("success", true);
+            	result.put("message", "");
+    		}catch(Exception e){
+    			//返回json格式结果
+            	result.put("success", false);
+            	result.put("message", e.getMessage());
+    		}
+    	}else{//更改状态为删除，统计减1(归档数、分类数)
+    		try{
+    			articleService.deleteArticleVirtualById(articleId);
+    			//返回json格式结果
+            	result.put("success", true);
+            	result.put("message", "");
+    		}catch(Exception e){
+    			//返回json格式结果
+            	result.put("success", false);
+            	result.put("message", e.getMessage());
+    		}
+    	}
+    	
+        return result;
+    }
 }
