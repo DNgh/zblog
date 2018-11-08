@@ -50,6 +50,8 @@ public class ArticleServiceImpl implements ArticleService {
 	private BlogQueryDsl blogQueryDsl;
 	@Autowired
 	private ArchiveDao archiveDao;
+	@Autowired
+	private CommentDao commentDao;
 	
 	public List<TmArticle> listAll() {
 		return articleDao.findAll();
@@ -128,20 +130,22 @@ public class ArticleServiceImpl implements ArticleService {
 		//更新分类数、更新归档数
 		TmCategory category = categoryDao.findOne(article.getCategoryId());
 		if(category != null && category.getCount() != null){
-			category.setCount(category.getCount()-1);
+			Integer count = category.getCount()-1;
+			category.setCount(count<0?0:count);
 			categoryDao.save(category);
 		}
 		TmArchive archive = archiveDao.findOne(article.getArchiveId());
 		if(archive != null && archive.getCount() != null){
-			archive.setCount(archive.getCount()-1);
+			Integer count = archive.getCount()-1;
+			archive.setCount(count<0?0:count);
 			archiveDao.save(archive);
 		}
 		//删除访问历史
-		blogQueryDsl.deleteVisitHstByArticleId(article.getId());
+		visitHstDao.deleteTmVisitHstByArticleId(id);
 		//删除标签关联记录
-		//blogQueryDsl.deleteVisitHstByArticleId(article.getId());
+		articleTagDao.deleteTmArticleTagByArticleId(id);
 		//删除评论
-		
+		commentDao.deleteTmCommentByArticleId(id);
 		//删除文章
 		articleDao.delete(id);
 	}
@@ -504,12 +508,14 @@ public class ArticleServiceImpl implements ArticleService {
 		//更新分类数、更新归档数、文章状态
 		TmCategory category = categoryDao.findOne(article.getCategoryId());
 		if(category != null && category.getCount() != null){
-			category.setCount(category.getCount()-1);
+			Integer count = category.getCount()-1;
+			category.setCount(count<0?0:count);
 			categoryDao.save(category);
 		}
 		TmArchive archive = archiveDao.findOne(article.getArchiveId());
 		if(archive != null && archive.getCount() != null){
-			archive.setCount(archive.getCount()-1);
+			Integer count = archive.getCount()-1;
+			archive.setCount(count<0?0:count);
 			archiveDao.save(archive);
 		}
 		

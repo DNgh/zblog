@@ -510,32 +510,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    var data = obj.data;
 		    //console.log(obj)
 		    if(obj.event === 'del'){
-		      layer.confirm('真的删除行么', function(index){
-		    	layer.close(index);
+		      layer.confirm('真的删除行么，无法恢复', function(index){
 		        var map = {
 					'articleId':data.id,
+					'realDelete':true
 			   	};
 		      	//ajax请求后端
-				$.ajax({
-	   	            url: "article/delete",
-	   	            datatype: 'json',
-	   	            type: "POST",
-	   	            data: convertAjaxDataNP(map),
-	   	            success: function (result) {
-	   	            	if(result.success == true){
-	   	            		obj.del();
-	   	            		layer.msg("成功删除");
-	   	            	}else{
-	   	            		//失败，提示信息
-	   	            		layer.alert(result.message, {icon: 5});
-	   	            	}
-	   	            },
-	   	            error: function(XMLHttpRequest, textStatus, errorThrown){
-	   	            	//清除默认值
-	   	            	layer.alert("请求失败", {icon: 5});
-	   	            }
-	   	        });
-		      	
+		        deleteArticleAjax(obj, map, index);
 		      });
 		    } else if(obj.event === 'edit'){
 		    	//跳转到编辑页面
@@ -547,9 +528,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    var data = obj.data;
 		    //console.log(obj)
 		    if(obj.event === 'del'){
-		      layer.confirm('真的删除行么', function(index){
-		        obj.del();
-		        layer.close(index);
+		      layer.confirm('真的放入回收箱', function(index){
+			     var map = {
+					'articleId':data.id,
+					'realDelete':false
+			 	 };
+			   	 //ajax请求后端
+			     deleteArticleAjax(obj, map, index);
 		      });
 		    } else if(obj.event === 'edit'){
 		    	//跳转到编辑页面
@@ -561,9 +546,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    var data = obj.data;
 		    //console.log(obj)
 		    if(obj.event === 'del'){
-		      layer.confirm('真的删除行么', function(index){
-		        obj.del();
-		        layer.close(index);
+		      layer.confirm('真的放入回收箱', function(index){
+			     var map = {
+					'articleId':data.id,
+					'realDelete':false
+			 	 };
+			   	 //ajax请求后端
+			     deleteArticleAjax(obj, map, index);
 		      });
 		    } else if(obj.event === 'edit'){
 		    	//跳转到编辑页面
@@ -575,9 +564,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    var data = obj.data;
 		    //console.log(obj)
 		    if(obj.event === 'del'){
-		      layer.confirm('真的删除行么', function(index){
-		        obj.del();
-		        layer.close(index);
+		      layer.confirm('真的删除行么，无法恢复', function(index){
+			     var map = {
+					'articleId':data.id,
+					'realDelete':true
+			 	 };
+			   	 //ajax请求后端
+			     deleteArticleAjax(obj, map, index);
 		      });
 		    } else if(obj.event === 'edit'){
 		    	//跳转到编辑页面
@@ -651,6 +644,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var year = yearList[i];
 			$("#year").append("<option value='"+year+"'>"+year+"</option>");
 		}
+	}
+	
+	function deleteArticleAjax(obj, map, index){
+		$.ajax({
+	        url: "article/delete",
+	        datatype: 'json',
+	        type: "POST",
+	        data: convertAjaxDataNP(map),
+	        success: function (result) {
+	        	if(result.success == true){
+	        		obj.del();
+	        		$(".layui-laypage-btn").click();
+	        		layer.close(index);
+	        		layer.msg("成功删除");
+	        	}else{
+	        		//失败，提示信息
+	        		layer.alert(result.message, {icon: 5});
+	        	}
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown){
+	        	//清除默认值
+	        	layer.alert("请求失败", {icon: 5});
+	        }
+	    });
 	}
 </script>
 </body>
