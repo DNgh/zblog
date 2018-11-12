@@ -27,6 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="components/layui/css/layui.css">
+  <link rel="stylesheet" href="components/daterangepicker/daterangepicker.css">
   <!-- custom css -->
   <link rel="stylesheet" href="custom/css/custom.css">
   
@@ -281,77 +282,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
     <!-- Main content -->
     <section class="content">
-		<ul id="articleTab" class="nav nav-tabs">
-			<li class="active"><a href="#all" data-toggle="tab">全部</a></li>
-			<li><a href="#publish" data-toggle="tab">已发布</a></li>
-			<li><a href="#draft" data-toggle="tab">草稿箱</a></li>
-			<li><a href="#trash" data-toggle="tab">回收箱</a></li>
-		</ul>
-		<div id="articleTabContent" class="tab-content">
-			<div class="tab-pane fade in active" id="all">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<div class="searchArea">
-							<form class="form-inline" role="form">
-								<div class="form-group col-sm-5">
-									<label class="control-label">创建时间:</label>
-									<select id="year" class="form-control">
-										<!-- 年 -->
-										<option value="0" selected>不限年份</option>
-						        		<!-- /.年 -->
-									</select>
-									<select id="month" class="form-control">
-										<!-- 月 -->
-										<option value="0" selected>不限月份</option>
-						        		<!-- /.月 -->
-									</select>
-								</div>
-								<div class="form-group col-sm-5">
-									<label class="control-label">分类:</label>
-									<select id="category" class="form-control">
-										<!-- 分类 -->
-										<option value="" selected>不限分类</option>
-										<c:forEach items="${categoryInfoList}" var="categoryInfo">  
-											<option value="${categoryInfo.id}">${categoryInfo.categoryName}</option>
-										</c:forEach>
-						        		<!-- /.分类 -->
-									</select>
-								</div>
-								<div class="form-group col-sm-2">
-									<button type="button" class="btn btn-info" id="searchBtn">查询</button>
-								</div>
-							</form>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="searchArea">
+					<form class="form-inline" role="form">
+						<div class="form-group col-sm-5">
+							<label class="control-label">创建时间:</label>
+							<div class="input-group">
+					            <span class="input-group-addon">@</span>
+					            <input name="daterange" type="text" class="form-control" value="2018-01-01 - 2018-01-01">
+					        </div>
 						</div>
-						<!-- /.searchArea -->
-						<!-- 全部文章检索 -->
-						<table id="allTable" lay-filter="allTable" style="width:100%"></table>
-            		</div>
+						<div class="form-group col-sm-5">
+							<label class="control-label">启用标志:</label>
+							<select id="category" class="form-control">
+								<!-- 启用 -->
+								<option value="" selected>不限分类</option>
+				        		<!-- /.启用 -->
+							</select>
+						</div>
+						<div class="form-group col-sm-2">
+							<button type="button" class="btn btn-info" id="searchBtn">查询</button>
+						</div>
+					</form>
 				</div>
-			</div>
-			<div class="tab-pane fade" id="publish">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<!-- 已发布文章检索 -->
-						<table id="publishTable" lay-filter="publishTable" style="width:100%"></table>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane fade" id="draft">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<!-- 草稿箱文章检索 -->
-						<table id="draftTable" lay-filter="draftTable" style="width:100%"></table>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane fade" id="trash">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<!-- 回收箱文章检索 -->
-						<table id="trashTable" lay-filter="trashTable" style="width:100%"></table>
-					</div>
-				</div>
-			</div>
+				<!-- /.searchArea -->
+				<!-- 全部分类检索 -->
+				<table id="allTable" lay-filter="allTable" style="width:100%"></table>
+	    	</div>
 		</div>
     </section>
     <!-- /.content -->
@@ -384,16 +342,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- bootstrap-paginator -->
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
 <script src="components/layui/layui.js"></script>
+<script src="components/daterangepicker/moment.min.js"></script>
+<script src="components/daterangepicker/daterangepicker.js"></script>
 <!-- custom jQuery -->
 <script src="custom/js/zblog.js"></script>
 <script type="text/javascript">
 	var table;//全局表格
 	var allTable;//所有文章
-	var publishTable;//已发布文章
-	var draftTable;//已保存文章，未发布
-	var trashTable;//已删除，放入回收箱
-	var monthMap;//月份map，key为年，value为月
-	var yearList;//年list
 	
 	$(function(){
 		//初始化参数
@@ -406,7 +361,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  allTable = table.render({
 			id: 'layAllTable'
 		    ,elem: '#allTable'
-		    ,url:'article/query'
+		    ,url:''
 		    ,where:{
 		    	state:'ALL'//所有文章
 		    }
@@ -428,81 +383,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 		  });
 		  
-		  publishTable = table.render({
-			id: 'layPublishTable'
-			,elem: '#publishTable'
-		    ,url:'article/query'
-		    ,where:{
-		    	state:'PUBLISH'//已发布文章
-		    }
-		    ,limit: 10 //每页默认显示的数量
-	        ,method:'post'  //提交方式
-	        ,title: '文章数据表'
-	        ,cellMinWidth: 100
-		    ,cols: [[
-		      {field:'id', title:'ID', width:'10%', sort: true}
-		      ,{field:'title', title:'标题', width:'20%'}
-		      ,{field:'readNum', title:'阅读数', width:'10%'}
-		      ,{field:'commentNum', title:'评论数', width:'10%'}
-		      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
-		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
-		    ]]
-		    ,page: true
-		    ,done: function(res, curr, count){
-		    	table.resize('layPublishTable');
-			}
-		  });
-		  
-		  draftTable = table.render({
-			id: 'layDraftTable'
-		    ,elem: '#draftTable'
-		    ,url:'article/query'
-		    ,where:{
-		    	state:'CREATE'//草稿箱
-		    }
-		    ,limit: 10 //每页默认显示的数量
-	        ,method:'post'  //提交方式
-	        ,title: '文章数据表'
-	        ,cellMinWidth: 100
-		    ,cols: [[
-		      {field:'id', title:'ID', width:'10%', sort: true}
-		      ,{field:'title', title:'标题', width:'20%'}
-		      ,{field:'readNum', title:'阅读数', width:'10%'}
-		      ,{field:'commentNum', title:'评论数', width:'10%'}
-		      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
-		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
-		    ]]
-		    ,page: true
-		    ,done: function(res, curr, count){
-		    	table.resize('layDraftTable');
-			}
-		  });
-		  
-		  trashTable = table.render({
-			id: 'layTrashTable'
-		    ,elem: '#trashTable'
-		    ,url:'article/query'
-		    ,where:{
-		    	state:'DELETE'//回收箱
-		    }
-		    ,limit: 10 //每页默认显示的数量
-	        ,method:'post'  //提交方式
-	        ,title: '文章数据表'
-	        ,cellMinWidth: 100
-		    ,cols: [[
-		      {field:'id', title:'ID', width:'10%', sort: true}
-		      ,{field:'title', title:'标题', width:'20%'}
-		      ,{field:'readNum', title:'阅读数', width:'10%'}
-		      ,{field:'commentNum', title:'评论数', width:'10%'}
-		      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
-		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
-		    ]]
-		    ,page: true
-		    ,done: function(res, curr, count){
-		    	table.resize('layTrashTable');
-			}
-		  });
-		  
 		  //监听行工具事件
 		  table.on('tool(allTable)', function(obj){
 		    var data = obj.data;
@@ -521,80 +401,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      	window.location.href = "article/editorPage?articleId="+data.id;
 		    }
 		  });
-		  
-		  table.on('tool(publishTable)', function(obj){
-		    var data = obj.data;
-		    //console.log(obj)
-		    if(obj.event === 'del'){
-		      layer.confirm('真的放入回收箱', function(index){
-			     var map = {
-					'articleId':data.id,
-					'realDelete':false
-			 	 };
-			   	 //ajax请求后端
-			     deleteArticleAjax(obj, map, index);
-		      });
-		    } else if(obj.event === 'edit'){
-		    	//跳转到编辑页面
-		      	window.location.href = "article/editorPage?articleId="+data.id;
-		    }
-		  });
-		  
-		  table.on('tool(draftTable)', function(obj){
-		    var data = obj.data;
-		    //console.log(obj)
-		    if(obj.event === 'del'){
-		      layer.confirm('真的放入回收箱', function(index){
-			     var map = {
-					'articleId':data.id,
-					'realDelete':false
-			 	 };
-			   	 //ajax请求后端
-			     deleteArticleAjax(obj, map, index);
-		      });
-		    } else if(obj.event === 'edit'){
-		    	//跳转到编辑页面
-		      	window.location.href = "article/editorPage?articleId="+data.id;
-		    }
-		  });
-		  
-		  table.on('tool(trashTable)', function(obj){
-		    var data = obj.data;
-		    //console.log(obj)
-		    if(obj.event === 'del'){
-		      layer.confirm('真的删除行么，无法恢复', function(index){
-			     var map = {
-					'articleId':data.id,
-					'realDelete':true
-			 	 };
-			   	 //ajax请求后端
-			     deleteArticleAjax(obj, map, index);
-		      });
-		    } else if(obj.event === 'edit'){
-		    	//跳转到编辑页面
-		      	window.location.href = "article/editorPage?articleId="+data.id;
-		    }
-		  });
-		  
-		});
-		
-		//点击年列表，加载月份
-		$("#year").change(function(){
-			//获取年
-			var year = $("#year option:selected").val()
-			//填充月
-			if(year == null || year == undefined || year == 0){
-				$("#month").html("");
-				$("#month").append("<option value='0' selected>不限月份</option>");
-				return;
-			}
-			var monthList = monthMap[year];
-			$("#month").html("");
-			$("#month").append("<option value='0' selected>不限月份</option>");
-			for(var i=0; i<monthList.length; i++){
-				var month = monthList[i];
-				$("#month").append("<option value='"+month+"'>"+month+"</option>");
-			}
 		});
 		
 		//点击查询，获取参数，查询分页数据
@@ -629,19 +435,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
 	
 	function initParam(){
-		yearList = ${years};
-		monthMap=${months};
-		
-		if(yearList == null || yearList == undefined){
-			return;
-		}
-		
-		$("#year").html("");
-		$("#year").append("<option value='0' selected>不限年份</option>");
-		for(var i=0; i<yearList.length; i++){
-			var year = yearList[i];
-			$("#year").append("<option value='"+year+"'>"+year+"</option>");
-		}
+		initDateRange();
 	}
 	
 	function deleteArticleAjax(obj, map, index){
@@ -666,6 +460,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        	layer.alert("请求失败", {icon: 5});
 	        }
 	    });
+	}
+	
+	function initDateRange(){
+		var locale = {
+			"format": 'YYYY-MM-DD',
+			"separator": " 至 ",
+			"applyLabel": "确定",
+			"cancelLabel": "取消",
+			"fromLabel": "起始时间",
+			"toLabel": "结束时间'",
+			"customRangeLabel": "自定义",
+			"weekLabel": "W",
+			"daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
+			"monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+			"firstDay": 1
+		};
+		
+		$('input[name="daterange"]').daterangepicker({
+			"locale": locale,
+			"ranges" : {
+				'最近1小时': [moment().subtract(1, 'hours'), moment()],
+				'今日': [moment().startOf('day'), moment()],
+				'昨日': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+				'最近7日': [moment().subtract(6, 'days'), moment()],
+				'最近30日': [moment().subtract(29, 'days'), moment()],
+				'本月': [moment().startOf("month"),moment().endOf("month")],
+				'上个月': [moment().subtract(1,"month").startOf("month"),moment().subtract(1,"month").endOf("month")]
+			},
+			"opens":"right"
+		}, function(start, end, label) {
+			console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+		});
 	}
 </script>
 </body>
