@@ -140,7 +140,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">导航栏</li>
-        <li class="active treeview">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-book"></i>
             <span>文章管理</span>
@@ -153,7 +153,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li><a href="article/queryPage"><i class="fa fa-circle-o"></i> 查询文章</a></li>
           </ul>
         </li>
-        <li class="treeview">
+        <li class="active treeview">
           <a href="#">
             <i class="fa fa-th"></i>
             <span>分类管理</span>
@@ -289,20 +289,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="form-group col-sm-5">
 							<label class="control-label">创建时间:</label>
 							<div class="input-group">
-					            <span class="input-group-addon">@</span>
-					            <input name="daterange" type="text" class="form-control" value="2018-01-01 - 2018-01-01">
+					            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+					            <input name="daterange" type="text" class="form-control" value="">
 					        </div>
 						</div>
 						<div class="form-group col-sm-5">
 							<label class="control-label">启用标志:</label>
 							<select id="category" class="form-control">
 								<!-- 启用 -->
-								<option value="" selected>不限分类</option>
+								<option value="" selected>不限</option>
+								<option value="Y">是</option>
+								<option value="N">否</option>
 				        		<!-- /.启用 -->
 							</select>
 						</div>
 						<div class="form-group col-sm-2">
-							<button type="button" class="btn btn-info" id="searchBtn">查询</button>
+							<button type="button" class="btn btn-primary" id="searchBtn">查询</button>
 						</div>
 					</form>
 				</div>
@@ -468,6 +470,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			"separator": " 至 ",
 			"applyLabel": "确定",
 			"cancelLabel": "取消",
+			"resetLabel": "重置",
 			"fromLabel": "起始时间",
 			"toLabel": "结束时间'",
 			"customRangeLabel": "自定义",
