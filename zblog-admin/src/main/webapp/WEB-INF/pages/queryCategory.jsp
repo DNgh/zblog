@@ -286,25 +286,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="panel-body">
 				<div class="searchArea">
 					<form class="form-inline" role="form">
-						<div class="form-group col-sm-5">
-							<label class="control-label">创建时间:</label>
-							<div class="input-group">
-					            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-					            <input name="daterange" type="text" class="form-control" value="">
-					        </div>
-						</div>
-						<div class="form-group col-sm-5">
-							<label class="control-label">启用标志:</label>
-							<select id="category" class="form-control">
-								<!-- 启用 -->
-								<option value="" selected>不限</option>
-								<option value="Y">是</option>
-								<option value="N">否</option>
-				        		<!-- /.启用 -->
-							</select>
-						</div>
-						<div class="form-group col-sm-2">
-							<button type="button" class="btn btn-primary" id="searchBtn">查询</button>
+						<div class="row">
+							<div class="form-group col-md-5">
+								<label class="control-label">创建时间:</label>
+								<div class="input-group">
+									<!-- AdminLTE样式，导致输入框直角 -->
+						            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						            <input id="daterange" name="daterange" type="text" class="form-control" size="20"/>
+						            <span class="input-group-addon"><i class="fa fa-remove"></i></span>
+						     	</div>
+							</div>
+							<div class="form-group col-md-5">
+								<label class="control-label">启用标志:</label>
+								<select id="available" class="form-control">
+									<!-- 启用 -->
+									<option value="0" selected>不限</option>
+									<option value="Y">是</option>
+									<option value="N">否</option>
+						      		<!-- /.启用 -->
+								</select>
+							</div>
+							<div class="form-group col-md-2">
+								<button type="button" class="btn btn-success" id="searchBtn">查询</button>
+							</div>
 						</div>
 					</form>
 				</div>
@@ -369,15 +373,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    }
 		    ,limit: 10 //每页默认显示的数量
 		    ,method:'post'  //提交方式
-		    ,title: '文章数据表'
+		    ,title: '分类数据表'
 		    ,cellMinWidth: 100
 		    ,cols: [[
 		      {field:'id', title:'ID', width:'10%', sort: true}
-		      ,{field:'title', title:'标题', width:'20%'}
-		      ,{field:'readNum', title:'阅读数', width:'10%'}
-		      ,{field:'commentNum', title:'评论数', width:'10%'}
+		      ,{field:'categoryName', title:'分类名称', width:'20%'}
+		      ,{field:'articleNum', title:'文章数', width:'10%'}
+		      ,{field:'icon', title:'图标', width:'10%'}
+		      ,{field:'available', title:'是否启用', width:'10%'}
 		      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
-		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
+		      ,{field:'option', title:'操作', width:'20%', toolbar: '#optionBar'}
 		    ]]
 		    ,page: true
 		    ,done: function(res, curr, count){
@@ -392,32 +397,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    if(obj.event === 'del'){
 		      layer.confirm('真的删除行么，无法恢复', function(index){
 		        var map = {
-					'articleId':data.id,
-					'realDelete':true
+					'categoryId':data.id
 			   	};
 		      	//ajax请求后端
 		        deleteArticleAjax(obj, map, index);
 		      });
 		    } else if(obj.event === 'edit'){
 		    	//跳转到编辑页面
-		      	window.location.href = "article/editorPage?articleId="+data.id;
+		      	window.location.href = "category/editorPage?categoryId="+data.id;
 		    }
 		  });
 		});
 		
 		//点击查询，获取参数，查询分页数据
 		$("#searchBtn").click(function(){
-			//归档年月
-			var year = $("#year option:selected").val();
+			//创建时间
+			var daterange = $("#daterange option:selected").val();
 			if(year == null || year == undefined || year == 0){
 				year = "";
 			}
-			var month = $("#month option:selected").val();
-			if(month == null || month == undefined || month == 0){
-				month = "";
+			var available = $("#available option:selected").val();
+			if(available == null || available == undefined || available == 0){
+				available = "";
 			}
-			//分类id
-			var categoryId = $("#category option:selected").val();
+			
 			//重新加载数据
 			allTable.reload({
 				page: {

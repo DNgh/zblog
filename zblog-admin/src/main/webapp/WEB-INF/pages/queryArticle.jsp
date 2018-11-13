@@ -295,32 +295,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="panel-body">
 						<div class="searchArea">
 							<form class="form-inline" role="form">
-								<div class="form-group col-sm-5">
-									<label class="control-label">创建时间:</label>
-									<select id="year" class="form-control">
-										<!-- 年 -->
-										<option value="0" selected>不限年份</option>
-						        		<!-- /.年 -->
-									</select>
-									<select id="month" class="form-control">
-										<!-- 月 -->
-										<option value="0" selected>不限月份</option>
-						        		<!-- /.月 -->
-									</select>
-								</div>
-								<div class="form-group col-sm-5">
-									<label class="control-label">分类:</label>
-									<select id="category" class="form-control">
-										<!-- 分类 -->
-										<option value="" selected>不限分类</option>
-										<c:forEach items="${categoryInfoList}" var="categoryInfo">  
-											<option value="${categoryInfo.id}">${categoryInfo.categoryName}</option>
-										</c:forEach>
-						        		<!-- /.分类 -->
-									</select>
-								</div>
-								<div class="form-group col-sm-2">
-									<button type="button" class="btn btn-info" id="searchBtn">查询</button>
+								<div class="row">
+									<div class="form-group col-sm-5">
+										<label class="control-label">创建时间:</label>
+										<select id="year" class="form-control">
+											<!-- 年 -->
+											<option value="0" selected>不限年份</option>
+							        		<!-- /.年 -->
+										</select>
+										<select id="month" class="form-control">
+											<!-- 月 -->
+											<option value="0" selected>不限月份</option>
+							        		<!-- /.月 -->
+										</select>
+									</div>
+									<div class="form-group col-sm-5">
+										<label class="control-label">分类:</label>
+										<select id="category" class="form-control">
+											<!-- 分类 -->
+											<option value="" selected>不限分类</option>
+											<c:forEach items="${categoryInfoList}" var="categoryInfo">  
+												<option value="${categoryInfo.id}">${categoryInfo.categoryName}</option>
+											</c:forEach>
+							        		<!-- /.分类 -->
+										</select>
+									</div>
+									<div class="form-group col-sm-2">
+										<button type="button" class="btn btn-success" id="searchBtn">查询</button>
+									</div>
 								</div>
 							</form>
 						</div>

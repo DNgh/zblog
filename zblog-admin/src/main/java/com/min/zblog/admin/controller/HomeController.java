@@ -12,4 +12,11 @@ public class HomeController {
 //        modelAndView.addObject("hello", "access index success");
         return modelAndView;
     }
+	
+	@RequestMapping("/test")
+    public ModelAndView test(){
+    	ModelAndView modelAndView =new ModelAndView("test");
+//        modelAndView.addObject("hello", "access index success");
+        return modelAndView;
+    }
 }
