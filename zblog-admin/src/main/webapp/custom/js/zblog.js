@@ -212,3 +212,27 @@ function convertAjaxDataNP(map){
 var convertLineCtrl=function(strValue){
 	return strValue.replace(/\r\n/g, '<br/>').replace(/\r/g, '<br/>').replace(/\n/g, '<br/>').replace(/\s/g, '&nbsp;');
 }
+
+function deleteLayerObjAjax(path, obj, map, index){
+	$.ajax({
+        url: path,
+        datatype: 'json',
+        type: "POST",
+        data: convertAjaxDataNP(map),
+        success: function (result) {
+        	if(result.success == true){
+        		obj.del();
+        		$(".layui-laypage-btn").click();
+        		layer.close(index);
+        		layer.msg("成功删除");
+        	}else{
+        		//失败，提示信息
+        		layer.alert(result.message, {icon: 5});
+        	}
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown){
+        	//清除默认值
+        	layer.alert("请求失败", {icon: 5});
+        }
+    });
+}

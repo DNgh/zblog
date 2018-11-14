@@ -428,4 +428,68 @@ public class BlogQueryDsl {
 		
 		return query.from(qTmComment).where(exp).orderBy(order).fetch();
 	}
+	
+	/**
+	 * 分页查询分类信息,多个查询条件
+	 * @param currentPage
+	 * @param pageSize
+	 * @param map:available startDate endDate
+	 * @return
+	 */
+	public List<TmCategory> fetchCategoryConditionByPage(long currentPage, long pageSize, Map<String, Object> map){
+		BooleanExpression exp = null;
+		if(map != null){
+			if(map.get(Constants.START_DATE) != null && map.get(Constants.END_DATE) != null){
+				exp = qTmCategory.createTime.between((Date)map.get(Constants.START_DATE), 
+						(Date)map.get(Constants.END_DATE));
+			}
+			
+			//是否启用
+			if(map.get(Constants.AVAILABLE) != null){
+				if(exp != null){
+					exp = exp.and(qTmCategory.available.eq((Indicator)map.get(Constants.AVAILABLE)));
+				}else{
+					exp = qTmCategory.available.eq((Indicator)map.get(Constants.AVAILABLE));
+				}
+			}
+		}
+		
+		JPAQuery<TmCategory> query = new JPAQuery<TmCategory>(em);
+		List<TmCategory> list = query.from(qTmCategory)
+				.where(exp)
+				.orderBy(qTmCategory.createTime.desc())
+				.offset((currentPage-1)*pageSize)
+				.limit(pageSize).fetch();
+		return list;
+	}
+	
+	/**
+	 * 结合分页查询,统计个数
+	 * @param map:available startDate endDate
+	 * @return
+	 */
+	public Long countCategoryByCondition(Map<String, Object> map){
+		BooleanExpression exp = null;
+		if(map != null){
+			if(map.get(Constants.START_DATE) != null && map.get(Constants.END_DATE) != null){
+				exp = qTmCategory.createTime.between((Date)map.get(Constants.START_DATE), 
+						(Date)map.get(Constants.END_DATE));
+			}
+			
+			//是否启用
+			if(map.get(Constants.AVAILABLE) != null){
+				if(exp != null){
+					exp = exp.and(qTmCategory.available.eq((Indicator)map.get(Constants.AVAILABLE)));
+				}else{
+					exp = qTmCategory.available.eq((Indicator)map.get(Constants.AVAILABLE));
+				}
+			}
+		}
+		
+		JPAQuery<TmCategory> query = new JPAQuery<TmCategory>(em);
+		Long total = query.from(qTmCategory)
+				.where(exp)
+				.fetchCount();
+		return total;
+	}
 }

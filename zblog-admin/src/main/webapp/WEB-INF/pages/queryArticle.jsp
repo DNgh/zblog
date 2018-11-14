@@ -518,7 +518,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					'realDelete':true
 			   	};
 		      	//ajax请求后端
-		        deleteArticleAjax(obj, map, index);
+		        deleteLayerObjAjax("article/delete", obj, map, index);
 		      });
 		    } else if(obj.event === 'edit'){
 		    	//跳转到编辑页面
@@ -536,7 +536,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					'realDelete':false
 			 	 };
 			   	 //ajax请求后端
-			     deleteArticleAjax(obj, map, index);
+			     deleteLayerObjAjax("article/delete", obj, map, index);
 		      });
 		    } else if(obj.event === 'edit'){
 		    	//跳转到编辑页面
@@ -554,7 +554,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					'realDelete':false
 			 	 };
 			   	 //ajax请求后端
-			     deleteArticleAjax(obj, map, index);
+			     deleteLayerObjAjax("article/delete", obj, map, index);
 		      });
 		    } else if(obj.event === 'edit'){
 		    	//跳转到编辑页面
@@ -572,7 +572,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					'realDelete':true
 			 	 };
 			   	 //ajax请求后端
-			     deleteArticleAjax(obj, map, index);
+			     deleteLayerObjAjax("article/delete", obj, map, index);
 		      });
 		    } else if(obj.event === 'edit'){
 		    	//跳转到编辑页面
@@ -647,30 +647,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$("#year").append("<option value='"+year+"'>"+year+"</option>");
 		}
 	}
-	
-	function deleteArticleAjax(obj, map, index){
-		$.ajax({
-	        url: "article/delete",
-	        datatype: 'json',
-	        type: "POST",
-	        data: convertAjaxDataNP(map),
-	        success: function (result) {
-	        	if(result.success == true){
-	        		obj.del();
-	        		$(".layui-laypage-btn").click();
-	        		layer.close(index);
-	        		layer.msg("成功删除");
-	        	}else{
-	        		//失败，提示信息
-	        		layer.alert(result.message, {icon: 5});
-	        	}
-	        },
-	        error: function(XMLHttpRequest, textStatus, errorThrown){
-	        	//清除默认值
-	        	layer.alert("请求失败", {icon: 5});
-	        }
-	    });
-	}
+
 </script>
 </body>
 </html>

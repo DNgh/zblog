@@ -20,6 +20,14 @@ public class Constants {
 	
 	public static final String STATE = "state";
 	
+	public static final int ARCHIVENAME_LENGTH = 6;
+	
+	public static final String START_DATE = "startDate";
+	
+	public static final String END_DATE = "endDate";
+	
+	public static final String AVAILABLE = "available";
+	
 	//错误码
 	public static final String ERRS001_CODE = "S001";
 	public static final String ERRS001_MSG = "系统错误";
@@ -27,5 +35,5 @@ public class Constants {
 	public static final String ERRA001_CODE = "A001";
 	public static final String ERRA001_MSG = "不存在该文章";
 	
-	public static final int ARCHIVENAME_LENGTH = 6;
+	
 }

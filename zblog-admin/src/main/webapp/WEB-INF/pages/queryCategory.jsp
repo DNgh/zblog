@@ -292,8 +292,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="input-group">
 									<!-- AdminLTE样式，导致输入框直角 -->
 						            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-						            <input id="daterange" name="daterange" type="text" class="form-control" size="20"/>
-						            <span class="input-group-addon"><i class="fa fa-remove"></i></span>
+						            <input id="daterange" name="daterange" type="text" class="form-control" placeholder="不限时间" size="20"/>
+						            <span id="removeBtn" class="input-group-addon"><i class="fa fa-remove"></i></span>
 						     	</div>
 							</div>
 							<div class="form-group col-md-5">
@@ -360,6 +360,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		//初始化参数
 		initParam();
 		
+		//初始化日历控控件
+		initDateRange();
+		
 		//初始化表格
 		layui.use('table', function(){
 		  table = layui.table;
@@ -367,10 +370,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  allTable = table.render({
 			id: 'layAllTable'
 		    ,elem: '#allTable'
-		    ,url:''
-		    ,where:{
-		    	state:'ALL'//所有文章
-		    }
+		    ,url:'category/query'
 		    ,limit: 10 //每页默认显示的数量
 		    ,method:'post'  //提交方式
 		    ,title: '分类数据表'
@@ -400,7 +400,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					'categoryId':data.id
 			   	};
 		      	//ajax请求后端
-		        deleteArticleAjax(obj, map, index);
+		        deleteLayerObjAjax("cateogry/delete", obj, map, index);
 		      });
 		    } else if(obj.event === 'edit'){
 		    	//跳转到编辑页面
@@ -412,13 +412,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		//点击查询，获取参数，查询分页数据
 		$("#searchBtn").click(function(){
 			//创建时间
-			var daterange = $("#daterange option:selected").val();
-			if(year == null || year == undefined || year == 0){
-				year = "";
+			var daterange = $("#daterange").val();
+			var startDate;
+			var endDate;
+			if(daterange == null || daterange == undefined || daterange == 0){
+				startDate = null;
+				endDate = null;
+			}else{
+				var index = daterange.indexOf('至');
+				if(index > -1){
+					startDate = $.trim(daterange.substring(0, index));
+					endDate = $.trim(daterange.substring(index+1));
+				}else{
+					startDate = null;
+					endDate = null;
+				}
 			}
+			//是否启用 
 			var available = $("#available option:selected").val();
 			if(available == null || available == undefined || available == 0){
-				available = "";
+				available = null;
 			}
 			
 			//重新加载数据
@@ -427,44 +440,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					curr: 1
 				},
 				where:{
-					'state':'ALL',
-					'year':year,
-					'month':month,
-					'categoryId':categoryId
+					'startDate':startDate,
+					'endDate':endDate,
+					'available':available
 				},
 				done: function(res, curr, count){
 					table.resize('layAllTable');
 				}
 			});
 		});
+		
+		//点击日期删除按钮，清除日期
+		$("#removeBtn").click(function(){
+			$('input[name="daterange"]').val('');
+		});
 	});
 	
 	function initParam(){
-		initDateRange();
-	}
-	
-	function deleteArticleAjax(obj, map, index){
-		$.ajax({
-	        url: "article/delete",
-	        datatype: 'json',
-	        type: "POST",
-	        data: convertAjaxDataNP(map),
-	        success: function (result) {
-	        	if(result.success == true){
-	        		obj.del();
-	        		$(".layui-laypage-btn").click();
-	        		layer.close(index);
-	        		layer.msg("成功删除");
-	        	}else{
-	        		//失败，提示信息
-	        		layer.alert(result.message, {icon: 5});
-	        	}
-	        },
-	        error: function(XMLHttpRequest, textStatus, errorThrown){
-	        	//清除默认值
-	        	layer.alert("请求失败", {icon: 5});
-	        }
-	    });
+		
 	}
 	
 	function initDateRange(){
@@ -494,9 +487,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				'本月': [moment().startOf("month"),moment().endOf("month")],
 				'上个月': [moment().subtract(1,"month").startOf("month"),moment().subtract(1,"month").endOf("month")]
 			},
-			"opens":"right"
+			"opens":"right",
+			"showDropdowns": true,
+			"autoUpdateInput":false
 		}, function(start, end, label) {
-			console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+			//console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ",Label:"+label);
+			this.element.val(this.startDate.format(this.locale.format) + this.locale.separator + this.endDate.format(this.locale.format));
 		});
 	}
 </script>

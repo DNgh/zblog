@@ -1,6 +1,9 @@
 package com.min.zblog.data.view;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import com.min.zblog.facility.enums.Indicator;
 
 /**
  * 页面显示分类信息
@@ -35,6 +38,16 @@ public class CategoryInfo implements Serializable {
 	 * 页面显示分类html
 	 */
 	private String html;
+	
+	/**
+	 * 是否可用
+	 */
+	private Indicator available;
+	
+	/**
+	 * 创建时间
+	 */
+	private Date createTime;
 
 	public String getCategoryName() {
 		return categoryName;
@@ -74,6 +87,22 @@ public class CategoryInfo implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Indicator getAvailable() {
+		return available;
+	}
+
+	public void setAvailable(Indicator available) {
+		this.available = available;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 	
 }
