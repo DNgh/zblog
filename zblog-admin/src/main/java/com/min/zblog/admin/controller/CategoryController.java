@@ -60,4 +60,14 @@ public class CategoryController {
         map.put("msg", "加载成功");
         return map;
     }
+	
+	@RequestMapping("/editorPage")
+    public ModelAndView editorPage(@RequestParam(value="categoryId")Long id){
+    	ModelAndView modelAndView =new ModelAndView("editCategory");
+    	//加载文章
+    	CategoryInfo categoryInfo = categoryservice.findOneCategory(id);
+        modelAndView.addObject("categoryInfo", categoryInfo);
+        
+        return modelAndView;
+    }
 }

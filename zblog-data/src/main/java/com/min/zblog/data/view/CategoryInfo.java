@@ -25,6 +25,11 @@ public class CategoryInfo implements Serializable {
 	private String categoryName;
 	
 	/**
+	 * 分类描述
+	 */
+	private String description;
+	
+	/**
 	 * 所属分类，文章数 
 	 */
 	private long articleNum;
@@ -55,6 +60,14 @@ public class CategoryInfo implements Serializable {
 
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public long getArticleNum() {

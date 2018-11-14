@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -26,8 +27,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
-  <link rel="stylesheet" href="components/layui/css/layui.css">
-  <link rel="stylesheet" href="components/daterangepicker/daterangepicker.css">
+  <!-- editormd -->
+  <link rel="stylesheet" href="components/editor.md/css/editormd.css" />
   <!-- custom css -->
   <link rel="stylesheet" href="custom/css/custom.css">
   
@@ -140,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">导航栏</li>
-        <li class="treeview">
+        <li class="active treeview">
           <a href="#">
             <i class="fa fa-book"></i>
             <span>文章管理</span>
@@ -149,11 +150,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="article/newPage"><i class="fa fa-circle-o"></i> 创建文章</a></li>
+            <li class="active"><a href="article/newPage"><i class="fa fa-circle-o"></i> 创建文章</a></li>
             <li><a href="article/queryPage"><i class="fa fa-circle-o"></i> 查询文章</a></li>
           </ul>
         </li>
-        <li class="active treeview">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-th"></i>
             <span>分类管理</span>
@@ -162,8 +163,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-          	<li><a href="article/newPage"><i class="fa fa-circle-o"></i> 创建分类</a></li>
-            <li class="active"><a href="article/queryPage"><i class="fa fa-circle-o"></i> 查询分类</a></li>
+            <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> A</a></li>
+            <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> B</a></li>
+            <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> C</a></li>
+            <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> D</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -273,49 +276,61 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>查询文章</h1>
+      <h1>编辑分类</h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-home"></i> 主页</a></li>
-        <li class="active">查询文章</li>
+        <li class="active">编辑分类</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<div class="searchArea">
-					<form class="form-inline" role="form">
-						<div class="row">
-							<div class="form-group col-md-5">
-								<label class="control-label">创建时间:</label>
-								<div class="input-group">
-									<!-- AdminLTE样式，导致输入框直角 -->
-						            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-						            <input id="daterange" name="daterange" type="text" class="form-control" placeholder="不限时间" size="20"/>
-						            <span id="removeBtn" class="input-group-addon"><i class="fa fa-remove"></i></span>
-						     	</div>
-							</div>
-							<div class="form-group col-md-5">
-								<label class="control-label">启用标志:</label>
-								<select id="available" class="form-control">
-									<!-- 启用 -->
-									<option value="0" selected>不限</option>
-									<option value="Y">是</option>
-									<option value="N">否</option>
-						      		<!-- /.启用 -->
-								</select>
-							</div>
-							<div class="form-group col-md-2">
-								<button type="button" class="btn btn-success" id="searchBtn">查询</button>
-							</div>
+    	<div class="panel panel-default">
+		   <div class="panel-body">
+		   		<input type="hidden" id="categoryId" value="${categoryInfo.id}"/>
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-sm-1 control-label">分类名称</label>
+						<div class="col-sm-11">
+							<em style="font-size: 12px;">*必输项</em>
+							<input id="name" class="form-control" type="text" placeholder="分类名称，必填" value="${categoryInfo.categoryName}">
 						</div>
-					</form>
-				</div>
-				<!-- /.searchArea -->
-				<!-- 全部分类检索 -->
-				<table id="allTable" lay-filter="allTable" style="width:100%"></table>
-	    	</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label">分类描述</label>
+						<div class="col-sm-11">
+							<textarea id="description" class="form-control" rows="3">${categoryInfo.description}</textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label">分类图标</label>
+						<div class="col-sm-11">
+							<em style="font-size: 12px;">*必输项</em>
+							<input id="icon" class="form-control" type="text" placeholder="分类图标，必填" value="${categoryInfo.icon}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label">启用</label>
+						<div class="col-sm-11">
+							<select id="available" class="form-control">
+							    <c:choose>
+									<c:when test="${categoryInfo.available == 'Y'}">
+										<option value="Y" selected>是</option>
+									</c:when>
+									<c:otherwise>
+										<option value="N">否</option>
+									</c:otherwise>
+								</c:choose> 
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+					    <div class="col-sm-1">
+					    	<button type="button" class="btn btn-info" id="saveBtn">保存</button>
+					    </div>
+					</div>
+				</form>
+		   </div>
 		</div>
     </section>
     <!-- /.content -->
@@ -332,11 +347,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <!-- ./wrapper -->
 
-<script type="text/html" id="optionBar">
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
-
 <!-- jQuery 1.12.4 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
@@ -347,147 +357,66 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="components/AdminLTE/js/adminlte.min.js"></script>
 <!-- bootstrap-paginator -->
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
-<script src="components/layui/layui.js"></script>
-<script src="components/daterangepicker/moment.min.js"></script>
-<script src="components/daterangepicker/daterangepicker.js"></script>
+<!-- editormd 1.15-->
+<script src="components/editor.md/editormd.min.js"></script>
+<script src="components/layer/layer.js"></script>
 <!-- custom jQuery -->
 <script src="custom/js/zblog.js"></script>
 <script type="text/javascript">
-	var table;//全局表格
-	var allTable;//所有文章
-	
 	$(function(){
-		//初始化日历控控件
-		initDateRange();
-		
-		//初始化表格
-		layui.use('table', function(){
-		  table = layui.table;
-		  
-		  allTable = table.render({
-			id: 'layAllTable'
-		    ,elem: '#allTable'
-		    ,url:'category/query'
-		    ,limit: 10 //每页默认显示的数量
-		    ,method:'post'  //提交方式
-		    ,title: '分类数据表'
-		    ,cellMinWidth: 100
-		    ,cols: [[
-		      {field:'id', title:'ID', width:'10%', sort: true}
-		      ,{field:'categoryName', title:'分类名称', width:'20%'}
-		      ,{field:'articleNum', title:'文章数', width:'10%'}
-		      ,{field:'icon', title:'图标', width:'10%'}
-		      ,{field:'available', title:'是否启用', width:'10%'}
-		      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
-		      ,{field:'option', title:'操作', width:'20%', toolbar: '#optionBar'}
-		    ]]
-		    ,page: true
-		    ,done: function(res, curr, count){
-		    	table.resize('layAllTable');
-			}
-		  });
-		  
-		  //监听行工具事件
-		  table.on('tool(allTable)', function(obj){
-		    var data = obj.data;
-		    //console.log(obj)
-		    if(obj.event === 'del'){
-		      layer.confirm('真的删除行么，无法恢复', function(index){
-		        var map = {
-					'categoryId':data.id
-			   	};
-		      	//ajax请求后端
-		        deleteLayerObjAjax("cateogry/delete", obj, map, index);
-		      });
-		    } else if(obj.event === 'edit'){
-		    	//跳转到编辑页面
-		      	window.location.href = "category/editorPage?categoryId="+data.id;
-		    }
-		  });
-		});
-		
-		//点击查询，获取参数，查询分页数据
-		$("#searchBtn").click(function(){
-			//创建时间
-			var daterange = $("#daterange").val();
-			var startDate;
-			var endDate;
-			if(daterange == null || daterange == undefined || daterange == 0){
-				startDate = null;
-				endDate = null;
-			}else{
-				var index = daterange.indexOf('至');
-				if(index > -1){
-					startDate = $.trim(daterange.substring(0, index));
-					endDate = $.trim(daterange.substring(index+1));
-				}else{
-					startDate = null;
-					endDate = null;
-				}
-			}
-			//是否启用 
+		//保存分类
+		$("#saveBtn").click(function(){
+			//获取分类id
+			var categoryId = $("#categoryId").val();
+			//获取分类名称
+			var categoryName = $("#name").val();
+			//获取分类描述
+			var description = $("#description").val();
+			//获取图标
+			var icon = $("#icon").val();
+			//是否启用
 			var available = $("#available option:selected").val();
-			if(available == null || available == undefined || available == 0){
-				available = null;
+			
+			//名称判空
+			if(categoryName==null||categoryName==undefined||categoryName==""){
+				layer.msg('名称不能为空');
+				return;
+			}
+			//图标判空
+			if(icon==null||icon==undefined||icon==""){
+				layer.msg('图标不能为空');
+				return;
 			}
 			
-			//重新加载数据
-			allTable.reload({
-				page: {
-					curr: 1
-				},
-				where:{
-					'startDate':startDate,
-					'endDate':endDate,
-					'available':available
-				},
-				done: function(res, curr, count){
-					table.resize('layAllTable');
-				}
-			});
-		});
-		
-		//点击日期删除按钮，清除日期
-		$("#removeBtn").click(function(){
-			$('input[name="daterange"]').val('');
+			var map = {
+				'categoryId':categoryId,
+				'name':categoryName,
+				'description':description,
+				'icon':icon,
+				'available':available
+	   		};
+			//ajax请求后端
+			$.ajax({
+   	            url: "category/save",
+   	            datatype: 'json',
+   	            type: "POST",
+   	            data: convertAjaxDataNP(map),
+   	            success: function (result) {
+   	            	if(result.success == true){
+   	            		layer.msg("保存成功");
+   	            	}else{
+   	            		//失败，提示信息
+   	            		layer.alert(result.message, {icon: 5});
+   	            	}
+   	            },
+   	            error: function(XMLHttpRequest, textStatus, errorThrown){
+   	            	//清除默认值
+   	            	layer.alert("请求失败", {icon: 5});
+   	            }
+   	        });
 		});
 	});
 	
-	function initDateRange(){
-		var locale = {
-			"format": 'YYYY-MM-DD',
-			"separator": " 至 ",
-			"applyLabel": "确定",
-			"cancelLabel": "取消",
-			"resetLabel": "重置",
-			"fromLabel": "起始时间",
-			"toLabel": "结束时间'",
-			"customRangeLabel": "自定义",
-			"weekLabel": "W",
-			"daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
-			"monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-			"firstDay": 1
-		};
-		
-		$('input[name="daterange"]').daterangepicker({
-			"locale": locale,
-			"ranges" : {
-				'最近1小时': [moment().subtract(1, 'hours'), moment()],
-				'今日': [moment().startOf('day'), moment()],
-				'昨日': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
-				'最近7日': [moment().subtract(6, 'days'), moment()],
-				'最近30日': [moment().subtract(29, 'days'), moment()],
-				'本月': [moment().startOf("month"),moment().endOf("month")],
-				'上个月': [moment().subtract(1,"month").startOf("month"),moment().subtract(1,"month").endOf("month")]
-			},
-			"opens":"right",
-			"showDropdowns": true,
-			"autoUpdateInput":false
-		}, function(start, end, label) {
-			//console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ",Label:"+label);
-			this.element.val(this.startDate.format(this.locale.format) + this.locale.separator + this.endDate.format(this.locale.format));
-		});
-	}
 </script>
 </body>
 </html>

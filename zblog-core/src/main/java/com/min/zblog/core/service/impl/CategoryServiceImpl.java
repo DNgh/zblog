@@ -12,6 +12,7 @@ import com.min.zblog.core.dao.CategoryDao;
 import com.min.zblog.core.service.CategoryService;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.TmCategory;
+import com.min.zblog.data.entity.TmTag;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.PageInfo;
@@ -78,6 +79,27 @@ public class CategoryServiceImpl implements CategoryService {
 		pageInfo.setList(categoryInfoList);
 		
 		return pageInfo;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.min.zblog.core.service.CategoryService#findOneCategory(java.lang.Long)
+	 */
+	@Override
+	public CategoryInfo findOneCategory(Long id) {
+		CategoryInfo categoryInfo = new CategoryInfo();
+		
+		TmCategory category = categoryDao.findOne(id);
+		if(category != null){
+			categoryInfo.setId(id);
+			categoryInfo.setCategoryName(category.getName());
+			categoryInfo.setDescription(category.getDescription());
+			categoryInfo.setArticleNum(category.getCount());
+			categoryInfo.setIcon(category.getIcon());
+			categoryInfo.setAvailable(category.getAvailable());
+			categoryInfo.setCreateTime(category.getCreateTime());
+		}
+		
+		return categoryInfo;
 	}
 
 }
