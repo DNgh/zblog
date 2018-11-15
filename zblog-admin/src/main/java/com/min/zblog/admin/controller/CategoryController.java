@@ -107,10 +107,16 @@ public class CategoryController {
         return result;
     }
 	
+	@RequestMapping("/newPage")
+    public ModelAndView newPage(){
+    	ModelAndView modelAndView =new ModelAndView("newCategory");
+        
+        return modelAndView;
+    }
+	
 	@ResponseBody
     @RequestMapping("/add")
     public Map<String, Object> addCategory(
-    		@RequestParam(value="categoryId") Long categoryId,
     		@RequestParam(value="name") String name,
     		@RequestParam(value="description") String description,
     		@RequestParam(value="icon") String icon,
@@ -118,7 +124,6 @@ public class CategoryController {
 
     	//保存到数据库
 		Map<String, Object> reqMap = new HashMap<String, Object>();
-    	reqMap.put("categoryId", categoryId);
     	reqMap.put("name", name); 
     	reqMap.put("description", description);
     	reqMap.put("icon", icon); 

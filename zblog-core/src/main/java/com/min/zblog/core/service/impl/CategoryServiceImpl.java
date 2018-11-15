@@ -145,10 +145,7 @@ public class CategoryServiceImpl implements CategoryService {
     	category.setUpdateTime(time);
     	category.setJpaVersion(0);
     	
-		categoryDao.save(category);
-		
-		
-		return category;
+    	return categoryDao.save(category);
 	}
 
 	@Override

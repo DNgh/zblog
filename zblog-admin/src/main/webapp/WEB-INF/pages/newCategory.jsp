@@ -287,28 +287,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   <div class="panel-body">
 				<form class="form-horizontal" role="form">
 					<div class="form-group">
-						<label class="col-sm-1 control-label">分类名称</label>
-						<div class="col-sm-11">
+						<label class="col-sm-2 control-label">分类名称</label>
+						<div class="col-sm-10">
 							<em style="font-size: 12px;">*必输项</em>
 							<input id="name" class="form-control" type="text" placeholder="分类名称，必填" value="${categoryInfo.categoryName}">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-1 control-label">分类描述</label>
-						<div class="col-sm-11">
+						<label class="col-sm-2 control-label">分类描述</label>
+						<div class="col-sm-10">
 							<textarea id="description" class="form-control" rows="3">${categoryInfo.description}</textarea>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-1 control-label">分类图标</label>
-						<div class="col-sm-11">
+						<label class="col-sm-2 control-label">分类图标</label>
+						<div class="col-sm-10">
 							<em style="font-size: 12px;">*必输项</em>
 							<input id="icon" class="form-control" type="text" placeholder="分类图标，必填" value="${categoryInfo.icon}">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-1 control-label">启用</label>
-						<div class="col-sm-11">
+						<label class="col-sm-2 control-label">启用</label>
+						<div class="col-sm-10">
 							<select id="available" class="form-control">
 							    <c:choose>
 									<c:when test="${categoryInfo.available == 'Y'}">
@@ -322,7 +322,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 					</div>
 					<div class="form-group">
-					    <div class="col-sm-1">
+					    <div class="col-md-offset-2 col-sm-1">
 					    	<button type="button" class="btn btn-info" id="saveBtn">保存</button>
 					    </div>
 					</div>
@@ -384,7 +384,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 			
 			var map = {
-				'categoryId':categoryId,
 				'name':categoryName,
 				'description':description,
 				'icon':icon,

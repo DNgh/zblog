@@ -273,10 +273,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>查询文章</h1>
+      <h1>查询分类</h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-home"></i> 主页</a></li>
-        <li class="active">查询文章</li>
+        <li class="active">查询分类</li>
       </ol>
     </section>
 
