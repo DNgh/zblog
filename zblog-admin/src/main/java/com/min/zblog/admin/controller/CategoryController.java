@@ -2,6 +2,7 @@ package com.min.zblog.admin.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.min.zblog.core.service.CategoryService;
+import com.min.zblog.data.entity.TmArticle;
+import com.min.zblog.data.entity.TmCategory;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.PageInfo;
@@ -29,7 +32,7 @@ public class CategoryController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	CategoryService categoryservice;
+	CategoryService categoryService;
 	
 	@RequestMapping("/queryPage")
     public ModelAndView queryPage(){
@@ -50,7 +53,7 @@ public class CategoryController {
     	reqMap.put(Constants.END_DATE, endDate);
     	reqMap.put(Constants.AVAILABLE, available);
     	
-    	PageInfo<CategoryInfo> pageInfo = categoryservice.queryCategoryByPage(limit, page, reqMap);
+    	PageInfo<CategoryInfo> pageInfo = categoryService.queryCategoryByPage(limit, page, reqMap);
     	logger.debug("currentPage:"+pageInfo.getCurrentPage()+",totalPages:"+pageInfo.getTotalPages());
     	
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -65,9 +68,89 @@ public class CategoryController {
     public ModelAndView editorPage(@RequestParam(value="categoryId")Long id){
     	ModelAndView modelAndView =new ModelAndView("editCategory");
     	//加载文章
-    	CategoryInfo categoryInfo = categoryservice.findOneCategory(id);
+    	CategoryInfo categoryInfo = categoryService.findOneCategory(id);
         modelAndView.addObject("categoryInfo", categoryInfo);
         
         return modelAndView;
+    }
+	
+	@ResponseBody
+    @RequestMapping("/save")
+    public Map<String, Object> saveCategory(
+    		@RequestParam(value="categoryId") Long categoryId,
+    		@RequestParam(value="name") String name,
+    		@RequestParam(value="description") String description,
+    		@RequestParam(value="icon") String icon,
+    		@RequestParam(value="available") Indicator available){
+
+    	//保存到数据库
+    	Map<String, Object> reqMap = new HashMap<String, Object>();
+    	reqMap.put("categoryId", categoryId);
+    	reqMap.put("name", name); 
+    	reqMap.put("description", description);
+    	reqMap.put("icon", icon); 
+    	reqMap.put("available", available);
+    	
+    	//加载文章
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	try{
+    		categoryService.saveCategory(reqMap);
+    		//返回json格式结果
+        	result.put("success", true);
+        	result.put("message", "");
+    	}catch(Exception e){
+    		//返回json格式结果
+        	result.put("success", false);
+        	result.put("message", e.getMessage());
+    	}
+    	
+        return result;
+    }
+	
+	@ResponseBody
+    @RequestMapping("/add")
+    public Map<String, Object> addCategory(
+    		@RequestParam(value="categoryId") Long categoryId,
+    		@RequestParam(value="name") String name,
+    		@RequestParam(value="description") String description,
+    		@RequestParam(value="icon") String icon,
+    		@RequestParam(value="available") Indicator available){
+
+    	//保存到数据库
+		Map<String, Object> reqMap = new HashMap<String, Object>();
+    	reqMap.put("categoryId", categoryId);
+    	reqMap.put("name", name); 
+    	reqMap.put("description", description);
+    	reqMap.put("icon", icon); 
+    	reqMap.put("available", available);
+    	
+    	TmCategory saveCategory = categoryService.addCategory(reqMap);
+    	
+    	//返回json格式结果
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	result.put("success", true);
+    	result.put("message", "");
+    	result.put("articleId", saveCategory.getId());
+    	
+        return result;
+    }
+	
+	@ResponseBody
+    @RequestMapping("/delete")
+    public Map<String, Object> deleteCategory(
+    		@RequestParam(value="categoryId") Long categoryId){
+    	Map<String, Object> result = new HashMap<String, Object>();
+		try{
+			categoryService.deleteCategoryById(categoryId);
+			//返回json格式结果
+        	result.put("success", true);
+        	result.put("message", "");
+		}catch(Exception e){
+			//返回json格式结果
+        	result.put("success", false);
+        	result.put("message", e.getMessage());
+		}
+    	
+        return result;
     }
 }

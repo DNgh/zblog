@@ -522,4 +522,34 @@ public class ArticleServiceImpl implements ArticleService {
 		article.setState(ArticleState.DELETE);
 		articleDao.save(article);
 	}
+	
+	@Override
+	public PageInfo<ArticleInfo> listArticleByPageCategoryId(long pageSize, long currentPage, Long id) {
+		if(id == null) {
+			return null;
+		}
+		//根据分类名称，查找已经发布文章
+		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleByPageCategoryId(pageSize, currentPage, id, ArticleState.PUBLISH);
+		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();
+		for(TmArticle article:tmArticleList){
+			
+			ArticleInfo articleInfo = new ArticleInfo();
+			articleInfo.setId(article.getId());
+			articleInfo.setTitle(article.getTitle());
+			articleInfo.setDescription(article.getDescription());
+			articleInfo.setCreateTime(article.getCreateTime());
+			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
+			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
+			
+			articleInfoList.add(articleInfo);
+		}
+		
+		PageInfo<ArticleInfo> pageInfo = new PageInfo<ArticleInfo>();
+		pageInfo.setCurrentPage(currentPage);
+		long total = blogQueryDsl.countArticleByCategoryId(id, ArticleState.PUBLISH);
+		pageInfo.setTotalPages((total%pageSize == 0)?(total/pageSize):((total/pageSize)+1));
+		pageInfo.setList(articleInfoList);
+		
+		return pageInfo;
+	}
 }

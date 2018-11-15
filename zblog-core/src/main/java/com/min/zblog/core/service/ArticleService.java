@@ -28,4 +28,5 @@ public interface ArticleService {
 	public ArticleInfo findNextOneArticle(Long id);
 	public TmArticle saveArticle(Map<String, Object> map) throws ProcessException;
 	public void deleteArticleVirtualById(Long articleId) throws ProcessException;
+	public PageInfo<ArticleInfo> listArticleByPageCategoryId(long pageSize, long currentPage, Long id);
 }

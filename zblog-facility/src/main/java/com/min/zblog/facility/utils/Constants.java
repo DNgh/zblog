@@ -35,5 +35,12 @@ public class Constants {
 	public static final String ERRA001_CODE = "A001";
 	public static final String ERRA001_MSG = "不存在该文章";
 	
+	public static final String ERRC001_CODE = "C001";
+	public static final String ERRC001_MSG = "不存在该分类";
+
+	public static final String ERRC002_CODE = "C002";
+
+	public static final String ERRC002_MSG = "正使用，无法删除";
+	
 	
 }

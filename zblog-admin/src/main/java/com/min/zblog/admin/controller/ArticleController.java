@@ -39,7 +39,7 @@ public class ArticleController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	CategoryService categoryservice;
+	CategoryService categoryService;
 	
 	@Autowired
     TagService tagService;
@@ -71,7 +71,7 @@ public class ArticleController {
     public ModelAndView newPage(){
     	ModelAndView modelAndView =new ModelAndView("newArticle");
     	//加载分类信息和标签信息
-    	categoryInfoList = categoryservice.fetchCategoryInfo();
+    	categoryInfoList = categoryService.fetchCategoryInfo();
     	tagInfoList = tagService.fetchTagInfo();
     	
         modelAndView.addObject("categoryInfoList", categoryInfoList);
@@ -122,7 +122,7 @@ public class ArticleController {
     	ModelAndView modelAndView =new ModelAndView("editArticle");
     	//加载文章
     	ArticleInfo articleInfo = articleService.findOneArticle(id);
-    	categoryInfoList = categoryservice.fetchCategoryInfo();
+    	categoryInfoList = categoryService.fetchCategoryInfo();
     	tagInfoList = tagService.fetchTagInfo();
     	
         modelAndView.addObject("categoryInfoList", categoryInfoList);
@@ -180,7 +180,7 @@ public class ArticleController {
     public ModelAndView queryPage(){
     	ModelAndView modelAndView =new ModelAndView("queryArticle");
         
-    	categoryInfoList = categoryservice.fetchCategoryInfo();
+    	categoryInfoList = categoryService.fetchCategoryInfo();
     	//加载日期信息
     	List<ArchiveInfo> archiveInfoList = archiveService.fetchArchiveInfo();
     	List<String> years = new ArrayList<String>();

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -26,8 +27,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
+  <!-- editormd -->
+  <link rel="stylesheet" href="components/editor.md/css/editormd.css" />
   <!-- custom css -->
-  <!-- <link rel="stylesheet" href="custom/css/custom.css"> -->
+  <link rel="stylesheet" href="custom/css/custom.css">
   
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -160,7 +163,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-          	<li><a href="category/newPage"><i class="fa fa-circle-o"></i> 创建分类</a></li>
+          	<li class="active"><a href="category/newPage"><i class="fa fa-circle-o"></i> 创建分类</a></li>
             <li><a href="category/queryPage"><i class="fa fa-circle-o"></i> 查询分类</a></li>
           </ul>
         </li>
@@ -271,17 +274,61 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-                    主页
-      </h1>
+      <h1>创建分类</h1>
       <ol class="breadcrumb">
-        <li class="active"><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="#"><i class="fa fa-home"></i> 主页</a></li>
+        <li class="active">创建分类</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
-		<p class="text-center" style="font-size:50px;">欢迎使用zblog后台管理系统</p>
+    	<div class="panel panel-default">
+		   <div class="panel-body">
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-sm-1 control-label">分类名称</label>
+						<div class="col-sm-11">
+							<em style="font-size: 12px;">*必输项</em>
+							<input id="name" class="form-control" type="text" placeholder="分类名称，必填" value="${categoryInfo.categoryName}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label">分类描述</label>
+						<div class="col-sm-11">
+							<textarea id="description" class="form-control" rows="3">${categoryInfo.description}</textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label">分类图标</label>
+						<div class="col-sm-11">
+							<em style="font-size: 12px;">*必输项</em>
+							<input id="icon" class="form-control" type="text" placeholder="分类图标，必填" value="${categoryInfo.icon}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label">启用</label>
+						<div class="col-sm-11">
+							<select id="available" class="form-control">
+							    <c:choose>
+									<c:when test="${categoryInfo.available == 'Y'}">
+										<option value="Y" selected>是</option>
+									</c:when>
+									<c:otherwise>
+										<option value="N">否</option>
+									</c:otherwise>
+								</c:choose> 
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+					    <div class="col-sm-1">
+					    	<button type="button" class="btn btn-info" id="saveBtn">保存</button>
+					    </div>
+					</div>
+				</form>
+		   </div>
+		</div>
     </section>
     <!-- /.content -->
   </div>
@@ -307,14 +354,65 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="components/AdminLTE/js/adminlte.min.js"></script>
 <!-- bootstrap-paginator -->
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
+<!-- editormd 1.15-->
+<script src="components/editor.md/editormd.min.js"></script>
+<script src="components/layer/layer.js"></script>
 <!-- custom jQuery -->
-<!-- <script src="custom/js/zblog.js"></script> -->
+<script src="custom/js/zblog.js"></script>
 <script type="text/javascript">
-	/* $(function(){
-		$("").click(function(){
+	$(function(){
+		//保存分类
+		$("#saveBtn").click(function(){
+			//获取分类名称
+			var categoryName = $("#name").val();
+			//获取分类描述
+			var description = $("#description").val();
+			//获取图标
+			var icon = $("#icon").val();
+			//是否启用
+			var available = $("#available option:selected").val();
 			
+			//名称判空
+			if(categoryName==null||categoryName==undefined||categoryName==""){
+				layer.msg('名称不能为空');
+				return;
+			}
+			//图标判空
+			if(icon==null||icon==undefined||icon==""){
+				layer.msg('图标不能为空');
+				return;
+			}
+			
+			var map = {
+				'categoryId':categoryId,
+				'name':categoryName,
+				'description':description,
+				'icon':icon,
+				'available':available
+	   		};
+			//ajax请求后端
+			$.ajax({
+   	            url: "category/add",
+   	            datatype: 'json',
+   	            type: "POST",
+   	            data: convertAjaxDataNP(map),
+   	            success: function (result) {
+   	            	if(result.success == true){
+   	            		layer.msg("保存成功");
+   	            		window.location.href = "category/editorPage?categoryId="+result.categoryId;
+   	            	}else{
+   	            		//失败，提示信息
+   	            		layer.alert(result.message, {icon: 5});
+   	            	}
+   	            },
+   	            error: function(XMLHttpRequest, textStatus, errorThrown){
+   	            	//清除默认值
+   	            	layer.alert("请求失败", {icon: 5});
+   	            }
+   	        });
 		});
-	}); */
+	});
+	
 </script>
 </body>
 </html>

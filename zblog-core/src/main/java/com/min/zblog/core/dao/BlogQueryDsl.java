@@ -108,6 +108,21 @@ public class BlogQueryDsl {
 		return list;
 	}
 	
+	public List<TmArticle> fetchArticleByPageCategoryId(long pageSize, long currentPage, Long id, ArticleState state) {
+		BooleanExpression exp = qTmArticle.categoryId.eq(id);
+		if(state != null){
+			exp.and(qTmArticle.state.eq(state));
+		}
+		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
+		List<TmArticle> list = query.from(qTmArticle)
+				.where(exp)
+				.orderBy(qTmArticle.createTime.desc())
+				.offset((currentPage-1)*pageSize)
+				.limit(pageSize)
+				.fetch();
+		return list;
+	}
+	
 	public long countArticleByCategoryName(String name, ArticleState state) {
 		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
 		return query.from(qTmArticle, qTmCategory)
@@ -491,5 +506,30 @@ public class BlogQueryDsl {
 				.where(exp)
 				.fetchCount();
 		return total;
+	}
+	
+	/**
+	 * 读取sort最大值
+	 * @param 
+	 * @return
+	 */
+	public Integer fetchCategoryMaxSort(){
+		
+		JPAQuery<TmCategory> query = new JPAQuery<TmCategory>(em);
+		TmCategory category = query.from(qTmCategory)
+				.orderBy(qTmCategory.sort.desc())
+				.fetchFirst();
+		return category.getSort();
+	}
+
+	public long countArticleByCategoryId(Long id, ArticleState state) {
+		BooleanExpression exp = qTmArticle.categoryId.eq(id);
+		if(state != null){
+			exp.and(qTmArticle.state.eq(state));
+		}
+		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
+		long count = query.from(qTmArticle).where(exp).fetchCount();
+		
+		return count;
 	}
 }

@@ -1,6 +1,8 @@
 package com.min.zblog.core.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -10,14 +12,20 @@ import org.springframework.stereotype.Service;
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.CategoryDao;
 import com.min.zblog.core.service.CategoryService;
+import com.min.zblog.data.entity.TmArchive;
 import com.min.zblog.data.entity.TmArticle;
+import com.min.zblog.data.entity.TmArticleTag;
+import com.min.zblog.data.entity.TmArticleTagKey;
 import com.min.zblog.data.entity.TmCategory;
 import com.min.zblog.data.entity.TmTag;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.PageInfo;
+import com.min.zblog.facility.enums.ArticleState;
 import com.min.zblog.facility.enums.Indicator;
 import com.min.zblog.facility.enums.VisitType;
+import com.min.zblog.facility.exception.ProcessException;
+import com.min.zblog.facility.utils.Constants;
 
 /**
  * <p>Title: CategoryServiceImpl</p>
@@ -100,6 +108,63 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		
 		return categoryInfo;
+	}
+
+	@Override
+	public TmCategory saveCategory(Map<String, Object> map) {
+		TmCategory category = categoryDao.findOne((Long)map.get("categoryId"));
+		if(category == null){
+			throw new ProcessException(Constants.ERRA001_CODE, Constants.ERRC001_MSG);
+		}
+		
+		Date time = new Date();
+		category.setName((String)map.get("name"));
+		category.setDescription((String)map.get("description"));
+    	category.setIcon((String)map.get("icon"));
+    	category.setAvailable((Indicator)map.get("available"));
+    	category.setUpdateTime(time);
+    	
+		categoryDao.save(category);
+		
+		return category;
+	}
+	
+	@Override
+	public TmCategory addCategory(Map<String, Object> map) {
+		Date time = new Date();
+
+		TmCategory category = new TmCategory();
+		category.setUserId(Long.valueOf(0));
+		category.setName((String)map.get("name"));
+		category.setDescription((String)map.get("description"));
+		category.setSort(blogQueryDsl.fetchCategoryMaxSort()+1);
+    	category.setIcon((String)map.get("icon"));
+    	category.setAvailable((Indicator)map.get("available"));
+    	category.setCount(0);
+    	category.setCreateTime(time);
+    	category.setUpdateTime(time);
+    	category.setJpaVersion(0);
+    	
+		categoryDao.save(category);
+		
+		
+		return category;
+	}
+
+	@Override
+	public void deleteCategoryById(Long categoryId) throws ProcessException {
+		TmCategory category = categoryDao.findOne(categoryId);
+		if(category == null){
+			throw new ProcessException(Constants.ERRC001_CODE, Constants.ERRC001_MSG);
+		}
+		
+		long count = blogQueryDsl.countArticleByCategoryId(categoryId, null);
+		if(count > 0){
+			throw new ProcessException(Constants.ERRC002_CODE, Constants.ERRC002_MSG);
+		}
+		
+		//删除分类
+		categoryDao.delete(categoryId);
 	}
 
 }

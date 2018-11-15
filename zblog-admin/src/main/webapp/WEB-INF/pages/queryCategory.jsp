@@ -162,8 +162,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-          	<li><a href="article/newPage"><i class="fa fa-circle-o"></i> 创建分类</a></li>
-            <li class="active"><a href="article/queryPage"><i class="fa fa-circle-o"></i> 查询分类</a></li>
+          	<li><a href="category/newPage"><i class="fa fa-circle-o"></i> 创建分类</a></li>
+            <li class="active"><a href="category/queryPage"><i class="fa fa-circle-o"></i> 查询分类</a></li>
           </ul>
         </li>
         <li class="treeview">
