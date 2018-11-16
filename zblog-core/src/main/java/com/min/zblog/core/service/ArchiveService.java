@@ -1,9 +1,10 @@
 package com.min.zblog.core.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.min.zblog.data.view.ArchiveInfo;
-import com.min.zblog.data.view.CategoryInfo;
+import com.min.zblog.data.view.PageInfo;
 
 /**
  * <p>Title: ArchiveService</p>
@@ -14,4 +15,5 @@ import com.min.zblog.data.view.CategoryInfo;
  */
 public interface ArchiveService {
 	public List<ArchiveInfo> fetchArchiveInfo();
+	public PageInfo<ArchiveInfo> queryArchiveByPage(long pageSize, long currentPage, Map<String, Object> map);
 }

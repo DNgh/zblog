@@ -532,4 +532,50 @@ public class BlogQueryDsl {
 		
 		return count;
 	}
+	
+	/**
+	 * 分页查询归档信息,多个查询条件
+	 * @param currentPage
+	 * @param pageSize
+	 * @param map:available startDate endDate
+	 * @return
+	 */
+	public List<TmArchive> fetchArchiveConditionByPage(long currentPage, long pageSize, Map<String, Object> map){
+		BooleanExpression exp = null;
+		if(map != null){
+			if(map.get(Constants.START_DATE) != null && map.get(Constants.END_DATE) != null){
+				exp = qTmArchive.createTime.between((Date)map.get(Constants.START_DATE), 
+						(Date)map.get(Constants.END_DATE));
+			}
+		}
+		
+		JPAQuery<TmArchive> query = new JPAQuery<TmArchive>(em);
+		List<TmArchive> list = query.from(qTmArchive)
+				.where(exp)
+				.orderBy(qTmArchive.createTime.desc())
+				.offset((currentPage-1)*pageSize)
+				.limit(pageSize).fetch();
+		return list;
+	}
+	
+	/**
+	 * 结合分页查询,统计个数
+	 * @param map:available startDate endDate
+	 * @return
+	 */
+	public Long countArchiveByCondition(Map<String, Object> map){
+		BooleanExpression exp = null;
+		if(map != null){
+			if(map.get(Constants.START_DATE) != null && map.get(Constants.END_DATE) != null){
+				exp = qTmArchive.createTime.between((Date)map.get(Constants.START_DATE), 
+						(Date)map.get(Constants.END_DATE));
+			}
+		}
+		
+		JPAQuery<TmArchive> query = new JPAQuery<TmArchive>(em);
+		Long total = query.from(qTmArchive)
+				.where(exp)
+				.fetchCount();
+		return total;
+	}
 }

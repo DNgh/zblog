@@ -141,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">导航栏</li>
-        <li class="active treeview">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-book"></i>
             <span>文章管理</span>
@@ -150,11 +150,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="article/newPage"><i class="fa fa-circle-o"></i> 创建文章</a></li>
+            <li><a href="article/newPage"><i class="fa fa-circle-o"></i> 创建文章</a></li>
             <li><a href="article/queryPage"><i class="fa fa-circle-o"></i> 查询文章</a></li>
           </ul>
         </li>
-        <li class="treeview">
+        <li class="active treeview">
           <a href="#">
             <i class="fa fa-th"></i>
             <span>分类管理</span>
@@ -165,6 +165,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <ul class="treeview-menu">
           	<li><a href="category/newPage"><i class="fa fa-circle-o"></i> 创建分类</a></li>
             <li><a href="category/queryPage"><i class="fa fa-circle-o"></i> 查询分类</a></li>
+            <li class="active"><a href="javascript:void(0);"><i class="fa fa-circle-o"></i> 编辑分类</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -176,10 +177,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> A</a></li>
-            <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> B</a></li>
-            <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> C</a></li>
-            <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> D</a></li>
+            <li><a href="archive/queryPage"><i class="fa fa-circle-o"></i> 查询归档</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -288,42 +286,44 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   		<input type="hidden" id="categoryId" value="${categoryInfo.id}"/>
 				<form class="form-horizontal" role="form">
 					<div class="form-group">
-						<label class="col-sm-1 control-label">分类名称</label>
+						<label class="col-sm-1 control-label text-nowrap">分类名称</label>
 						<div class="col-sm-11">
 							<em style="font-size: 12px;">*必输项</em>
 							<input id="name" class="form-control" type="text" placeholder="分类名称，必填" value="${categoryInfo.categoryName}">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-1 control-label">分类描述</label>
+						<label class="col-sm-1 control-label text-nowrap">分类描述</label>
 						<div class="col-sm-11">
 							<textarea id="description" class="form-control" rows="3">${categoryInfo.description}</textarea>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-1 control-label">分类图标</label>
+						<label class="col-sm-1 control-label text-nowrap">分类图标</label>
 						<div class="col-sm-11">
 							<em style="font-size: 12px;">*必输项</em>
 							<input id="icon" class="form-control" type="text" placeholder="分类图标，必填" value="${categoryInfo.icon}">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-1 control-label">启用</label>
+						<label class="col-sm-1 control-label text-nowrap">启用</label>
 						<div class="col-sm-11">
 							<select id="available" class="form-control">
 							    <c:choose>
 									<c:when test="${categoryInfo.available == 'Y'}">
 										<option value="Y" selected>是</option>
+										<option value="N">否</option>
 									</c:when>
 									<c:otherwise>
-										<option value="N">否</option>
+										<option value="Y">是</option>
+										<option value="N" selected>否</option>
 									</c:otherwise>
 								</c:choose> 
 							</select>
 						</div>
 					</div>
 					<div class="form-group">
-					    <div class="col-sm-1">
+					    <div class="col-sm-offset-1 col-sm-1">
 					    	<button type="button" class="btn btn-info" id="saveBtn">保存</button>
 					    </div>
 					</div>

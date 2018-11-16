@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.min.zblog.core.service.ArchiveService;
 import com.min.zblog.core.service.CategoryService;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.TmCategory;
+import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.PageInfo;
@@ -27,16 +29,16 @@ import com.min.zblog.facility.enums.Indicator;
 import com.min.zblog.facility.utils.Constants;
 
 @Controller
-@RequestMapping("/category")
-public class CategoryController {
+@RequestMapping("/archive")
+public class ArchiveController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	CategoryService categoryService;
+	ArchiveService archiveService;
 	
 	@RequestMapping("/queryPage")
     public ModelAndView queryPage(){
-    	ModelAndView modelAndView =new ModelAndView("queryCategory");
+    	ModelAndView modelAndView =new ModelAndView("queryArchive");
     	
         return modelAndView;
     }
@@ -46,14 +48,12 @@ public class CategoryController {
     public Map<String, Object> query(@RequestParam(value="page")Integer page, 
     		@RequestParam(value="limit")Integer limit,
     		@RequestParam(value="startDate",required=false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate, 
-    		@RequestParam(value="endDate",required=false) @DateTimeFormat(pattern = "yyyy-MM-dd")Date endDate, 
-    		@RequestParam(value="available",required=false)Indicator available){
+    		@RequestParam(value="endDate",required=false) @DateTimeFormat(pattern = "yyyy-MM-dd")Date endDate){
 		Map<String, Object> reqMap = new HashMap<String, Object>();
     	reqMap.put(Constants.START_DATE, startDate);
     	reqMap.put(Constants.END_DATE, endDate);
-    	reqMap.put(Constants.AVAILABLE, available);
     	
-    	PageInfo<CategoryInfo> pageInfo = categoryService.queryCategoryByPage(limit, page, reqMap);
+    	PageInfo<ArchiveInfo> pageInfo = archiveService.queryArchiveByPage(limit, page, reqMap);
     	logger.debug("currentPage:"+pageInfo.getCurrentPage()+",totalPages:"+pageInfo.getTotalPages());
     	
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -64,7 +64,7 @@ public class CategoryController {
         return map;
     }
 	
-	@RequestMapping("/editorPage")
+	/*@RequestMapping("/editorPage")
     public ModelAndView editorPage(@RequestParam(value="categoryId")Long id){
     	ModelAndView modelAndView =new ModelAndView("editCategory");
     	//加载文章
@@ -157,5 +157,5 @@ public class CategoryController {
 		}
     	
         return result;
-    }
+    }*/
 }

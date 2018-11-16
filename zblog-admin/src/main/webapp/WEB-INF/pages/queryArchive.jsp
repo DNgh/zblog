@@ -153,7 +153,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li><a href="article/queryPage"><i class="fa fa-circle-o"></i> 查询文章</a></li>
           </ul>
         </li>
-        <li class="active treeview">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-th"></i>
             <span>分类管理</span>
@@ -163,10 +163,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </a>
           <ul class="treeview-menu">
           	<li><a href="category/newPage"><i class="fa fa-circle-o"></i> 创建分类</a></li>
-            <li class="active"><a href="category/queryPage"><i class="fa fa-circle-o"></i> 查询分类</a></li>
+            <li><a href="category/queryPage"><i class="fa fa-circle-o"></i> 查询分类</a></li>
           </ul>
         </li>
-        <li class="treeview">
+        <li class="active treeview">
           <a href="#">
             <i class="fa fa-archive"></i>
             <span>归档管理</span>
@@ -175,7 +175,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="archive/queryPage"><i class="fa fa-circle-o"></i> 查询归档</a></li>
+            <li  class="active"><a href="archive/queryPage"><i class="fa fa-circle-o"></i> 查询归档</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -270,10 +270,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>查询分类</h1>
+      <h1>查询归档</h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-home"></i> 主页</a></li>
-        <li class="active">查询分类</li>
+        <li class="active">查询归档</li>
       </ol>
     </section>
 
@@ -293,17 +293,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						            <span id="removeBtn" class="input-group-addon"><i class="fa fa-remove"></i></span>
 						     	</div>
 							</div>
-							<div class="form-group col-md-5">
-								<label class="control-label">启用标志:</label>
-								<select id="available" class="form-control">
-									<!-- 启用 -->
-									<option value="0" selected>不限</option>
-									<option value="Y">是</option>
-									<option value="N">否</option>
-						      		<!-- /.启用 -->
-								</select>
-							</div>
-							<div class="form-group col-md-2">
+							<div class="form-group col-md-offset-5 col-md-2">
 								<button type="button" class="btn btn-success" id="searchBtn">查询</button>
 							</div>
 						</div>
@@ -364,17 +354,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  allTable = table.render({
 			id: 'layAllTable'
 		    ,elem: '#allTable'
-		    ,url:'category/query'
+		    ,url:'archive/query'
 		    ,limit: 10 //每页默认显示的数量
 		    ,method:'post'  //提交方式
-		    ,title: '分类数据表'
+		    ,title: '归档数据表'
 		    ,cellMinWidth: 100
 		    ,cols: [[
 		      {field:'id', title:'ID', width:'10%', sort: true}
-		      ,{field:'categoryName', title:'分类名称', width:'20%'}
+		      ,{field:'archiveName', title:'归档名称', width:'20%'}
+		      ,{field:'archiveTitle', title:'归档标题', width:'10%'}
 		      ,{field:'articleNum', title:'文章数', width:'10%'}
-		      ,{field:'icon', title:'图标', width:'10%'}
-		      ,{field:'available', title:'是否启用', width:'10%'}
 		      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
 		      ,{field:'option', title:'操作', width:'20%', toolbar: '#optionBar'}
 		    ]]
@@ -391,14 +380,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    if(obj.event === 'del'){
 		      layer.confirm('真的删除行么，无法恢复', function(index){
 		        var map = {
-					'categoryId':data.id
+					'archiveId':data.id
 			   	};
 		      	//ajax请求后端
-		        deleteLayerObjAjax("category/delete", obj, map, index);
+		        deleteLayerObjAjax("archive/delete", obj, map, index);
 		      });
 		    } else if(obj.event === 'edit'){
 		    	//跳转到编辑页面
-		      	window.location.href = "category/editorPage?categoryId="+data.id;
+		      	window.location.href = "archive/editorPage?archiveId="+data.id;
 		    }
 		  });
 		});
@@ -422,12 +411,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					endDate = null;
 				}
 			}
-			//是否启用 
-			var available = $("#available option:selected").val();
-			if(available == null || available == undefined || available == 0){
-				available = null;
-			}
-			
+
 			//重新加载数据
 			allTable.reload({
 				page: {
@@ -435,8 +419,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				},
 				where:{
 					'startDate':startDate,
-					'endDate':endDate,
-					'available':available
+					'endDate':endDate
 				},
 				done: function(res, curr, count){
 					table.resize('layAllTable');
