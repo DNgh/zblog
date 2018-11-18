@@ -64,89 +64,13 @@ public class ArchiveController {
         return map;
     }
 	
-	/*@RequestMapping("/editorPage")
-    public ModelAndView editorPage(@RequestParam(value="categoryId")Long id){
-    	ModelAndView modelAndView =new ModelAndView("editCategory");
-    	//加载文章
-    	CategoryInfo categoryInfo = categoryService.findOneCategory(id);
-        modelAndView.addObject("categoryInfo", categoryInfo);
-        
-        return modelAndView;
-    }
-	
-	@ResponseBody
-    @RequestMapping("/save")
-    public Map<String, Object> saveCategory(
-    		@RequestParam(value="categoryId") Long categoryId,
-    		@RequestParam(value="name") String name,
-    		@RequestParam(value="description") String description,
-    		@RequestParam(value="icon") String icon,
-    		@RequestParam(value="available") Indicator available){
-
-    	//保存到数据库
-    	Map<String, Object> reqMap = new HashMap<String, Object>();
-    	reqMap.put("categoryId", categoryId);
-    	reqMap.put("name", name); 
-    	reqMap.put("description", description);
-    	reqMap.put("icon", icon); 
-    	reqMap.put("available", available);
-    	
-    	//加载文章
-    	Map<String, Object> result = new HashMap<String, Object>();
-    	try{
-    		categoryService.saveCategory(reqMap);
-    		//返回json格式结果
-        	result.put("success", true);
-        	result.put("message", "");
-    	}catch(Exception e){
-    		//返回json格式结果
-        	result.put("success", false);
-        	result.put("message", e.getMessage());
-    	}
-    	
-        return result;
-    }
-	
-	@RequestMapping("/newPage")
-    public ModelAndView newPage(){
-    	ModelAndView modelAndView =new ModelAndView("newCategory");
-        
-        return modelAndView;
-    }
-	
-	@ResponseBody
-    @RequestMapping("/add")
-    public Map<String, Object> addCategory(
-    		@RequestParam(value="name") String name,
-    		@RequestParam(value="description") String description,
-    		@RequestParam(value="icon") String icon,
-    		@RequestParam(value="available") Indicator available){
-
-    	//保存到数据库
-		Map<String, Object> reqMap = new HashMap<String, Object>();
-    	reqMap.put("name", name); 
-    	reqMap.put("description", description);
-    	reqMap.put("icon", icon); 
-    	reqMap.put("available", available);
-    	
-    	TmCategory saveCategory = categoryService.addCategory(reqMap);
-    	
-    	//返回json格式结果
-    	Map<String, Object> result = new HashMap<String, Object>();
-    	result.put("success", true);
-    	result.put("message", "");
-    	result.put("categoryId", saveCategory.getId());
-    	
-        return result;
-    }
-	
 	@ResponseBody
     @RequestMapping("/delete")
     public Map<String, Object> deleteCategory(
-    		@RequestParam(value="categoryId") Long categoryId){
+    		@RequestParam(value="archiveId") Long archiveId){
     	Map<String, Object> result = new HashMap<String, Object>();
 		try{
-			categoryService.deleteCategoryById(categoryId);
+			archiveService.deleteArchiveById(archiveId);
 			//返回json格式结果
         	result.put("success", true);
         	result.put("message", "");
@@ -157,5 +81,5 @@ public class ArchiveController {
 		}
     	
         return result;
-    }*/
+    }
 }

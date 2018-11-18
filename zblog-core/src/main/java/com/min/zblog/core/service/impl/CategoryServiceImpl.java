@@ -114,7 +114,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public TmCategory saveCategory(Map<String, Object> map) {
 		TmCategory category = categoryDao.findOne((Long)map.get("categoryId"));
 		if(category == null){
-			throw new ProcessException(Constants.ERRA001_CODE, Constants.ERRC001_MSG);
+			throw new ProcessException(Constants.ERRC001_CODE, Constants.ERRC001_MSG);
 		}
 		
 		Date time = new Date();

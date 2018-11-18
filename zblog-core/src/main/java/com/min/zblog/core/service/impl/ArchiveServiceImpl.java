@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.min.zblog.core.dao.ArchiveDao;
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.CategoryDao;
 import com.min.zblog.core.service.ArchiveService;
@@ -16,6 +17,8 @@ import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.facility.enums.Indicator;
+import com.min.zblog.facility.exception.ProcessException;
+import com.min.zblog.facility.utils.Constants;
 
 /**
  * <p>Title: ArchiveServiceImpl</p>
@@ -28,6 +31,9 @@ import com.min.zblog.facility.enums.Indicator;
 public class ArchiveServiceImpl implements ArchiveService {
 	@Autowired
 	private CategoryDao categoryDao;
+	
+	@Autowired
+	private ArchiveDao archiveDao;
 	
 	@Autowired
 	private BlogQueryDsl blogQueryDsl;
@@ -75,6 +81,25 @@ public class ArchiveServiceImpl implements ArchiveService {
 		pageInfo.setList(archiveInfoList);
 		
 		return pageInfo;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.min.zblog.core.service.ArchiveService#deleteArchiveById(java.lang.Long)
+	 */
+	@Override
+	public void deleteArchiveById(Long archiveId) throws ProcessException {
+		TmArchive archive = archiveDao.findOne(archiveId);
+		if(archive == null){
+			throw new ProcessException(Constants.ERRV001_CODE, Constants.ERRV001_MSG);
+		}
+		
+		long count = blogQueryDsl.countArticleByCategoryId(archiveId, null);
+		if(count > 0){
+			throw new ProcessException(Constants.ERRC002_CODE, Constants.ERRC002_MSG);
+		}
+		
+		//删除归档
+		archiveDao.delete(archiveId);
 	}
 	
 }

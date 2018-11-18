@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.PageInfo;
+import com.min.zblog.facility.exception.ProcessException;
 
 /**
  * <p>Title: ArchiveService</p>
@@ -16,4 +17,5 @@ import com.min.zblog.data.view.PageInfo;
 public interface ArchiveService {
 	public List<ArchiveInfo> fetchArchiveInfo();
 	public PageInfo<ArchiveInfo> queryArchiveByPage(long pageSize, long currentPage, Map<String, Object> map);
+	public void deleteArchiveById(Long archiveId) throws ProcessException;
 }

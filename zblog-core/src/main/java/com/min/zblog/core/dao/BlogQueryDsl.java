@@ -507,7 +507,7 @@ public class BlogQueryDsl {
 				.fetchCount();
 		return total;
 	}
-	
+		
 	/**
 	 * 读取sort最大值
 	 * @param 
@@ -577,5 +577,75 @@ public class BlogQueryDsl {
 				.where(exp)
 				.fetchCount();
 		return total;
+	}
+	
+	public long countArticleByArchiveId(Long id, ArticleState state) {
+		BooleanExpression exp = qTmArticle.archiveId.eq(id);
+		if(state != null){
+			exp.and(qTmArticle.state.eq(state));
+		}
+		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
+		long count = query.from(qTmArticle).where(exp).fetchCount();
+		
+		return count;
+	}
+	
+	/**
+	 * 分页查询标签信息,多个查询条件
+	 * @param currentPage
+	 * @param pageSize
+	 * @param map:available startDate endDate
+	 * @return
+	 */
+	public List<TmTag> fetchTagConditionByPage(long currentPage, long pageSize, Map<String, Object> map){
+		BooleanExpression exp = null;
+		if(map != null){
+			if(map.get(Constants.START_DATE) != null && map.get(Constants.END_DATE) != null){
+				exp = qTmTag.createTime.between((Date)map.get(Constants.START_DATE), 
+						(Date)map.get(Constants.END_DATE));
+			}
+		}
+		
+		JPAQuery<TmTag> query = new JPAQuery<TmTag>(em);
+		List<TmTag> list = query.from(qTmTag)
+				.where(exp)
+				.orderBy(qTmTag.createTime.desc())
+				.offset((currentPage-1)*pageSize)
+				.limit(pageSize).fetch();
+		return list;
+	}
+	
+	/**
+	 * 结合分页查询,统计个数
+	 * @param map:available startDate endDate
+	 * @return
+	 */
+	public Long countTagByCondition(Map<String, Object> map){
+		BooleanExpression exp = null;
+		if(map != null){
+			if(map.get(Constants.START_DATE) != null && map.get(Constants.END_DATE) != null){
+				exp = qTmTag.createTime.between((Date)map.get(Constants.START_DATE), 
+						(Date)map.get(Constants.END_DATE));
+			}
+		}
+		
+		JPAQuery<TmTag> query = new JPAQuery<TmTag>(em);
+		Long total = query.from(qTmTag)
+				.where(exp)
+				.fetchCount();
+		return total;
+	}
+	
+	public long countArticleByTagId(Long id, ArticleState state) {
+		
+//		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
+//		return query.from(qTmArticle, qTmTag, qTmArticleTag)
+//				.where(qTmArticle.id.eq(qTmArticleTag.articleId)
+//						.and(qTmArticleTag.tagId.eq(qTmTag.id))
+//						.and(qTmTag.name.eq(name))
+//						.and(qTmArticle.state.eq(state)))
+//				.orderBy(qTmArticle.createTime.desc())
+//				.fetchCount();
+		return 0;
 	}
 }

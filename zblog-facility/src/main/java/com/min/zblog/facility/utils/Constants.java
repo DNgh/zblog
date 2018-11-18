@@ -39,8 +39,17 @@ public class Constants {
 	public static final String ERRC001_MSG = "不存在该分类";
 
 	public static final String ERRC002_CODE = "C002";
-
 	public static final String ERRC002_MSG = "正使用，无法删除";
 	
+	public static final String ERRV001_CODE = "V001";
+	public static final String ERRV001_MSG = "不存在该归档";
 	
+	public static final String ERRV002_CODE = "V002";
+	public static final String ERRV002_MSG = "正使用，无法删除";
+	
+	public static final String ERRT001_CODE = "T001";
+	public static final String ERRT001_MSG = "不存在该标签";
+	
+	public static final String ERRT002_CODE = "T002";
+	public static final String ERRT002_MSG = "正使用，无法删除";
 }

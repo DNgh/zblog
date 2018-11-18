@@ -187,10 +187,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> A</a></li>
-            <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> B</a></li>
-            <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> C</a></li>
-            <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> D</a></li>
+          	<li><a href="tag/newPage"><i class="fa fa-circle-o"></i> 创建标签</a></li>
+            <li><a href="tag/queryPage"><i class="fa fa-circle-o"></i> 查询标签</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -385,9 +383,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      	//ajax请求后端
 		        deleteLayerObjAjax("archive/delete", obj, map, index);
 		      });
-		    } else if(obj.event === 'edit'){
-		    	//跳转到编辑页面
-		      	window.location.href = "archive/editorPage?archiveId="+data.id;
 		    }
 		  });
 		});

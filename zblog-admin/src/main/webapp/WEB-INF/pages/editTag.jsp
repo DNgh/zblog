@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -26,8 +27,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
+  <!-- editormd -->
+  <link rel="stylesheet" href="components/editor.md/css/editormd.css" />
   <!-- custom css -->
-  <!-- <link rel="stylesheet" href="custom/css/custom.css"> -->
+  <link rel="stylesheet" href="custom/css/custom.css">
   
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -138,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">导航栏</li>
-        <li class="active treeview">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-book"></i>
             <span>文章管理</span>
@@ -147,7 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="article/newPage"><i class="fa fa-circle-o"></i> 创建文章</a></li>
+            <li><a href="article/newPage"><i class="fa fa-circle-o"></i> 创建文章</a></li>
             <li><a href="article/queryPage"><i class="fa fa-circle-o"></i> 查询文章</a></li>
           </ul>
         </li>
@@ -162,6 +165,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <ul class="treeview-menu">
           	<li><a href="category/newPage"><i class="fa fa-circle-o"></i> 创建分类</a></li>
             <li><a href="category/queryPage"><i class="fa fa-circle-o"></i> 查询分类</a></li>
+            <li><a href="javascript:void(0);"><i class="fa fa-circle-o"></i> 编辑分类</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -176,7 +180,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li><a href="archive/queryPage"><i class="fa fa-circle-o"></i> 查询归档</a></li>
           </ul>
         </li>
-        <li class="treeview">
+        <li class="active treeview">
           <a href="#">
             <i class="fa fa-tags"></i>
             <span>标签管理</span>
@@ -185,8 +189,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-          	<li><a href="tag/newPage"><i class="fa fa-circle-o"></i> 创建标签</a></li>
+            <li><a href="tag/newPage"><i class="fa fa-circle-o"></i> 创建标签</a></li>
             <li><a href="tag/queryPage"><i class="fa fa-circle-o"></i> 查询标签</a></li>
+            <li class="active"><a href="javascript:void(0);"><i class="fa fa-circle-o"></i> 编辑标签</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -266,17 +271,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-                    主页
-      </h1>
+      <h1>编辑标签</h1>
       <ol class="breadcrumb">
-        <li class="active"><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="#"><i class="fa fa-home"></i> 主页</a></li>
+        <li class="active">编辑标签</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
-		<p class="text-center" style="font-size:50px;">欢迎使用zblog后台管理系统</p>
+    	<div class="panel panel-default">
+		   <div class="panel-body">
+		   		<input type="hidden" id="tagId" value="${tagInfo.id}"/>
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-sm-1 control-label text-nowrap">标签名称</label>
+						<div class="col-sm-11">
+							<em style="font-size: 12px;">*必输项</em>
+							<input id="name" class="form-control" type="text" placeholder="标签名称，必填" value="${tagInfo.tagName}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label text-nowrap">标签描述</label>
+						<div class="col-sm-11">
+							<textarea id="description" class="form-control" rows="3">${tagInfo.description}</textarea>
+						</div>
+					</div>
+					<div class="form-group">
+					    <div class="col-sm-offset-1 col-sm-1">
+					    	<button type="button" class="btn btn-info" id="saveBtn">保存</button>
+					    </div>
+					</div>
+				</form>
+		   </div>
+		</div>
     </section>
     <!-- /.content -->
   </div>
@@ -302,14 +330,55 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="components/AdminLTE/js/adminlte.min.js"></script>
 <!-- bootstrap-paginator -->
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
+<!-- editormd 1.15-->
+<script src="components/editor.md/editormd.min.js"></script>
+<script src="components/layer/layer.js"></script>
 <!-- custom jQuery -->
-<!-- <script src="custom/js/zblog.js"></script> -->
+<script src="custom/js/zblog.js"></script>
 <script type="text/javascript">
-	/* $(function(){
-		$("").click(function(){
+	$(function(){
+		//保存标签
+		$("#saveBtn").click(function(){
+			//获取标签id
+			var tagId = $("#tagId").val();
+			//获取标签名称
+			var tagName = $("#name").val();
+			//获取标签描述
+			var description = $("#description").val();
 			
+			//名称判空
+			if(tagName==null||tagName==undefined||tagName==""){
+				layer.msg('名称不能为空');
+				return;
+			}
+			
+			var map = {
+				'tagId':tagId,
+				'name':tagName,
+				'description':description
+	   		};
+			//ajax请求后端
+			$.ajax({
+   	            url: "tag/save",
+   	            datatype: 'json',
+   	            type: "POST",
+   	            data: convertAjaxDataNP(map),
+   	            success: function (result) {
+   	            	if(result.success == true){
+   	            		layer.msg("保存成功");
+   	            	}else{
+   	            		//失败，提示信息
+   	            		layer.alert(result.message, {icon: 5});
+   	            	}
+   	            },
+   	            error: function(XMLHttpRequest, textStatus, errorThrown){
+   	            	//清除默认值
+   	            	layer.alert("请求失败", {icon: 5});
+   	            }
+   	        });
 		});
-	}); */
+	});
+	
 </script>
 </body>
 </html>
