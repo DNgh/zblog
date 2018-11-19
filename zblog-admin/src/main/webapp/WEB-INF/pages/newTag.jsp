@@ -154,7 +154,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li><a href="article/queryPage"><i class="fa fa-circle-o"></i> 查询文章</a></li>
           </ul>
         </li>
-        <li class="active treeview">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-th"></i>
             <span>分类管理</span>
@@ -165,7 +165,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <ul class="treeview-menu">
           	<li><a href="category/newPage"><i class="fa fa-circle-o"></i> 创建分类</a></li>
             <li><a href="category/queryPage"><i class="fa fa-circle-o"></i> 查询分类</a></li>
-            <li class="active"><a href="javascript:void(0);"><i class="fa fa-circle-o"></i> 编辑分类</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -180,7 +179,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li><a href="archive/queryPage"><i class="fa fa-circle-o"></i> 查询归档</a></li>
           </ul>
         </li>
-        <li class="treeview">
+        <li class="active  treeview">
           <a href="#">
             <i class="fa fa-tags"></i>
             <span>标签管理</span>
@@ -189,7 +188,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="tag/newPage"><i class="fa fa-circle-o"></i> 创建标签</a></li>
+            <li class="active"><a href="tag/newPage"><i class="fa fa-circle-o"></i> 创建标签</a></li>
             <li><a href="tag/queryPage"><i class="fa fa-circle-o"></i> 查询标签</a></li>
           </ul>
         </li>
@@ -262,10 +261,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>编辑分类</h1>
+      <h1>创建标签</h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-home"></i> 主页</a></li>
-        <li class="active">编辑分类</li>
+        <li class="active">创建标签</li>
       </ol>
     </section>
 
@@ -273,43 +272,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <section class="content">
     	<div class="panel panel-default">
 		   <div class="panel-body">
-		   		<input type="hidden" id="categoryId" value="${categoryInfo.id}"/>
 				<form class="form-horizontal" role="form">
 					<div class="form-group">
-						<label class="col-sm-1 control-label text-nowrap">分类名称</label>
+						<label class="col-sm-1 control-label text-nowrap">标签名称</label>
 						<div class="col-sm-11">
 							<em style="font-size: 12px;">*必输项</em>
-							<input id="name" class="form-control" type="text" placeholder="分类名称，必填" value="${categoryInfo.categoryName}">
+							<input id="name" class="form-control" type="text" placeholder="标签名称，必填">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-1 control-label text-nowrap">分类描述</label>
+						<label class="col-sm-1 control-label text-nowrap">标签描述</label>
 						<div class="col-sm-11">
-							<textarea id="description" class="form-control" rows="3">${categoryInfo.description}</textarea>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-1 control-label text-nowrap">分类图标</label>
-						<div class="col-sm-11">
-							<em style="font-size: 12px;">*必输项</em>
-							<input id="icon" class="form-control" type="text" placeholder="分类图标，必填" value="${categoryInfo.icon}">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-1 control-label text-nowrap">启用</label>
-						<div class="col-sm-11">
-							<select id="available" class="form-control">
-							    <c:choose>
-									<c:when test="${categoryInfo.available == 'Y'}">
-										<option value="Y" selected>是</option>
-										<option value="N">否</option>
-									</c:when>
-									<c:otherwise>
-										<option value="Y">是</option>
-										<option value="N" selected>否</option>
-									</c:otherwise>
-								</c:choose> 
-							</select>
+							<textarea id="description" class="form-control" rows="3"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -354,44 +328,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$(function(){
 		//保存分类
 		$("#saveBtn").click(function(){
-			//获取分类id
-			var categoryId = $("#categoryId").val();
-			//获取分类名称
-			var categoryName = $("#name").val();
-			//获取分类描述
+			//获取标签名称
+			var tagName = $("#name").val();
+			//获取标签描述
 			var description = $("#description").val();
-			//获取图标
-			var icon = $("#icon").val();
-			//是否启用
-			var available = $("#available option:selected").val();
 			
 			//名称判空
-			if(categoryName==null||categoryName==undefined||categoryName==""){
+			if(tagName==null||tagName==undefined||tagName==""){
 				layer.msg('名称不能为空');
-				return;
-			}
-			//图标判空
-			if(icon==null||icon==undefined||icon==""){
-				layer.msg('图标不能为空');
 				return;
 			}
 			
 			var map = {
-				'categoryId':categoryId,
-				'name':categoryName,
-				'description':description,
-				'icon':icon,
-				'available':available
+				'name':tagName,
+				'description':description
 	   		};
 			//ajax请求后端
 			$.ajax({
-   	            url: "category/save",
+   	            url: "tag/add",
    	            datatype: 'json',
    	            type: "POST",
    	            data: convertAjaxDataNP(map),
    	            success: function (result) {
    	            	if(result.success == true){
    	            		layer.msg("保存成功");
+   	            		window.location.href = "tag/editorPage?tagId="+result.tagId;
    	            	}else{
    	            		//失败，提示信息
    	            		layer.alert(result.message, {icon: 5});

@@ -252,14 +252,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> D</a></li>
           </ul>
         </li>
-        <li>
-          <a href="pages/widgets.html">
-            <i class="fa fa-th"></i> <span>Widgets</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-green">new</small>
-            </span>
-          </a>
-        </li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -285,20 +277,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label class="col-sm-1 control-label text-nowrap">分类名称</label>
 						<div class="col-sm-11">
 							<em style="font-size: 12px;">*必输项</em>
-							<input id="name" class="form-control" type="text" placeholder="分类名称，必填" value="${categoryInfo.categoryName}">
+							<input id="name" class="form-control" type="text" placeholder="分类名称，必填">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-1 control-label text-nowrap">分类描述</label>
 						<div class="col-sm-11">
-							<textarea id="description" class="form-control" rows="3">${categoryInfo.description}</textarea>
+							<textarea id="description" class="form-control" rows="3"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-1 control-label text-nowrap">分类图标</label>
 						<div class="col-sm-11">
 							<em style="font-size: 12px;">*必输项</em>
-							<input id="icon" class="form-control" type="text" placeholder="分类图标，必填" value="${categoryInfo.icon}">
+							<input id="icon" class="form-control" type="text" placeholder="分类图标，必填">
 						</div>
 					</div>
 					<div class="form-group">

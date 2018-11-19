@@ -21,6 +21,7 @@ import com.min.zblog.data.entity.QTmArticleTag;
 import com.min.zblog.data.entity.QTmCategory;
 import com.min.zblog.data.entity.QTmVisitHst;
 import com.min.zblog.data.entity.TmArchive;
+import com.min.zblog.data.entity.TmArticleTag;
 import com.min.zblog.data.entity.TmCategory;
 import com.min.zblog.data.entity.TmComment;
 import com.min.zblog.data.entity.TmTag;
@@ -637,15 +638,15 @@ public class BlogQueryDsl {
 	}
 	
 	public long countArticleByTagId(Long id, ArticleState state) {
+		BooleanExpression exp = qTmArticleTag.tagId.eq(id)
+				.and(qTmArticleTag.articleId.eq(qTmArticle.id));
+		if(state != null){
+			exp = exp.and(qTmArticle.state.eq(state));
+		}
 		
-//		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
-//		return query.from(qTmArticle, qTmTag, qTmArticleTag)
-//				.where(qTmArticle.id.eq(qTmArticleTag.articleId)
-//						.and(qTmArticleTag.tagId.eq(qTmTag.id))
-//						.and(qTmTag.name.eq(name))
-//						.and(qTmArticle.state.eq(state)))
-//				.orderBy(qTmArticle.createTime.desc())
-//				.fetchCount();
-		return 0;
+		JPAQuery<TmArticleTag> query = new JPAQuery<TmArticleTag>(em);
+		return query.from(qTmArticle, qTmArticleTag)
+				.where(exp)
+				.fetchCount();
 	}
 }

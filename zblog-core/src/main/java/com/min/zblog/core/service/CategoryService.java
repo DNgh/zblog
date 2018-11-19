@@ -20,7 +20,7 @@ public interface CategoryService {
 	public List<CategoryInfo> fetchCategoryInfo();
 	public PageInfo<CategoryInfo> queryCategoryByPage(long pageSize, long currentPage, Map<String, Object> map);
 	public CategoryInfo findOneCategory(Long id);
-	public TmCategory saveCategory(Map<String, Object> reqMap);
+	public TmCategory saveCategory(Map<String, Object> map);
 	public TmCategory addCategory(Map<String, Object> map);
 	public void deleteCategoryById(Long categoryId) throws ProcessException;
 }

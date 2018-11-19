@@ -20,6 +20,7 @@ import com.min.zblog.core.service.CategoryService;
 import com.min.zblog.core.service.TagService;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.TmCategory;
+import com.min.zblog.data.entity.TmTag;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.PageInfo;
@@ -102,10 +103,10 @@ public class TagController {
     	
         return result;
     }
-	/*
+	
 	@RequestMapping("/newPage")
     public ModelAndView newPage(){
-    	ModelAndView modelAndView =new ModelAndView("newCategory");
+    	ModelAndView modelAndView =new ModelAndView("newTag");
         
         return modelAndView;
     }
@@ -114,27 +115,23 @@ public class TagController {
     @RequestMapping("/add")
     public Map<String, Object> addCategory(
     		@RequestParam(value="name") String name,
-    		@RequestParam(value="description") String description,
-    		@RequestParam(value="icon") String icon,
-    		@RequestParam(value="available") Indicator available){
+    		@RequestParam(value="description") String description){
 
     	//保存到数据库
 		Map<String, Object> reqMap = new HashMap<String, Object>();
     	reqMap.put("name", name); 
     	reqMap.put("description", description);
-    	reqMap.put("icon", icon); 
-    	reqMap.put("available", available);
     	
-    	TmCategory saveCategory = categoryService.addCategory(reqMap);
+    	TmTag saveTag = tagService.addTag(reqMap);
     	
     	//返回json格式结果
     	Map<String, Object> result = new HashMap<String, Object>();
     	result.put("success", true);
     	result.put("message", "");
-    	result.put("categoryId", saveCategory.getId());
+    	result.put("tagId", saveTag.getId());
     	
         return result;
-    }*/
+    }
 	
 	@ResponseBody
     @RequestMapping("/delete")

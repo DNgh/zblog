@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.min.zblog.core.dao.ArticleTagDao;
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.TagDao;
 import com.min.zblog.core.service.TagService;
@@ -32,6 +33,9 @@ public class TagServiceImpl implements TagService {
 	
 	@Autowired
 	private BlogQueryDsl blogQueryDsl;
+	
+	@Autowired
+	private ArticleTagDao articleTagDao;
 
 	@Override
 	public List<TagInfo> fetchTagInfo() {
@@ -135,6 +139,21 @@ public class TagServiceImpl implements TagService {
 		
 		//删除分类
 		tagDao.delete(id);
+	}
+
+	@Override
+	public TmTag addTag(Map<String, Object> map) {
+		Date time = new Date();
+
+		TmTag tag = new TmTag();
+		tag.setUserId(Long.valueOf(0));
+		tag.setName((String)map.get("name"));
+		tag.setDescription((String)map.get("description"));
+		tag.setCreateTime(time);
+		tag.setUpdateTime(time);
+		tag.setJpaVersion(0);
+    	
+    	return tagDao.save(tag);
 	}
 
 }
