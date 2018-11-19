@@ -203,10 +203,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> A</a></li>
-            <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> B</a></li>
-            <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> C</a></li>
-            <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> D</a></li>
+            <li><a href="comment/queryPage"><i class="fa fa-circle-o"></i> 查询评论</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -218,10 +215,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> A</a></li>
-            <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> B</a></li>
-            <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> C</a></li>
-            <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> D</a></li>
+            <li><a href="visitHst/queryPage"><i class="fa fa-circle-o"></i> 查询访问历史</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -233,10 +227,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> A</a></li>
-            <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> B</a></li>
-            <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> C</a></li>
-            <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> D</a></li>
+            <li><a href="operateHst/queryPage"><i class="fa fa-circle-o"></i> 查询操作历史</a></li>
           </ul>
         </li>
         <li class="treeview">
