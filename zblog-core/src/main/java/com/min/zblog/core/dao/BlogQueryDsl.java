@@ -649,4 +649,50 @@ public class BlogQueryDsl {
 				.where(exp)
 				.fetchCount();
 	}
+	
+	/**
+	 * 分页查询评论信息,多个查询条件
+	 * @param currentPage
+	 * @param pageSize
+	 * @param map:available startDate endDate
+	 * @return
+	 */
+	public List<TmComment> fetchCommentConditionByPage(long currentPage, long pageSize, Map<String, Object> map){
+		BooleanExpression exp = null;
+		if(map != null){
+			if(map.get(Constants.START_DATE) != null && map.get(Constants.END_DATE) != null){
+				exp = qTmComment.createTime.between((Date)map.get(Constants.START_DATE), 
+						(Date)map.get(Constants.END_DATE));
+			}
+		}
+		
+		JPAQuery<TmComment> query = new JPAQuery<TmComment>(em);
+		List<TmComment> list = query.from(qTmComment)
+				.where(exp)
+				.orderBy(qTmComment.createTime.desc())
+				.offset((currentPage-1)*pageSize)
+				.limit(pageSize).fetch();
+		return list;
+	}
+	
+	/**
+	 * 结合分页查询,统计个数
+	 * @param map:available startDate endDate
+	 * @return
+	 */
+	public Long countCommentByCondition(Map<String, Object> map){
+		BooleanExpression exp = null;
+		if(map != null){
+			if(map.get(Constants.START_DATE) != null && map.get(Constants.END_DATE) != null){
+				exp = qTmComment.createTime.between((Date)map.get(Constants.START_DATE), 
+						(Date)map.get(Constants.END_DATE));
+			}
+		}
+		
+		JPAQuery<TmComment> query = new JPAQuery<TmComment>(em);
+		Long total = query.from(qTmComment)
+				.where(exp)
+				.fetchCount();
+		return total;
+	}
 }

@@ -22,6 +22,7 @@ import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.TmCategory;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.CategoryInfo;
+import com.min.zblog.data.view.CommentInfo;
 import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.facility.enums.ArticleState;
 import com.min.zblog.facility.enums.Indicator;
@@ -52,7 +53,7 @@ public class CommentController {
     	reqMap.put(Constants.START_DATE, startDate);
     	reqMap.put(Constants.END_DATE, endDate);
     	
-    	PageInfo<CategoryInfo> pageInfo = commentService.queryCommentByPage(limit, page, reqMap);
+    	PageInfo<CommentInfo> pageInfo = commentService.queryCommentByPage(limit, page, reqMap);
     	logger.debug("currentPage:"+pageInfo.getCurrentPage()+",totalPages:"+pageInfo.getTotalPages());
     	
     	Map<String, Object> map = new HashMap<String, Object>();

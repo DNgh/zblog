@@ -27,6 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="components/layui/css/layui.css">
+  <link rel="stylesheet" href="components/daterangepicker/daterangepicker.css">
   <!-- custom css -->
   <link rel="stylesheet" href="custom/css/custom.css">
   
@@ -39,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <!--<link rel="shortcut icon " type="images/x-icon" href="../dist/img/favico.png">-->
   <link rel="shortcut icon " type="images/x-icon" href="custom/img/star.png">
-  
+   
 </head>
 <body class="hold-transition skin-red sidebar-mini">
 <div class="wrapper">
@@ -139,7 +140,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">导航栏</li>
-        <li class="active treeview">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-book"></i>
             <span>文章管理</span>
@@ -149,7 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </a>
           <ul class="treeview-menu">
             <li><a href="article/newPage"><i class="fa fa-circle-o"></i> 创建文章</a></li>
-            <li class="active"><a href="article/queryPage"><i class="fa fa-circle-o"></i> 查询文章</a></li>
+            <li><a href="article/queryPage"><i class="fa fa-circle-o"></i> 查询文章</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -190,7 +191,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li><a href="tag/queryPage"><i class="fa fa-circle-o"></i> 查询标签</a></li>
           </ul>
         </li>
-        <li class="treeview">
+        <li class="active treeview">
           <a href="#">
             <i class="fa fa-comments"></i>
             <span>评论管理</span>
@@ -199,7 +200,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="comment/queryPage"><i class="fa fa-circle-o"></i> 查询评论</a></li>
+            <li  class="active"><a href="comment/queryPage"><i class="fa fa-circle-o"></i> 查询评论</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -273,7 +274,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						            <span id="removeBtn" class="input-group-addon"><i class="fa fa-remove"></i></span>
 						     	</div>
 							</div>
-							<div class="form-group col-md-2">
+							<div class="form-group col-md-offset-5 col-md-2">
 								<button type="button" class="btn btn-success" id="searchBtn">查询</button>
 							</div>
 						</div>
@@ -315,6 +316,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- bootstrap-paginator -->
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
 <script src="components/layui/layui.js"></script>
+<script src="components/daterangepicker/moment.min.js"></script>
+<script src="components/daterangepicker/daterangepicker.js"></script>
 <!-- custom jQuery -->
 <script src="custom/js/zblog.js"></script>
 <script type="text/javascript">

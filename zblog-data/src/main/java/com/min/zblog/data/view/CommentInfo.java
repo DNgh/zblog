@@ -56,6 +56,16 @@ public class CommentInfo implements Serializable {
 	 * 点赞数
 	 */
 	private long favorNum;
+	
+	/**
+	 * ip地址
+	 */
+	private String ip;
+	
+	/**
+	 * 浏览器类型
+	 */
+	private String browser;
 
 	public Long getRid() {
 		return rid;
@@ -128,4 +138,21 @@ public class CommentInfo implements Serializable {
 	public void setArticleTitle(String articleTitle) {
 		this.articleTitle = articleTitle;
 	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public String getBrowser() {
+		return browser;
+	}
+
+	public void setBrowser(String browser) {
+		this.browser = browser;
+	}
+	
 }

@@ -10,11 +10,16 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.min.zblog.core.dao.ArticleDao;
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.CommentDao;
 import com.min.zblog.core.service.CommentService;
+import com.min.zblog.data.entity.TmArticle;
+import com.min.zblog.data.entity.TmCategory;
 import com.min.zblog.data.entity.TmComment;
+import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.CommentInfo;
+import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.facility.enums.Indicator;
 
 @Service
@@ -22,6 +27,9 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Autowired
 	private CommentDao commentDao;
+	
+	@Autowired
+	private ArticleDao articleDao;
 	
 	@Autowired
 	private BlogQueryDsl blogQueryDsl;
@@ -116,6 +124,43 @@ public class CommentServiceImpl implements CommentService {
 		commentInfo.setRid(tmComment.getRid());
 		
 		return commentInfo;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.min.zblog.core.service.CommentService#queryCommentByPage(long, long, java.util.Map)
+	 */
+	@Override
+	public PageInfo<CommentInfo> queryCommentByPage(long pageSize, long currentPage, Map<String, Object> map) {
+		List<TmComment> tmCommentList = blogQueryDsl.fetchCommentConditionByPage(currentPage, pageSize, map);
+		List<CommentInfo> commentInfoList = new ArrayList<CommentInfo>();
+		for(TmComment comment:tmCommentList){
+			
+			CommentInfo commentInfo = new CommentInfo();
+			commentInfo.setId(comment.getId());
+			TmArticle article = articleDao.findOne(comment.getArticleId());
+			if(article != null){
+				commentInfo.setArticleTitle(article.getTitle());
+			}
+			commentInfo.setRid(comment.getRid());
+			commentInfo.setPid(comment.getPid());
+			commentInfo.setPnickname(comment.getPnickname());
+			commentInfo.setNickname(comment.getNickname());
+			commentInfo.setContent(comment.getContent());
+			commentInfo.setFavorNum(comment.getFavorNum());
+			commentInfo.setCreateTime(comment.getCreateTime());
+			
+			commentInfoList.add(commentInfo);
+		}
+		
+		PageInfo<CommentInfo> pageInfo = new PageInfo<CommentInfo>();
+		pageInfo.setCurrentPage(currentPage);
+		long total = blogQueryDsl.countCommentByCondition(map);
+		
+		pageInfo.setCount(total);
+		pageInfo.setTotalPages((total%pageSize == 0)?(total/pageSize):((total/pageSize)+1));
+		pageInfo.setList(commentInfoList);
+		
+		return pageInfo;
 	}
 
 }
