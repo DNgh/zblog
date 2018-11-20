@@ -259,79 +259,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
     <!-- Main content -->
     <section class="content">
-		<ul id="articleTab" class="nav nav-tabs">
-			<li class="active"><a href="#all" data-toggle="tab">全部</a></li>
-			<li><a href="#publish" data-toggle="tab">已发布</a></li>
-			<li><a href="#draft" data-toggle="tab">草稿箱</a></li>
-			<li><a href="#trash" data-toggle="tab">回收箱</a></li>
-		</ul>
-		<div id="articleTabContent" class="tab-content">
-			<div class="tab-pane fade in active" id="all">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<div class="searchArea">
-							<form class="form-inline" role="form">
-								<div class="row">
-									<div class="form-group col-sm-5">
-										<label class="control-label">创建时间:</label>
-										<select id="year" class="form-control">
-											<!-- 年 -->
-											<option value="0" selected>不限年份</option>
-							        		<!-- /.年 -->
-										</select>
-										<select id="month" class="form-control">
-											<!-- 月 -->
-											<option value="0" selected>不限月份</option>
-							        		<!-- /.月 -->
-										</select>
-									</div>
-									<div class="form-group col-sm-5">
-										<label class="control-label">分类:</label>
-										<select id="category" class="form-control">
-											<!-- 分类 -->
-											<option value="" selected>不限分类</option>
-											<c:forEach items="${categoryInfoList}" var="categoryInfo">  
-												<option value="${categoryInfo.id}">${categoryInfo.categoryName}</option>
-											</c:forEach>
-							        		<!-- /.分类 -->
-										</select>
-									</div>
-									<div class="form-group col-sm-2">
-										<button type="button" class="btn btn-success" id="searchBtn">查询</button>
-									</div>
-								</div>
-							</form>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="searchArea">
+					<form class="form-inline" role="form">
+						<div class="row">
+							<div class="form-group col-md-5">
+								<label class="control-label">创建时间:</label>
+								<div class="input-group">
+									<!-- AdminLTE样式，导致输入框直角 -->
+						            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						            <input id="daterange" name="daterange" type="text" class="form-control" placeholder="不限时间" size="20"/>
+						            <span id="removeBtn" class="input-group-addon"><i class="fa fa-remove"></i></span>
+						     	</div>
+							</div>
+							<div class="form-group col-md-2">
+								<button type="button" class="btn btn-success" id="searchBtn">查询</button>
+							</div>
 						</div>
-						<!-- /.searchArea -->
-						<!-- 全部文章检索 -->
-						<table id="allTable" lay-filter="allTable" style="width:100%"></table>
-            		</div>
+					</form>
 				</div>
-			</div>
-			<div class="tab-pane fade" id="publish">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<!-- 已发布文章检索 -->
-						<table id="publishTable" lay-filter="publishTable" style="width:100%"></table>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane fade" id="draft">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<!-- 草稿箱文章检索 -->
-						<table id="draftTable" lay-filter="draftTable" style="width:100%"></table>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane fade" id="trash">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<!-- 回收箱文章检索 -->
-						<table id="trashTable" lay-filter="trashTable" style="width:100%"></table>
-					</div>
-				</div>
-			</div>
+				<!-- /.searchArea -->
+				<!-- 全部分类检索 -->
+				<table id="allTable" lay-filter="allTable" style="width:100%"></table>
+	    	</div>
 		</div>
     </section>
     <!-- /.content -->
@@ -349,7 +300,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- ./wrapper -->
 
 <script type="text/html" id="optionBar">
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
@@ -369,15 +320,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 	var table;//全局表格
 	var allTable;//所有文章
-	var publishTable;//已发布文章
-	var draftTable;//已保存文章，未发布
-	var trashTable;//已删除，放入回收箱
-	var monthMap;//月份map，key为年，value为月
-	var yearList;//年list
 	
 	$(function(){
-		//初始化参数
-		initParam();
+		//初始化日历控控件
+		initDateRange();
 		
 		//初始化表格
 		layui.use('table', function(){
@@ -386,100 +332,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  allTable = table.render({
 			id: 'layAllTable'
 		    ,elem: '#allTable'
-		    ,url:'article/query'
-		    ,where:{
-		    	state:'ALL'//所有文章
-		    }
+		    ,url:'comment/query'
 		    ,limit: 10 //每页默认显示的数量
 		    ,method:'post'  //提交方式
-		    ,title: '文章数据表'
+		    ,title: '评论数据表'
 		    ,cellMinWidth: 100
 		    ,cols: [[
 		      {field:'id', title:'ID', width:'10%', sort: true}
-		      ,{field:'title', title:'标题', width:'20%'}
-		      ,{field:'readNum', title:'阅读数', width:'10%'}
-		      ,{field:'commentNum', title:'评论数', width:'10%'}
+		      ,{field:'articleTitle', title:'文章标题', width:'20%'}
+		      ,{field:'content', title:'评论内容', width:'20%'}
+		      ,{field:'nickname', title:'用户昵称', width:'10%'}
 		      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
-		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
+		      ,{field:'option', title:'操作', width:'20%', toolbar: '#optionBar'}
 		    ]]
 		    ,page: true
 		    ,done: function(res, curr, count){
 		    	table.resize('layAllTable');
-			}
-		  });
-		  
-		  publishTable = table.render({
-			id: 'layPublishTable'
-			,elem: '#publishTable'
-		    ,url:'article/query'
-		    ,where:{
-		    	state:'PUBLISH'//已发布文章
-		    }
-		    ,limit: 10 //每页默认显示的数量
-	        ,method:'post'  //提交方式
-	        ,title: '文章数据表'
-	        ,cellMinWidth: 100
-		    ,cols: [[
-		      {field:'id', title:'ID', width:'10%', sort: true}
-		      ,{field:'title', title:'标题', width:'20%'}
-		      ,{field:'readNum', title:'阅读数', width:'10%'}
-		      ,{field:'commentNum', title:'评论数', width:'10%'}
-		      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
-		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
-		    ]]
-		    ,page: true
-		    ,done: function(res, curr, count){
-		    	table.resize('layPublishTable');
-			}
-		  });
-		  
-		  draftTable = table.render({
-			id: 'layDraftTable'
-		    ,elem: '#draftTable'
-		    ,url:'article/query'
-		    ,where:{
-		    	state:'CREATE'//草稿箱
-		    }
-		    ,limit: 10 //每页默认显示的数量
-	        ,method:'post'  //提交方式
-	        ,title: '文章数据表'
-	        ,cellMinWidth: 100
-		    ,cols: [[
-		      {field:'id', title:'ID', width:'10%', sort: true}
-		      ,{field:'title', title:'标题', width:'20%'}
-		      ,{field:'readNum', title:'阅读数', width:'10%'}
-		      ,{field:'commentNum', title:'评论数', width:'10%'}
-		      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
-		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
-		    ]]
-		    ,page: true
-		    ,done: function(res, curr, count){
-		    	table.resize('layDraftTable');
-			}
-		  });
-		  
-		  trashTable = table.render({
-			id: 'layTrashTable'
-		    ,elem: '#trashTable'
-		    ,url:'article/query'
-		    ,where:{
-		    	state:'DELETE'//回收箱
-		    }
-		    ,limit: 10 //每页默认显示的数量
-	        ,method:'post'  //提交方式
-	        ,title: '文章数据表'
-	        ,cellMinWidth: 100
-		    ,cols: [[
-		      {field:'id', title:'ID', width:'10%', sort: true}
-		      ,{field:'title', title:'标题', width:'20%'}
-		      ,{field:'readNum', title:'阅读数', width:'10%'}
-		      ,{field:'commentNum', title:'评论数', width:'10%'}
-		      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
-		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
-		    ]]
-		    ,page: true
-		    ,done: function(res, curr, count){
-		    	table.resize('layTrashTable');
 			}
 		  });
 		  
@@ -490,140 +358,99 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    if(obj.event === 'del'){
 		      layer.confirm('真的删除行么，无法恢复', function(index){
 		        var map = {
-					'articleId':data.id,
-					'realDelete':true
+					'commentId':data.id
 			   	};
 		      	//ajax请求后端
-		        deleteLayerObjAjax("article/delete", obj, map, index);
+		        deleteLayerObjAjax("comment/delete", obj, map, index);
 		      });
-		    } else if(obj.event === 'edit'){
+		    } else if(obj.event === 'detail'){
 		    	//跳转到编辑页面
-		      	window.location.href = "article/editorPage?articleId="+data.id;
+		      	window.location.href = "comment/detailPage?commentId="+data.id;
 		    }
 		  });
-		  
-		  table.on('tool(publishTable)', function(obj){
-		    var data = obj.data;
-		    //console.log(obj)
-		    if(obj.event === 'del'){
-		      layer.confirm('真的放入回收箱', function(index){
-			     var map = {
-					'articleId':data.id,
-					'realDelete':false
-			 	 };
-			   	 //ajax请求后端
-			     deleteLayerObjAjax("article/delete", obj, map, index);
-		      });
-		    } else if(obj.event === 'edit'){
-		    	//跳转到编辑页面
-		      	window.location.href = "article/editorPage?articleId="+data.id;
-		    }
-		  });
-		  
-		  table.on('tool(draftTable)', function(obj){
-		    var data = obj.data;
-		    //console.log(obj)
-		    if(obj.event === 'del'){
-		      layer.confirm('真的放入回收箱', function(index){
-			     var map = {
-					'articleId':data.id,
-					'realDelete':false
-			 	 };
-			   	 //ajax请求后端
-			     deleteLayerObjAjax("article/delete", obj, map, index);
-		      });
-		    } else if(obj.event === 'edit'){
-		    	//跳转到编辑页面
-		      	window.location.href = "article/editorPage?articleId="+data.id;
-		    }
-		  });
-		  
-		  table.on('tool(trashTable)', function(obj){
-		    var data = obj.data;
-		    //console.log(obj)
-		    if(obj.event === 'del'){
-		      layer.confirm('真的删除行么，无法恢复', function(index){
-			     var map = {
-					'articleId':data.id,
-					'realDelete':true
-			 	 };
-			   	 //ajax请求后端
-			     deleteLayerObjAjax("article/delete", obj, map, index);
-		      });
-		    } else if(obj.event === 'edit'){
-		    	//跳转到编辑页面
-		      	window.location.href = "article/editorPage?articleId="+data.id;
-		    }
-		  });
-		  
-		});
-		
-		//点击年列表，加载月份
-		$("#year").change(function(){
-			//获取年
-			var year = $("#year option:selected").val()
-			//填充月
-			if(year == null || year == undefined || year == 0){
-				$("#month").html("");
-				$("#month").append("<option value='0' selected>不限月份</option>");
-				return;
-			}
-			var monthList = monthMap[year];
-			$("#month").html("");
-			$("#month").append("<option value='0' selected>不限月份</option>");
-			for(var i=0; i<monthList.length; i++){
-				var month = monthList[i];
-				$("#month").append("<option value='"+month+"'>"+month+"</option>");
-			}
 		});
 		
 		//点击查询，获取参数，查询分页数据
 		$("#searchBtn").click(function(){
-			//归档年月
-			var year = $("#year option:selected").val();
-			if(year == null || year == undefined || year == 0){
-				year = "";
+			//创建时间
+			var daterange = $("#daterange").val();
+			var startDate;
+			var endDate;
+			if(daterange == null || daterange == undefined || daterange == 0){
+				startDate = null;
+				endDate = null;
+			}else{
+				var index = daterange.indexOf('至');
+				if(index > -1){
+					startDate = $.trim(daterange.substring(0, index));
+					endDate = $.trim(daterange.substring(index+1));
+				}else{
+					startDate = null;
+					endDate = null;
+				}
 			}
-			var month = $("#month option:selected").val();
-			if(month == null || month == undefined || month == 0){
-				month = "";
+			//是否启用 
+			var available = $("#available option:selected").val();
+			if(available == null || available == undefined || available == 0){
+				available = null;
 			}
-			//分类id
-			var categoryId = $("#category option:selected").val();
+			
 			//重新加载数据
 			allTable.reload({
 				page: {
 					curr: 1
 				},
 				where:{
-					'state':'ALL',
-					'year':year,
-					'month':month,
-					'categoryId':categoryId
+					'startDate':startDate,
+					'endDate':endDate
 				},
 				done: function(res, curr, count){
 					table.resize('layAllTable');
 				}
 			});
 		});
+		
+		//点击日期删除按钮，清除日期
+		$("#removeBtn").click(function(){
+			$('input[name="daterange"]').val('');
+		});
 	});
 	
-	function initParam(){
-		yearList = ${years};
-		monthMap=${months};
+	function initDateRange(){
+		var locale = {
+			"format": 'YYYY-MM-DD',
+			"separator": " 至 ",
+			"applyLabel": "确定",
+			"cancelLabel": "取消",
+			"resetLabel": "重置",
+			"fromLabel": "起始时间",
+			"toLabel": "结束时间'",
+			"customRangeLabel": "自定义",
+			"weekLabel": "W",
+			"daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
+			"monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+			"firstDay": 1
+		};
 		
-		if(yearList == null || yearList == undefined){
-			return;
-		}
-		
-		$("#year").html("");
-		$("#year").append("<option value='0' selected>不限年份</option>");
-		for(var i=0; i<yearList.length; i++){
-			var year = yearList[i];
-			$("#year").append("<option value='"+year+"'>"+year+"</option>");
-		}
+		$('input[name="daterange"]').daterangepicker({
+			"locale": locale,
+			"ranges" : {
+				'最近1小时': [moment().subtract(1, 'hours'), moment()],
+				'今日': [moment().startOf('day'), moment()],
+				'昨日': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+				'最近7日': [moment().subtract(6, 'days'), moment()],
+				'最近30日': [moment().subtract(29, 'days'), moment()],
+				'本月': [moment().startOf("month"),moment().endOf("month")],
+				'上个月': [moment().subtract(1,"month").startOf("month"),moment().subtract(1,"month").endOf("month")]
+			},
+			"opens":"right",
+			"showDropdowns": true,
+			"autoUpdateInput":false
+		}, function(start, end, label) {
+			//console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ",Label:"+label);
+			this.element.val(this.startDate.format(this.locale.format) + this.locale.separator + this.endDate.format(this.locale.format));
+		});
 	}
-
 </script>
 </body>
 </html>

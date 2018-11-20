@@ -13,6 +13,11 @@ public class CommentInfo implements Serializable {
 	private static final long serialVersionUID = 5998221272634685482L;
 	
 	/**
+	 * 文章标题
+	 */
+	private String articleTitle;
+	
+	/**
 	 * 根评论id
 	 */
 	private Long rid;
@@ -116,4 +121,11 @@ public class CommentInfo implements Serializable {
 		this.favorNum = favorNum;
 	}
 	
+	public String getArticleTitle() {
+		return articleTitle;
+	}
+
+	public void setArticleTitle(String articleTitle) {
+		this.articleTitle = articleTitle;
+	}
 }
