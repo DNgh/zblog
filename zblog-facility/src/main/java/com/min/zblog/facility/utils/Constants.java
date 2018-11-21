@@ -52,4 +52,7 @@ public class Constants {
 	
 	public static final String ERRT002_CODE = "T002";
 	public static final String ERRT002_MSG = "正使用，无法删除";
+	
+	public static final String ERRM001_CODE = "M001";
+	public static final String ERRM001_MSG = "不存在该评论";
 }

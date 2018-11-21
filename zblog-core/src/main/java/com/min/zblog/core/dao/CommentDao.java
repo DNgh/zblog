@@ -18,4 +18,9 @@ public interface CommentDao extends JpaRepository<TmComment, Long> {
 	@Modifying
 	@Query(value = "delete from tm_comment where article_id = ?1", nativeQuery = true)
 	public void deleteTmCommentByArticleId(Long id);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "delete from tm_comment where rid = ?1", nativeQuery = true)
+	public void deleteTmCommentByRid(Long id);
 }

@@ -21,6 +21,8 @@ import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.CommentInfo;
 import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.facility.enums.Indicator;
+import com.min.zblog.facility.exception.ProcessException;
+import com.min.zblog.facility.utils.Constants;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -161,6 +163,44 @@ public class CommentServiceImpl implements CommentService {
 		pageInfo.setList(commentInfoList);
 		
 		return pageInfo;
+	}
+
+	@Override
+	public CommentInfo findOneComment(Long id) {
+		CommentInfo commentInfo = new CommentInfo();
+		
+		TmComment comment = commentDao.findOne(id);
+		if(comment != null){
+			commentInfo.setId(comment.getId());
+			TmArticle article = articleDao.findOne(comment.getArticleId());
+			if(article != null){
+				commentInfo.setArticleTitle(article.getTitle());
+			}
+			commentInfo.setRid(comment.getRid());
+			commentInfo.setPid(comment.getPid());
+			commentInfo.setPnickname(comment.getPnickname());
+			commentInfo.setNickname(comment.getNickname());
+			commentInfo.setContent(comment.getContent());
+			commentInfo.setIp(comment.getIp());
+			commentInfo.setBrowser(comment.getBrowser());
+			commentInfo.setFavorNum(comment.getFavorNum());
+			commentInfo.setCreateTime(comment.getCreateTime());
+		}
+		
+		return commentInfo;
+	}
+
+	@Override
+	public void deleteCommentById(Long commentId) throws ProcessException {
+		TmComment comment = commentDao.findOne(commentId);
+		if(comment == null){
+			throw new ProcessException(Constants.ERRM001_CODE, Constants.ERRM001_MSG);
+		}
+		
+		//删除子评论
+		commentDao.deleteTmCommentByRid(commentId);
+		//删除评论
+		commentDao.delete(commentId);
 	}
 
 }

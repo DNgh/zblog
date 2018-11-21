@@ -64,23 +64,23 @@ public class CommentController {
         return map;
     }
 	
-	/*@RequestMapping("/detailPage")
+	@RequestMapping("/detailPage")
     public ModelAndView editorPage(@RequestParam(value="commentId")Long id){
-    	ModelAndView modelAndView =new ModelAndView("detailCategory");
+    	ModelAndView modelAndView =new ModelAndView("detailComment");
     	//加载文章
-    	CategoryInfo categoryInfo = commentService.findOneComment(id);
-        modelAndView.addObject("commentInfo", categoryInfo);
+    	CommentInfo commentInfo = commentService.findOneComment(id);
+        modelAndView.addObject("commentInfo", commentInfo);
         
         return modelAndView;
     }
 	
 	@ResponseBody
     @RequestMapping("/delete")
-    public Map<String, Object> deleteCategory(
-    		@RequestParam(value="commentId") Long categoryId){
+    public Map<String, Object> deleteComment(
+    		@RequestParam(value="commentId") Long commentId){
     	Map<String, Object> result = new HashMap<String, Object>();
 		try{
-			commentService.deleteCommentById(categoryId);
+			commentService.deleteCommentById(commentId);
 			//返回json格式结果
         	result.put("success", true);
         	result.put("message", "");
@@ -91,5 +91,5 @@ public class CommentController {
 		}
     	
         return result;
-    }*/
+    }
 }
