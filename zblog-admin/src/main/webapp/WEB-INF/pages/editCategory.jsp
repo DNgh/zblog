@@ -27,8 +27,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
-  <!-- editormd -->
-  <link rel="stylesheet" href="components/editor.md/css/editormd.css" />
   <!-- custom css -->
   <link rel="stylesheet" href="custom/css/custom.css">
   
@@ -336,8 +334,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="components/AdminLTE/js/adminlte.min.js"></script>
 <!-- bootstrap-paginator -->
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
-<!-- editormd 1.15-->
-<script src="components/editor.md/editormd.min.js"></script>
 <script src="components/layer/layer.js"></script>
 <!-- custom jQuery -->
 <script src="custom/js/zblog.js"></script>

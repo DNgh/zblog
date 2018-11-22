@@ -538,7 +538,7 @@ public class BlogQueryDsl {
 	 * 分页查询归档信息,多个查询条件
 	 * @param currentPage
 	 * @param pageSize
-	 * @param map:available startDate endDate
+	 * @param map:startDate endDate
 	 * @return
 	 */
 	public List<TmArchive> fetchArchiveConditionByPage(long currentPage, long pageSize, Map<String, Object> map){
@@ -561,7 +561,7 @@ public class BlogQueryDsl {
 	
 	/**
 	 * 结合分页查询,统计个数
-	 * @param map:available startDate endDate
+	 * @param map:startDate endDate
 	 * @return
 	 */
 	public Long countArchiveByCondition(Map<String, Object> map){
@@ -595,7 +595,7 @@ public class BlogQueryDsl {
 	 * 分页查询标签信息,多个查询条件
 	 * @param currentPage
 	 * @param pageSize
-	 * @param map:available startDate endDate
+	 * @param map:startDate endDate
 	 * @return
 	 */
 	public List<TmTag> fetchTagConditionByPage(long currentPage, long pageSize, Map<String, Object> map){
@@ -618,7 +618,7 @@ public class BlogQueryDsl {
 	
 	/**
 	 * 结合分页查询,统计个数
-	 * @param map:available startDate endDate
+	 * @param map:startDate endDate
 	 * @return
 	 */
 	public Long countTagByCondition(Map<String, Object> map){
@@ -654,7 +654,7 @@ public class BlogQueryDsl {
 	 * 分页查询评论信息,多个查询条件
 	 * @param currentPage
 	 * @param pageSize
-	 * @param map:available startDate endDate
+	 * @param map:startDate endDate
 	 * @return
 	 */
 	public List<TmComment> fetchCommentConditionByPage(long currentPage, long pageSize, Map<String, Object> map){
@@ -677,7 +677,7 @@ public class BlogQueryDsl {
 	
 	/**
 	 * 结合分页查询,统计个数
-	 * @param map:available startDate endDate
+	 * @param map:startDate endDate
 	 * @return
 	 */
 	public Long countCommentByCondition(Map<String, Object> map){
@@ -691,6 +691,52 @@ public class BlogQueryDsl {
 		
 		JPAQuery<TmComment> query = new JPAQuery<TmComment>(em);
 		Long total = query.from(qTmComment)
+				.where(exp)
+				.fetchCount();
+		return total;
+	}
+	
+	/**
+	 * 分页查询访问历史信息,多个查询条件
+	 * @param currentPage
+	 * @param pageSize
+	 * @param map:startDate endDate
+	 * @return
+	 */
+	public List<TmVisitHst> fetchVisitHstConditionByPage(long currentPage, long pageSize, Map<String, Object> map){
+		BooleanExpression exp = null;
+		if(map != null){
+			if(map.get(Constants.START_DATE) != null && map.get(Constants.END_DATE) != null){
+				exp = qTmVisitHst.createTime.between((Date)map.get(Constants.START_DATE), 
+						(Date)map.get(Constants.END_DATE));
+			}
+		}
+		
+		JPAQuery<TmVisitHst> query = new JPAQuery<TmVisitHst>(em);
+		List<TmVisitHst> list = query.from(qTmVisitHst)
+				.where(exp)
+				.orderBy(qTmVisitHst.createTime.desc())
+				.offset((currentPage-1)*pageSize)
+				.limit(pageSize).fetch();
+		return list;
+	}
+	
+	/**
+	 * 结合分页查询,统计个数
+	 * @param map:startDate endDate
+	 * @return
+	 */
+	public Long countVisitHstByCondition(Map<String, Object> map){
+		BooleanExpression exp = null;
+		if(map != null){
+			if(map.get(Constants.START_DATE) != null && map.get(Constants.END_DATE) != null){
+				exp = qTmVisitHst.createTime.between((Date)map.get(Constants.START_DATE), 
+						(Date)map.get(Constants.END_DATE));
+			}
+		}
+		
+		JPAQuery<TmVisitHst> query = new JPAQuery<TmVisitHst>(em);
+		Long total = query.from(qTmVisitHst)
 				.where(exp)
 				.fetchCount();
 		return total;
