@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.min.zblog.data.entity.TsOperateHst;
 
 @Repository
-public interface OperateHst extends JpaRepository<TsOperateHst, Long> {
+public interface OperateHstDao extends JpaRepository<TsOperateHst, Long> {
 
 }

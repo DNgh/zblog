@@ -20,12 +20,14 @@ import com.min.zblog.data.entity.QTmArticle;
 import com.min.zblog.data.entity.QTmArticleTag;
 import com.min.zblog.data.entity.QTmCategory;
 import com.min.zblog.data.entity.QTmVisitHst;
+import com.min.zblog.data.entity.QTsOperateHst;
 import com.min.zblog.data.entity.TmArchive;
 import com.min.zblog.data.entity.TmArticleTag;
 import com.min.zblog.data.entity.TmCategory;
 import com.min.zblog.data.entity.TmComment;
 import com.min.zblog.data.entity.TmTag;
 import com.min.zblog.data.entity.TmVisitHst;
+import com.min.zblog.data.entity.TsOperateHst;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.facility.enums.ArticleState;
 import com.min.zblog.facility.enums.Indicator;
@@ -56,6 +58,8 @@ public class BlogQueryDsl {
 	private QTmTag qTmTag = QTmTag.tmTag;
 	
 	private QTmComment qTmComment = QTmComment.tmComment;
+	
+	private QTsOperateHst qTsOperateHst = QTsOperateHst.tsOperateHst;
 	
 	@PostConstruct
     public void init() {
@@ -737,6 +741,51 @@ public class BlogQueryDsl {
 		
 		JPAQuery<TmVisitHst> query = new JPAQuery<TmVisitHst>(em);
 		Long total = query.from(qTmVisitHst)
+				.where(exp)
+				.fetchCount();
+		return total;
+	}
+
+	/**
+	 * @param currentPage
+	 * @param pageSize
+	 * @param map
+	 * @return
+	 */
+	public List<TsOperateHst> fetchOperateHstConditionByPage(long currentPage, long pageSize, Map<String, Object> map) {
+		BooleanExpression exp = null;
+		if(map != null){
+			if(map.get(Constants.START_DATE) != null && map.get(Constants.END_DATE) != null){
+				exp = qTsOperateHst.createTime.between((Date)map.get(Constants.START_DATE), 
+						(Date)map.get(Constants.END_DATE));
+			}
+		}
+		
+		JPAQuery<TsOperateHst> query = new JPAQuery<TsOperateHst>(em);
+		List<TsOperateHst> list = query.from(qTsOperateHst)
+				.where(exp)
+				.orderBy(qTsOperateHst.createTime.desc())
+				.offset((currentPage-1)*pageSize)
+				.limit(pageSize).fetch();
+		return list;
+	}
+	
+	/**
+	 * 结合分页查询,统计个数
+	 * @param map:startDate endDate
+	 * @return
+	 */
+	public Long countOperateHstByCondition(Map<String, Object> map){
+		BooleanExpression exp = null;
+		if(map != null){
+			if(map.get(Constants.START_DATE) != null && map.get(Constants.END_DATE) != null){
+				exp = qTsOperateHst.createTime.between((Date)map.get(Constants.START_DATE), 
+						(Date)map.get(Constants.END_DATE));
+			}
+		}
+		
+		JPAQuery<TsOperateHst> query = new JPAQuery<TsOperateHst>(em);
+		Long total = query.from(qTsOperateHst)
 				.where(exp)
 				.fetchCount();
 		return total;
