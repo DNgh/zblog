@@ -21,6 +21,12 @@ import com.min.zblog.data.entity.QTmArticleTag;
 import com.min.zblog.data.entity.QTmCategory;
 import com.min.zblog.data.entity.QTmVisitHst;
 import com.min.zblog.data.entity.QTsOperateHst;
+import com.min.zblog.data.entity.QTsResource;
+import com.min.zblog.data.entity.QTsRole;
+import com.min.zblog.data.entity.QTsRoleResource;
+import com.min.zblog.data.entity.QTsUser;
+import com.min.zblog.data.entity.QTsUserRole;
+import com.min.zblog.data.entity.SecuritySource;
 import com.min.zblog.data.entity.TmArchive;
 import com.min.zblog.data.entity.TmArticleTag;
 import com.min.zblog.data.entity.TmCategory;
@@ -28,6 +34,8 @@ import com.min.zblog.data.entity.TmComment;
 import com.min.zblog.data.entity.TmTag;
 import com.min.zblog.data.entity.TmVisitHst;
 import com.min.zblog.data.entity.TsOperateHst;
+import com.min.zblog.data.entity.TsResource;
+import com.min.zblog.data.entity.TsRole;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.facility.enums.ArticleState;
 import com.min.zblog.facility.enums.Indicator;
@@ -60,6 +68,16 @@ public class BlogQueryDsl {
 	private QTmComment qTmComment = QTmComment.tmComment;
 	
 	private QTsOperateHst qTsOperateHst = QTsOperateHst.tsOperateHst;
+	
+	private QTsRole qTsRole = QTsRole.tsRole;
+	
+	private QTsUser qTsUser = QTsUser.tsUser;
+	
+	private QTsUserRole qTsUserRole = QTsUserRole.tsUserRole;
+	
+	private QTsResource qTsResource = QTsResource.tsResource;
+	
+	private QTsRoleResource qTsRoleResource = QTsRoleResource.tsRoleResource;
 	
 	@PostConstruct
     public void init() {
@@ -789,5 +807,43 @@ public class BlogQueryDsl {
 				.where(exp)
 				.fetchCount();
 		return total;
+	}
+	
+	public List<TsRole> fetchRoleByUserId(Long userId) {
+		JPAQuery<TsRole> query = new JPAQuery<TsRole>(em);
+		List<TsRole> list = query.from(qTsRole, qTsUser, qTsUserRole)
+				.where(qTsRole.id.eq(qTsUserRole.roleId)
+						.and(qTsUserRole.userId.eq(qTsUser.id))
+						.and(qTsUser.id.eq(userId)))
+				.orderBy(qTsRole.createTime.asc())
+				.fetch();
+		return list;
+	}
+
+	public List<SecuritySource> fetchSecuritySource() {
+		List<SecuritySource> list = new ArrayList<SecuritySource>();
+		//加载角色
+		JPAQuery<TsRole> query = new JPAQuery<TsRole>(em);
+		List<TsRole> roleList = query.from(qTsRole).fetch();
+		
+		if(roleList != null) {
+			for(TsRole role : roleList) {
+				//加载权限
+				JPAQuery<TsResource> resQuery = new JPAQuery<TsResource>(em);
+				List<TsResource> resList = resQuery.from(qTsResource, qTsRoleResource)
+						.where(qTsRoleResource.roleId.eq(role.getId())
+								.and(qTsResource.id.eq(qTsRoleResource.resourceId)))
+						.fetch();
+				if(resList != null) {
+					for(TsResource res : resList) {
+						SecuritySource source = new SecuritySource(res.getName(), role.getName());
+						list.add(source);
+					}
+				}
+			}
+			
+		}
+		
+		return list;
 	}
 }

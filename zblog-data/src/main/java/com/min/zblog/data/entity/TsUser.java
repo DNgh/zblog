@@ -37,7 +37,7 @@ public class TsUser implements java.io.Serializable {
 	private String lastLoginIp;
 	private Date lastLoginTime;
 	private Integer loginCount;
-	private UserState status;
+	private UserState state;
 	private Date createTime;
 	private Date updateTime;
 	private Integer jpaVersion;
@@ -46,7 +46,7 @@ public class TsUser implements java.io.Serializable {
 	}
 
 	public TsUser(String username, String password, String nickname, String mobile, String email, String portrait,
-			String location, String regIp, String lastLoginIp, Date lastLoginTime, Integer loginCount, UserState status,
+			String location, String regIp, String lastLoginIp, Date lastLoginTime, Integer loginCount, UserState state,
 			Date createTime, Date updateTime, Integer jpaVersion) {
 		this.username = username;
 		this.password = password;
@@ -59,7 +59,7 @@ public class TsUser implements java.io.Serializable {
 		this.lastLoginIp = lastLoginIp;
 		this.lastLoginTime = lastLoginTime;
 		this.loginCount = loginCount;
-		this.status = status;
+		this.state = state;
 		this.createTime = createTime;
 		this.updateTime = updateTime;
 		this.jpaVersion = jpaVersion;
@@ -176,14 +176,14 @@ public class TsUser implements java.io.Serializable {
 		this.loginCount = loginCount;
 	}
 
-	@Column(name = "status", length = 15)
+	@Column(name = "state", length = 15)
 	@Enumerated(EnumType.STRING)
-	public UserState getStatus() {
-		return this.status;
+	public UserState getState() {
+		return this.state;
 	}
 
-	public void setStatus(UserState status) {
-		this.status = status;
+	public void setState(UserState state) {
+		this.state = state;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

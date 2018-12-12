@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/security
+                        http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+    <!-- 配置不过滤的资源（静态资源及登录相关）.是忽略拦截某些资源的意思，主要是针对静态资源 -->
+	<http pattern="/**/*.js" security="none"/>
+	<http pattern="/**/*.css" security="none"/>
+	<http pattern="/**/*.jpg" security="none"/>
+	<http pattern="/**/*.jpeg" security="none"/>
+	<http pattern="/**/*.gif" security="none"/>
+	<http pattern="/**/*.png" security="none"/>
+	<http pattern="/**/*.ico" security="none"/>
+
+    <http auto-config="false" use-expressions="true" entry-point-ref="loginUrlAuthenticationEntryPoint">
+		
+		<!-- <intercept-url pattern="/loginPage" access="permitAll" />
+		<intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" /> -->
+		<!-- 允许访问的uri -->
+		<!-- <intercept-url pattern="/**" access="hasRole('ROLE_USER')" /> -->
+		<!-- 登陆页面配置 -->
+		<!-- <form-login 
+            login-page="/loginPage" 
+            login-processing-url="/login" 
+            authentication-failure-url="/loginPage?error=1"
+            default-target-url="/index" /> -->
+        <!--
+            logout这个标签用来配置退出或者注销，其中的属性invalidate-session，
+            配置否是要清除session，logout-success-url配置注销成功后的跳转页面，
+            logout-url提交退出或者注销的地址，因此我们在配置退出或者注销的时候，
+            只需要将url设置为/j_spring_security_logout即可，这个地址也是security内部实现了的。
+        -->
+        <logout invalidate-session="true" logout-success-url="/loginPage"
+                logout-url="/logout"></logout>
+		<csrf/>
+		
+		<custom-filter ref="usernamePasswordAuthenticationFilter" position="FORM_LOGIN_FILTER"></custom-filter>
+		
+		<access-denied-handler error-page="/accessDenied" />
+		<!--
+            通过配置custom-filter来增加过滤器，
+            before="FILTER_SECURITY_INTERCEPTOR"表示在Springsecurity默认的过滤器之前执行
+        -->
+        <custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR"></custom-filter>
+
+        <!-- max-sessions只容许一个账号登录，error-if-maximum-exceeded 后面账号登录后踢出前一个账号，
+              expired-url session过期跳转界面
+              如果concurrency-control标签配置了error-if-maximum-exceeded="true"，max-sessions="1"，
+              那么第二次登录时，是登录不了的。如果error-if-maximum-exceeded="false"，
+              那么第二次是能够登录到系统的，但是第一个登录的账号再次发起请求时，会跳转到expired-url配置的url中-->
+        <session-management invalid-session-url="/loginPage" session-authentication-error-url="/loginPage">
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="false"
+                                 expired-url="/loginPage" session-registry-ref="sessionRegistry" />
+        </session-management>
+
+        <expression-handler ref="webexpressionHandler" ></expression-handler>
+	</http>
+	
+	<beans:bean id="loginUrlAuthenticationEntryPoint" 
+		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <beans:constructor-arg name="loginFormUrl" value="/loginPage"></beans:constructor-arg>
+	</beans:bean>
+
+    <beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl"/>
+    <!--配置web端使用权限控制-->
+    <beans:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
+    
+    <!--配置自定义的过滤器：配置MyUsernamePasswordAuthenticationFilter并将其加入到FilterChain中去-->
+    <beans:bean id="usernamePasswordAuthenticationFilter"
+                class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+        <!--filterProcessesUrl属性为登陆的过滤的地址-->
+        <beans:property name="filterProcessesUrl" value="/login" />
+        <!--authenticationManager为authentication-manager标签中配置的-->
+        <beans:property name="authenticationManager" ref="authenticationManager" />
+        <!--authenticationSuccessHandler为验证成功后跳转的处理器-->
+        <beans:property name="authenticationSuccessHandler" ref="loginLogAuthenticationSuccessHandler" />
+        <!--authenticationFailureHandler为验证失败的处理器-->
+        <beans:property name="authenticationFailureHandler" ref="simpleUrlAuthenticationFailureHandler" />
+    </beans:bean>
+
+    <beans:bean id="loginLogAuthenticationSuccessHandler"
+                class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+        <beans:property name="defaultTargetUrl" value="/index"></beans:property>
+    </beans:bean>
+
+    <beans:bean id="simpleUrlAuthenticationFailureHandler"
+                class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+        <beans:property name="defaultFailureUrl" value="/loginPage"></beans:property>
+    </beans:bean>
+
+    <beans:bean id="filterSecurityInterceptor"
+                class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+        <!-- 用户是否拥有所请求资源的权限 -->
+        <beans:property name="accessDecisionManager" ref="accessDecisionManager" />
+        <!-- 用户拥有的权限 -->
+        <beans:property name="authenticationManager" ref="authenticationManager" />
+        <!-- 资源与权限对应关系 -->
+        <beans:property name="securityMetadataSource" ref="securityMetadataSource" />
+    </beans:bean>
+
+    <!--授权管理器-->
+    <!-- <beans:bean id="accessDecisionManager" class="com.min.dao.SystemAccessDecisionManager" /> -->
+
+    <!--认证管理-->
+    <!-- 密码采用BCrypt加密 -->
+    <beans:bean name="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userDetailsService">
+        	<password-encoder ref="bcryptEncoder"/>
+        </authentication-provider>
+    </authentication-manager>
+
+    <!-- 配置访问用户数据 -->
+    <!-- <beans:bean id="userDetailsService" class="com.min.service.SystemUserDetailsService"/> -->
+
+    <!-- 配置访问资源 -->
+    <!-- <beans:bean id="securityMetadataSource" class="com.min.dao.SystemSecurityMetadataSource"/> -->
+</beans:beans>

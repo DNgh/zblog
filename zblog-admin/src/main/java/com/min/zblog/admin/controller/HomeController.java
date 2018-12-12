@@ -13,6 +13,24 @@ public class HomeController {
         return modelAndView;
     }
 	
+	@RequestMapping("/loginPage")
+	public ModelAndView login() {
+		ModelAndView modelAndView = new ModelAndView("login");
+		return modelAndView;
+	}
+	
+	@RequestMapping("/admin")
+	public ModelAndView admin() {
+		ModelAndView modelAndView = new ModelAndView("adminPage");
+		return modelAndView;
+	}
+	
+	@RequestMapping("/accessDenied")
+	public ModelAndView accessDenied() {
+		ModelAndView modelAndView = new ModelAndView("403");
+		return modelAndView;
+	}
+	
 	@RequestMapping("/test")
     public ModelAndView test(){
     	ModelAndView modelAndView =new ModelAndView("test");

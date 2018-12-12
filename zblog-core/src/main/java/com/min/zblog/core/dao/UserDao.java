@@ -7,5 +7,5 @@ import com.min.zblog.data.entity.TsUser;
 
 @Repository
 public interface UserDao extends JpaRepository<TsUser, Long> {
-
+	public TsUser findByUsername(String username);
 }
