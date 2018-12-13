@@ -1,4 +1,4 @@
-package com.min.zblog.core.service;
+package com.min.zblog.core.security;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -11,9 +11,7 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 
-@Component("accessDecisionManager")
 public class SystemAccessDecisionManager implements AccessDecisionManager {
 	Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -30,7 +28,7 @@ public class SystemAccessDecisionManager implements AccessDecisionManager {
 		    ConfigAttribute configAttribute = iterable.next();
 		    //访问所请求的资源所需要的权限
 		    String needPermission = configAttribute.getAttribute();
-		    logger.info("访问"+object.toString()+"需要的权限是："+needPermission);
+		    logger.debug("访问"+object.toString()+"需要的权限是："+needPermission);
 		
 		    //用户所拥有的权限authentication
 		    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();

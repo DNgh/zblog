@@ -16,6 +16,8 @@
 	<http pattern="/**/*.gif" security="none"/>
 	<http pattern="/**/*.png" security="none"/>
 	<http pattern="/**/*.ico" security="none"/>
+	<http pattern="/components/**" security="none"/>
+	<http pattern="/custom/**" security="none"/>
 
     <http auto-config="false" use-expressions="true" entry-point-ref="loginUrlAuthenticationEntryPoint">
 		
@@ -65,7 +67,8 @@
 		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
         <beans:constructor-arg name="loginFormUrl" value="/loginPage"></beans:constructor-arg>
 	</beans:bean>
-
+	
+	<!-- 保存session信息, 监听session销毁事件 -->
     <beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl"/>
     <!--配置web端使用权限控制-->
     <beans:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
@@ -85,7 +88,7 @@
 
     <beans:bean id="loginLogAuthenticationSuccessHandler"
                 class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
-        <beans:property name="defaultTargetUrl" value="/index"></beans:property>
+        <beans:property name="defaultTargetUrl" value="/home"></beans:property>
     </beans:bean>
 
     <beans:bean id="simpleUrlAuthenticationFailureHandler"
@@ -104,7 +107,7 @@
     </beans:bean>
 
     <!--授权管理器-->
-    <!-- <beans:bean id="accessDecisionManager" class="com.min.dao.SystemAccessDecisionManager" /> -->
+    <beans:bean id="accessDecisionManager" class="com.min.zblog.core.security.SystemAccessDecisionManager" />
 
     <!--认证管理-->
     <!-- 密码采用BCrypt加密 -->
@@ -116,8 +119,13 @@
     </authentication-manager>
 
     <!-- 配置访问用户数据 -->
-    <!-- <beans:bean id="userDetailsService" class="com.min.service.SystemUserDetailsService"/> -->
+    <beans:bean id="userDetailsService" class="com.min.zblog.core.security.SystemUserDetailsService">
+    	<beans:property name="userService" ref="userServiceImpl" />
+    	<beans:property name="roleService" ref="roleServiceImpl" />
+    </beans:bean>
 
     <!-- 配置访问资源 -->
-    <!-- <beans:bean id="securityMetadataSource" class="com.min.dao.SystemSecurityMetadataSource"/> -->
+    <beans:bean id="securityMetadataSource" class="com.min.zblog.core.security.SystemSecurityMetadataSource">
+    	<beans:property name="resourceService" ref="resourceServiceImpl" />
+    </beans:bean>
 </beans:beans>
