@@ -10,6 +10,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 	<base href="<%=basePath%>">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="_csrf" content="${_csrf.token}"/>
+  	<meta name="_csrf_header" content="${_csrf.headerName}"/>
 	<title>Product List</title>
 	<!-- <link rel="stylesheet" href="components/editor.md/css/style.css" /> -->
     <link rel="stylesheet" href="components/editor.md/css/editormd.css" />
@@ -107,6 +109,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var testEditor;
 
             $(function() {
+            	var header = $("meta[name='_csrf_header']").attr("content");
+        		var token = $("meta[name='_csrf']").attr("content");
+        		//设置全局ajax请求头
+        		$.ajaxSetup({ 
+        			beforeSend: function (xhr) {
+        				xhr.setRequestHeader(header, token);
+        			}
+        		});
+        		
                 /* testEditor = editormd("test-editormd", {
                     width   : "90%",
                     height  : 640,

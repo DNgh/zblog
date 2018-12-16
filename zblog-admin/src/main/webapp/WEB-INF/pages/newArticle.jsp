@@ -12,6 +12,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <base href="<%=basePath%>">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="_csrf" content="${_csrf.token}"/>
+  <meta name="_csrf_header" content="${_csrf.headerName}"/>
   <title>MinZone | Blog</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -360,6 +362,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 	var articleEditor;
 	$(function(){
+		var header = $("meta[name='_csrf_header']").attr("content");
+		var token = $("meta[name='_csrf']").attr("content");
+		//设置全局ajax请求头
+		$.ajaxSetup({ 
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader(header, token);
+			}
+		});
+		
 		articleEditor = editormd("articleEditor", {
 	        width: "100%",
 	        height: 800,

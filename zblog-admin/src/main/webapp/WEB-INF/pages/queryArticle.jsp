@@ -12,6 +12,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <base href="<%=basePath%>">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="_csrf" content="${_csrf.token}"/>
+  <meta name="_csrf_header" content="${_csrf.headerName}"/>
   <title>MinZone | Blog</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -376,6 +378,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	var yearList;//年list
 	
 	$(function(){
+		var header = $("meta[name='_csrf_header']").attr("content");
+		var token = $("meta[name='_csrf']").attr("content");
+		//设置全局ajax请求头
+		$.ajaxSetup({ 
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader(header, token);
+			}
+		});
+		
 		//初始化参数
 		initParam();
 		
