@@ -56,7 +56,7 @@
                   <a href="#" class="btn btn-default btn-flat">个人信息</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">退出</a>
+                  <a href="<c:url value='logout'/>" class="btn btn-default btn-flat">退出</a>
                 </div>
               </li>
             </ul>

@@ -88,7 +88,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- bootstrap-paginator -->
 <script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
 <!-- custom jQuery -->
-<!-- <script src="custom/js/zblog.js"></script> -->
+<script src="custom/js/zblog.js"></script>
 <script type="text/javascript">
 	$(function() {
 		var header = $("meta[name='_csrf_header']").attr("content");
