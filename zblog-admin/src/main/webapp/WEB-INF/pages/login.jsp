@@ -25,9 +25,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <link rel="stylesheet" href="components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="components/AdminLTE/css/AdminLTE.css">
-  <link rel="stylesheet" href="../../plugins/iCheck/square/blue.css">
   <!-- custom css -->
-  <!-- <link rel="stylesheet" href="custom/css/custom.css"> -->
+  <link rel="stylesheet" href="custom/css/login.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,43 +39,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <link rel="shortcut icon " type="images/x-icon" href="custom/img/star.png">
   
 </head>
-<body class="hold-transition login-page">
-<div class="login-box">
-  <div class="login-logo">
-    <a href="javascript:void(0);"><b>ZBLOG</b>admin</a>
-  </div>
-  <!-- /.login-logo -->
-  <div class="login-box-body">
-    <p class="login-box-msg">登录博客后台管理系统</p>
+<body class="blur-bg">
 
-    <form action="<c:url value='login'/>" method="POST">
-      <div class="form-group has-feedback">
-        <input type="text" name="username" class="form-control" placeholder="Username">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password" name="password" class="form-control" placeholder="Password">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <button type="submit" class="btn btn-success">登录</button>
-      <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
-    </form>
+	<div class="container">
+	  <div class="row">
+	    <div class="col-md-4"></div>
+	    <div class="col-md-4">
+	      <section class="login-form">
+	        <form method="post" action="<c:url value='login'/>" role="login">
+	          <!-- <img src="http://i.imgur.com/RcmcLv4.png" class="img-responsive" alt="" /> -->
+	          <div class="login-logo">
+			    <a href="javascript:void(0);"><b>ZBLOG</b></a>
+			  </div>
+			  <div class="form-group has-feedback">
+		        <input type="text" name="username" class="form-control input-lg" placeholder="用户名" required="required" style="border-radius:6px;"/>
+		        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+		      </div>
+	          <div class="form-group has-feedback">
+		        <input type="password" name="password" class="form-control input-lg" placeholder="密码" required="required" style="border-radius:6px;"/>
+		        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+		      </div>
+	          <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
+	          <!--<div class="pwstrength_viewport_progress"></div>
+	          <div class="progress-bar"></div>-->
+	          <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">登录</button>
+	          
+	          <div>
+	            <a href="/registerPage">创建账户</a> 还是 <a href="/changePasswordPage">重置密码</a>
+	          </div>
+	        </form>
+	        <div class="form-links">
+	          <a href="#">www.minzone.cloud</a>
+	        </div>
+	      </section>  
+	      </div>
+	      <div class="col-md-4"></div>
+	  </div>   
+	</div>
 
-    <a href="/changePasswordPage">忘记密码</a><br>
-    <a href="/registerPage" class="text-center">注册账号</a>
-
-  </div>
-  <!-- /.login-box-body -->
-</div>
-<!-- /.login-box -->
 
 <!-- jQuery 1.12.4 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="components/bootstrap/js/bootstrap.min.js"></script>
-<script>
-  $(function () {
-  });
-</script>
 </body>
 </html>

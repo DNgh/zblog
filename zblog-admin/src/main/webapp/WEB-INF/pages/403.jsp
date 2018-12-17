@@ -1,152 +1,181 @@
-﻿<!doctype html>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+<!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>403禁止页面模板</title>
-
-
-<style>
-@import url("https://fonts.googleapis.com/css?family=Share+Tech+Mono|Montserrat:700");
-
-* {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-    box-sizing: border-box;
-    color: inherit;
-}
-
-body {
-    background-image: linear-gradient(120deg, #4f0088 0%, #000000 100%);
-    height: 100vh;
-}
-
-h1 {
-    font-size: 45vw;
-    text-align: center;
-    position: fixed;
-    width: 100vw;
-    z-index: 1;
-    color: #ffffff26;
-    text-shadow: 0 0 50px rgba(0, 0, 0, 0.07);
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
-    font-family: "Montserrat", monospace;
-}
-
-div {
-    background: rgba(0, 0, 0, 0);
-    width: 70vw;
-    position: relative;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
-    margin: 0 auto;
-    padding: 30px 30px 10px;
-    box-shadow: 0 0 150px -20px rgba(0, 0, 0, 0.5);
-    z-index: 3;
-}
-
-P {
-    font-family: "Share Tech Mono", monospace;
-    color: #f5f5f5;
-    margin: 0 0 20px;
-    font-size: 17px;
-    line-height: 1.2;
-}
-
-span {
-    color: #f0c674;
-}
-
-i {
-    color: #8abeb7;
-}
-
-div a {
-    text-decoration: none;
-}
-
-b {
-    color: #81a2be;
-}
-
-a.avatar {
-    position: fixed;
-    bottom: 15px;
-    right: -100px;
-    -webkit-animation: slide 0.5s 4.5s forwards;
-            animation: slide 0.5s 4.5s forwards;
-    display: block;
-    z-index: 4
-}
-
-a.avatar img {
-    border-radius: 100%;
-    width: 44px;
-    border: 2px solid white;
-}
-
-@-webkit-keyframes slide {
-    from {
-        right: -100px;
-        -webkit-transform: rotate(360deg);
-                transform: rotate(360deg);
-        opacity: 0;
-    }
-    to {
-        right: 15px;
-        -webkit-transform: rotate(0deg);
-                transform: rotate(0deg);
-        opacity: 1;
-    }
-}
-
-@keyframes slide {
-    from {
-        right: -100px;
-        -webkit-transform: rotate(360deg);
-                transform: rotate(360deg);
-        opacity: 0;
-    }
-    to {
-        right: 15px;
-        -webkit-transform: rotate(0deg);
-                transform: rotate(0deg);
-        opacity: 1;
-    }
-}
-</style>
+  <base href="<%=basePath%>">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="_csrf" content="${_csrf.token}"/>
+  <meta name="_csrf_header" content="${_csrf.headerName}"/>
+  <title>MinZone | Blog</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="components/bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="components/Ionicons/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="components/AdminLTE/css/AdminLTE.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
+  <!-- custom css -->
+  <!-- <link rel="stylesheet" href="custom/css/custom.css"> -->
+  
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]--> 
+  
+  <!--<link rel="shortcut icon " type="images/x-icon" href="../dist/img/favico.png">-->
+  <link rel="shortcut icon " type="images/x-icon" href="custom/img/star.png">
+  
 </head>
-<body>
-<h1>403</h1>
-<div><p>> <span>ERROR CODE</span>: "<i>HTTP 403 Forbidden</i>"</p>
-<p>> <span>ERROR DESCRIPTION</span>: "<i>Access Denied. You Do Not Have The Permission To Access This Page On This Server</i>"</p>
-<p>> <span>ERROR POSSIBLY CAUSED BY</span>: [<b>execute access forbidden, read access forbidden, write access forbidden, ssl required, ssl 128 required, ip address rejected, client certificate required, site access denied, too many users, invalid configuration, password change, mapper denied access, client certificate revoked, directory listing denied, client access licenses exceeded, client certificate is untrusted or invalid, client certificate has expired or is not yet valid, passport logon failed, source access denied, infinite depth is denied, too many requests from the same client ip</b>...]</p>
-<p>> <span>SOME PAGES ON THIS SERVER THAT YOU DO HAVE PERMISSION TO ACCESS</span>: [<a href="/">Home Page</a>, <a href="/">About Us</a>, <a href="/">Contact Us</a>, <a href="/">Blog</a>...]</p><p>> <span>HAVE A NICE DAY SIR AXLEROD :-)</span></p>
+<body class="hold-transition skin-red sidebar-mini">
+<div class="wrapper">
+
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="home" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>M</b>in</span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>Min</b>zone</span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">切换导航栏</span>
+      </a>
+
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <!-- User Account: style can be found in dropdown.less -->
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img src="custom/img/profile-128x128.jpg" class="user-image" alt="User Image">
+              <span class="hidden-xs">Zzm</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="custom/img/profile-128x128.jpg" class="img-circle" alt="User Image">
+
+                <p>
+                  Zzm - 软件开发工程师
+                  <small>注册时间2018-10-01</small>
+                </p>
+              </li>
+              <!-- Menu Body -->
+              <li class="user-body">
+                <div class="row">
+                  <div class="col-xs-4 text-center">
+                    <a href="#">文章数(0)</a>
+                  </div>
+                  <div class="col-xs-4 text-center">
+                    <a href="#">阅读数(0)</a>
+                  </div>
+                  <div class="col-xs-4 text-center">
+                    <a href="#">评论数(0)</a>
+                  </div>
+                </div>
+                <!-- /.row -->
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="#" class="btn btn-default btn-flat">个人信息</a>
+                </div>
+                <div class="pull-right">
+                  <a href="#" class="btn btn-default btn-flat">退出</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <!-- Control Sidebar Toggle Button -->
+          <li>
+            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  
+  <!-- 动态加载导航栏 -->
+  <jsp:include page="navigation.jsp" flush="true" />
+  
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+                    主页
+      </h1>
+      <ol class="breadcrumb">
+        <li class="active"><a href="#"><i class="fa fa-home"></i> Home</a></li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+		<div class="container">
+	   		<div class="row">
+	   			<div class="col-md-offset-2 col-md-2">
+	   				<p class="text-yellow" style="font-style:Microsoft YaHei;font-size:100px;"> 403</p>
+	   			</div>
+	   			<div class="col-md-3">
+		   			<h3><i class="fa fa-warning text-yellow"></i> 您没有权限访问</h3>
+			        <p>
+			          	请联系管理员:zzm.cloud@gmail.com
+			        </p>
+			        <a href="home">返回主页</a>
+	   			</div>
+	   		</div>
+	   	</div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+  <!-- 动态加载尾部栏 -->
+  <jsp:include page="footer.jsp" flush="true" />
+
 </div>
+<!-- ./wrapper -->
 
-
-<script>
-var str = document.getElementsByTagName('div')[0].innerHTML.toString();
-var i = 0;
-document.getElementsByTagName('div')[0].innerHTML = "";
-
-setTimeout(function() {
-    var se = setInterval(function() {
-        i++;
-        document.getElementsByTagName('div')[0].innerHTML = str.slice(0, i) + "|";
-        if (i == str.length) {
-            clearInterval(se);
-            document.getElementsByTagName('div')[0].innerHTML = str;
-        }
-    }, 10);
-},0);
+<!-- jQuery 1.12.4 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="components/bootstrap/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="components/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="components/AdminLTE/js/adminlte.min.js"></script>
+<!-- custom jQuery -->
+<!-- <script src="custom/js/zblog.js"></script> -->
+<script type="text/javascript">
+	$(function() {
+		var header = $("meta[name='_csrf_header']").attr("content");
+		var token = $("meta[name='_csrf']").attr("content");
+		//设置全局ajax请求头
+		$.ajaxSetup({ 
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader(header, token);
+			}
+		});
+	});
 </script>
-
 </body>
 </html>

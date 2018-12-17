@@ -236,3 +236,19 @@ function deleteLayerObjAjax(path, obj, map, index){
         }
     });
 }
+
+//修改导航栏选中项
+//menuId=menu,subMenuId=subMenu
+function initNavBarStatus(menuId, subMenuId){
+	if(menuId==null||menuId==undefined||menuId==""){
+		//无上层节点，不修改状态
+	}else{
+		$("#"+menuId).addClass("active");
+	}
+	
+	if(subMenuId==null||subMenuId==undefined||subMenuId==""){
+		//无子节点
+	}else{
+		$("#"+subMenuId).addClass("active");
+	}
+}
