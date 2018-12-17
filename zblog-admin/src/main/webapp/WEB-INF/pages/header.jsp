@@ -56,7 +56,10 @@
                   <a href="#" class="btn btn-default btn-flat">个人信息</a>
                 </div>
                 <div class="pull-right">
-                  <a href="<c:url value='logout'/>" class="btn btn-default btn-flat">退出</a>
+                	<a href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();" class="btn btn-default btn-flat">退出</a>
+	                <form id="logoutForm" action="<c:url value='logout'/>" method="POST">
+				      <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
+				    </form>
                 </div>
               </li>
             </ul>
