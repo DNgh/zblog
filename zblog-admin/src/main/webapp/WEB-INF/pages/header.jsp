@@ -53,7 +53,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">个人信息</a>
+                  <a href="user/profile" class="btn btn-default btn-flat">个人信息</a>
                 </div>
                 <div class="pull-right">
                 	<a href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();" class="btn btn-default btn-flat">退出</a>

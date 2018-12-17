@@ -55,4 +55,7 @@ public class Constants {
 	
 	public static final String ERRM001_CODE = "M001";
 	public static final String ERRM001_MSG = "不存在该评论";
+	
+	public static final String ERRU001_CODE = "U001";
+	public static final String ERRU001_MSG = "不存在该用户";
 }
