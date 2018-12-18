@@ -182,7 +182,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		//保存博客到草稿箱
 		$("#saveBtn").click(function(){
 			//获取用户名
-			var username = $("#username").val();
+			//静态文本，text方法，不包含子标签
+			var username = $("#username").text();
 			//获取昵称
 			var nickname = $("#nickname").val();
 			//获取电话

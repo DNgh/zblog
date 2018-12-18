@@ -1,14 +1,15 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
   <header class="main-header">
     <!-- Logo -->
     <a href="home" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>M</b>in</span>
+      <span class="logo-mini"><b>Z</b>A</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Min</b>zone</span>
+      <span class="logo-lg"><b>ZBLOG</b>Admin</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -23,7 +24,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="custom/img/profile-128x128.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Zzm</span>
+              <span class="hidden-xs"><sec:authentication property="name"/></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -31,8 +32,8 @@
                 <img src="custom/img/profile-128x128.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  Zzm - 软件开发工程师
-                  <small>注册时间2018-10-01</small>
+                  <sec:authentication property="name"/> - 软件开发工程师
+                  <!-- <small>注册时间2018-10-01</small> -->
                 </p>
               </li>
               <!-- Menu Body -->

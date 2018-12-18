@@ -1,6 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
@@ -12,8 +13,8 @@
           <img src="custom/img/profile-128x128.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Zzm</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+          <p><sec:authentication property="name"/></p>
+          <a href="home"><i class="fa fa-circle text-success"></i> 在线</a>
         </div>
       </div>
       <!-- search form -->

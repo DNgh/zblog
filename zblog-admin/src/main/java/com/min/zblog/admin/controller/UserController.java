@@ -45,7 +45,8 @@ public class UserController {
     		@RequestParam(value="nickname") String nickname,
     		@RequestParam(value="mobile") String mobile,
     		@RequestParam(value="location") String location){
-
+		logger.debug("username:"+username+",nickname:"+nickname+",mobile:"+mobile+",location:"+location);
+		
     	//保存到数据库
     	Map<String, Object> reqMap = new HashMap<String, Object>();
     	reqMap.put("username", username);
