@@ -316,7 +316,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	@Cacheable(value="articleByPageCache", key="T(String).valueOf(#pageSize).concat('-').concat(#currentPage).concat('-').concat(#name)")
+	@Cacheable(value="articleByPageCache", key="T(String).valueOf(#pageSize).concat('-').concat(#currentPage).concat('-').concat(#state.name())")
 	public PageInfo<ArticleInfo> listArticleByPage(long pageSize, long currentPage, ArticleState state) {
 		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleByPage(currentPage, pageSize, state);
 		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();
