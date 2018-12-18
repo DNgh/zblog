@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.min.zblog.core.dao.ArchiveDao;
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.CategoryDao;
+import com.min.zblog.core.facility.GlobalContextHolder;
 import com.min.zblog.core.service.ArchiveService;
 import com.min.zblog.data.entity.TmArchive;
 import com.min.zblog.data.entity.TmCategory;
@@ -43,6 +44,11 @@ public class ArchiveServiceImpl implements ArchiveService {
 	 */
 	@Override
 	public List<ArchiveInfo> fetchArchiveInfo() {
+		List<ArchiveInfo> gArchiveInfoList = GlobalContextHolder.getArchiveInfoList();
+		if(gArchiveInfoList != null && gArchiveInfoList.size() > 0) {
+			return gArchiveInfoList;
+		}
+		
 		List<TmArchive> archiveList = blogQueryDsl.fetchArchives(Indicator.Y);
 		List<ArchiveInfo> archiveInfoList = new ArrayList<ArchiveInfo>();
 		for(TmArchive tmArchive:archiveList){
@@ -53,6 +59,9 @@ public class ArchiveServiceImpl implements ArchiveService {
 			
 			archiveInfoList.add(archiveInfo);
 		}
+		//缓存
+		GlobalContextHolder.setArchiveInfoList(archiveInfoList);
+		
 		return archiveInfoList;
 	}
 

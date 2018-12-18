@@ -119,6 +119,7 @@ public class HomeAction extends ActionSupport {
     	//阅读排行
     	this.articleRankList = articleService.listArticleByReadRank();
     	//文章
-    	this.articleList = articleService.listAllArticles();
+    	//异步分页加载数据
+    	//this.articleList = articleService.listAllArticles();
 	}
 }

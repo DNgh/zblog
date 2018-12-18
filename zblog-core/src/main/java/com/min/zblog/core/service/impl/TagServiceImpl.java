@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import com.min.zblog.core.dao.ArticleTagDao;
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.TagDao;
+import com.min.zblog.core.facility.GlobalContextHolder;
 import com.min.zblog.core.service.TagService;
 import com.min.zblog.data.entity.TmCategory;
 import com.min.zblog.data.entity.TmTag;
+import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.data.view.TagInfo;
@@ -39,6 +41,11 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	public List<TagInfo> fetchTagInfo() {
+		List<TagInfo> gTagInfoList = GlobalContextHolder.getTagInfoList();
+		if(gTagInfoList != null && gTagInfoList.size() > 0) {
+			return gTagInfoList;
+		}
+		
 		List<TmTag> tagList = tagDao.findAllByOrderByCreateTimeAsc();
 		List<TagInfo> tagInfoList = new ArrayList<TagInfo>();
 		int count = 0;
@@ -53,6 +60,9 @@ public class TagServiceImpl implements TagService {
 			
 			count = ((++count)%PageUtil.LABEL_STYTLE.length);
 		}
+		//缓存
+		GlobalContextHolder.setTagInfoList(tagInfoList);
+		
 		return tagInfoList;
 	}
 

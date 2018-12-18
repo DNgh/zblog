@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ import com.min.zblog.core.dao.CategoryDao;
 import com.min.zblog.core.dao.CommentDao;
 import com.min.zblog.core.dao.TagDao;
 import com.min.zblog.core.dao.VisitHstDao;
+import com.min.zblog.core.facility.GlobalContextHolder;
 import com.min.zblog.core.service.ArticleService;
 import com.min.zblog.data.entity.TmArchive;
 import com.min.zblog.data.entity.TmArticle;
@@ -149,8 +151,9 @@ public class ArticleServiceImpl implements ArticleService {
 		//删除文章
 		articleDao.delete(id);
 	}
-
+	
 	@Override
+	@Cacheable(value="articleByCategoryNameCache", key="T(String).valueOf(#pageSize).concat('-').concat(#currentPage).concat('-').concat(#name)")
 	public PageInfo<ArticleInfo> listArticleByPageCategoryName(long pageSize, long currentPage, String name) {
 		if(StringUtils.isBlank(name)) {
 			return null;
@@ -204,6 +207,7 @@ public class ArticleServiceImpl implements ArticleService {
 	 * @see com.min.zblog.core.service.ArticleService#listArticleByArchive(java.lang.String)
 	 */
 	@Override
+	@Cacheable(value="articleByArchiveCache", key="T(String).valueOf(#pageSize).concat('-').concat(#currentPage).concat('-').concat(#name)")
 	public PageInfo<ArticleInfo> listArticleByPageArchive(long pageSize, long currentPage, String name) {
 		if(StringUtils.isBlank(name)) {
 			return null;
@@ -235,6 +239,7 @@ public class ArticleServiceImpl implements ArticleService {
 	//fetchArticleByTag
 
 	@Override
+	@Cacheable(value="articleByTagCache", key="T(String).valueOf(#pageSize).concat('-').concat(#currentPage).concat('-').concat(#name)")
 	public PageInfo<ArticleInfo> listArticleByPageTag(long pageSize, long currentPage, String name) {
 		if(StringUtils.isBlank(name)) {
 			return null;
@@ -267,6 +272,11 @@ public class ArticleServiceImpl implements ArticleService {
 	 */
 	@Override
 	public List<ArticleInfo> listArticleByReadRank() {
+		List<ArticleInfo> gArticleInfoList = GlobalContextHolder.getArticleReadRankList();
+		if(gArticleInfoList != null && gArticleInfoList.size() > 0) {
+			return gArticleInfoList;
+		}
+		
 		List<TmArticle> tmArticleList = blogQueryDsl.fetchTopArticleByHst(5, VisitType.READ, ArticleState.PUBLISH);
 		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();
 		for(TmArticle article:tmArticleList){
@@ -280,6 +290,9 @@ public class ArticleServiceImpl implements ArticleService {
 			articleInfo.setTitle(article.getTitle());
 			articleInfoList.add(articleInfo);
 		}
+		//缓存
+		GlobalContextHolder.setArticleReadRankList(articleInfoList);
+				
 		return articleInfoList;
 	}
 
@@ -288,15 +301,22 @@ public class ArticleServiceImpl implements ArticleService {
 	 */
 	@Override
 	public BlogInfo obtainBlogInfo() {
+		BlogInfo gBlogInfo = GlobalContextHolder.getBlogInfo();
+		if(gBlogInfo != null) {
+			return gBlogInfo;
+		}
 		BlogInfo blogInfo = new BlogInfo();
 		blogInfo.setTotalArticleNum(articleDao.countByState(ArticleState.PUBLISH));
 		blogInfo.setTotalReadNum(blogQueryDsl.countVisitHstByType(VisitType.READ, ArticleState.PUBLISH));
 		blogInfo.setTotalCommentNum(blogQueryDsl.countCommentByState(ArticleState.PUBLISH));
+		//缓存
+		GlobalContextHolder.setBlogInfo(blogInfo);
 		
 		return blogInfo;
 	}
 
 	@Override
+	@Cacheable(value="articleByPageCache", key="T(String).valueOf(#pageSize).concat('-').concat(#currentPage).concat('-').concat(#name)")
 	public PageInfo<ArticleInfo> listArticleByPage(long pageSize, long currentPage, ArticleState state) {
 		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleByPage(currentPage, pageSize, state);
 		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();

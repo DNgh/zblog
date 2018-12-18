@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.CategoryDao;
+import com.min.zblog.core.facility.GlobalContextHolder;
 import com.min.zblog.core.service.CategoryService;
 import com.min.zblog.data.entity.TmArchive;
 import com.min.zblog.data.entity.TmArticle;
@@ -47,6 +48,11 @@ public class CategoryServiceImpl implements CategoryService {
 	 */
 	@Override
 	public List<CategoryInfo> fetchCategoryInfo() {
+		 List<CategoryInfo> gCategoryInfoList = GlobalContextHolder.getCategoryInfoList();
+		if(gCategoryInfoList != null && gCategoryInfoList.size() > 0) {
+			return gCategoryInfoList;
+		}
+		
 		List<TmCategory> categoryList = blogQueryDsl.fetchCategoryOrderBySort(Indicator.Y, Indicator.Y);
 		List<CategoryInfo> categoryInfoList = new ArrayList<CategoryInfo>();
 		for(TmCategory tmCategory:categoryList){
@@ -58,6 +64,9 @@ public class CategoryServiceImpl implements CategoryService {
 			
 			categoryInfoList.add(categoryInfo);
 		}
+		//缓存
+		GlobalContextHolder.setCategoryInfoList(categoryInfoList);
+		
 		return categoryInfoList;
 	}
 
