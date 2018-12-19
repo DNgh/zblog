@@ -41,26 +41,34 @@
                 logout-url="/logout"></logout>
 		<csrf/>
 		
-		<custom-filter ref="usernamePasswordAuthenticationFilter" position="FORM_LOGIN_FILTER"></custom-filter>
+		<custom-filter ref="usernamePasswordAuthenticationFilter" position="FORM_LOGIN_FILTER" />
 		
 		<access-denied-handler error-page="/accessDenied" />
 		<!--
             通过配置custom-filter来增加过滤器，
             before="FILTER_SECURITY_INTERCEPTOR"表示在Springsecurity默认的过滤器之前执行
         -->
-        <custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR"></custom-filter>
-
+        <custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
+		
+		<!-- 会话控制，过期删除session信息，未过期则刷新session信息 -->
+        <custom-filter ref="concurrentSessionFilter" position="CONCURRENT_SESSION_FILTER" />
+        
         <!-- max-sessions只容许一个账号登录，error-if-maximum-exceeded 后面账号登录后踢出前一个账号，
               expired-url session过期跳转界面
               如果concurrency-control标签配置了error-if-maximum-exceeded="true"，max-sessions="1"，
               那么第二次登录时，是登录不了的。如果error-if-maximum-exceeded="false"，
               那么第二次是能够登录到系统的，但是第一个登录的账号再次发起请求时，会跳转到expired-url配置的url中-->
-        <session-management invalid-session-url="/loginPage" session-authentication-error-url="/loginPage">
-            <concurrency-control max-sessions="1" error-if-maximum-exceeded="false"
+        <!-- 未配置自定义的entry-point和custom-filter,如下配置并行会话才会生效 -->
+        <!-- <session-management invalid-session-url="/loginPage" session-authentication-error-url="/loginPage">
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true"
                                  expired-url="/loginPage" session-registry-ref="sessionRegistry" />
-        </session-management>
+        </session-management> -->
+        
+        <!-- 配置自定义的entry-point和custom-filter,如下配置并行会话才会生效 -->
+        <!-- <session-management session-authentication-strategy-ref="compositeSessionAuthenticationStrategy"
+        	invalid-session-url="/loginPage" session-authentication-error-url="/loginPage" /> -->
 
-        <expression-handler ref="webexpressionHandler" ></expression-handler>
+        <expression-handler ref="webexpressionHandler" />
 	</http>
 	
 	<beans:bean id="loginUrlAuthenticationEntryPoint" 
@@ -68,8 +76,45 @@
         <beans:constructor-arg name="loginFormUrl" value="/loginPage"></beans:constructor-arg>
 	</beans:bean>
 	
+	<!-- session控制，过期删除，否则刷新 -->
+	<beans:bean id="concurrentSessionFilter" 
+		class="org.springframework.security.web.session.ConcurrentSessionFilter">
+		<beans:constructor-arg name="sessionRegistry" ref="sessionRegistry" />
+		<beans:constructor-arg name="sessionInformationExpiredStrategy" ref="redirectSessionExpiredStrategy"/>
+	</beans:bean>
+	
+	<!-- session过期重定向策略 -->
+	<beans:bean id="redirectSessionExpiredStrategy" 
+		class="org.springframework.security.web.session.SimpleRedirectSessionInformationExpiredStrategy">
+		<beans:constructor-arg name="invalidSessionUrl" value="/loginPage"/>
+		<beans:constructor-arg name="redirectStrategy" ref="redirectStrategy"/>
+	</beans:bean>
+	<beans:bean id="redirectStrategy" class="org.springframework.security.web.DefaultRedirectStrategy" />
+	
+	<!-- 代理类，注册session，同步session -->
+	<beans:bean id="compositeSessionAuthenticationStrategy" class="org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy">  
+		<beans:constructor-arg name="delegateStrategies">
+			<beans:list>
+				<beans:ref bean="registerSessionAuthenticationStrategy"/>
+				<beans:ref bean="concurrentSessionControlAuthenticationStrategy"/>
+			</beans:list>
+		</beans:constructor-arg>
+	</beans:bean>
+	
+	<beans:bean id="registerSessionAuthenticationStrategy" class="org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy">  
+        <beans:constructor-arg name="sessionRegistry" ref="sessionRegistry"/>  
+    </beans:bean>
+            
+	<beans:bean id="concurrentSessionControlAuthenticationStrategy"
+		class="org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy">
+		<beans:constructor-arg name="sessionRegistry" ref="sessionRegistry" />
+		<beans:property name="maximumSessions" value="1" />
+		<beans:property name="exceptionIfMaximumExceeded" value="false" />
+    </beans:bean>
+
 	<!-- 保存session信息, 监听session销毁事件 -->
     <beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl"/>
+    
     <!--配置web端使用权限控制-->
     <beans:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
     
@@ -84,6 +129,8 @@
         <beans:property name="authenticationSuccessHandler" ref="loginLogAuthenticationSuccessHandler" />
         <!--authenticationFailureHandler为验证失败的处理器-->
         <beans:property name="authenticationFailureHandler" ref="simpleUrlAuthenticationFailureHandler" />
+        <!--session管理策略-->
+        <beans:property name="sessionAuthenticationStrategy" ref="compositeSessionAuthenticationStrategy" />
     </beans:bean>
 
     <beans:bean id="loginLogAuthenticationSuccessHandler"
