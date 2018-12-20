@@ -52,13 +52,13 @@ $(function () {
     });
     
 	$("#goTop").click(function(){
-		alert("click top button");
+//		alert("click top button");
 		$('html,body').animate({scrollTop:0},1000);
 	});
 })
 
 function doPost(to, p) {  // to:提交动作（action）,p:参数
-	alert(to);
+//	alert(to);
 	
 	var reqArticleForm = document.createElement("form");     
 	reqArticleForm.method = "post";
@@ -68,7 +68,7 @@ function doPost(to, p) {  // to:提交动作（action）,p:参数
        	paramInput.setAttribute("name", i);  //为input对象设置name
        	paramInput.setAttribute("value", p[i]);  //为input对象设置value
        	reqArticleForm.appendChild(paramInput);
-       	alert(i+p[i]);
+//       	alert(i+p[i]);
      }   
      document.body.appendChild(reqArticleForm);   
      reqArticleForm.submit(); 
@@ -83,7 +83,7 @@ function pageFunction(to, map){
 	$("#preNext").hide();
 	$("#commentArea").hide();
 	
-	alert("pageFunction:"+to+","+map);
+//	alert("pageFunction:"+to+","+map);
 	var firstPage = 1;
     $.ajax({
         url: to,
@@ -91,7 +91,7 @@ function pageFunction(to, map){
         type: "Post",
         data: convertAjaxData(firstPage, map),
         success: function (data) {
-        	alert("success:"+data);
+//        	alert("success:"+data);
         	var html = '';
             if (data != null) {
                 $.each(eval("(" + data + ")").list, function (index, item) { //遍历返回的json
@@ -156,7 +156,7 @@ function pageFunction(to, map){
                             type: "Post",
                             data: convertAjaxData(page, map),
                             success: function (result) {
-                            	alert("page result:"+result)
+//                            	alert("page result:"+result)
                                 if (result != null) {
                                 	html = '';
                                 	$.each(eval("(" + result + ")").list, function (index, item) { //遍历返回的json
@@ -192,7 +192,7 @@ function convertAjaxData(page, map){
 	for (var i in map){
 		data = data + "&" + i + "=" + map[i];
      }
-	alert("组装分页请求数据"+data);
+//	alert("组装分页请求数据"+data);
 	
 	return data;
 }
@@ -203,7 +203,7 @@ function convertAjaxDataNP(map){
 	for (var i in map){
 		data = data + "&" + i + "=" + map[i];
      }
-	alert("组装请求数据"+data);
+//	alert("组装请求数据"+data);
 	
 	return data;
 }

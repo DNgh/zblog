@@ -589,7 +589,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             type: "POST",
             data: convertAjaxDataNP(map),
             success: function (result) {
-            	alert("comment result:"+result)
+            	//alert("comment result:"+result)
             	//按钮显示“评论”，启用清除按钮
     			$("#promptCommentBtn").val("评论");
     			$("#clearCommentBtn").attr('disabled',false);
