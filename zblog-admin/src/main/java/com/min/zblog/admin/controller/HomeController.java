@@ -6,7 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController {
-	@RequestMapping("/home")
+	@RequestMapping({"/","/home"})
     public ModelAndView home(){
     	ModelAndView modelAndView =new ModelAndView("home");
 //        modelAndView.addObject("hello", "access index success");

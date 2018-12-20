@@ -35,6 +35,9 @@
 	</package>
 
     <package name="default" namespace="/" extends="global-default">
+    	<!-- 默认首页 -->
+    	<default-action-ref name="home"/>
+    	        
         <action name="home" class="homeAction" method="home">
             <result name="success">/WEB-INF/pages/home.jsp</result>
         </action>
