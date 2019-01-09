@@ -48,26 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
 	 */
 	@Override
 	public List<CategoryInfo> fetchCategoryInfo() {
-		 List<CategoryInfo> gCategoryInfoList = GlobalContextHolder.getCategoryInfoList();
-		if(gCategoryInfoList != null && gCategoryInfoList.size() > 0) {
-			return gCategoryInfoList;
-		}
-		
-		List<TmCategory> categoryList = blogQueryDsl.fetchCategoryOrderBySort(Indicator.Y, Indicator.Y);
-		List<CategoryInfo> categoryInfoList = new ArrayList<CategoryInfo>();
-		for(TmCategory tmCategory:categoryList){
-			CategoryInfo categoryInfo = new CategoryInfo();
-			categoryInfo.setId(tmCategory.getId());
-			categoryInfo.setIcon(tmCategory.getIcon());
-			categoryInfo.setCategoryName(tmCategory.getName());
-			categoryInfo.setArticleNum(tmCategory.getCount());
-			
-			categoryInfoList.add(categoryInfo);
-		}
-		//缓存
-		GlobalContextHolder.setCategoryInfoList(categoryInfoList);
-		
-		return categoryInfoList;
+		return GlobalContextHolder.getCategoryInfoList();
 	}
 
 	@Override
@@ -171,6 +152,23 @@ public class CategoryServiceImpl implements CategoryService {
 		
 		//删除分类
 		categoryDao.delete(categoryId);
+	}
+
+	@Override
+	public void initCategoryInfo() {
+		List<TmCategory> categoryList = blogQueryDsl.fetchCategoryOrderBySort(Indicator.Y, Indicator.Y);
+		List<CategoryInfo> categoryInfoList = new ArrayList<CategoryInfo>();
+		for(TmCategory tmCategory:categoryList){
+			CategoryInfo categoryInfo = new CategoryInfo();
+			categoryInfo.setId(tmCategory.getId());
+			categoryInfo.setIcon(tmCategory.getIcon());
+			categoryInfo.setCategoryName(tmCategory.getName());
+			categoryInfo.setArticleNum(tmCategory.getCount());
+			
+			categoryInfoList.add(categoryInfo);
+		}
+		//缓存
+		GlobalContextHolder.setCategoryInfoList(categoryInfoList);
 	}
 
 }

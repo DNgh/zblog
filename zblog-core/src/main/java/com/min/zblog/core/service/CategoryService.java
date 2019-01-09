@@ -23,4 +23,5 @@ public interface CategoryService {
 	public TmCategory saveCategory(Map<String, Object> map);
 	public TmCategory addCategory(Map<String, Object> map);
 	public void deleteCategoryById(Long categoryId) throws ProcessException;
+	public void initCategoryInfo();
 }

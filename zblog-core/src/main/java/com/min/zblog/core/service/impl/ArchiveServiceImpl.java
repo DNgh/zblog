@@ -44,25 +44,7 @@ public class ArchiveServiceImpl implements ArchiveService {
 	 */
 	@Override
 	public List<ArchiveInfo> fetchArchiveInfo() {
-		List<ArchiveInfo> gArchiveInfoList = GlobalContextHolder.getArchiveInfoList();
-		if(gArchiveInfoList != null && gArchiveInfoList.size() > 0) {
-			return gArchiveInfoList;
-		}
-		
-		List<TmArchive> archiveList = blogQueryDsl.fetchArchives(Indicator.Y);
-		List<ArchiveInfo> archiveInfoList = new ArrayList<ArchiveInfo>();
-		for(TmArchive tmArchive:archiveList){
-			ArchiveInfo archiveInfo = new ArchiveInfo();
-			archiveInfo.setArchiveTitle(tmArchive.getTitle());
-			archiveInfo.setArchiveName(tmArchive.getName());
-			archiveInfo.setArticleNum(tmArchive.getCount());
-			
-			archiveInfoList.add(archiveInfo);
-		}
-		//缓存
-		GlobalContextHolder.setArchiveInfoList(archiveInfoList);
-		
-		return archiveInfoList;
+		return GlobalContextHolder.getArchiveInfoList();
 	}
 
 	@Override
@@ -110,5 +92,20 @@ public class ArchiveServiceImpl implements ArchiveService {
 		//删除归档
 		archiveDao.delete(archiveId);
 	}
-	
+
+	@Override
+	public void initArchiveInfo() {
+		List<TmArchive> archiveList = blogQueryDsl.fetchArchives(Indicator.Y);
+		List<ArchiveInfo> archiveInfoList = new ArrayList<ArchiveInfo>();
+		for(TmArchive tmArchive:archiveList){
+			ArchiveInfo archiveInfo = new ArchiveInfo();
+			archiveInfo.setArchiveTitle(tmArchive.getTitle());
+			archiveInfo.setArchiveName(tmArchive.getName());
+			archiveInfo.setArticleNum(tmArchive.getCount());
+			
+			archiveInfoList.add(archiveInfo);
+		}
+		//缓存
+		GlobalContextHolder.setArchiveInfoList(archiveInfoList);
+	}
 }

@@ -16,4 +16,5 @@ public interface TagService {
 	public TmTag saveTag(Map<String, Object> map);
 	public TmTag addTag(Map<String, Object> map);
 	public void deleteTagById(Long id) throws ProcessException;
+	public void initTagInfo();
 }

@@ -41,29 +41,7 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	public List<TagInfo> fetchTagInfo() {
-		List<TagInfo> gTagInfoList = GlobalContextHolder.getTagInfoList();
-		if(gTagInfoList != null && gTagInfoList.size() > 0) {
-			return gTagInfoList;
-		}
-		
-		List<TmTag> tagList = tagDao.findAllByOrderByCreateTimeAsc();
-		List<TagInfo> tagInfoList = new ArrayList<TagInfo>();
-		int count = 0;
-		for(TmTag tmTag:tagList){
-			logger.info("count:"+count+"|"+PageUtil.LABEL_STYTLE[count]);
-			
-			TagInfo tagInfo = new TagInfo();
-			tagInfo.setId(tmTag.getId());
-			tagInfo.setTagName(tmTag.getName());
-			tagInfo.setStyle(PageUtil.LABEL_STYTLE[count]);
-			tagInfoList.add(tagInfo);
-			
-			count = ((++count)%PageUtil.LABEL_STYTLE.length);
-		}
-		//缓存
-		GlobalContextHolder.setTagInfoList(tagInfoList);
-		
-		return tagInfoList;
+		return GlobalContextHolder.getTagInfoList();
 	}
 
 	/* (non-Javadoc)
@@ -164,6 +142,26 @@ public class TagServiceImpl implements TagService {
 		tag.setJpaVersion(0);
     	
     	return tagDao.save(tag);
+	}
+
+	@Override
+	public void initTagInfo() {
+		List<TmTag> tagList = tagDao.findAllByOrderByCreateTimeAsc();
+		List<TagInfo> tagInfoList = new ArrayList<TagInfo>();
+		int count = 0;
+		for(TmTag tmTag:tagList){
+			logger.info("count:"+count+"|"+PageUtil.LABEL_STYTLE[count]);
+			
+			TagInfo tagInfo = new TagInfo();
+			tagInfo.setId(tmTag.getId());
+			tagInfo.setTagName(tmTag.getName());
+			tagInfo.setStyle(PageUtil.LABEL_STYTLE[count]);
+			tagInfoList.add(tagInfo);
+			
+			count = ((++count)%PageUtil.LABEL_STYTLE.length);
+		}
+		//缓存
+		GlobalContextHolder.setTagInfoList(tagInfoList);
 	}
 
 }

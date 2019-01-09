@@ -10,15 +10,13 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.min.zblog.core.dao.ArchiveDao;
 import com.min.zblog.core.dao.ArticleDao;
-import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.ArticleTagDao;
+import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.CategoryDao;
 import com.min.zblog.core.dao.CommentDao;
-import com.min.zblog.core.dao.TagDao;
 import com.min.zblog.core.dao.VisitHstDao;
 import com.min.zblog.core.facility.GlobalContextHolder;
 import com.min.zblog.core.service.ArticleService;
@@ -73,14 +71,30 @@ public class ArticleServiceImpl implements ArticleService {
 		TmArchive archive = archiveDao.findByName(archiveName);
 		Long archiveId;
 		if(archive == null){
-			TmArchive newArchive = new TmArchive(archiveName, archiveTitle, 1, time, time, 0);
+			int articleCount = 0;
+			if((ArticleState)map.get("state") == ArticleState.PUBLISH) {
+				articleCount = 1;
+			}
+			TmArchive newArchive = new TmArchive(archiveName, archiveTitle, articleCount, time, time, 0);
 			archiveDao.save(newArchive);
 			archiveId = newArchive.getId();
+			//更新全局变量
+			ArchiveInfo archiveInfo = new ArchiveInfo();
+			archiveInfo.setId(newArchive.getId());
+			archiveInfo.setArchiveTitle(newArchive.getTitle());
+			archiveInfo.setArchiveName(newArchive.getName());
+			archiveInfo.setArticleNum(newArchive.getCount());
+			archiveInfo.setCreateTime(newArchive.getCreateTime());
+			GlobalContextHolder.getArchiveInfoList().add(archiveInfo);
 		}else{
 			archiveId = archive.getId();
-			archive.setCount(archive.getCount()+1);
-			archive.setUpdateTime(time);
-			archiveDao.save(archive);
+			if((ArticleState)map.get("state") == ArticleState.PUBLISH) {
+				archive.setCount(archive.getCount()+1);
+				archive.setUpdateTime(time);
+				archiveDao.save(archive);
+				//更新全局变量
+				GlobalContextHolder.addOneArchiveInfoArticleNum(archiveId);
+			}
 		}
 		
 		TmArticle article = new TmArticle();
@@ -101,6 +115,11 @@ public class ArticleServiceImpl implements ArticleService {
     	
 		articleDao.save(article);
 		
+		//更新文章数
+		if((ArticleState)map.get("state") == ArticleState.PUBLISH) {
+			GlobalContextHolder.addOneBlogInfoArticleNum();
+		}
+		
 		//更新标签
 		List<Long> tagIdList = (List<Long>)map.get("tagIdList");
 		if(tagIdList != null){
@@ -113,11 +132,15 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		//更新分类
 		//getOne委托给JPA实体管理器,返回实体引用，导致LazyInitializationException，建议使用findOne
-		TmCategory category = categoryDao.findOne((Long)map.get("categoryId"));
-		if(category != null){
-			category.setCount(category.getCount()+1);
-			category.setUpdateTime(time);
-			categoryDao.save(category);
+		if((ArticleState)map.get("state") == ArticleState.PUBLISH) {
+			TmCategory category = categoryDao.findOne((Long)map.get("categoryId"));
+			if(category != null){
+				category.setCount(category.getCount()+1);
+				category.setUpdateTime(time);
+				categoryDao.save(category);
+				//更新全局变量
+				GlobalContextHolder.addOneCategoryInfoArticleNum(category.getId());
+			}
 		}
 		
 		return article;
@@ -129,19 +152,6 @@ public class ArticleServiceImpl implements ArticleService {
 			throw new ProcessException(Constants.ERRA001_CODE, Constants.ERRA001_MSG);
 		}
 		
-		//更新分类数、更新归档数
-		TmCategory category = categoryDao.findOne(article.getCategoryId());
-		if(category != null && category.getCount() != null){
-			Integer count = category.getCount()-1;
-			category.setCount(count<0?0:count);
-			categoryDao.save(category);
-		}
-		TmArchive archive = archiveDao.findOne(article.getArchiveId());
-		if(archive != null && archive.getCount() != null){
-			Integer count = archive.getCount()-1;
-			archive.setCount(count<0?0:count);
-			archiveDao.save(archive);
-		}
 		//删除访问历史
 		visitHstDao.deleteTmVisitHstByArticleId(id);
 		//删除标签关联记录
@@ -272,28 +282,7 @@ public class ArticleServiceImpl implements ArticleService {
 	 */
 	@Override
 	public List<ArticleInfo> listArticleByReadRank() {
-		List<ArticleInfo> gArticleInfoList = GlobalContextHolder.getArticleReadRankList();
-		if(gArticleInfoList != null && gArticleInfoList.size() > 0) {
-			return gArticleInfoList;
-		}
-		
-		List<TmArticle> tmArticleList = blogQueryDsl.fetchTopArticleByHst(5, VisitType.READ, ArticleState.PUBLISH);
-		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();
-		for(TmArticle article:tmArticleList){
-			
-			ArticleInfo articleInfo = new ArticleInfo();
-//			articleInfo.setCommentNum(blogQueryDsl.countCommentByArticleId(article.getId()));
-//			articleInfo.setCreateTime(article.getCreateTime());
-//			articleInfo.setDescription(article.getDescription());
-			articleInfo.setId(article.getId());
-			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
-			articleInfo.setTitle(article.getTitle());
-			articleInfoList.add(articleInfo);
-		}
-		//缓存
-		GlobalContextHolder.setArticleReadRankList(articleInfoList);
-				
-		return articleInfoList;
+		return GlobalContextHolder.getArticleReadRankList();
 	}
 
 	/* 获取博客统计信息
@@ -301,18 +290,7 @@ public class ArticleServiceImpl implements ArticleService {
 	 */
 	@Override
 	public BlogInfo obtainBlogInfo() {
-		BlogInfo gBlogInfo = GlobalContextHolder.getBlogInfo();
-		if(gBlogInfo != null) {
-			return gBlogInfo;
-		}
-		BlogInfo blogInfo = new BlogInfo();
-		blogInfo.setTotalArticleNum(articleDao.countByState(ArticleState.PUBLISH));
-		blogInfo.setTotalReadNum(blogQueryDsl.countVisitHstByType(VisitType.READ, ArticleState.PUBLISH));
-		blogInfo.setTotalCommentNum(blogQueryDsl.countCommentByState(ArticleState.PUBLISH));
-		//缓存
-		GlobalContextHolder.setBlogInfo(blogInfo);
-		
-		return blogInfo;
+		return GlobalContextHolder.getBlogInfo();
 	}
 
 	@Override
@@ -343,6 +321,9 @@ public class ArticleServiceImpl implements ArticleService {
 		return pageInfo;
 	}
 	
+	/**
+	 * 根据查询条件，统计分页数
+	 */
 	@Override
 	public PageInfo<ArticleInfo> queryArticleByPage(long pageSize, long currentPage, Map<String, Object> map) {
 		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleConditionByPage(currentPage, pageSize, map);
@@ -473,6 +454,8 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		
 		Date time = new Date();
+		ArticleState originState = article.getState();
+		Long originCategoryId = article.getCategoryId();
 		article.setTitle((String)map.get("title"));
 		article.setDescription((String)map.get("description"));
 		article.setTop((Indicator)map.get("top"));
@@ -490,26 +473,46 @@ public class ArticleServiceImpl implements ArticleService {
 		articleDao.save(article);
 		
 		//更新标签
+		//先删除原先关联标签，然后插入新关联标签
+		articleTagDao.deleteTmArticleTagByArticleId(article.getId());
 		List<Long> tagIdList = (List<Long>)map.get("tagIdList");
 		if(tagIdList != null){
 			for(Long tagId:tagIdList){
 				//保存关联表tm_article_tag
-				//如果不存在，则保存
-				TmArticleTagKey key = new TmArticleTagKey(tagId, article.getId());
-				if(!articleTagDao.exists(key)){
-					TmArticleTag articleTag = new TmArticleTag(tagId, article.getId(), time, time, 0);
-					articleTagDao.save(articleTag);
-				}
+				TmArticleTag articleTag = new TmArticleTag(tagId, article.getId(), time, time, 0);
+				articleTagDao.save(articleTag);
 			}
 		}
 		
 		//更新分类
 		//getOne委托给JPA实体管理器,返回实体引用，导致LazyInitializationException，建议使用findOne
 		TmCategory category = categoryDao.findOne((Long)map.get("categoryId"));
-		if(category != null){
-			category.setCount(category.getCount()+1);
-			category.setUpdateTime(time);
-			categoryDao.save(category);
+		if(originState == ArticleState.CREATE && (ArticleState)map.get("state") == ArticleState.PUBLISH) {
+			if(category != null){
+				category.setCount(category.getCount()+1);
+				category.setUpdateTime(time);
+				categoryDao.save(category);
+				//更新全局变量
+				GlobalContextHolder.addOneCategoryInfoArticleNum(category.getId());
+			}
+		} else if(originState == ArticleState.PUBLISH) {
+			//先原先关联分类-1，然后新关联分类+1
+			//更新全局变量
+			if(category != null){
+				if(!originCategoryId.equals(category.getId())) {
+					TmCategory originCategory = categoryDao.findOne(originCategoryId);
+					originCategory.setCount(originCategory.getCount()-1);
+					originCategory.setUpdateTime(time);
+					categoryDao.save(originCategory);
+					
+					category.setCount(category.getCount()+1);
+					category.setUpdateTime(time);
+					categoryDao.save(category);
+					
+					GlobalContextHolder.substractOneCategoryInfoArticleNum(originCategoryId);
+					GlobalContextHolder.addOneCategoryInfoArticleNum(category.getId());
+				}
+			}
 		}
 		
 		return article;
@@ -525,18 +528,24 @@ public class ArticleServiceImpl implements ArticleService {
 			throw new ProcessException(Constants.ERRA001_CODE, Constants.ERRA001_MSG);
 		}
 		
-		//更新分类数、更新归档数、文章状态
-		TmCategory category = categoryDao.findOne(article.getCategoryId());
-		if(category != null && category.getCount() != null){
-			Integer count = category.getCount()-1;
-			category.setCount(count<0?0:count);
-			categoryDao.save(category);
-		}
-		TmArchive archive = archiveDao.findOne(article.getArchiveId());
-		if(archive != null && archive.getCount() != null){
-			Integer count = archive.getCount()-1;
-			archive.setCount(count<0?0:count);
-			archiveDao.save(archive);
+		if(article.getState() == ArticleState.PUBLISH) {
+			//更新分类数、更新归档数、文章状态
+			TmCategory category = categoryDao.findOne(article.getCategoryId());
+			if(category != null && category.getCount() != null){
+				Integer count = category.getCount()-1;
+				category.setCount(count<0?0:count);
+				categoryDao.save(category);
+				//更新全局变量
+				GlobalContextHolder.substractOneCategoryInfoArticleNum(category.getId());
+			}
+			TmArchive archive = archiveDao.findOne(article.getArchiveId());
+			if(archive != null && archive.getCount() != null){
+				Integer count = archive.getCount()-1;
+				archive.setCount(count<0?0:count);
+				archiveDao.save(archive);
+				//更新全局变量
+				GlobalContextHolder.substractOneArchiveInfoArticleNum(archive.getId());
+			}
 		}
 		
 		article.setState(ArticleState.DELETE);
@@ -571,5 +580,31 @@ public class ArticleServiceImpl implements ArticleService {
 		pageInfo.setList(articleInfoList);
 		
 		return pageInfo;
+	}
+
+	@Override
+	public void initBlogInfo() {
+		BlogInfo blogInfo = new BlogInfo();
+		blogInfo.setTotalArticleNum(articleDao.countByState(ArticleState.PUBLISH));
+		blogInfo.setTotalReadNum(blogQueryDsl.countVisitHstByType(VisitType.READ, ArticleState.PUBLISH));
+		blogInfo.setTotalCommentNum(blogQueryDsl.countCommentByState(ArticleState.PUBLISH));
+		//缓存
+		GlobalContextHolder.setBlogInfo(blogInfo);
+	}
+
+	@Override
+	public void initArticleReadRank() {
+		List<TmArticle> tmArticleList = blogQueryDsl.fetchTopArticleByHst(5, VisitType.READ, ArticleState.PUBLISH);
+		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();
+		for(TmArticle article:tmArticleList){
+			
+			ArticleInfo articleInfo = new ArticleInfo();
+			articleInfo.setId(article.getId());
+			articleInfo.setReadNum(blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ));
+			articleInfo.setTitle(article.getTitle());
+			articleInfoList.add(articleInfo);
+		}
+		//缓存
+		GlobalContextHolder.setArticleReadRankList(articleInfoList);
 	}
 }

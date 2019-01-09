@@ -29,4 +29,6 @@ public interface ArticleService {
 	public TmArticle saveArticle(Map<String, Object> map) throws ProcessException;
 	public void deleteArticleVirtualById(Long articleId) throws ProcessException;
 	public PageInfo<ArticleInfo> listArticleByPageCategoryId(long pageSize, long currentPage, Long id);
+	public void initBlogInfo();
+	public void initArticleReadRank();
 }

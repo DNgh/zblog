@@ -18,4 +18,5 @@ public interface ArchiveService {
 	public List<ArchiveInfo> fetchArchiveInfo();
 	public PageInfo<ArchiveInfo> queryArchiveByPage(long pageSize, long currentPage, Map<String, Object> map);
 	public void deleteArchiveById(Long archiveId) throws ProcessException;
+	public void initArchiveInfo();
 }
