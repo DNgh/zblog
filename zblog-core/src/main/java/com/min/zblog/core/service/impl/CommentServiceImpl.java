@@ -21,6 +21,7 @@ import com.min.zblog.data.entity.TmComment;
 import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.CommentInfo;
 import com.min.zblog.data.view.PageInfo;
+import com.min.zblog.facility.enums.ArticleState;
 import com.min.zblog.facility.enums.Indicator;
 import com.min.zblog.facility.exception.ProcessException;
 import com.min.zblog.facility.utils.Constants;
@@ -96,7 +97,10 @@ public class CommentServiceImpl implements CommentService {
 		
 		return true;
 	}
-
+	
+	/**
+	 * 已发布文章，前端才会展示，才会添加评论
+	 */
 	@Override
 	public CommentInfo addComment(Long articleId, Long commentRid,
 			Long commentPid, String commentContent, String pnickname, String nickname,
@@ -194,6 +198,10 @@ public class CommentServiceImpl implements CommentService {
 		return commentInfo;
 	}
 
+	/**
+	 * 删除评论
+	 * 如果文章状态PUBLISH,则更新评论数；否则，不更新。
+	 */
 	@Override
 	public void deleteCommentById(Long commentId) throws ProcessException {
 		TmComment comment = commentDao.findOne(commentId);
@@ -201,6 +209,13 @@ public class CommentServiceImpl implements CommentService {
 			throw new ProcessException(Constants.ERRM001_CODE, Constants.ERRM001_MSG);
 		}
 		
+		//如果文章状态PUBLISH,则更新评论数；否则，不更新。
+		TmArticle article = articleDao.findOne(comment.getArticleId());
+		if(ArticleState.PUBLISH == article.getState()) {
+			//子评论个数+1
+			long subCommentNum = commentDao.countByRid(commentId);
+			GlobalContextHolder.substractBlogInfoCommentNum(subCommentNum+1);
+		}
 		//删除子评论
 		commentDao.deleteTmCommentByRid(commentId);
 		//删除评论

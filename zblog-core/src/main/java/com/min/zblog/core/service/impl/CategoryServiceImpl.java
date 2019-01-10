@@ -107,6 +107,13 @@ public class CategoryServiceImpl implements CategoryService {
 			throw new ProcessException(Constants.ERRC001_CODE, Constants.ERRC001_MSG);
 		}
 		
+		
+		long articleNum = blogQueryDsl.countArticleByCategoryId(category.getId(), ArticleState.PUBLISH);
+		if(articleNum > 0 && Indicator.N == (Indicator)map.get("available")) {
+			//正使用，无法停用
+			throw new ProcessException(Constants.ERRC003_CODE, Constants.ERRC003_MSG);
+		}
+
 		Date time = new Date();
 		category.setName((String)map.get("name"));
 		category.setDescription((String)map.get("description"));
@@ -115,6 +122,27 @@ public class CategoryServiceImpl implements CategoryService {
     	category.setUpdateTime(time);
     	
 		categoryDao.save(category);
+		
+		//不可用转可用、可用转不可用，更新分类列表
+		if(Indicator.N == category.getAvailable() && Indicator.Y == (Indicator)map.get("available")) {
+			CategoryInfo categoryInfo = new CategoryInfo();
+			categoryInfo.setId(category.getId());
+			categoryInfo.setIcon(category.getIcon());
+			categoryInfo.setCategoryName(category.getName());
+			categoryInfo.setArticleNum(articleNum);
+			
+			GlobalContextHolder.addCategoryInfo(categoryInfo);
+		}else if(Indicator.Y == category.getAvailable() && Indicator.N == (Indicator)map.get("available")) {
+			GlobalContextHolder.deleteCategoryInfo(category.getId());
+		}else if(Indicator.Y == category.getAvailable() && Indicator.Y == (Indicator)map.get("available")) {
+			CategoryInfo categoryInfo = new CategoryInfo();
+			categoryInfo.setId(category.getId());
+			categoryInfo.setIcon(category.getIcon());
+			categoryInfo.setCategoryName(category.getName());
+			categoryInfo.setArticleNum(articleNum);
+			
+			GlobalContextHolder.updateCategoryInfo(categoryInfo);
+		}
 		
 		return category;
 	}
@@ -135,7 +163,20 @@ public class CategoryServiceImpl implements CategoryService {
     	category.setUpdateTime(time);
     	category.setJpaVersion(0);
     	
-    	return categoryDao.save(category);
+    	categoryDao.save(category);
+    	
+    	//更新分类信息，新增分类
+    	if(Indicator.Y == category.getAvailable()) {
+    		CategoryInfo categoryInfo = new CategoryInfo();
+			categoryInfo.setId(category.getId());
+			categoryInfo.setIcon(category.getIcon());
+			categoryInfo.setCategoryName(category.getName());
+			categoryInfo.setArticleNum(category.getCount());
+			
+			GlobalContextHolder.addCategoryInfo(categoryInfo);
+    	}
+    	
+    	return category;
 	}
 
 	@Override
@@ -150,6 +191,9 @@ public class CategoryServiceImpl implements CategoryService {
 			throw new ProcessException(Constants.ERRC002_CODE, Constants.ERRC002_MSG);
 		}
 		
+		//无关联，才删除，删除缓存分类
+		GlobalContextHolder.deleteCategoryInfo(category.getId());
+		
 		//删除分类
 		categoryDao.delete(categoryId);
 	}
@@ -159,11 +203,12 @@ public class CategoryServiceImpl implements CategoryService {
 		List<TmCategory> categoryList = blogQueryDsl.fetchCategoryOrderBySort(Indicator.Y, Indicator.Y);
 		List<CategoryInfo> categoryInfoList = new ArrayList<CategoryInfo>();
 		for(TmCategory tmCategory:categoryList){
+			long articleNum = blogQueryDsl.countArticleByCategoryId(tmCategory.getId(), ArticleState.PUBLISH);
 			CategoryInfo categoryInfo = new CategoryInfo();
 			categoryInfo.setId(tmCategory.getId());
 			categoryInfo.setIcon(tmCategory.getIcon());
 			categoryInfo.setCategoryName(tmCategory.getName());
-			categoryInfo.setArticleNum(tmCategory.getCount());
+			categoryInfo.setArticleNum(articleNum);
 			
 			categoryInfoList.add(categoryInfo);
 		}

@@ -15,13 +15,9 @@ import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.TagDao;
 import com.min.zblog.core.facility.GlobalContextHolder;
 import com.min.zblog.core.service.TagService;
-import com.min.zblog.data.entity.TmCategory;
 import com.min.zblog.data.entity.TmTag;
-import com.min.zblog.data.view.ArchiveInfo;
-import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.data.view.TagInfo;
-import com.min.zblog.facility.enums.Indicator;
 import com.min.zblog.facility.exception.ProcessException;
 import com.min.zblog.facility.utils.Constants;
 import com.min.zblog.facility.utils.PageUtil;
@@ -107,6 +103,12 @@ public class TagServiceImpl implements TagService {
     	
 		tagDao.save(tag);
 		
+		//更新标签
+		TagInfo tagInfo = new TagInfo();
+		tagInfo.setId(tag.getId());
+		tagInfo.setTagName(tag.getName());
+		GlobalContextHolder.updateTagInfo(tagInfo);
+		
 		return tag;
 	}
 
@@ -125,6 +127,9 @@ public class TagServiceImpl implements TagService {
 			throw new ProcessException(Constants.ERRT002_CODE, Constants.ERRT002_MSG);
 		}
 		
+		//更新标签
+		GlobalContextHolder.deleteTagInfo(tag.getId());
+		
 		//删除分类
 		tagDao.delete(id);
 	}
@@ -141,7 +146,18 @@ public class TagServiceImpl implements TagService {
 		tag.setUpdateTime(time);
 		tag.setJpaVersion(0);
     	
-    	return tagDao.save(tag);
+		tagDao.save(tag);
+		
+		//更新标签
+		int index = GlobalContextHolder.getTagInfoList().size()%PageUtil.LABEL_STYTLE.length;
+		TagInfo tagInfo = new TagInfo();
+		tagInfo.setId(tag.getId());
+		tagInfo.setTagName(tag.getName());
+		tagInfo.setStyle(PageUtil.LABEL_STYTLE[index]);
+		
+		GlobalContextHolder.addTagInfo(tagInfo);
+		
+    	return tag;
 	}
 
 	@Override

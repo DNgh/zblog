@@ -17,6 +17,7 @@ import com.min.zblog.data.entity.TmCategory;
 import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.CategoryInfo;
 import com.min.zblog.data.view.PageInfo;
+import com.min.zblog.facility.enums.ArticleState;
 import com.min.zblog.facility.enums.Indicator;
 import com.min.zblog.facility.exception.ProcessException;
 import com.min.zblog.facility.utils.Constants;
@@ -84,10 +85,13 @@ public class ArchiveServiceImpl implements ArchiveService {
 			throw new ProcessException(Constants.ERRV001_CODE, Constants.ERRV001_MSG);
 		}
 		
-		long count = blogQueryDsl.countArticleByCategoryId(archiveId, null);
+		long count = blogQueryDsl.countArticleByArchiveId(archiveId, null);
 		if(count > 0){
-			throw new ProcessException(Constants.ERRC002_CODE, Constants.ERRC002_MSG);
+			throw new ProcessException(Constants.ERRV002_CODE, Constants.ERRV002_MSG);
 		}
+		
+		//更新归档信息
+		GlobalContextHolder.deleteArchiveInfo(archive.getId());
 		
 		//删除归档
 		archiveDao.delete(archiveId);
@@ -98,10 +102,11 @@ public class ArchiveServiceImpl implements ArchiveService {
 		List<TmArchive> archiveList = blogQueryDsl.fetchArchives(Indicator.Y);
 		List<ArchiveInfo> archiveInfoList = new ArrayList<ArchiveInfo>();
 		for(TmArchive tmArchive:archiveList){
+			long articleNum = blogQueryDsl.countArticleByArchiveId(tmArchive.getId(), ArticleState.PUBLISH);
 			ArchiveInfo archiveInfo = new ArchiveInfo();
 			archiveInfo.setArchiveTitle(tmArchive.getTitle());
 			archiveInfo.setArchiveName(tmArchive.getName());
-			archiveInfo.setArticleNum(tmArchive.getCount());
+			archiveInfo.setArticleNum(articleNum);
 			
 			archiveInfoList.add(archiveInfo);
 		}

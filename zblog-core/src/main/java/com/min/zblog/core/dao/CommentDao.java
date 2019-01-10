@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.min.zblog.data.entity.TmComment;
+import com.min.zblog.facility.enums.ArticleState;
 
 @Repository
 public interface CommentDao extends JpaRepository<TmComment, Long> {
@@ -23,4 +24,8 @@ public interface CommentDao extends JpaRepository<TmComment, Long> {
 	@Modifying
 	@Query(value = "delete from tm_comment where rid = ?1", nativeQuery = true)
 	public void deleteTmCommentByRid(Long id);
+	
+	public long countByRid(Long rid);
+	
+	public long countByArticleId(Long articleId);
 }

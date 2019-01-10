@@ -2,6 +2,7 @@ package com.min.zblog.core.facility;
 
 import java.util.List;
 
+import com.min.zblog.data.entity.TmTag;
 import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.BlogInfo;
@@ -36,7 +37,13 @@ public class GlobalContextHolder
 	
 	private static final String CATEGORYINFO_ARTICLENUM_LOCK = new String("CATEGORYINFO_ARTICLENUM_LOCK");
 	
+	private static final String CATEGORYINFO_LOCK = new String("CATEGORYINFO_LOCK");
+	
 	private static final String ARCHIVEINFO_ARTICLENUM_LOCK = new String("ARCHIVEINFO_ARTICLENUM_LOCK");
+	
+	private static final String ARCHIVEINFO_LOCK = new String("ARCHIVEINFO_LOCK");
+	
+	private static final String TAGINFO_LOCK = new String("TAGINFO_LOCK");
 
 	public static BlogInfo getBlogInfo() {
 		return blogInfo;
@@ -91,8 +98,8 @@ public class GlobalContextHolder
 	 */
 	public static void addOneBlogInfoArticleNum() {
 		synchronized (BLOGINFO_ARTICLENUM_LOCK) {
-			GlobalContextHolder.blogInfo.setTotalArticleNum(
-					GlobalContextHolder.blogInfo.getTotalArticleNum()+1);
+			blogInfo.setTotalArticleNum(
+					blogInfo.getTotalArticleNum()+1);
 		}
 	}
 	
@@ -101,36 +108,50 @@ public class GlobalContextHolder
 	 */
 	public static void substractOneBlogInfoArticleNum() {
 		synchronized (BLOGINFO_ARTICLENUM_LOCK) {
-			GlobalContextHolder.blogInfo.setTotalArticleNum(
-					GlobalContextHolder.blogInfo.getTotalArticleNum()-1);
+			blogInfo.setTotalArticleNum(
+					blogInfo.getTotalArticleNum()-1);
 		}
 	}
 	
 	public static void addOneBlogInfoReadNum() {
 		synchronized (BLOGINFO_READNUM_LOCK) {
-			GlobalContextHolder.blogInfo.setTotalReadNum(
-					GlobalContextHolder.blogInfo.getTotalReadNum()+1);
+			blogInfo.setTotalReadNum(
+					blogInfo.getTotalReadNum()+1);
 		}
 	}
 	
 	public static void substractOneBlogInfoReadNum() {
 		synchronized (BLOGINFO_READNUM_LOCK) {
-			GlobalContextHolder.blogInfo.setTotalReadNum(
-					GlobalContextHolder.blogInfo.getTotalReadNum()-1);
+			blogInfo.setTotalReadNum(
+					blogInfo.getTotalReadNum()-1);
 		}
 	}
 	
 	public static void addOneBlogInfoCommentNum() {
 		synchronized (BLOGINFO_COMMENTNUM_LOCK) {
-			GlobalContextHolder.blogInfo.setTotalCommentNum(
-					GlobalContextHolder.blogInfo.getTotalCommentNum()+1);
+			blogInfo.setTotalCommentNum(
+					blogInfo.getTotalCommentNum()+1);
 		}
 	}
 	
 	public static void substractOneBlogInfoCommentNum() {
 		synchronized (BLOGINFO_COMMENTNUM_LOCK) {
-			GlobalContextHolder.blogInfo.setTotalCommentNum(
-					GlobalContextHolder.blogInfo.getTotalCommentNum()-1);
+			blogInfo.setTotalCommentNum(
+					blogInfo.getTotalCommentNum()-1);
+		}
+	}
+	
+	public static void addBlogInfoCommentNum(long num) {
+		synchronized (BLOGINFO_COMMENTNUM_LOCK) {
+			blogInfo.setTotalCommentNum(
+					blogInfo.getTotalCommentNum()+num);
+		}
+	}
+	
+	public static void substractBlogInfoCommentNum(long num) {
+		synchronized (BLOGINFO_COMMENTNUM_LOCK) {
+			blogInfo.setTotalCommentNum(
+					blogInfo.getTotalCommentNum()-num);
 		}
 	}
 	
@@ -163,6 +184,29 @@ public class GlobalContextHolder
 	}
 	
 	/**
+	 * 分类：新增
+	 */
+	public static void addCategoryInfo(CategoryInfo categoryInfo) {
+		synchronized (CATEGORYINFO_LOCK) {
+			categoryInfoList.add(categoryInfo);
+		}
+	}
+	
+	/**
+	 * 分类：删除
+	 */
+	public static void deleteCategoryInfo(Long categoryId) {
+		synchronized (CATEGORYINFO_LOCK) {
+			for(CategoryInfo info:categoryInfoList) {
+				if(info.getId().equals(categoryId)) {
+					categoryInfoList.remove(info);
+					return;
+				}
+			}
+		}
+	}
+	
+	/**
 	 * 归档：文章数增一
 	 */
 	public static void addOneArchiveInfoArticleNum(Long archiveId) {
@@ -184,6 +228,84 @@ public class GlobalContextHolder
 			for(ArchiveInfo info:archiveInfoList) {
 				if(info.getId().equals(archiveId)) {
 					info.setArticleNum(info.getArticleNum()-1);
+					return;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 归档：新增
+	 */
+	public static void addArchiveInfo(ArchiveInfo archiveInfo) {
+		synchronized (ARCHIVEINFO_LOCK) {
+			archiveInfoList.add(archiveInfo);
+		}
+	}
+	
+	/**
+	 * 归档：删除
+	 */
+	public static void deleteArchiveInfo(Long archiveId) {
+		synchronized (ARCHIVEINFO_LOCK) {
+			for(ArchiveInfo info:archiveInfoList) {
+				if(info.getId().equals(archiveId)) {
+					archiveInfoList.remove(info);
+					return;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 标签：新增
+	 */
+	public static void addTagInfo(TagInfo tagInfo) {
+		synchronized (TAGINFO_LOCK) {
+			tagInfoList.add(tagInfo);
+		}
+	}
+	
+	/**
+	 * 标签：删除
+	 */
+	public static void deleteTagInfo(Long tagId) {
+		synchronized (TAGINFO_LOCK) {
+			for(TagInfo info:tagInfoList) {
+				if(info.getId().equals(tagId)) {
+					tagInfoList.remove(info);
+					return;
+				}
+			}
+		}
+	}
+
+	/**
+	 * 更新标签
+	 * @param tag
+	 */
+	public static void updateTagInfo(TagInfo tag) {
+		synchronized (TAGINFO_LOCK) {
+			for(TagInfo info:tagInfoList) {
+				if(info.getId().equals(tag.getId())) {
+					info.setTagName(tag.getTagName());
+					return;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 更新分类
+	 * @param tag
+	 */
+	public static void updateCategoryInfo(CategoryInfo categoryInfo) {
+		synchronized (CATEGORYINFO_LOCK) {
+			for(CategoryInfo info:categoryInfoList) {
+				if(info.getId().equals(categoryInfo.getId())) {
+					info.setIcon(categoryInfo.getIcon());
+					info.setCategoryName(categoryInfo.getCategoryName());
+					info.setArticleNum(categoryInfo.getArticleNum());
 					return;
 				}
 			}

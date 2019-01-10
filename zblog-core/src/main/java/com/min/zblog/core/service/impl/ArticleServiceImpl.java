@@ -85,7 +85,7 @@ public class ArticleServiceImpl implements ArticleService {
 			archiveInfo.setArchiveName(newArchive.getName());
 			archiveInfo.setArticleNum(newArchive.getCount());
 			archiveInfo.setCreateTime(newArchive.getCreateTime());
-			GlobalContextHolder.getArchiveInfoList().add(archiveInfo);
+			GlobalContextHolder.addArchiveInfo(archiveInfo);
 		}else{
 			archiveId = archive.getId();
 			if((ArticleState)map.get("state") == ArticleState.PUBLISH) {
@@ -446,6 +446,9 @@ public class ArticleServiceImpl implements ArticleService {
 		return articleInfo;
 	}
 
+	/**
+	 * 更新文章(标题、内容、状态。。。)
+	 */
 	@Override
 	public TmArticle saveArticle(Map<String, Object> map) throws ProcessException {
 		TmArticle article = articleDao.findOne((Long)map.get("articleId"));
@@ -465,6 +468,8 @@ public class ArticleServiceImpl implements ArticleService {
     	article.setCategoryId((Long)map.get("categoryId"));
     	article.setContent((String)map.get("markdown"));
     	if(ArticleState.CREATE == article.getState()){
+    		//只有CREATE PUBLISH状态才能编辑
+    		//此方法状态转换CREATE->CREATE,PUBLISH->PUBLISH,CREATE->PUBLISH
     		article.setState((ArticleState)map.get("state"));
     	}
     	article.setUpdateTime(time);
@@ -484,10 +489,13 @@ public class ArticleServiceImpl implements ArticleService {
 			}
 		}
 		
-		//更新分类
+		//更新文章数、所属分类文章数、所属归档文章数
 		//getOne委托给JPA实体管理器,返回实体引用，导致LazyInitializationException，建议使用findOne
 		TmCategory category = categoryDao.findOne((Long)map.get("categoryId"));
 		if(originState == ArticleState.CREATE && (ArticleState)map.get("state") == ArticleState.PUBLISH) {
+			//文章数
+			GlobalContextHolder.addOneBlogInfoArticleNum();
+			//所属分类文章数
 			if(category != null){
 				category.setCount(category.getCount()+1);
 				category.setUpdateTime(time);
@@ -495,6 +503,8 @@ public class ArticleServiceImpl implements ArticleService {
 				//更新全局变量
 				GlobalContextHolder.addOneCategoryInfoArticleNum(category.getId());
 			}
+			//所属归档文章数
+			GlobalContextHolder.addOneArchiveInfoArticleNum(article.getArchiveId());
 		} else if(originState == ArticleState.PUBLISH && (ArticleState)map.get("state") == ArticleState.PUBLISH) {
 			//先原先关联分类-1，然后新关联分类+1
 			//更新全局变量
@@ -529,6 +539,9 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		
 		if(article.getState() == ArticleState.PUBLISH) {
+			//更新已发布文章数
+			GlobalContextHolder.substractOneBlogInfoArticleNum();
+			
 			//更新分类数、更新归档数、文章状态
 			TmCategory category = categoryDao.findOne(article.getCategoryId());
 			if(category != null && category.getCount() != null){
@@ -546,6 +559,9 @@ public class ArticleServiceImpl implements ArticleService {
 				//更新全局变量
 				GlobalContextHolder.substractOneArchiveInfoArticleNum(archive.getId());
 			}
+			//更新关联评论数
+			long commentNum = commentDao.countByArticleId(article.getId());
+			GlobalContextHolder.substractBlogInfoCommentNum(commentNum);
 		}
 		
 		article.setState(ArticleState.DELETE);

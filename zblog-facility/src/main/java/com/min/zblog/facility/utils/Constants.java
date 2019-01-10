@@ -41,6 +41,9 @@ public class Constants {
 	public static final String ERRC002_CODE = "C002";
 	public static final String ERRC002_MSG = "正使用，无法删除";
 	
+	public static final String ERRC003_CODE = "C003";
+	public static final String ERRC003_MSG = "正使用，不允许停用分类";
+	
 	public static final String ERRV001_CODE = "V001";
 	public static final String ERRV001_MSG = "不存在该归档";
 	
