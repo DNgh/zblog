@@ -125,7 +125,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <!-- /.col -->
                 <div class="col-sm-4">
                   <div class="description-block">
-                    <h5 class="description-header"><s:property value="blogInfo.totalCommentNum"/></h5>
+                    <h5 id="totalCommentNumId" class="description-header"><s:property value="blogInfo.totalCommentNum"/></h5>
                     <span class="description-text">评论数</span>
                   </div>
                   <!-- /.description-block -->
@@ -595,6 +595,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			$("#clearCommentBtn").attr('disabled',false);
     	
                 if (result != null) {
+                	//总评论个数+1
+            		var totalCmtNum = $("#totalCommentNumId").html();
+            		totalCmtNum++;
+            		$("#totalCommentNumId").html(totalCmtNum);
+            		
                 	//评论个数+1
             		var cmtNum = $("#commentNumId").html();
             		cmtNum++;

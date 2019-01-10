@@ -111,7 +111,7 @@ public class BlogQueryDsl {
 		if(sort == Indicator.N){
 			order = qTmCategory.sort.desc();
 		}
-		list = query.from(qTmCategory).where(qTmCategory.available.eq(Indicator.Y))
+		list = query.from(qTmCategory).where(qTmCategory.available.eq(available))
 				.orderBy(order).fetch();
 		
 		return list;
@@ -133,7 +133,7 @@ public class BlogQueryDsl {
 	public List<TmArticle> fetchArticleByPageCategoryId(long pageSize, long currentPage, Long id, ArticleState state) {
 		BooleanExpression exp = qTmArticle.categoryId.eq(id);
 		if(state != null){
-			exp.and(qTmArticle.state.eq(state));
+			exp = exp.and(qTmArticle.state.eq(state));
 		}
 		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
 		List<TmArticle> list = query.from(qTmArticle)
@@ -547,7 +547,7 @@ public class BlogQueryDsl {
 	public long countArticleByCategoryId(Long id, ArticleState state) {
 		BooleanExpression exp = qTmArticle.categoryId.eq(id);
 		if(state != null){
-			exp.and(qTmArticle.state.eq(state));
+			exp = exp.and(qTmArticle.state.eq(state));
 		}
 		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
 		long count = query.from(qTmArticle).where(exp).fetchCount();
@@ -604,7 +604,7 @@ public class BlogQueryDsl {
 	public long countArticleByArchiveId(Long id, ArticleState state) {
 		BooleanExpression exp = qTmArticle.archiveId.eq(id);
 		if(state != null){
-			exp.and(qTmArticle.state.eq(state));
+			exp = exp.and(qTmArticle.state.eq(state));
 		}
 		JPAQuery<TmArticle> query = new JPAQuery<TmArticle>(em);
 		long count = query.from(qTmArticle).where(exp).fetchCount();

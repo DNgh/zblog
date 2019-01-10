@@ -131,8 +131,6 @@ public class ArticleAction extends ActionSupport {
 	private Map<String, Object> respMap;
 	
     public String show(){
-    	fetchCommonData();
-
     	//文章
     	ActionContext context = ActionContext.getContext();
     	Map<String, Object> map = context.getParameters();
@@ -157,13 +155,14 @@ public class ArticleAction extends ActionSupport {
     	
     	//统计阅读次数
     	calReadNum(ServletActionContext.getRequest(), ServletActionContext.getResponse(), articleInfo.getId());
+
+    	//加载页面左侧公共参数
+    	fetchCommonData();
     	
     	return SUCCESS;
     }
     
     public String showPre(){
-    	fetchCommonData();
-    	
     	//文章
     	ActionContext context = ActionContext.getContext();
     	Map<String, Object> map = context.getParameters();
@@ -188,13 +187,14 @@ public class ArticleAction extends ActionSupport {
     	
     	//统计阅读次数
     	calReadNum(ServletActionContext.getRequest(), ServletActionContext.getResponse(), articleInfo.getId());
+
+    	//加载页面左侧公共参数
+    	fetchCommonData();
     	
     	return SUCCESS;
     }
     
     public String showNext(){
-    	fetchCommonData();
-    	
     	//文章
     	ActionContext context = ActionContext.getContext();
     	Map<String, Object> map = context.getParameters();
@@ -219,6 +219,9 @@ public class ArticleAction extends ActionSupport {
     	
     	//统计阅读次数
     	calReadNum(ServletActionContext.getRequest(), ServletActionContext.getResponse(), articleInfo.getId());
+    
+    	//加载页面左侧公共参数
+    	fetchCommonData();
     	
     	return SUCCESS;
     }
@@ -419,6 +422,9 @@ public class ArticleAction extends ActionSupport {
 		visitHstService.addVisitHst(id, NetworkUtil.getIpAddress(req), 
 				NetworkUtil.getBrowserVersion(req), VisitType.READ);
 		
+		if(articleInfo != null){
+			articleInfo.setReadNum(articleInfo.getReadNum()+1);
+		}
 		//保存阅读文章id到cookie
 		Cookie cookie = new Cookie(Constants.COOKIE_READ+"_"+id, "true");
 		cookie.setMaxAge(30*60);//30分钟
