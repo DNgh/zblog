@@ -495,7 +495,7 @@ public class ArticleServiceImpl implements ArticleService {
 				//更新全局变量
 				GlobalContextHolder.addOneCategoryInfoArticleNum(category.getId());
 			}
-		} else if(originState == ArticleState.PUBLISH) {
+		} else if(originState == ArticleState.PUBLISH && (ArticleState)map.get("state") == ArticleState.PUBLISH) {
 			//先原先关联分类-1，然后新关联分类+1
 			//更新全局变量
 			if(category != null){

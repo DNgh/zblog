@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.min.zblog.core.dao.ArticleDao;
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.CommentDao;
+import com.min.zblog.core.facility.GlobalContextHolder;
 import com.min.zblog.core.service.CommentService;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.TmCategory;
@@ -114,6 +115,9 @@ public class CommentServiceImpl implements CommentService {
 		tmComment.setBrowser(browser);
 		tmComment.setJpaVersion(0);
 		commentDao.save(tmComment);
+		
+		//更新评论数
+		GlobalContextHolder.addOneBlogInfoCommentNum();
 		
 		CommentInfo commentInfo = new CommentInfo();
 		commentInfo.setContent(tmComment.getContent());

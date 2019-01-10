@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.min.zblog.core.dao.ArticleDao;
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.VisitHstDao;
+import com.min.zblog.core.facility.GlobalContextHolder;
+import com.min.zblog.core.service.ArticleService;
 import com.min.zblog.core.service.VisitHstService;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.TmCategory;
@@ -39,6 +41,9 @@ public class VisitHstServiceImpl implements VisitHstService {
 	@Autowired
 	private ArticleDao articleDao;
 	
+	@Autowired
+	private ArticleService articleService;
+	
 	/* 添加浏览历史记录
 	 * type: 数据访问类型
 	 */
@@ -53,6 +58,13 @@ public class VisitHstServiceImpl implements VisitHstService {
 		tmVisitHst.setJpaVersion(0);
 		
 		visitHstDao.save(tmVisitHst);
+		
+		//更新阅读数
+		if(VisitType.READ == type) {
+			GlobalContextHolder.addOneBlogInfoReadNum();
+			//更新排行榜
+			articleService.initArticleReadRank();
+		}
 	}
 
 	@Override
