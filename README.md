@@ -14,7 +14,6 @@
 
 - Bootstrap 3.x
 - jQuery 2.x
-- Freemarker
 - Struts2
 - Spring 4.x
 - Hibernate 4.x
