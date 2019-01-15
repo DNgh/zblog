@@ -12,7 +12,8 @@
 		<module>zblog-core</module>
 		<module>zblog-data</module>
     	<module>zblog-facility</module>
-  	</modules>
+    	<module>zblog-api</module>
+  </modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,6 +28,7 @@
 		<spring.version>4.2.9.RELEASE</spring.version>
 		<spring-security.version>4.2.9.RELEASE</spring-security.version>
 		<spring-jpa.version>1.8.2.RELEASE</spring-jpa.version>
+		<spring-rabbit.version>1.7.5.RELEASE</spring-rabbit.version>
 		<!-- querydsl版本号 -->
 		<querydsl.version>4.1.4</querydsl.version>
 		<!-- hibernate版本号 -->
@@ -43,6 +45,7 @@
 		<!-- tomcat跨域 -->
 		<cors-filter.version>2.5</cors-filter.version>
 		<java-property.version>1.10</java-property.version>
+		<amqp.version>4.1.0</amqp.version>
 		<!-- log4j日志包版本号 -->
 		<slf4j.version>1.7.25</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
@@ -184,7 +187,24 @@
 		      <artifactId>spring-security-taglibs</artifactId>
 		      <version>${spring-security.version}</version>
 		    </dependency>
-    
+		    
+			<!-- spring rabbit -->
+		    <dependency>
+			    <groupId>org.springframework.amqp</groupId>
+			    <artifactId>spring-rabbit</artifactId>
+			    <version>${spring-rabbit.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.springframework.amqp</groupId>
+			    <artifactId>spring-amqp</artifactId>
+			    <version>${spring-rabbit.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.rabbitmq</groupId>
+				<artifactId>amqp-client</artifactId>
+				<version>${amqp.version}</version>
+			</dependency>
+			
 			<!-- querydsl -->
 			<dependency>
 				<groupId>com.querydsl</groupId>

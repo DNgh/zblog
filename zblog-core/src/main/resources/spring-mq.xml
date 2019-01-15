@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans default-lazy-init="false"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- AMQP线程池 -->
+	<task:executor id="amqpConnectionTaskExecutor" pool-size="${mqConnRecvThreads}"/>
+	<rabbit:connection-factory
+		id="mqConnectionFactory" channel-cache-size="${mqChannelCacheSize}" executor="amqpConnectionTaskExecutor"  
+		host="${mqHost}" port="${mqPort}" username="${mqUser}" password="${mqPassword}"
+		virtual-host="${mqVHost}" />
+	
+	<rabbit:template id="mqTemplate" connection-factory="mqConnectionFactory" />
+	
+	<!-- 服务提供方 -->
+	<bean id="userServiceExporter"
+		class="org.springframework.amqp.remoting.service.AmqpInvokerServiceExporter">
+		<property name="serviceInterface" value="com.min.zblog.api.UserService" />
+		<property name="service" ref="testUserServiceImpl" />
+		<property name="amqpTemplate" ref="mqTemplate" />
+	</bean>
+	<bean id="testUserServiceImpl" class="com.min.zblog.core.service.impl.UserServiceImpl"></bean>
+	<!-- 声明队列 -->
+	<rabbit:queue name="userService.rpc.queue" />
+	
+	<!-- 监听队列 -->
+	<rabbit:listener-container connection-factory="mqConnectionFactory" concurrency="${mqServiceConcurrency}">
+		<rabbit:listener ref="userServiceExporter" queue-names="userService.rpc.queue" />
+	</rabbit:listener-container>
+	
+</beans>

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.min.zblog.core.dao.UserDao;
-import com.min.zblog.core.service.UserService;
+import com.min.zblog.api.UserService;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.TmArticleTag;
 import com.min.zblog.data.entity.TmArticleTagKey;
