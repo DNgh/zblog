@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.min.zblog.core.facility.GlobalContextHolder;
 import com.min.zblog.core.service.ArchiveService;
 import com.min.zblog.core.service.ArticleService;
-import com.min.zblog.core.service.CategoryService;
+import com.min.zblog.api.rpc.CategoryService;
 import com.min.zblog.core.service.TagService;
 import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.ArticleInfo;

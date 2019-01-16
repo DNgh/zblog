@@ -11,27 +11,40 @@
 
 	<!-- AMQP线程池 -->
 	<task:executor id="amqpConnectionTaskExecutor" pool-size="${mqConnRecvThreads}"/>
+	<!--配置connection-factory，指定连接rabbit server参数 -->
 	<rabbit:connection-factory
 		id="mqConnectionFactory" channel-cache-size="${mqChannelCacheSize}" executor="amqpConnectionTaskExecutor"  
 		host="${mqHost}" port="${mqPort}" username="${mqUser}" password="${mqPassword}"
 		virtual-host="${mqVHost}" />
 	
+	<!--定义rabbit template用于数据的接收和发送 -->
 	<rabbit:template id="mqTemplate" connection-factory="mqConnectionFactory" />
+	
+	<!--配置admin信息，管理exchange和queue -->
+	<rabbit:admin connection-factory="mqConnectionFactory" />
 	
 	<!-- 服务提供方 -->
 	<bean id="userServiceExporter"
 		class="org.springframework.amqp.remoting.service.AmqpInvokerServiceExporter">
-		<property name="serviceInterface" value="com.min.zblog.api.UserService" />
-		<property name="service" ref="testUserServiceImpl" />
+		<property name="serviceInterface" value="com.min.zblog.api.rpc.UserService" />
+		<property name="service" ref="userServiceImpl" />
 		<property name="amqpTemplate" ref="mqTemplate" />
 	</bean>
-	<bean id="testUserServiceImpl" class="com.min.zblog.core.service.impl.UserServiceImpl"></bean>
+	<bean id="categoryServiceExporter"
+		class="org.springframework.amqp.remoting.service.AmqpInvokerServiceExporter">
+		<property name="serviceInterface" value="com.min.zblog.api.rpc.CategoryService" />
+		<property name="service" ref="categoryServiceImpl" />
+		<property name="amqpTemplate" ref="mqTemplate" />
+	</bean>
+	
 	<!-- 声明队列 -->
 	<rabbit:queue name="userService.rpc.queue" />
+	<rabbit:queue name="categoryService.rpc.queue" />
 	
 	<!-- 监听队列 -->
 	<rabbit:listener-container connection-factory="mqConnectionFactory" concurrency="${mqServiceConcurrency}">
 		<rabbit:listener ref="userServiceExporter" queue-names="userService.rpc.queue" />
+		<rabbit:listener ref="categoryServiceExporter" queue-names="categoryService.rpc.queue" />
 	</rabbit:listener-container>
 	
 </beans>

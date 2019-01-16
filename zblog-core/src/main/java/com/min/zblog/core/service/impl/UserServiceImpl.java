@@ -4,11 +4,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.min.zblog.api.rpc.UserService;
 import com.min.zblog.core.dao.UserDao;
-import com.min.zblog.api.UserService;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.TmArticleTag;
 import com.min.zblog.data.entity.TmArticleTagKey;
@@ -22,11 +24,15 @@ import com.min.zblog.facility.utils.Constants;
 
 @Service
 public class UserServiceImpl implements UserService {
+	Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	private UserDao userDao;
 	
 	@Override
 	public TsUser findUserByUsername(String username) {
+		logger.info("根据用户名查询用户："+username);
+		
 		return userDao.findByUsername(username);
 	}
 

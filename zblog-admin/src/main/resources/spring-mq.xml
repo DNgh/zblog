@@ -8,31 +8,48 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
 		http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<bean id="client"
-		class="org.springframework.amqp.remoting.client.AmqpProxyFactoryBean">
-		<property name="amqpTemplate" ref="template" />
-		<property name="serviceInterface" value="com.min.zblog.api.UserService" />
-	</bean>
 	
 	<!-- AMQP线程池 -->
 	<task:executor id="amqpConnectionTaskExecutor" pool-size="${mqConnRecvThreads}"/>
+	<!--配置connection-factory，指定连接rabbit server参数 -->
 	<rabbit:connection-factory
-		id="connectionFactory" channel-cache-size="${mqChannelCacheSize}" executor="amqpConnectionTaskExecutor"  
+		id="mqConnectionFactory" channel-cache-size="${mqChannelCacheSize}" executor="amqpConnectionTaskExecutor"  
 		host="${mqHost}" port="${mqPort}" username="${mqUser}" password="${mqPassword}"
 		virtual-host="${mqVHost}" />
 	
-	<rabbit:template id="template" connection-factory="connectionFactory" reply-timeout="30000"
-		exchange="remoting.exchange"/>
+	<!--定义rabbit template用于数据的接收和发送 -->
+	<rabbit:template id="mqTemplate" connection-factory="mqConnectionFactory" reply-timeout="30000"
+		exchange="zblog.direct.exchange"/>
 	
-	<rabbit:admin connection-factory="connectionFactory" />
+	<!--配置admin信息，管理exchange和queue -->
+	<rabbit:admin connection-factory="mqConnectionFactory" />
 	
+	<!-- 声明队列 -->
 	<rabbit:queue name="userService.rpc.queue" />
+	<rabbit:queue name="categoryService.rpc.queue" />
 	
-	<rabbit:direct-exchange name="remoting.exchange">
+	<!-- 定义exchange，绑定queue和routingKey -->
+	<!-- 单个exchange多个队列，通过routingKey区分，需在服务配置 -->
+	<rabbit:direct-exchange name="zblog.direct.exchange">
 		<rabbit:bindings>
 			<rabbit:binding queue="userService.rpc.queue" key="userService.binding" />
+			<rabbit:binding queue="categoryService.rpc.queue" key="categoryService.binding" />
 		</rabbit:bindings>
 	</rabbit:direct-exchange>
+	
+	<!-- 配置RPC服务 -->
+	<!-- direct-exchange模式，不同服务配置不同队列和routingKey -->
+	<bean id="userService"
+		class="org.springframework.amqp.remoting.client.AmqpProxyFactoryBean">
+		<property name="routingKey" value="userService.binding"/>
+		<property name="amqpTemplate" ref="mqTemplate" />
+		<property name="serviceInterface" value="com.min.zblog.api.rpc.UserService" />
+	</bean>
+	<bean id="categoryService"
+		class="org.springframework.amqp.remoting.client.AmqpProxyFactoryBean">
+		<property name="routingKey" value="categoryService.binding"/>
+		<property name="amqpTemplate" ref="mqTemplate" />
+		<property name="serviceInterface" value="com.min.zblog.api.rpc.CategoryService" />
+	</bean>
 	
 </beans>

@@ -9,10 +9,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.min.zblog.api.rpc.CategoryService;
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.CategoryDao;
 import com.min.zblog.core.facility.GlobalContextHolder;
-import com.min.zblog.core.service.CategoryService;
 import com.min.zblog.data.entity.TmArchive;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.TmArticleTag;

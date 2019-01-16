@@ -1,4 +1,4 @@
-package com.min.zblog.api;
+package com.min.zblog.api.rpc;
 
 import java.util.Map;
 
