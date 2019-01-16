@@ -15,7 +15,7 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import com.min.zblog.core.service.ResourceService;
+import com.min.zblog.api.rpc.ResourceService;
 
 public class SystemSecurityMetadataSource implements FilterInvocationSecurityMetadataSource, InitializingBean {
 	private Logger logger = LoggerFactory.getLogger(getClass());

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.min.zblog.api.rpc.CategoryService;
-import com.min.zblog.core.service.TagService;
+import com.min.zblog.api.rpc.TagService;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.TmCategory;
 import com.min.zblog.data.entity.TmTag;

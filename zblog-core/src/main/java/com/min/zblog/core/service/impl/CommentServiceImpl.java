@@ -14,7 +14,7 @@ import com.min.zblog.core.dao.ArticleDao;
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.CommentDao;
 import com.min.zblog.core.facility.GlobalContextHolder;
-import com.min.zblog.core.service.CommentService;
+import com.min.zblog.api.rpc.CommentService;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.TmCategory;
 import com.min.zblog.data.entity.TmComment;
@@ -137,7 +137,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.min.zblog.core.service.CommentService#queryCommentByPage(long, long, java.util.Map)
+	 * @see com.min.zblog.api.rpc.CommentService#queryCommentByPage(long, long, java.util.Map)
 	 */
 	@Override
 	public PageInfo<CommentInfo> queryCommentByPage(long pageSize, long currentPage, Map<String, Object> map) {

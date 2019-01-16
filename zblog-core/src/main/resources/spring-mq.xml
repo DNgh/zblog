@@ -23,11 +23,27 @@
 	<!--配置admin信息，管理exchange和queue -->
 	<rabbit:admin connection-factory="mqConnectionFactory" />
 	
+	<!-- 声明队列 -->
+	<rabbit:queue name="archiveService.rpc.queue" />
+	<rabbit:queue name="articleService.rpc.queue" />
+	<rabbit:queue name="categoryService.rpc.queue" />
+	<rabbit:queue name="commentService.rpc.queue" />
+	<rabbit:queue name="operateHstService.rpc.queue" />
+	<rabbit:queue name="tagService.rpc.queue" />
+	<rabbit:queue name="userService.rpc.queue" />
+	<rabbit:queue name="visitHstService.rpc.queue" />
+	
 	<!-- 服务提供方 -->
-	<bean id="userServiceExporter"
+	<bean id="archiveServiceExporter"
 		class="org.springframework.amqp.remoting.service.AmqpInvokerServiceExporter">
-		<property name="serviceInterface" value="com.min.zblog.api.rpc.UserService" />
-		<property name="service" ref="userServiceImpl" />
+		<property name="serviceInterface" value="com.min.zblog.api.rpc.ArchiveService" />
+		<property name="service" ref="archiveServiceImpl" />
+		<property name="amqpTemplate" ref="mqTemplate" />
+	</bean>
+	<bean id="articleServiceExporter"
+		class="org.springframework.amqp.remoting.service.AmqpInvokerServiceExporter">
+		<property name="serviceInterface" value="com.min.zblog.api.rpc.ArticleService" />
+		<property name="service" ref="articleServiceImpl" />
 		<property name="amqpTemplate" ref="mqTemplate" />
 	</bean>
 	<bean id="categoryServiceExporter"
@@ -36,15 +52,47 @@
 		<property name="service" ref="categoryServiceImpl" />
 		<property name="amqpTemplate" ref="mqTemplate" />
 	</bean>
-	
-	<!-- 声明队列 -->
-	<rabbit:queue name="userService.rpc.queue" />
-	<rabbit:queue name="categoryService.rpc.queue" />
+	<bean id="commentServiceExporter"
+		class="org.springframework.amqp.remoting.service.AmqpInvokerServiceExporter">
+		<property name="serviceInterface" value="com.min.zblog.api.rpc.CommentService" />
+		<property name="service" ref="commentServiceImpl" />
+		<property name="amqpTemplate" ref="mqTemplate" />
+	</bean>
+	<bean id="operateHstServiceExporter"
+		class="org.springframework.amqp.remoting.service.AmqpInvokerServiceExporter">
+		<property name="serviceInterface" value="com.min.zblog.api.rpc.OperateHstService" />
+		<property name="service" ref="operateHstServiceImpl" />
+		<property name="amqpTemplate" ref="mqTemplate" />
+	</bean>
+	<bean id="tagServiceExporter"
+		class="org.springframework.amqp.remoting.service.AmqpInvokerServiceExporter">
+		<property name="serviceInterface" value="com.min.zblog.api.rpc.TagService" />
+		<property name="service" ref="tagServiceImpl" />
+		<property name="amqpTemplate" ref="mqTemplate" />
+	</bean>
+	<bean id="userServiceExporter"
+		class="org.springframework.amqp.remoting.service.AmqpInvokerServiceExporter">
+		<property name="serviceInterface" value="com.min.zblog.api.rpc.UserService" />
+		<property name="service" ref="userServiceImpl" />
+		<property name="amqpTemplate" ref="mqTemplate" />
+	</bean>
+	<bean id="visitHstServiceExporter"
+		class="org.springframework.amqp.remoting.service.AmqpInvokerServiceExporter">
+		<property name="serviceInterface" value="com.min.zblog.api.rpc.VisitHstService" />
+		<property name="service" ref="visitHstServiceImpl" />
+		<property name="amqpTemplate" ref="mqTemplate" />
+	</bean>
 	
 	<!-- 监听队列 -->
 	<rabbit:listener-container connection-factory="mqConnectionFactory" concurrency="${mqServiceConcurrency}">
-		<rabbit:listener ref="userServiceExporter" queue-names="userService.rpc.queue" />
+		<rabbit:listener ref="archiveServiceExporter" queue-names="archiveService.rpc.queue" />
+		<rabbit:listener ref="articleServiceExporter" queue-names="articleService.rpc.queue" />
 		<rabbit:listener ref="categoryServiceExporter" queue-names="categoryService.rpc.queue" />
+		<rabbit:listener ref="commentServiceExporter" queue-names="commentService.rpc.queue" />
+		<rabbit:listener ref="operateHstServiceExporter" queue-names="operateHstService.rpc.queue" />
+		<rabbit:listener ref="tagServiceExporter" queue-names="tagService.rpc.queue" />
+		<rabbit:listener ref="userServiceExporter" queue-names="userService.rpc.queue" />
+		<rabbit:listener ref="visitHstServiceExporter" queue-names="visitHstService.rpc.queue" />
 	</rabbit:listener-container>
 	
 </beans>

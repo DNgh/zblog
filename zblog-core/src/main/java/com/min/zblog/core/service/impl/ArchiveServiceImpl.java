@@ -11,7 +11,7 @@ import com.min.zblog.core.dao.ArchiveDao;
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.CategoryDao;
 import com.min.zblog.core.facility.GlobalContextHolder;
-import com.min.zblog.core.service.ArchiveService;
+import com.min.zblog.api.rpc.ArchiveService;
 import com.min.zblog.data.entity.TmArchive;
 import com.min.zblog.data.entity.TmCategory;
 import com.min.zblog.data.view.ArchiveInfo;
@@ -41,7 +41,7 @@ public class ArchiveServiceImpl implements ArchiveService {
 	private BlogQueryDsl blogQueryDsl;
 	
 	/* (non-Javadoc)
-	 * @see com.min.zblog.core.service.ArchiveService#fetchArchiveInfo()
+	 * @see com.min.zblog.api.rpc.ArchiveService#fetchArchiveInfo()
 	 */
 	@Override
 	public List<ArchiveInfo> fetchArchiveInfo() {
@@ -76,7 +76,7 @@ public class ArchiveServiceImpl implements ArchiveService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.min.zblog.core.service.ArchiveService#deleteArchiveById(java.lang.Long)
+	 * @see com.min.zblog.api.rpc.ArchiveService#deleteArchiveById(java.lang.Long)
 	 */
 	@Override
 	public void deleteArchiveById(Long archiveId) throws ProcessException {

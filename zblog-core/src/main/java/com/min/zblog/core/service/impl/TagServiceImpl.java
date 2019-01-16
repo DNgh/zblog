@@ -14,7 +14,7 @@ import com.min.zblog.core.dao.ArticleTagDao;
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.TagDao;
 import com.min.zblog.core.facility.GlobalContextHolder;
-import com.min.zblog.core.service.TagService;
+import com.min.zblog.api.rpc.TagService;
 import com.min.zblog.data.entity.TmTag;
 import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.data.view.TagInfo;
@@ -41,7 +41,7 @@ public class TagServiceImpl implements TagService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.min.zblog.core.service.TagService#queryTagByPage(long, long, java.util.Map)
+	 * @see com.min.zblog.api.rpc.TagService#queryTagByPage(long, long, java.util.Map)
 	 */
 	@Override
 	public PageInfo<TagInfo> queryTagByPage(long pageSize, long currentPage, Map<String, Object> map) {
@@ -70,7 +70,7 @@ public class TagServiceImpl implements TagService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.min.zblog.core.service.TagService#findOneTag(java.lang.Long)
+	 * @see com.min.zblog.api.rpc.TagService#findOneTag(java.lang.Long)
 	 */
 	@Override
 	public TagInfo findOneTag(Long id) {
@@ -87,7 +87,7 @@ public class TagServiceImpl implements TagService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.min.zblog.core.service.TagService#saveTag(java.util.Map)
+	 * @see com.min.zblog.api.rpc.TagService#saveTag(java.util.Map)
 	 */
 	@Override
 	public TmTag saveTag(Map<String, Object> map) {
@@ -113,7 +113,7 @@ public class TagServiceImpl implements TagService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.min.zblog.core.service.TagService#deleteTagById(java.lang.Long)
+	 * @see com.min.zblog.api.rpc.TagService#deleteTagById(java.lang.Long)
 	 */
 	@Override
 	public void deleteTagById(Long id) throws ProcessException {

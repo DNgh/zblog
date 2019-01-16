@@ -14,7 +14,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import com.min.zblog.core.dao.BlogQueryDsl;
-import com.min.zblog.core.service.RoleService;
+import com.min.zblog.api.rpc.RoleService;
 import com.min.zblog.data.entity.TsRole;
 
 @Service

@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.min.zblog.core.service.ArchiveService;
-import com.min.zblog.core.service.ArticleService;
-import com.min.zblog.core.service.CategoryService;
-import com.min.zblog.core.service.TagService;
+import com.min.zblog.api.rpc.ArchiveService;
+import com.min.zblog.api.rpc.ArticleService;
+import com.min.zblog.api.rpc.CategoryService;
+import com.min.zblog.api.rpc.TagService;
 import com.min.zblog.data.view.ArchiveInfo;
 import com.min.zblog.data.view.ArticleInfo;
 import com.min.zblog.data.view.BlogInfo;

@@ -13,8 +13,8 @@ import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.core.dao.OperateHstDao;
 import com.min.zblog.core.dao.UserDao;
 import com.min.zblog.core.dao.VisitHstDao;
-import com.min.zblog.core.service.OperateHstService;
-import com.min.zblog.core.service.VisitHstService;
+import com.min.zblog.api.rpc.OperateHstService;
+import com.min.zblog.api.rpc.VisitHstService;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.TmCategory;
 import com.min.zblog.data.entity.TmVisitHst;
@@ -46,7 +46,7 @@ public class OperateHstServiceImpl implements OperateHstService {
 	private BlogQueryDsl blogQueryDsl;
 	
 	/* 分页查询操作历史
-	 * @see com.min.zblog.core.service.OperateHstService#queryOperateHstByPage(long, long, java.util.Map)
+	 * @see com.min.zblog.api.rpc.OperateHstService#queryOperateHstByPage(long, long, java.util.Map)
 	 */
 	@Override
 	public PageInfo<OperateHstInfo> queryOperateHstByPage(long pageSize, long currentPage, Map<String, Object> map) {

@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.min.zblog.core.dao.CommentDao;
-import com.min.zblog.core.service.CommentService;
+import com.min.zblog.api.rpc.CommentService;
 import com.min.zblog.data.entity.TmComment;
 import com.min.zblog.data.view.CommentInfo;
 

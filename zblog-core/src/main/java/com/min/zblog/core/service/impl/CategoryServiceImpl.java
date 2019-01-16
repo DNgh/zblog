@@ -44,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
 	private BlogQueryDsl blogQueryDsl;
 	
 	/* (non-Javadoc)
-	 * @see com.min.zblog.core.service.CategoryService#fetchCategoryInfo()
+	 * @see com.min.zblog.api.rpc.CategoryService#fetchCategoryInfo()
 	 */
 	@Override
 	public List<CategoryInfo> fetchCategoryInfo() {
@@ -80,7 +80,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.min.zblog.core.service.CategoryService#findOneCategory(java.lang.Long)
+	 * @see com.min.zblog.api.rpc.CategoryService#findOneCategory(java.lang.Long)
 	 */
 	@Override
 	public CategoryInfo findOneCategory(Long id) {

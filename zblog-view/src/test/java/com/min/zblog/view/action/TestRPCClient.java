@@ -1,4 +1,4 @@
-package com.min.zblog.admin.controller;
+package com.min.zblog.view.action;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -46,11 +46,11 @@ public class TestRPCClient {
     	
     	testCommentService();
     	
-    	testOperateHstService();
+//    	testOperateHstService();
     	
     	testTagService();
     	
-        testUserService();
+//        testUserService();
     	
         testVisitHstService();
 	}

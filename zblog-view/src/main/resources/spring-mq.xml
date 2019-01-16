@@ -29,9 +29,7 @@
 	<rabbit:queue name="articleService.rpc.queue" />
 	<rabbit:queue name="categoryService.rpc.queue" />
 	<rabbit:queue name="commentService.rpc.queue" />
-	<rabbit:queue name="operateHstService.rpc.queue" />
 	<rabbit:queue name="tagService.rpc.queue" />
-	<rabbit:queue name="userService.rpc.queue" />
 	<rabbit:queue name="visitHstService.rpc.queue" />
 	
 	
@@ -43,9 +41,7 @@
 			<rabbit:binding queue="articleService.rpc.queue" key="articleService.binding" />
 			<rabbit:binding queue="categoryService.rpc.queue" key="categoryService.binding" />
 			<rabbit:binding queue="commentService.rpc.queue" key="commentService.binding" />
-			<rabbit:binding queue="operateHstService.rpc.queue" key="operateHstService.binding" />
 			<rabbit:binding queue="tagService.rpc.queue" key="tagService.binding" />
-			<rabbit:binding queue="userService.rpc.queue" key="userService.binding" />
 			<rabbit:binding queue="visitHstService.rpc.queue" key="visitHstService.binding" />
 		</rabbit:bindings>
 	</rabbit:direct-exchange>
@@ -76,23 +72,11 @@
 		<property name="amqpTemplate" ref="mqTemplate" />
 		<property name="serviceInterface" value="com.min.zblog.api.rpc.CommentService" />
 	</bean>
-	<bean id="operateHstService"
-		class="org.springframework.amqp.remoting.client.AmqpProxyFactoryBean">
-		<property name="routingKey" value="operateHstService.binding"/>
-		<property name="amqpTemplate" ref="mqTemplate" />
-		<property name="serviceInterface" value="com.min.zblog.api.rpc.OperateHstService" />
-	</bean>
 	<bean id="tagService"
 		class="org.springframework.amqp.remoting.client.AmqpProxyFactoryBean">
 		<property name="routingKey" value="tagService.binding"/>
 		<property name="amqpTemplate" ref="mqTemplate" />
 		<property name="serviceInterface" value="com.min.zblog.api.rpc.TagService" />
-	</bean>
-	<bean id="userService"
-		class="org.springframework.amqp.remoting.client.AmqpProxyFactoryBean">
-		<property name="routingKey" value="userService.binding"/>
-		<property name="amqpTemplate" ref="mqTemplate" />
-		<property name="serviceInterface" value="com.min.zblog.api.rpc.UserService" />
 	</bean>
 	<bean id="visitHstService"
 		class="org.springframework.amqp.remoting.client.AmqpProxyFactoryBean">

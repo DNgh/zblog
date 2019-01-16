@@ -19,7 +19,7 @@ import com.min.zblog.core.dao.CategoryDao;
 import com.min.zblog.core.dao.CommentDao;
 import com.min.zblog.core.dao.VisitHstDao;
 import com.min.zblog.core.facility.GlobalContextHolder;
-import com.min.zblog.core.service.ArticleService;
+import com.min.zblog.api.rpc.ArticleService;
 import com.min.zblog.data.entity.TmArchive;
 import com.min.zblog.data.entity.TmArticle;
 import com.min.zblog.data.entity.TmArticleTag;
@@ -214,7 +214,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.min.zblog.core.service.ArticleService#listArticleByArchive(java.lang.String)
+	 * @see com.min.zblog.api.rpc.ArticleService#listArticleByArchive(java.lang.String)
 	 */
 	@Override
 	@Cacheable(value="articleByArchiveCache", key="T(String).valueOf(#pageSize).concat('-').concat(#currentPage).concat('-').concat(#name)")
@@ -278,7 +278,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	/* 查询已发布且阅读排行前5的文章
-	 * @see com.min.zblog.core.service.ArticleService#listArticleByReadRank()
+	 * @see com.min.zblog.api.rpc.ArticleService#listArticleByReadRank()
 	 */
 	@Override
 	public List<ArticleInfo> listArticleByReadRank() {
@@ -286,7 +286,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	/* 获取博客统计信息
-	 * @see com.min.zblog.core.service.ArticleService#obtainBlogInfo()
+	 * @see com.min.zblog.api.rpc.ArticleService#obtainBlogInfo()
 	 */
 	@Override
 	public BlogInfo obtainBlogInfo() {
@@ -529,7 +529,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	/* 软删除，更改文章状态
-	 * @see com.min.zblog.core.service.ArticleService#deleteArticleVirtualById(java.lang.Long)
+	 * @see com.min.zblog.api.rpc.ArticleService#deleteArticleVirtualById(java.lang.Long)
 	 */
 	@Override
 	public void deleteArticleVirtualById(Long articleId) throws ProcessException {

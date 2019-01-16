@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.min.zblog.core.service.UserService#loadUserByUsername(java.lang.String)
+	 * @see com.min.zblog.api.rpc.UserService#loadUserByUsername(java.lang.String)
 	 */
 	@Override
 	public UserInfo loadUserByUsername(String username) {
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.min.zblog.core.service.UserService#saveUser(java.util.Map)
+	 * @see com.min.zblog.api.rpc.UserService#saveUser(java.util.Map)
 	 */
 	@Override
 	public TsUser saveUser(Map<String, Object> map) throws ProcessException {

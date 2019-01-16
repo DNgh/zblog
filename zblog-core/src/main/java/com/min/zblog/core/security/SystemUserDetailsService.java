@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.min.zblog.api.rpc.UserService;
-import com.min.zblog.core.service.RoleService;
+import com.min.zblog.api.rpc.RoleService;
 import com.min.zblog.data.entity.TsUser;
 import com.min.zblog.facility.enums.UserState;
 

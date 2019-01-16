@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.min.zblog.core.service.OperateHstService;
-import com.min.zblog.core.service.TagService;
-import com.min.zblog.core.service.VisitHstService;
+import com.min.zblog.api.rpc.OperateHstService;
+import com.min.zblog.api.rpc.TagService;
+import com.min.zblog.api.rpc.VisitHstService;
 import com.min.zblog.data.view.OperateHstInfo;
 import com.min.zblog.data.view.PageInfo;
 import com.min.zblog.data.view.TagInfo;

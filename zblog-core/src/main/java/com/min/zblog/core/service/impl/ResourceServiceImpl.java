@@ -18,7 +18,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
 
 import com.min.zblog.core.dao.BlogQueryDsl;
-import com.min.zblog.core.service.ResourceService;
+import com.min.zblog.api.rpc.ResourceService;
 import com.min.zblog.data.entity.SecuritySource;
 
 @Service
