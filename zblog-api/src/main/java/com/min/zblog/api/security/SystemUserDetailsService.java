@@ -1,4 +1,4 @@
-package com.min.zblog.core.security;
+package com.min.zblog.api.security;
 
 import java.util.List;
 
@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.min.zblog.api.rpc.UserService;
 import com.min.zblog.api.rpc.RoleService;
@@ -21,7 +20,6 @@ public class SystemUserDetailsService implements UserDetailsService{
 	private RoleService roleService;
 	
 	@Override
-	@Transactional
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		TsUser user = userService.findUserByUsername(username);

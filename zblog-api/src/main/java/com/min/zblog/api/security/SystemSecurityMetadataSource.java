@@ -1,4 +1,4 @@
-package com.min.zblog.core.security;
+package com.min.zblog.api.security;
 
 import java.util.Collection;
 import java.util.HashSet;

@@ -29,6 +29,8 @@
 	<rabbit:queue name="categoryService.rpc.queue" />
 	<rabbit:queue name="commentService.rpc.queue" />
 	<rabbit:queue name="operateHstService.rpc.queue" />
+	<rabbit:queue name="resourceService.rpc.queue" />
+	<rabbit:queue name="roleService.rpc.queue" />
 	<rabbit:queue name="tagService.rpc.queue" />
 	<rabbit:queue name="userService.rpc.queue" />
 	<rabbit:queue name="visitHstService.rpc.queue" />
@@ -64,6 +66,18 @@
 		<property name="service" ref="operateHstServiceImpl" />
 		<property name="amqpTemplate" ref="mqTemplate" />
 	</bean>
+	<bean id="resourceServiceExporter"
+		class="org.springframework.amqp.remoting.service.AmqpInvokerServiceExporter">
+		<property name="serviceInterface" value="com.min.zblog.api.rpc.ResourceService" />
+		<property name="service" ref="resourceServiceImpl" />
+		<property name="amqpTemplate" ref="mqTemplate" />
+	</bean>
+	<bean id="roleServiceExporter"
+		class="org.springframework.amqp.remoting.service.AmqpInvokerServiceExporter">
+		<property name="serviceInterface" value="com.min.zblog.api.rpc.RoleService" />
+		<property name="service" ref="roleServiceImpl" />
+		<property name="amqpTemplate" ref="mqTemplate" />
+	</bean>
 	<bean id="tagServiceExporter"
 		class="org.springframework.amqp.remoting.service.AmqpInvokerServiceExporter">
 		<property name="serviceInterface" value="com.min.zblog.api.rpc.TagService" />
@@ -90,6 +104,8 @@
 		<rabbit:listener ref="categoryServiceExporter" queue-names="categoryService.rpc.queue" />
 		<rabbit:listener ref="commentServiceExporter" queue-names="commentService.rpc.queue" />
 		<rabbit:listener ref="operateHstServiceExporter" queue-names="operateHstService.rpc.queue" />
+		<rabbit:listener ref="resourceServiceExporter" queue-names="resourceService.rpc.queue" />
+		<rabbit:listener ref="roleServiceExporter" queue-names="roleService.rpc.queue" />
 		<rabbit:listener ref="tagServiceExporter" queue-names="tagService.rpc.queue" />
 		<rabbit:listener ref="userServiceExporter" queue-names="userService.rpc.queue" />
 		<rabbit:listener ref="visitHstServiceExporter" queue-names="visitHstService.rpc.queue" />

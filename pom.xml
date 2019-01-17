@@ -22,6 +22,7 @@
 		<javassist.version>3.18.1-GA</javassist.version>
 		<commons-lang.version>2.6</commons-lang.version>
 		<servlet.version>3.0.1</servlet.version>
+		<jsp.version>2.2.1</jsp.version>
 		<!-- struts2版本号 -->
 		<struts.version>2.3.20</struts.version>
 		<!-- spring版本号 -->
@@ -295,6 +296,13 @@
 			    <groupId>javax.servlet</groupId>
 			    <artifactId>javax.servlet-api</artifactId>
 			    <version>${servlet.version}</version>
+			    <scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+			    <groupId>javax.servlet.jsp</groupId>
+			    <artifactId>javax.servlet.jsp-api</artifactId>
+			    <version>${jsp.version}</version>
 			    <scope>provided</scope>
 			</dependency>
 			

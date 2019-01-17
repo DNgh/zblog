@@ -30,6 +30,8 @@
 	<rabbit:queue name="categoryService.rpc.queue" />
 	<rabbit:queue name="commentService.rpc.queue" />
 	<rabbit:queue name="operateHstService.rpc.queue" />
+	<rabbit:queue name="resourceService.rpc.queue" />
+	<rabbit:queue name="roleService.rpc.queue" />
 	<rabbit:queue name="tagService.rpc.queue" />
 	<rabbit:queue name="userService.rpc.queue" />
 	<rabbit:queue name="visitHstService.rpc.queue" />
@@ -44,6 +46,8 @@
 			<rabbit:binding queue="categoryService.rpc.queue" key="categoryService.binding" />
 			<rabbit:binding queue="commentService.rpc.queue" key="commentService.binding" />
 			<rabbit:binding queue="operateHstService.rpc.queue" key="operateHstService.binding" />
+			<rabbit:binding queue="resourceService.rpc.queue" key="resourceService.binding" />
+			<rabbit:binding queue="roleService.rpc.queue" key="roleService.binding" />
 			<rabbit:binding queue="tagService.rpc.queue" key="tagService.binding" />
 			<rabbit:binding queue="userService.rpc.queue" key="userService.binding" />
 			<rabbit:binding queue="visitHstService.rpc.queue" key="visitHstService.binding" />
@@ -81,6 +85,18 @@
 		<property name="routingKey" value="operateHstService.binding"/>
 		<property name="amqpTemplate" ref="mqTemplate" />
 		<property name="serviceInterface" value="com.min.zblog.api.rpc.OperateHstService" />
+	</bean>
+	<bean id="resourceService"
+		class="org.springframework.amqp.remoting.client.AmqpProxyFactoryBean">
+		<property name="routingKey" value="resourceService.binding"/>
+		<property name="amqpTemplate" ref="mqTemplate" />
+		<property name="serviceInterface" value="com.min.zblog.api.rpc.ResourceService" />
+	</bean>
+	<bean id="roleService"
+		class="org.springframework.amqp.remoting.client.AmqpProxyFactoryBean">
+		<property name="routingKey" value="roleService.binding"/>
+		<property name="amqpTemplate" ref="mqTemplate" />
+		<property name="serviceInterface" value="com.min.zblog.api.rpc.RoleService" />
 	</bean>
 	<bean id="tagService"
 		class="org.springframework.amqp.remoting.client.AmqpProxyFactoryBean">

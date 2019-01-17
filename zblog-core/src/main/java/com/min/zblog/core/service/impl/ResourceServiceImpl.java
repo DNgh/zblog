@@ -13,12 +13,14 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
 
 import com.min.zblog.core.dao.BlogQueryDsl;
 import com.min.zblog.api.rpc.ResourceService;
+import com.min.zblog.api.security.MinPathRequestMatcher;
 import com.min.zblog.data.entity.SecuritySource;
 
 @Service
@@ -66,6 +68,6 @@ public class ResourceServiceImpl implements ResourceService {
     //通过一个字符串地址构建一个AntPathRequestMatcher对象
     //getRequestMatcher方法就是用来创建RequestMatcher对象的
     protected RequestMatcher getRequestMatcher(String url){
-        return new AntPathRequestMatcher(url);
+        return new MinPathRequestMatcher(url);
     }
 }

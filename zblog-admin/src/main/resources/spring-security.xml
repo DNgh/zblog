@@ -154,7 +154,7 @@
     </beans:bean>
 
     <!--授权管理器-->
-    <beans:bean id="accessDecisionManager" class="com.min.zblog.core.security.SystemAccessDecisionManager" />
+    <beans:bean id="accessDecisionManager" class="com.min.zblog.api.security.SystemAccessDecisionManager" />
 
     <!--认证管理-->
     <!-- 密码采用BCrypt加密 -->
@@ -166,13 +166,13 @@
     </authentication-manager>
 
     <!-- 配置访问用户数据 -->
-    <beans:bean id="userDetailsService" class="com.min.zblog.core.security.SystemUserDetailsService">
-    	<beans:property name="userService" ref="userServiceImpl" />
-    	<beans:property name="roleService" ref="roleServiceImpl" />
+    <beans:bean id="userDetailsService" class="com.min.zblog.api.security.SystemUserDetailsService">
+    	<beans:property name="userService" ref="userService" />
+    	<beans:property name="roleService" ref="roleService" />
     </beans:bean>
 
     <!-- 配置访问资源 -->
-    <beans:bean id="securityMetadataSource" class="com.min.zblog.core.security.SystemSecurityMetadataSource">
-    	<beans:property name="resourceService" ref="resourceServiceImpl" />
+    <beans:bean id="securityMetadataSource" class="com.min.zblog.api.security.SystemSecurityMetadataSource">
+    	<beans:property name="resourceService" ref="resourceService" />
     </beans:bean>
 </beans:beans>

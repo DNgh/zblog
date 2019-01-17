@@ -20,4 +20,8 @@
 	
 	<import resource="classpath:spring-mq.xml"/>
 	
+	<import resource="classpath:spring-security.xml"/>
+	
+	<context:annotation-config />
+	
 </beans>
