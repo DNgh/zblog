@@ -4,7 +4,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class SystemDaemon {
 	public static void main(String[] args) {
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring-context.xml");
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:context-service.xml");
 		ctx.registerShutdownHook();
 	}
 

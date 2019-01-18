@@ -5,15 +5,17 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans 
     	 http://www.springframework.org/schema/beans/spring-beans.xsd
     	 http://www.springframework.org/schema/context
-         http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+         http://www.springframework.org/schema/context/spring-context.xsd">
     
     <context:property-placeholder location="classpath*:*.properties" />
 	
-	<import resource="classpath:spring-hibernate.xml"/>
+	<import resource="classpath:context-jpa.xml"/>
 	
-	<import resource="classpath:spring-cache.xml"/>
+	<import resource="classpath:context-cache.xml"/>
 	
-	<import resource="classpath:spring-mq.xml"/>
+	<import resource="classpath:context-mq.xml"/>
 	
+	<!-- 扫描service自动注入为bean -->
+    <context:component-scan base-package="com.min.zblog.core.service,com.min.zblog.core.dao" />
 	<context:annotation-config />
 </beans>
