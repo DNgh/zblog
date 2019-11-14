@@ -46,7 +46,7 @@
 		<!-- tomcat跨域 -->
 		<cors-filter.version>2.5</cors-filter.version>
 		<java-property.version>1.10</java-property.version>
-		<amqp.version>4.1.0</amqp.version>
+		<amqp.version>4.8.0</amqp.version>
 		<!-- log4j日志包版本号 -->
 		<slf4j.version>1.7.25</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
