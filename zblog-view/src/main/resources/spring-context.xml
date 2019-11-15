@@ -7,9 +7,10 @@
     	 http://www.springframework.org/schema/context
          http://www.springframework.org/schema/context/spring-context-4.2.xsd">
     
-    <context:property-placeholder location="#{systemProperties['env.files']}" />
-    <!-- <context:property-placeholder location="#{systemProperties['env.files'] ?: 'classpath*:*.properties'}" /> -->
+    <!-- 方式一：简单占位符填充，如果指定env.files，则从env.files读取properties文件；否则，从类加载路径读取 -->
+    <!-- <context:property-placeholder locations="#{systemProperties['env.files'] ?: 'classpath:/dev/*.properties'}" /> -->
 	
+	<!-- 方式二：PropertyPlaceholderConfigurer多个属性文件 -->
 	<!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="ignoreResourceNotFound" value="false" />
 		<property name="locations">
@@ -19,6 +20,17 @@
 		</property>
 	</bean> -->
 	
+	<!-- 方式三：PropertiesFactoryBean多个属性文件 -->
+	<!-- <bean id="env" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations" value="#{systemProperties['env.files'] ?: 'classpath:/dev/*.properties'}"/>
+	</bean> -->
+	
+	<!-- 方式四：自定义加载多个属性文件 -->
+	<bean id="env" class="com.min.zblog.facility.utils.EnvironmentFactoryBean">
+		<property name="locations" value="#{systemProperties['env.files'] ?: 'classpath:/dev/*.properties'}"/>
+	</bean>
+	
+	<import resource="classpath:spring-log4jConf.xml"/>
 	<import resource="classpath:spring-action.xml"/>
 	<import resource="classpath:spring-mq.xml"/>
 	
