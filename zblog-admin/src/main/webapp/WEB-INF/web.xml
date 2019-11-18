@@ -9,7 +9,7 @@
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath*:spring-context.xml</param-value>
+		<param-value>classpath*:context-service.xml</param-value>
 	</context-param>
 	<!-- 编码过滤器 -->
 	<filter>

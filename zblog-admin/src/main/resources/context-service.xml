@@ -30,9 +30,9 @@
 		<property name="locations" value="#{systemProperties['env.files'] ?: 'classpath:/dev/*.properties'}"/>
 	</bean>
 	
-	<import resource="classpath:spring-log4jConf.xml"/>
-	<import resource="classpath:spring-mq.xml"/>
-	<import resource="classpath:spring-security.xml"/>
+	<import resource="classpath:context-logConf.xml"/>
+	<import resource="classpath:context-mq.xml"/>
+	<import resource="classpath:context-security.xml"/>
 	
 	<context:annotation-config />
 	
