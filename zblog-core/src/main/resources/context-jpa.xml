@@ -14,24 +14,24 @@
                        
     <!-- 这里定义JPA相关配置。总体上来说，这里使用以Hibernate为Provider的JPA2.0方案，使用Spring来进行集成，不依赖于容器的JPA实现。 -->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${jdbc.driver}" />
-        <property name="url" value="${jdbc.url}" />
-        <property name="username" value="${jdbc.username}" />
-        <property name="password" value="${jdbc.password}" />
+        <property name="driverClassName" value="#{env['jdbc.driver']}" />
+        <property name="url" value="#{env['jdbc.url']}" />
+        <property name="username" value="#{env['jdbc.username']}" />
+        <property name="password" value="#{env['jdbc.password']}" />
         <!--<!– 初始化连接大小 –> -->
-        <property name="initialSize" value="${jdbc.initialSize}"/>
+        <property name="initialSize" value="#{env['jdbc.initialSize']}"/>
         <!--<!– 连接池最大数量 –> -->
-        <property name="maxTotal" value="${jdbc.maxTotal}"/>
+        <property name="maxTotal" value="#{env['jdbc.maxTotal']}"/>
         <!--  连接池最大空闲 -->
-        <property name="maxIdle" value="${jdbc.maxIdle}"/>
+        <property name="maxIdle" value="#{env['jdbc.maxIdle']}"/>
         <!-- 连接池最小空闲 -->
-        <property name="minIdle" value="${jdbc.minIdle}"/>
+        <property name="minIdle" value="#{env['jdbc.minIdle']}"/>
         <!-- 获取连接最大等待时间 -->
-        <property name="maxWaitMillis" value="${jdbc.maxWaitMillis}"/>
+        <property name="maxWaitMillis" value="#{env['jdbc.maxWaitMillis']}"/>
         <property name="testOnBorrow" value="true" />
         <property name="testOnReturn" value="false" />
         <property name="testWhileIdle" value="false" />
-        <property name="validationQuery" value="${jdbc.testSql}" />
+        <property name="validationQuery" value="#{env['jdbc.testSql']}" />
         <property name="minEvictableIdleTimeMillis" value="1800000" />
     </bean>           
     
@@ -44,8 +44,8 @@
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
-                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
-                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.show_sql">#{env['hibernate.show_sql']}</prop>
+                <prop key="hibernate.hbm2ddl.auto">#{env['hibernate.hbm2ddl.auto']}</prop>
                 <!-- <prop key="hibernate.enable_lazy_load_no_trans">true</prop> --><!--解决延迟加载问题，开销大 -->
             </props>
         </property>
@@ -54,7 +54,7 @@
     <!--指定实现JPA的适配器 -->
     <bean id="hibernateJpaVendorAdapter"
         class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-        <property name="databasePlatform" value="${hibernate.dialect}" />
+        <property name="databasePlatform" value="#{env['hibernate.dialect']}" />
     </bean>
     
     <!-- 兼容Hibernate的SessionFactory，以便于批量的游标使用 -->
