@@ -98,7 +98,7 @@
 	</bean>
 	
 	<!-- 监听队列 -->
-	<rabbit:listener-container connection-factory="mqConnectionFactory" concurrency="${mqServiceConcurrency}">
+	<rabbit:listener-container connection-factory="mqConnectionFactory" concurrency="#{env['mqServiceConcurrency']?:1}">
 		<rabbit:listener ref="archiveServiceExporter" queue-names="archiveService.rpc.queue" />
 		<rabbit:listener ref="articleServiceExporter" queue-names="articleService.rpc.queue" />
 		<rabbit:listener ref="categoryServiceExporter" queue-names="categoryService.rpc.queue" />
