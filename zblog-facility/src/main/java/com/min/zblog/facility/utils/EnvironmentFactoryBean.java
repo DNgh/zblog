@@ -3,12 +3,11 @@ package com.min.zblog.facility.utils;
 import java.util.Properties;
 
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.core.io.support.PropertiesLoaderSupport;
 
 /**
- * #产生一个配置属性，如果在命令行指定了process.code属性，则从服务中取对应的配置信息，整合properties、操作系统环境变量、jvm系统属性参数
- * #否则（例如本机开发环境）则取 {@link #setLocations(org.springframework.core.io.Resource[])}中指定的文件，就像 {@link PropertiesFactoryBean}一样。
+ * #自定义生成属性，如果启动命令通过-D指定了env.files参数，则指定目录读取配置文件，整合properties、操作系统环境变量、jvm系统属性参数
+ * #否则，使用默认参数PropertiesFactoryBean。
  * @author zhouzm
  *
  */
@@ -24,7 +23,7 @@ public class EnvironmentFactoryBean extends PropertiesLoaderSupport implements F
 		//参数location/locations指定本地配置文件
 		loadProperties(props);
 		
-		//命令行上的参数更优先
+		//命令行参数（优先级高）
 		props.putAll(System.getProperties());
 		
 		return props;

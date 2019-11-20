@@ -56,10 +56,10 @@ public class HeartbeatProcessor implements SmartLifecycle {
 	
 	public void heartbeat()
 	{
-		MemoryMXBean mmb = ManagementFactory.getMemoryMXBean();
-		MemoryUsage usage = mmb.getHeapMemoryUsage();
-		String memUsage = MessageFormat.format("{0,number,0.00}% ({1}MB)", (1.0 - (double)usage.getUsed() / usage.getMax()) * 100, (usage.getMax() - usage.getUsed()) >> 20);
-		logger.info("心跳数据，剩余内存："+memUsage);
+		MemoryMXBean mbean = ManagementFactory.getMemoryMXBean();
+		MemoryUsage memUsage = mbean.getHeapMemoryUsage();
+		String memUsageStr = MessageFormat.format("{0,number,0.00}% ({1}MB)", (1.0 - (double)memUsage.getUsed() / memUsage.getMax()) * 100, (memUsage.getMax() - memUsage.getUsed()) >> 20);
+		logger.info("心跳数据，剩余内存："+memUsageStr);
 	}
 
 }

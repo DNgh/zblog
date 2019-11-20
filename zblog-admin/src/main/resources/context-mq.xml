@@ -117,8 +117,7 @@
 		<property name="serviceInterface" value="com.min.zblog.api.rpc.VisitHstService" />
 	</bean>
 	
-	<!-- 心跳报文相关 -->
-	<!-- 这里不用task:annotation-driven是因为主程序里有可能使用，不能出现多次。 -->
+	<!-- 心跳处理 -->
 	<bean id="heartbeatProcessor" class="com.min.zblog.facility.utils.HeartbeatProcessor"/>
 	<task:scheduled-tasks>
 		<task:scheduled ref="heartbeatProcessor" method="heartbeat" fixed-delay="#{env['heartbeatInterval']?:1000*60*5}"/>
