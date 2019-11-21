@@ -15,7 +15,7 @@
 	<rabbit:connection-factory
 		id="mqConnectionFactory" channel-cache-size="#{env['mqChannelCacheSize']?:10}" executor="amqpConnectionTaskExecutor"  
 		host="#{env['mqHost']}" port="#{env['mqPort']}" username="#{env['mqUser']?:'guest'}" password="#{env['mqPassword']?:'guest'}"
-		virtual-host="#{env['mqVHost']?:'/dev'}" />
+		virtual-host="#{env['mqVHost']?:'/test'}" />
 	
 	<!--定义rabbit template用于数据的接收和发送 -->
 	<rabbit:template id="mqTemplate" connection-factory="mqConnectionFactory" />
