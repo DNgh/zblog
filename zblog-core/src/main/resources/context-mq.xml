@@ -112,9 +112,9 @@
 	</rabbit:listener-container>
 	
 	<!-- 心跳处理 -->
-	<bean id="heartbeatProcessor" class="com.min.zblog.facility.utils.HeartbeatProcessor"/>
+	<bean id="heartbeatHandler" class="com.min.zblog.facility.utils.HeartbeatHandler"/>
 	<task:scheduled-tasks>
-		<task:scheduled ref="heartbeatProcessor" method="heartbeat" fixed-delay="#{env['heartbeatInterval']?:1000*60*5}"/>
+		<task:scheduled ref="heartbeatHandler" method="heartbeat" fixed-delay="#{env['heartbeatInterval']?:1000*60*5}"/>
 	</task:scheduled-tasks>
 	
 </beans>

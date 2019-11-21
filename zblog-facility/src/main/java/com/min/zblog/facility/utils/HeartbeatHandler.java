@@ -14,7 +14,7 @@ import org.springframework.context.SmartLifecycle;
  * @author zhouzm
  *
  */
-public class HeartbeatProcessor implements SmartLifecycle {
+public class HeartbeatHandler implements SmartLifecycle {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	private boolean runningFlag = false;

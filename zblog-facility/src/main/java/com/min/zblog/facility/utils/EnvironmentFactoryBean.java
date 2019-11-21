@@ -7,7 +7,7 @@ import org.springframework.core.io.support.PropertiesLoaderSupport;
 
 /**
  * #自定义生成属性，如果启动命令通过-D指定了env.files参数，则指定目录读取配置文件，整合properties、操作系统环境变量、jvm系统属性参数
- * #否则，使用默认参数PropertiesFactoryBean。
+ * #否则，使用项目目录下参数。
  * @author zhouzm
  *
  */
