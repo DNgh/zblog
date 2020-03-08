@@ -244,9 +244,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
 	        imageUpload : true,
 	        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-	        imageUploadURL : "./php/upload.php",
+	        imageUploadURL : "/file/uploadImage/",
 	        onload : function() {
 	            console.log('onload', this);
+	            // 引入插件 执行监听方法
+                editormd.loadPlugin("components/editor.md/plugins/image-handle-paste/image-handle-paste", function(){
+                	articleEditor.imagePaste();
+                });
 	            //this.fullscreen();
 	            //this.unwatch();
 	            //this.watch().fullscreen();

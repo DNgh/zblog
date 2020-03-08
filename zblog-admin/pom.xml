@@ -49,6 +49,11 @@
 	   <artifactId>commons-lang</artifactId>
 	</dependency>
 	
+	<dependency>
+	  <groupId>commons-fileupload</groupId>
+	  <artifactId>commons-fileupload</artifactId>
+	</dependency>
+	
 	<!-- 添加spring核心依赖 -->
 	<dependency>
 		<groupId>org.springframework</groupId>
