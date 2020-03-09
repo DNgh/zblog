@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,14 +29,16 @@ public class FileController {
 	@Value("#{env['rootPath']?:'/home/files'}")
 	String rootPath;
 	
-	@RequestMapping("/uploadImage")
-    public @ResponseBody
-    Map<String,Object> Image(HttpServletRequest request, HttpServletResponse response, 
+	@ResponseBody
+	@RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
+    public Map<String,Object> uploadImage(HttpServletRequest request, HttpServletResponse response, 
     		@RequestParam(value = "editormd-image-file", required = false) MultipartFile file){
-        Map<String,Object> resultMap = new HashMap<String,Object>();
+        logger.debug("进入uploadImage");
+		
+		Map<String,Object> resultMap = new HashMap<String,Object>();
         try {
-//            request.setCharacterEncoding( "utf-8" );
-//            response.setHeader( "Content-Type" , "text/html" );
+            request.setCharacterEncoding( "utf-8" );
+            response.setHeader( "Content-Type" , "text/html" );
             //文件路径不存在则需要创建文件路径,目录/home/file/yyyyMMdd/
             SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
             String dateString = dateformat.format(new Date());
