@@ -69,6 +69,11 @@
         	invalid-session-url="/loginPage" session-authentication-error-url="/loginPage" /> -->
 
         <expression-handler ref="webexpressionHandler" />
+        
+        <!-- 允许同域名页面加载iFrame -->
+        <headers>
+			<frame-options policy="SAMEORIGIN"/>
+		</headers>
 	</http>
 	
 	<beans:bean id="loginUrlAuthenticationEntryPoint" 
