@@ -48,7 +48,8 @@
                 var csrfToken = $('meta[name="_csrf"]').attr('content');
                 var csrfField = "";
                 if (csrfToken) {
-                       csrfField = "<input type='hidden' name='_csrf' value='" + csrfToken + "' />";
+                       var csrfParam = $('meta[name="_csrf_param"]').attr('content');
+                       csrfField = "<input type='hidden' name='" + csrfParam + "' value='" + csrfToken + "' />";
                 }
 
                 var dialogContent = ( (settings.imageUpload) ? "<form action=\"" + action +"\" target=\"" + iframeName + "\" method=\"post\" enctype=\"multipart/form-data\" class=\"" + classPrefix + "form\">" : "<div class=\"" + classPrefix + "form\">" ) +
