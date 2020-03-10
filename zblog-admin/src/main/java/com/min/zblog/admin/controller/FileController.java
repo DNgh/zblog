@@ -29,37 +29,48 @@ public class FileController {
 	@Value("#{env['rootPath']?:'/home/files'}")
 	String rootPath;
 	
+	private SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+	
 	@ResponseBody
-	@RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
+	@RequestMapping(value = "/uploadImage", method = RequestMethod.POST, produces="text/html;charset=UTF-8")
     public Map<String,Object> uploadImage(HttpServletRequest request, HttpServletResponse response, 
     		@RequestParam(value = "editormd-image-file", required = false) MultipartFile file){
         logger.debug("进入uploadImage");
 		
 		Map<String,Object> resultMap = new HashMap<String,Object>();
         try {
-            request.setCharacterEncoding( "utf-8" );
-            response.setHeader( "Content-Type" , "text/html" );
-            //文件路径不存在则需要创建文件路径,目录/home/file/yyyyMMdd/
-            SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+            /*request.setCharacterEncoding( "utf-8" );
+            response.setHeader( "Content-Type" , "text/html" );*/
+            
+            //用于保存上传文件的保存路径：/home/files/yyyyMMdd/
             String dateString = dateformat.format(new Date());
-            String filePath = rootPath + File.separator + dateString;
+            StringBuffer filePathBuffer = new StringBuffer();
+            String filePath = filePathBuffer.append(rootPath).append(File.separator)
+            		.append(dateString).toString();
+            //文件路径不存在，则创建
             File fileDir = new File(filePath);
             if(!fileDir.exists()){
             	fileDir.mkdirs();
             }
-            //重命名文件名，uuid+time
+            
+            //重命名文件名：uuid-time.原文件后缀
             UUID uuid = UUID.randomUUID();
             long time = System.currentTimeMillis();
-            String originName = file.getName();
-            String newName = uuid.toString() + time + originName.substring(originName.lastIndexOf('.')+1);
-            String absoluteFileName = filePath + File.separator + newName;
+            //原始文件名
+            String originName = file.getOriginalFilename();
+            StringBuffer nameBuffer = new StringBuffer();
+            //新文件名
+            String newName = nameBuffer.append(uuid.toString()).append("-").append(time)
+            		.append(originName.substring(originName.lastIndexOf('.'))).toString();
+            //生成绝对路径文件名，写入文件
+            String absoluteFileName = filePathBuffer.append(File.separator).append(newName).toString();
             File realFile = new File(absoluteFileName);
             FileUtils.copyInputStreamToFile(file.getInputStream(), realFile);
             
-            //访问文件路径
+            //回传文件路径：域名/image/yyyyMMdd/文件名
             StringBuffer url = request.getRequestURL();
             String showUrl = url.delete(url.length() - request.getRequestURI().length(), url.length())
-            		.append("/file/show/").append(dateString).append(newName).toString();
+            		.append("/image/").append(dateString).append("/").append(newName).toString();
             resultMap.put("success", 1);
             resultMap.put("message", "上传成功");
             resultMap.put("url", showUrl);

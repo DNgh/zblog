@@ -249,9 +249,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        onload : function() {
 	            console.log('onload', this);
 	            // 引入插件 执行监听方法
-               /*  editormd.loadPlugin("components/editor.md/plugins/image-handle-paste/image-handle-paste", function(){
+                editormd.loadPlugin("components/editor.md/plugins/image-handle-paste/image-handle-paste", function(){
                 	articleEditor.imagePaste();
-                }); */
+                });
 	            //this.fullscreen();
 	            //this.unwatch();
 	            //this.watch().fullscreen();

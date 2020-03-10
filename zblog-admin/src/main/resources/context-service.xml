@@ -32,6 +32,7 @@
 	
 	<import resource="classpath:context-logConf.xml"/>
 	<import resource="classpath:context-mq.xml"/>
+	<import resource="classpath:context-multipart.xml"/>
 	<import resource="classpath:context-security.xml"/>
 	
 	<context:annotation-config />
