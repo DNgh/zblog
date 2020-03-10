@@ -58,6 +58,7 @@
                     _this.executePlugin("imageDialog", "image-dialog/image-dialog");
 
                     _ajax(settings.imageUploadURL, forms, function(ret){
+                    	console.log(ret);
                         if(ret.success == 1){
                         //数据格式可以自定义，但需要把图片地址写入到该节点里面
                             $("." + classPrefix + "image-dialog").find("input[data-url]").val(ret.url);
@@ -79,7 +80,12 @@
                 "contentType": false,
                 "mimeType": "multipart/form-data",
                 success: function(ret){
-                    callback(JSON.parse(JSON.parse(ret)));
+                	if ((typeof result) == 'string') {
+                		callback(JSON.parse(ret));
+                	} else {
+                		callback(ret);
+                	}
+                    
                 },
                 error: function (err){
                     console.log('请求失败')

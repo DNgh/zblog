@@ -32,7 +32,7 @@ public class FileController {
 	private SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
 	
 	@ResponseBody
-	@RequestMapping(value = "/uploadImage", method = RequestMethod.POST, produces="text/html;charset=UTF-8")
+	@RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
     public Map<String,Object> uploadImage(HttpServletRequest request, HttpServletResponse response, 
     		@RequestParam(value = "editormd-image-file", required = false) MultipartFile file){
         logger.debug("进入uploadImage");
