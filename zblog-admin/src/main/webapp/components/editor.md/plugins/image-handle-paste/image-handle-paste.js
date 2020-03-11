@@ -61,8 +61,6 @@
 
                     //调用imageDialog插件，弹出对话框
                     _this.executePlugin("imageDialog", "image-dialog/image-dialog");
-                    //显示进度
-                    loading($("." + classPrefix + "image-dialog"), true);
                     
                     _ajax(settings.imageUploadURL, forms, function(ret){
                         if(ret.success == 1){
@@ -73,34 +71,40 @@
                         	alert("上传失败:"+ret.message);
                         }
                     })
-                    //隐藏进度
-                    loading($("." + classPrefix + "image-dialog"), false);
                 }
             })
+            
+            // ajax上传图片 可自行处理
+	        var _ajax = function(url, data, callback) {
+            	 //显示进度
+                loading($("." + classPrefix + "image-dialog"), true);
+                
+	            $.ajax({
+	                "type": 'post',
+	                "cache": false,
+	                "url": url,
+	                "data": data,
+	                "processData": false,
+	                "contentType": false,
+	                "mimeType": "multipart/form-data",
+	                success: function(ret){
+	                	//隐藏进度
+	                    loading($("." + classPrefix + "image-dialog"), false);
+	                	if ((typeof ret) == 'string') {
+	                		callback(JSON.parse(ret));
+	                	} else {
+	                		callback(ret);
+	                	}
+	                    
+	                },
+	                error: function (err){
+	                	//隐藏进度
+	                    loading($("." + classPrefix + "image-dialog"), false);
+	                    alert('请求失败:'+err);
+	                }
+	            })
+	        }
         };
-        // ajax上传图片 可自行处理
-        var _ajax = function(url, data, callback) {
-            $.ajax({
-                "type": 'post',
-                "cache": false,
-                "url": url,
-                "data": data,
-                "processData": false,
-                "contentType": false,
-                "mimeType": "multipart/form-data",
-                success: function(ret){
-                	if ((typeof ret) == 'string') {
-                		callback(JSON.parse(ret));
-                	} else {
-                		callback(ret);
-                	}
-                    
-                },
-                error: function (err){
-                    alert('请求失败:'+err);
-                }
-            })
-        }
     };
 
     // CommonJS/Node.js
