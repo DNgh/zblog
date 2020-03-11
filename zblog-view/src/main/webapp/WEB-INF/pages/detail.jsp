@@ -791,8 +791,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	   		    return ''; // use external default escaping
    	      	  }
    	    });
-   	      
+
+   	 	//渲染markdown文章，给图片添加自适应样式
    		$("#show").html(md.render('${articleInfo.content}'));
+   		$("#show img").addClass("img-responsive");
     	
    		//按钮提示
    		$("[data-toggle='tooltip']").tooltip();

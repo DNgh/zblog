@@ -59,14 +59,13 @@
 
                     _ajax(settings.imageUploadURL, forms, function(ret){
                         if(ret.success == 1){
-                        	alert("上传成功", ret);
+                        	alert("上传成功:"+ret);
                             //数据格式可以自定义，但需要把图片地址写入到该节点里面
                             $("." + classPrefix + "image-dialog").find("input[data-url]").val(ret.url);
                             //cm.replaceSelection("![](" + ret.url  + ")");
                         }else{
-                        	alert("上传失败", ret);
+                        	alert("上传失败:"+ret);
                         }
-                        console.log(ret);
                     })
                 }
             })
@@ -82,7 +81,7 @@
                 "contentType": false,
                 "mimeType": "multipart/form-data",
                 success: function(ret){
-                	if ((typeof result) == 'string') {
+                	if ((typeof ret) == 'string') {
                 		callback(JSON.parse(ret));
                 	} else {
                 		callback(ret);
