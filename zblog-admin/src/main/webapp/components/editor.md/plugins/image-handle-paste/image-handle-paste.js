@@ -13,11 +13,6 @@
         var $            = jQuery;           // if using module loader(Require.js/Sea.js).
         var pluginName   = "image-handle-paste";  // 定义插件名称
 
-        var loading = function(dialog, show) {
-            var _loading = dialog.find("." + classPrefix + "dialog-mask");
-            _loading[(show) ? "show" : "hide"]();
-        };
-        
         //图片粘贴上传方法
         exports.fn.imagePaste = function() {
             var _this       = this;
@@ -26,6 +21,11 @@
             var editor      = _this.editor;
             var classPrefix = _this.classPrefix;
             var id       = _this.id;
+            
+            var loading = function(dialog, show) {
+                var _loading = dialog.find("." + classPrefix + "dialog-mask");
+                _loading[(show) ? "show" : "hide"]();
+            };
 
             if(!settings.imageUpload || !settings.imageUploadURL){
                 console.log('你还未开启图片上传或者没有配置上传地址');
