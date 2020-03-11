@@ -79,6 +79,7 @@ public class FileController {
         } catch (Exception e) {
         	logger.error("上传文件异常", e);
         	resultMap.put("success", 0);
+        	resultMap.put("message", e.getMessage());
         	return resultMap;
         }
     }

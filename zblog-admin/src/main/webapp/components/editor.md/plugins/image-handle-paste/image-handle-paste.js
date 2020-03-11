@@ -59,12 +59,11 @@
 
                     _ajax(settings.imageUploadURL, forms, function(ret){
                         if(ret.success == 1){
-                        	alert("上传成功:"+ret);
                             //数据格式可以自定义，但需要把图片地址写入到该节点里面
                             $("." + classPrefix + "image-dialog").find("input[data-url]").val(ret.url);
                             //cm.replaceSelection("![](" + ret.url  + ")");
                         }else{
-                        	alert("上传失败:"+ret);
+                        	alert("上传失败:"+ret.message);
                         }
                     })
                 }
@@ -89,7 +88,7 @@
                     
                 },
                 error: function (err){
-                    console.log('请求失败')
+                    alert('请求失败:'+err);
                 }
             })
         }
