@@ -13,6 +13,11 @@
         var $            = jQuery;           // if using module loader(Require.js/Sea.js).
         var pluginName   = "image-handle-paste";  // 定义插件名称
 
+        var loading = function(dialog, show) {
+            var _loading = dialog.find("." + classPrefix + "dialog-mask");
+            _loading[(show) ? "show" : "hide"]();
+        };
+        
         //图片粘贴上传方法
         exports.fn.imagePaste = function() {
             var _this       = this;
@@ -56,7 +61,9 @@
 
                     //调用imageDialog插件，弹出对话框
                     _this.executePlugin("imageDialog", "image-dialog/image-dialog");
-
+                    //显示进度
+                    loading($("." + classPrefix + "image-dialog"), true);
+                    
                     _ajax(settings.imageUploadURL, forms, function(ret){
                         if(ret.success == 1){
                             //数据格式可以自定义，但需要把图片地址写入到该节点里面
@@ -66,6 +73,8 @@
                         	alert("上传失败:"+ret.message);
                         }
                     })
+                    //隐藏进度
+                    loading($("." + classPrefix + "image-dialog"), false);
                 }
             })
         };
