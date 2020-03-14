@@ -33,11 +33,6 @@ public class TagInfo implements Serializable {
 	private String style;
 	
 	/**
-	 * 页面显示标签html
-	 */
-	private String html;
-	
-	/**
 	 * 创建时间
 	 */
 	private Date createTime;
@@ -58,14 +53,6 @@ public class TagInfo implements Serializable {
 		this.style = style;
 	}
 
-	public String getHtml() {
-		return html;
-	}
-
-	public void setHtml(String html) {
-		this.html = html;
-	}
-	
 	public Long getId() {
 		return id;
 	}

@@ -40,11 +40,6 @@ public class CategoryInfo implements Serializable {
 	private String icon;
 	
 	/**
-	 * 页面显示分类html
-	 */
-	private String html;
-	
-	/**
 	 * 是否可用
 	 */
 	private Indicator available;
@@ -84,14 +79,6 @@ public class CategoryInfo implements Serializable {
 
 	public void setIcon(String icon) {
 		this.icon = icon;
-	}
-
-	public String getHtml() {
-		return html;
-	}
-
-	public void setHtml(String html) {
-		this.html = html;
 	}
 
 	public Long getId() {

@@ -166,12 +166,15 @@ public class TagServiceImpl implements TagService {
 		List<TagInfo> tagInfoList = new ArrayList<TagInfo>();
 		int count = 0;
 		for(TmTag tmTag:tagList){
-			logger.info("count:"+count+"|"+PageUtil.LABEL_STYTLE[count]);
+			logger.debug("count:"+count+"|"+PageUtil.LABEL_STYTLE[count]);
 			
 			TagInfo tagInfo = new TagInfo();
 			tagInfo.setId(tmTag.getId());
 			tagInfo.setTagName(tmTag.getName());
+			tagInfo.setDescription(tmTag.getDescription());
 			tagInfo.setStyle(PageUtil.LABEL_STYTLE[count]);
+			tagInfo.setCreateTime(tmTag.getCreateTime());
+			
 			tagInfoList.add(tagInfo);
 			
 			count = ((++count)%PageUtil.LABEL_STYTLE.length);

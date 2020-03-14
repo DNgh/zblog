@@ -104,9 +104,11 @@ public class ArchiveServiceImpl implements ArchiveService {
 		for(TmArchive tmArchive:archiveList){
 			long articleNum = blogQueryDsl.countArticleByArchiveId(tmArchive.getId(), ArticleState.PUBLISH);
 			ArchiveInfo archiveInfo = new ArchiveInfo();
+			archiveInfo.setId(tmArchive.getId());
 			archiveInfo.setArchiveTitle(tmArchive.getTitle());
 			archiveInfo.setArchiveName(tmArchive.getName());
 			archiveInfo.setArticleNum(articleNum);
+			archiveInfo.setCreateTime(tmArchive.getCreateTime());
 			
 			archiveInfoList.add(archiveInfo);
 		}

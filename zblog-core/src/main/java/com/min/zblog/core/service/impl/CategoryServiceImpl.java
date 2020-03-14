@@ -206,9 +206,12 @@ public class CategoryServiceImpl implements CategoryService {
 			long articleNum = blogQueryDsl.countArticleByCategoryId(tmCategory.getId(), ArticleState.PUBLISH);
 			CategoryInfo categoryInfo = new CategoryInfo();
 			categoryInfo.setId(tmCategory.getId());
-			categoryInfo.setIcon(tmCategory.getIcon());
 			categoryInfo.setCategoryName(tmCategory.getName());
+			categoryInfo.setDescription(tmCategory.getDescription());
 			categoryInfo.setArticleNum(articleNum);
+			categoryInfo.setIcon(tmCategory.getIcon());
+			categoryInfo.setAvailable(tmCategory.getAvailable());
+			categoryInfo.setCreateTime(tmCategory.getCreateTime());
 			
 			categoryInfoList.add(categoryInfo);
 		}

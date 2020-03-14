@@ -1,6 +1,5 @@
 package com.min.zblog.core.service.impl;
 
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,17 +7,10 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import com.min.zblog.core.facility.GlobalContextHolder;
 import com.min.zblog.api.rpc.ArchiveService;
 import com.min.zblog.api.rpc.ArticleService;
 import com.min.zblog.api.rpc.CategoryService;
 import com.min.zblog.api.rpc.TagService;
-import com.min.zblog.data.view.ArchiveInfo;
-import com.min.zblog.data.view.ArticleInfo;
-import com.min.zblog.data.view.BlogInfo;
-import com.min.zblog.data.view.CategoryInfo;
-import com.min.zblog.data.view.TagInfo;
-import com.min.zblog.data.view.UserInfo;
 
 /**
  * 初始化博客系统统计数据
