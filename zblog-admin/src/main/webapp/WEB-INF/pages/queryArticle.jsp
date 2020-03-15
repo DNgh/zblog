@@ -155,6 +155,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
+<script type="text/html" id="repOptionBar">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">重新发布</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
 <!-- jQuery 1.12.4 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
@@ -187,9 +192,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 		});
 		
-		//初始化导航栏
+		//初始化左侧导航栏，选中“文章管理”-“查询文章”
 		initNavBarStatus("articleMenu", "queryArticleMenu");
-		//初始化参数
+		//初始化参数(查询条件：年、月等参数)
 		initParam();
 		
 		//初始化表格
@@ -206,7 +211,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    ,limit: 10 //每页默认显示的数量
 		    ,method:'post'  //提交方式
 		    ,title: '文章数据表'
-		    ,cellMinWidth: 100
 		    ,cols: [[
 		      {field:'id', title:'ID', width:'10%', sort: true}
 		      ,{field:'title', title:'标题', width:'20%'}
@@ -216,10 +220,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
 		    ]]
 		    ,page: true
+		    ,loading: true
 		    ,done: function(res, curr, count){
 		    	table.resize('layAllTable');
 			}
-		  });
+		  });//allTable end
 		  
 		  publishTable = table.render({
 			id: 'layPublishTable'
@@ -231,7 +236,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    ,limit: 10 //每页默认显示的数量
 	        ,method:'post'  //提交方式
 	        ,title: '文章数据表'
-	        ,cellMinWidth: 100
 		    ,cols: [[
 		      {field:'id', title:'ID', width:'10%', sort: true}
 		      ,{field:'title', title:'标题', width:'20%'}
@@ -241,10 +245,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
 		    ]]
 		    ,page: true
+		    ,loading: true
 		    ,done: function(res, curr, count){
 		    	table.resize('layPublishTable');
 			}
-		  });
+		  });//publishTable end
 		  
 		  draftTable = table.render({
 			id: 'layDraftTable'
@@ -256,7 +261,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    ,limit: 10 //每页默认显示的数量
 	        ,method:'post'  //提交方式
 	        ,title: '文章数据表'
-	        ,cellMinWidth: 100
 		    ,cols: [[
 		      {field:'id', title:'ID', width:'10%', sort: true}
 		      ,{field:'title', title:'标题', width:'20%'}
@@ -266,10 +270,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
 		    ]]
 		    ,page: true
+		    ,loading: true
 		    ,done: function(res, curr, count){
 		    	table.resize('layDraftTable');
 			}
-		  });
+		  });//draftTable
 		  
 		  trashTable = table.render({
 			id: 'layTrashTable'
@@ -281,20 +286,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    ,limit: 10 //每页默认显示的数量
 	        ,method:'post'  //提交方式
 	        ,title: '文章数据表'
-	        ,cellMinWidth: 100
 		    ,cols: [[
 		      {field:'id', title:'ID', width:'10%', sort: true}
 		      ,{field:'title', title:'标题', width:'20%'}
 		      ,{field:'readNum', title:'阅读数', width:'10%'}
 		      ,{field:'commentNum', title:'评论数', width:'10%'}
 		      ,{field:'createTime', title:'创建时间', width:'20%', sort: true}
-		      ,{field:'option', title:'操作', width:'30%', toolbar: '#optionBar'}
+		      ,{field:'option', title:'操作', width:'30%', toolbar: '#repOptionBar'}
 		    ]]
 		    ,page: true
+		    ,loading: true
 		    ,done: function(res, curr, count){
 		    	table.resize('layTrashTable');
 			}
-		  });
+		  });//trashTable end
 		  
 		  //监听行工具事件
 		  table.on('tool(allTable)', function(obj){
@@ -304,7 +309,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      layer.confirm('真的删除行么，无法恢复', function(index){
 		        var map = {
 					'articleId':data.id,
-					'realDelete':true
+					'realDelete':0
 			   	};
 		      	//ajax请求后端
 		        deleteLayerObjAjax("article/delete", obj, map, index);
@@ -322,7 +327,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      layer.confirm('真的放入回收箱', function(index){
 			     var map = {
 					'articleId':data.id,
-					'realDelete':false
+					'realDelete':2
 			 	 };
 			   	 //ajax请求后端
 			     deleteLayerObjAjax("article/delete", obj, map, index);
@@ -340,7 +345,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      layer.confirm('真的放入回收箱', function(index){
 			     var map = {
 					'articleId':data.id,
-					'realDelete':false
+					'realDelete':2
 			 	 };
 			   	 //ajax请求后端
 			     deleteLayerObjAjax("article/delete", obj, map, index);
@@ -358,14 +363,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      layer.confirm('真的删除行么，无法恢复', function(index){
 			     var map = {
 					'articleId':data.id,
-					'realDelete':true
+					'realDelete':1
 			 	 };
 			   	 //ajax请求后端
 			     deleteLayerObjAjax("article/delete", obj, map, index);
 		      });
 		    } else if(obj.event === 'edit'){
-		    	//跳转到编辑页面
-		      	window.location.href = "article/editorPage?articleId="+data.id;
+		      layer.confirm('真的重新发布么？', function(index){
+			    var map = {
+			       'articleId':data.id
+			 	};
+			 	//ajax请求后端
+			    deleteLayerObjAjax("article/republish", obj, map, index);
+			  });
 		    }
 		  });
 		  
@@ -403,7 +413,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 			//分类id
 			var categoryId = $("#category option:selected").val();
-			//重新加载数据
+			
+			//重新加载所有文章
 			allTable.reload({
 				page: {
 					curr: 1
@@ -418,6 +429,68 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					table.resize('layAllTable');
 				}
 			});
+		});
+		
+		//切换选项卡，重新设置搜索框，重新加载数据
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			// 获取已激活的标签页的名称
+			var activeTab = $(e.target).attr("href"); 
+			// 获取前一个激活的标签页的名称
+			//var previousTab = $(e.relatedTarget).attr("href"); 
+			//判断选中的选项卡，重新加载数据
+			if(activeTab == "#all"){
+				//重新加载所有文章
+				allTable.reload({
+					page: {
+						curr: 1
+					},
+					where:{
+						'state':'ALL'
+					},
+					done: function(res, curr, count){
+						table.resize('layAllTable');
+					}
+				});
+			}else if(activeTab == "#publish"){
+				//重新加载发布文章
+				publishTable.reload({
+					page: {
+						curr: 1
+					},
+					where:{
+						'state':'PUBLISH'
+					},
+					done: function(res, curr, count){
+						table.resize('layPublishTable');
+					}
+				});
+			}else if(activeTab == "#draft"){
+				//重新加载已创建未发布文章
+				draftTable.reload({
+					page: {
+						curr: 1
+					},
+					where:{
+						'state':'CREATE'
+					},
+					done: function(res, curr, count){
+						table.resize('layDraftTable');
+					}
+				});
+			}else if(activeTab == "#trash"){
+				//重新加载已回收文章
+				trashTable.reload({
+					page: {
+						curr: 1
+					},
+					where:{
+						'state':'DELETE'
+					},
+					done: function(res, curr, count){
+						table.resize('layTrashTable');
+					}
+				});
+			}
 		});
 	});
 	

@@ -146,10 +146,21 @@ public class ArticleServiceImpl implements ArticleService {
 		return article;
 	}
 	
+	/* 
+	 * 硬删除，即删除数据库数据。
+	 * 如果要硬删除，则当前状态必须是DELETE状态，即已经软删除进入回收箱。否则，拒绝。
+	 * 状态转换：CREATE->DELETE->硬删除, PUBLISH->DELETE->硬删除
+	 * 如果进入硬删除，则当前状态是DELETE，说明已经软删除及更新内存及数据库统计信息：
+	 *    文章数、阅读数、评论数、分类数、归档数、阅读排行文章。
+	 * 那么只需要删除数据库数据：访问历史、标签关联数据、评论、文章。
+	 */
 	public void deleteArticleById(Long id) {
 		TmArticle article = articleDao.findOne(id);
 		if(article == null){
 			throw new ProcessException(Constants.ERRA001_CODE, Constants.ERRA001_MSG);
+		}
+		if(article.getState() != ArticleState.DELETE){
+			throw new ProcessException(Constants.ERRA003_CODE, Constants.ERRA003_MSG);
 		}
 		
 		//删除访问历史
@@ -162,8 +173,141 @@ public class ArticleServiceImpl implements ArticleService {
 		articleDao.delete(id);
 	}
 	
+	/* 
+	 * 软删除
+	 * 1、更新已发布文章关联信息
+	 * 更新内存数据：文章数、阅读数、评论数、分类数、归档数、阅读排行文章
+	 * 更新数据库数据：分类数、归档数、文章状态
+	 * 因为软删除，所以不用更新标签、评论、访问历史
+	 * 2、更新已创建未发布的文章：不关联其它统计信息，只更新状态
+	 * 3、更新已软删除的文章：不关联其它统计信息，只更新状态
+	 * @see com.min.zblog.api.rpc.ArticleService#deleteArticleVirtualById(java.lang.Long)
+	 */
 	@Override
-	@Cacheable(value="articleByCategoryNameCache", key="T(String).valueOf(#pageSize).concat('-').concat(#currentPage).concat('-').concat(#name)")
+	public void deleteArticleVirtualById(Long articleId) throws ProcessException {
+		TmArticle article = articleDao.findOne(articleId);
+		if(article == null){
+			throw new ProcessException(Constants.ERRA001_CODE, Constants.ERRA001_MSG);
+		}
+		if(article.getState() == ArticleState.DELETE){
+			throw new ProcessException(Constants.ERRA002_CODE, Constants.ERRA002_MSG);
+		}
+		
+		//更新已发布文章关联信息
+		if(article.getState() == ArticleState.PUBLISH) {
+			//更新文章数
+			GlobalContextHolder.substractOneBlogInfoArticleNum();
+			//更新阅读数
+			long visitNum = blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ);
+			GlobalContextHolder.substractBlogInfoReadNum(visitNum);
+			//更新评论数
+			long commentNum = commentDao.countByArticleId(article.getId());
+			GlobalContextHolder.substractBlogInfoCommentNum(commentNum);
+			
+			//更新分类数
+			TmCategory category = categoryDao.findOne(article.getCategoryId());
+			if(category != null && category.getCount() != null){
+				Integer count = category.getCount()-1;
+				category.setCount(count<0?0:count);
+				categoryDao.save(category);
+				//更新全局变量
+				GlobalContextHolder.substractOneCategoryInfoArticleNum(category.getId());
+			}
+			//更新归档数
+			TmArchive archive = archiveDao.findOne(article.getArchiveId());
+			if(archive != null && archive.getCount() != null){
+				Integer count = archive.getCount()-1;
+				archive.setCount(count<0?0:count);
+				archiveDao.save(archive);
+				//更新全局变量
+				GlobalContextHolder.substractOneArchiveInfoArticleNum(archive.getId());
+			}
+			//更新文章状态
+			article.setState(ArticleState.DELETE);
+			articleDao.save(article);
+			//更新阅读排行文章
+			initArticleReadRank();
+		}else{
+			//更新文章状态
+			article.setState(ArticleState.DELETE);
+			articleDao.save(article);
+		}
+	}
+	
+	/* 
+	 * 直接删除，即删除数据库文章及关联数据，不可恢复。
+	 * 1、删除已发布文章关联信息
+	 * 更新内存数据：文章数、阅读数、评论数、分类数、归档数、阅读排行文章
+	 * 更新数据库数据：分类数、归档数
+	 * 删除数据库数据：访问历史、标签关联数据、评论、文章。
+	 * 2、删除已创建未发布的文章
+	 * 不关联其它统计信息，删除数据库数据：访问历史、标签关联数据、评论、文章。
+	 * 3、删除已软删除的文章
+	 * 不关联其它统计信息，删除数据库数据：访问历史、标签关联数据、评论、文章。
+	 * @see com.min.zblog.api.rpc.ArticleService#deleteArticleDirectById(java.lang.Long)
+	 */
+	@Override
+	public void deleteArticleDirectById(Long articleId) throws ProcessException {
+		TmArticle article = articleDao.findOne(articleId);
+		if(article == null){
+			throw new ProcessException(Constants.ERRA001_CODE, Constants.ERRA001_MSG);
+		}
+		
+		//删除已发布文章关联信息
+		if(article.getState() == ArticleState.PUBLISH) {
+			//更新文章数
+			GlobalContextHolder.substractOneBlogInfoArticleNum();
+			//更新阅读数
+			long visitNum = blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ);
+			GlobalContextHolder.substractBlogInfoReadNum(visitNum);
+			//更新评论数
+			long commentNum = commentDao.countByArticleId(article.getId());
+			GlobalContextHolder.substractBlogInfoCommentNum(commentNum);
+			
+			//更新分类数
+			TmCategory category = categoryDao.findOne(article.getCategoryId());
+			if(category != null && category.getCount() != null){
+				Integer count = category.getCount()-1;
+				category.setCount(count<0?0:count);
+				categoryDao.save(category);
+				//更新全局变量
+				GlobalContextHolder.substractOneCategoryInfoArticleNum(category.getId());
+			}
+			//更新归档数
+			TmArchive archive = archiveDao.findOne(article.getArchiveId());
+			if(archive != null && archive.getCount() != null){
+				Integer count = archive.getCount()-1;
+				archive.setCount(count<0?0:count);
+				archiveDao.save(archive);
+				//更新全局变量
+				GlobalContextHolder.substractOneArchiveInfoArticleNum(archive.getId());
+			}
+			//删除访问历史
+			visitHstDao.deleteTmVisitHstByArticleId(articleId);
+			//删除标签关联记录
+			articleTagDao.deleteTmArticleTagByArticleId(articleId);
+			//删除评论
+			commentDao.deleteTmCommentByArticleId(articleId);
+			//删除文章
+			articleDao.delete(articleId);
+			//更新阅读排行文章
+			initArticleReadRank();
+		}else {//删除已创建未发布文章、已软删除文章
+			//删除访问历史
+			visitHstDao.deleteTmVisitHstByArticleId(articleId);
+			//删除标签关联记录
+			articleTagDao.deleteTmArticleTagByArticleId(articleId);
+			//删除评论
+			commentDao.deleteTmCommentByArticleId(articleId);
+			//删除文章
+			articleDao.delete(articleId);
+		}
+		
+	}
+	
+	@Override
+	//@Cacheable(value="articleByCategoryNameCache", key="T(String).valueOf(#pageSize).concat('-').concat(#currentPage).concat('-').concat(#name)")
+	//数据变动，及时刷新缓存，否则数据异常。
 	public PageInfo<ArticleInfo> listArticleByPageCategoryName(long pageSize, long currentPage, String name) {
 		if(StringUtils.isBlank(name)) {
 			return null;
@@ -217,7 +361,8 @@ public class ArticleServiceImpl implements ArticleService {
 	 * @see com.min.zblog.api.rpc.ArticleService#listArticleByArchive(java.lang.String)
 	 */
 	@Override
-	@Cacheable(value="articleByArchiveCache", key="T(String).valueOf(#pageSize).concat('-').concat(#currentPage).concat('-').concat(#name)")
+	//@Cacheable(value="articleByArchiveCache", key="T(String).valueOf(#pageSize).concat('-').concat(#currentPage).concat('-').concat(#name)")
+	//数据变动，及时刷新缓存，否则数据异常。
 	public PageInfo<ArticleInfo> listArticleByPageArchive(long pageSize, long currentPage, String name) {
 		if(StringUtils.isBlank(name)) {
 			return null;
@@ -249,7 +394,8 @@ public class ArticleServiceImpl implements ArticleService {
 	//fetchArticleByTag
 
 	@Override
-	@Cacheable(value="articleByTagCache", key="T(String).valueOf(#pageSize).concat('-').concat(#currentPage).concat('-').concat(#name)")
+	//@Cacheable(value="articleByTagCache", key="T(String).valueOf(#pageSize).concat('-').concat(#currentPage).concat('-').concat(#name)")
+	//数据变动，及时刷新缓存，否则数据异常。
 	public PageInfo<ArticleInfo> listArticleByPageTag(long pageSize, long currentPage, String name) {
 		if(StringUtils.isBlank(name)) {
 			return null;
@@ -294,7 +440,8 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	@Cacheable(value="articleByPageCache", key="T(String).valueOf(#pageSize).concat('-').concat(#currentPage).concat('-').concat(#state.name())")
+	//@Cacheable(value="articleByPageCache", key="T(String).valueOf(#pageSize).concat('-').concat(#currentPage).concat('-').concat(#state.name())")
+	//数据变动，及时刷新缓存，否则数据异常。
 	public PageInfo<ArticleInfo> listArticleByPage(long pageSize, long currentPage, ArticleState state) {
 		List<TmArticle> tmArticleList = blogQueryDsl.fetchArticleByPage(currentPage, pageSize, state);
 		List<ArticleInfo> articleInfoList = new ArrayList<ArticleInfo>();
@@ -352,6 +499,9 @@ public class ArticleServiceImpl implements ArticleService {
 		return pageInfo;
 	}
 
+	/**
+	 * 查找一篇指定文章
+	 */
 	@Override
 	public ArticleInfo findOneArticle(Long id) {
 		ArticleInfo articleInfo = new ArticleInfo();
@@ -527,46 +677,6 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		return article;
 	}
-
-	/* 软删除，更改文章状态
-	 * @see com.min.zblog.api.rpc.ArticleService#deleteArticleVirtualById(java.lang.Long)
-	 */
-	@Override
-	public void deleteArticleVirtualById(Long articleId) throws ProcessException {
-		TmArticle article = articleDao.findOne(articleId);
-		if(article == null){
-			throw new ProcessException(Constants.ERRA001_CODE, Constants.ERRA001_MSG);
-		}
-		
-		if(article.getState() == ArticleState.PUBLISH) {
-			//更新已发布文章数
-			GlobalContextHolder.substractOneBlogInfoArticleNum();
-			
-			//更新分类数、更新归档数、文章状态
-			TmCategory category = categoryDao.findOne(article.getCategoryId());
-			if(category != null && category.getCount() != null){
-				Integer count = category.getCount()-1;
-				category.setCount(count<0?0:count);
-				categoryDao.save(category);
-				//更新全局变量
-				GlobalContextHolder.substractOneCategoryInfoArticleNum(category.getId());
-			}
-			TmArchive archive = archiveDao.findOne(article.getArchiveId());
-			if(archive != null && archive.getCount() != null){
-				Integer count = archive.getCount()-1;
-				archive.setCount(count<0?0:count);
-				archiveDao.save(archive);
-				//更新全局变量
-				GlobalContextHolder.substractOneArchiveInfoArticleNum(archive.getId());
-			}
-			//更新关联评论数
-			long commentNum = commentDao.countByArticleId(article.getId());
-			GlobalContextHolder.substractBlogInfoCommentNum(commentNum);
-		}
-		
-		article.setState(ArticleState.DELETE);
-		articleDao.save(article);
-	}
 	
 	@Override
 	public PageInfo<ArticleInfo> listArticleByPageCategoryId(long pageSize, long currentPage, Long id) {
@@ -622,5 +732,61 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		//缓存
 		GlobalContextHolder.setArticleReadRankList(articleInfoList);
+	}
+
+	/* 
+	 * 重新发布，已删除文章存在如下情况：
+	 * 1、前一状态是已发布文章
+	 * 更新内存数据：文章数、阅读数、评论数、分类数、归档数、阅读排行文章
+	 * 更新数据库数据：分类数、归档数、文章状态
+	 * 因为重新发布已回收文章，所以不用更新标签、评论、访问历史。
+	 * 2、前一状态是已创建未发布的文章：不关联其它统计信息，只更新状态。
+	 * 
+	 * DELETE->PUBLISH，只需更新数据，不用考虑之前状态。
+	 * @see com.min.zblog.api.rpc.ArticleService#republishArticleById(java.lang.Long)
+	 */
+	@Override
+	public void republishArticleById(Long articleId) {
+		TmArticle article = articleDao.findOne(articleId);
+		if(article == null){
+			throw new ProcessException(Constants.ERRA001_CODE, Constants.ERRA001_MSG);
+		}
+		if(article.getState() != ArticleState.DELETE){
+			throw new ProcessException(Constants.ERRA004_CODE, Constants.ERRA004_MSG);
+		}
+		
+		//更新文章关联信息
+		//更新文章数
+		GlobalContextHolder.addOneBlogInfoArticleNum();
+		//更新阅读数
+		long visitNum = blogQueryDsl.countVisitHstByArticleId(article.getId(), VisitType.READ);
+		GlobalContextHolder.addBlogInfoReadNum(visitNum);
+		//更新评论数
+		long commentNum = commentDao.countByArticleId(article.getId());
+		GlobalContextHolder.addBlogInfoCommentNum(commentNum);
+		
+		//更新分类数
+		TmCategory category = categoryDao.findOne(article.getCategoryId());
+		if(category != null && category.getCount() != null){
+			Integer count = category.getCount()+1;
+			category.setCount(count<0?0:count);
+			categoryDao.save(category);
+			//更新全局变量
+			GlobalContextHolder.addOneCategoryInfoArticleNum(category.getId());
+		}
+		//更新归档数
+		TmArchive archive = archiveDao.findOne(article.getArchiveId());
+		if(archive != null && archive.getCount() != null){
+			Integer count = archive.getCount()+1;
+			archive.setCount(count<0?0:count);
+			archiveDao.save(archive);
+			//更新全局变量
+			GlobalContextHolder.addOneArchiveInfoArticleNum(archive.getId());
+		}
+		//更新文章状态
+		article.setState(ArticleState.PUBLISH);
+		articleDao.save(article);
+		//更新阅读排行文章
+		initArticleReadRank();
 	}
 }

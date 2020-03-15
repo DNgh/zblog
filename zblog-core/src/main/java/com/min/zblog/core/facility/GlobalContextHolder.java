@@ -127,6 +127,28 @@ public class GlobalContextHolder
 		}
 	}
 	
+	/**
+	 * 重新发布回收箱文章，加上阅读数
+	 * @param num
+	 */
+	public static void addBlogInfoReadNum(long num) {
+		synchronized (BLOGINFO_READNUM_LOCK) {
+			blogInfo.setTotalReadNum(
+					blogInfo.getTotalReadNum()+num);
+		}
+	}
+	
+	/**
+	 * 将文章放入回收箱，减掉阅读数
+	 * @param num
+	 */
+	public static void substractBlogInfoReadNum(long num) {
+		synchronized (BLOGINFO_READNUM_LOCK) {
+			blogInfo.setTotalReadNum(
+					blogInfo.getTotalReadNum()-num);
+		}
+	}
+	
 	public static void addOneBlogInfoCommentNum() {
 		synchronized (BLOGINFO_COMMENTNUM_LOCK) {
 			blogInfo.setTotalCommentNum(
@@ -141,6 +163,10 @@ public class GlobalContextHolder
 		}
 	}
 	
+	/**
+	 * 重新发布回收箱文章，加上阅读数
+	 * @param num
+	 */
 	public static void addBlogInfoCommentNum(long num) {
 		synchronized (BLOGINFO_COMMENTNUM_LOCK) {
 			blogInfo.setTotalCommentNum(
@@ -148,6 +174,10 @@ public class GlobalContextHolder
 		}
 	}
 	
+	/**
+	 * 将文章放入回收箱，减掉阅读数
+	 * @param num
+	 */
 	public static void substractBlogInfoCommentNum(long num) {
 		synchronized (BLOGINFO_COMMENTNUM_LOCK) {
 			blogInfo.setTotalCommentNum(

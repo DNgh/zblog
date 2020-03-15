@@ -35,6 +35,15 @@ public class Constants {
 	public static final String ERRA001_CODE = "A001";
 	public static final String ERRA001_MSG = "不存在该文章";
 	
+	public static final String ERRA002_CODE = "A002";
+	public static final String ERRA002_MSG = "文章已被标记为回收,不能重复回收";
+	
+	public static final String ERRA003_CODE = "A003";
+	public static final String ERRA003_MSG = "文章没有被标记为回收,不能直接删除";
+	
+	public static final String ERRA004_CODE = "A004";
+	public static final String ERRA004_MSG = "文章没有被标记为回收,不能重新发布";
+	
 	public static final String ERRC001_CODE = "C001";
 	public static final String ERRC001_MSG = "不存在该分类";
 

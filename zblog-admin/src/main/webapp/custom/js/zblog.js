@@ -224,7 +224,7 @@ function deleteLayerObjAjax(path, obj, map, index){
         		obj.del();
         		$(".layui-laypage-btn").click();
         		layer.close(index);
-        		layer.msg("成功删除");
+        		layer.msg("操作成功");
         	}else{
         		//失败，提示信息
         		layer.alert(result.message, {icon: 5});

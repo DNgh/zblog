@@ -15,6 +15,8 @@ public interface ArticleService {
 	public TmArticle addArticle(Map<String, Object> map);
 	public TmArticle findOne(Long id);
 	public void deleteArticleById(Long id) throws ProcessException;
+	public void deleteArticleVirtualById(Long articleId) throws ProcessException;
+	public void deleteArticleDirectById(Long articleId) throws ProcessException;
 	public PageInfo<ArticleInfo> listArticleByPageCategoryName(long pageSize, long currentPage, String name);
 	public List<ArticleInfo> listAllArticles();
 	public PageInfo<ArticleInfo> listArticleByPageArchive(long pageSize, long currentPage, String name);
@@ -27,8 +29,8 @@ public interface ArticleService {
 	public ArticleInfo findPreOneArticle(Long id);
 	public ArticleInfo findNextOneArticle(Long id);
 	public TmArticle saveArticle(Map<String, Object> map) throws ProcessException;
-	public void deleteArticleVirtualById(Long articleId) throws ProcessException;
 	public PageInfo<ArticleInfo> listArticleByPageCategoryId(long pageSize, long currentPage, Long id);
 	public void initBlogInfo();
 	public void initArticleReadRank();
+	public void republishArticleById(Long articleId);
 }

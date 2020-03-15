@@ -256,10 +256,22 @@ public class ArticleController {
     @RequestMapping("/delete")
     public Map<String, Object> deleteArticle(
     		@RequestParam(value="articleId") Long articleId,
-    		@RequestParam(value="realDelete") boolean realDelete){
+    		@RequestParam(value="realDelete") Integer realDelete){
     	Map<String, Object> result = new HashMap<String, Object>();
-    	//真正删除文章，关联数据
-    	if(realDelete){
+    	
+    	//直接删除数据
+    	if(realDelete == 0){
+    		try{
+    			articleService.deleteArticleDirectById(articleId);
+    			//返回json格式结果
+            	result.put("success", true);
+            	result.put("message", "");
+    		}catch(Exception e){
+    			//返回json格式结果
+            	result.put("success", false);
+            	result.put("message", e.getMessage());
+    		}
+    	}else if(realDelete == 1){//当前应为删除状态，真正删除文章，关联数据
     		try{
     			articleService.deleteArticleById(articleId);
     			//返回json格式结果
@@ -270,7 +282,7 @@ public class ArticleController {
             	result.put("success", false);
             	result.put("message", e.getMessage());
     		}
-    	}else{//更改状态为删除，统计减1(归档数、分类数)
+    	}else if(realDelete == 2){//当前应为创建、发布状态，更改状态为删除，统计减1(归档数、分类数)
     		try{
     			articleService.deleteArticleVirtualById(articleId);
     			//返回json格式结果
@@ -281,6 +293,30 @@ public class ArticleController {
             	result.put("success", false);
             	result.put("message", e.getMessage());
     		}
+    	}else{
+    		//返回json格式结果
+        	result.put("success", false);
+        	result.put("message", "上送操作码错误，无法删除数据");
+    	}
+    	
+        return result;
+    }
+    
+    @ResponseBody
+    @RequestMapping("/republish")
+    public Map<String, Object> republishArticle(
+    		@RequestParam(value="articleId") Long articleId){
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	
+    	try{
+    		articleService.republishArticleById(articleId);
+			//返回json格式结果
+	        result.put("success", true);
+	        result.put("message", "");
+    	}catch(Exception e){
+			//返回json格式结果
+        	result.put("success", false);
+        	result.put("message", e.getMessage());
     	}
     	
         return result;
