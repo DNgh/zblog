@@ -10,7 +10,7 @@ import org.apache.struts2.util.StrutsTypeConverter;
 import com.opensymphony.xwork2.conversion.TypeConversionException;
 
 public class DateConverter extends StrutsTypeConverter {
-	private final DateFormat[] sdf = {
+	private static final DateFormat[] sdf = {
 		new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒"),
 		new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"),
 	};
