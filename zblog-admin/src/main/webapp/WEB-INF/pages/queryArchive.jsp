@@ -131,8 +131,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var token = $("meta[name='_csrf']").attr("content");
 		//设置全局ajax请求头
 		$.ajaxSetup({ 
-			crossDomain: true,
-			xhrFields: {withCredentials: true},
+			//crossDomain: true,//跨域支持
+			//xhrFields: {withCredentials: true},//携带cookie
 			beforeSend: function (xhr) {
 				xhr.setRequestHeader(header, token);
 			}
