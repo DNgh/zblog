@@ -39,7 +39,9 @@
         -->
         <logout invalidate-session="true" logout-success-url="/loginPage"
                 logout-url="/logout"></logout>
-		<csrf/>
+		
+		<!-- 默认跨站请求伪造防御 -->
+		<csrf />
 		
 		<custom-filter ref="usernamePasswordAuthenticationFilter" position="FORM_LOGIN_FILTER" />
 		
