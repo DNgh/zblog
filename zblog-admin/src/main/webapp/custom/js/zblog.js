@@ -252,3 +252,12 @@ function initNavBarStatus(menuId, subMenuId){
 		$("#"+subMenuId).addClass("active");
 	}
 }
+
+//初始化分类图标列表(未使用)
+function initCategoryIconList(iconId, iconVal){
+	var iconList = ["fa-inbox", "fa-server", "fa-leaf", "fa-bookmark", "fa-link", "fa-cloud", 
+	                "fa-database", "fa-cubes", "fa-bolt", "fa-cog", "fa-exchange", "fa-globe", 
+	                "fa-language", "fa-lock", "fa-send", "fa-shield", "fa-sitemap", "fa-support", 
+	                "fa-desktop", "fa-apple", "fa-android", "fa-html5", "fa-css3", "fa-linux", 
+	                "fa-windows", "fa-film", "fa-pencil", "fa-flask", "fa-code", "fa-dashboard"]
+}

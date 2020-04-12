@@ -22,6 +22,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <link rel="stylesheet" href="components/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css">
+  <!-- Font Awesome Iconpicker -->
+  <link rel="stylesheet" href="components/fontawesome-iconpicker/css/fontawesome-iconpicker.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
@@ -85,7 +87,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label class="col-sm-1 control-label text-nowrap">分类图标</label>
 						<div class="col-sm-11">
 							<em style="font-size: 12px;">*必输项</em>
-							<input id="icon" class="form-control" type="text" placeholder="分类图标，必填">
+							<div class="input-group">
+							    <input id="icon" data-placement="bottomRight"  data-input-search="true"  class="form-control icp icp-auto" value="fa-archive" type="text" />
+							    <span class="input-group-addon"></span>
+							</div>
 						</div>
 					</div>
 					<div class="form-group">
@@ -120,6 +125,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="components/bootstrap/js/bootstrap.min.js"></script>
+<!-- Font Awesome Iconpicker -->
+<script src="components/fontawesome-iconpicker/js/fontawesome-iconpicker.min.js"></script>
 <!-- FastClick -->
 <script src="components/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
@@ -142,6 +149,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		//初始化导航栏
 		initNavBarStatus("categoryMenu", "newCategoryMenu");
+		//初始化iconpicker插件(分类图标)
+		$('.icp-auto').iconpicker();
 		
 		//保存分类
 		$("#saveBtn").click(function(){
