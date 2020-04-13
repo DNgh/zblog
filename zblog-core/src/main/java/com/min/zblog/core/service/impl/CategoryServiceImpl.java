@@ -113,22 +113,14 @@ public class CategoryServiceImpl implements CategoryService {
 			//正使用，无法停用
 			throw new ProcessException(Constants.ERRC003_CODE, Constants.ERRC003_MSG);
 		}
-
-		Date time = new Date();
-		category.setName((String)map.get("name"));
-		category.setDescription((String)map.get("description"));
-    	category.setIcon((String)map.get("icon"));
-    	category.setAvailable((Indicator)map.get("available"));
-    	category.setUpdateTime(time);
-    	
-		categoryDao.save(category);
 		
+		//先更新内存信息，然后更新数据库。防止判断出错，导致内存数据异常。
 		//不可用转可用、可用转不可用，更新分类列表
 		if(Indicator.N == category.getAvailable() && Indicator.Y == (Indicator)map.get("available")) {
 			CategoryInfo categoryInfo = new CategoryInfo();
 			categoryInfo.setId(category.getId());
-			categoryInfo.setIcon(category.getIcon());
-			categoryInfo.setCategoryName(category.getName());
+			categoryInfo.setIcon((String)map.get("icon"));
+			categoryInfo.setCategoryName((String)map.get("name"));
 			categoryInfo.setArticleNum(articleNum);
 			
 			GlobalContextHolder.addCategoryInfo(categoryInfo);
@@ -137,12 +129,22 @@ public class CategoryServiceImpl implements CategoryService {
 		}else if(Indicator.Y == category.getAvailable() && Indicator.Y == (Indicator)map.get("available")) {
 			CategoryInfo categoryInfo = new CategoryInfo();
 			categoryInfo.setId(category.getId());
-			categoryInfo.setIcon(category.getIcon());
-			categoryInfo.setCategoryName(category.getName());
+			categoryInfo.setIcon((String)map.get("icon"));
+			categoryInfo.setCategoryName((String)map.get("name"));
 			categoryInfo.setArticleNum(articleNum);
 			
 			GlobalContextHolder.updateCategoryInfo(categoryInfo);
 		}
+		
+		//先更新内存信息，然后更新数据库，防止判断异常。
+		Date time = new Date();
+		category.setName((String)map.get("name"));
+		category.setDescription((String)map.get("description"));
+    	category.setIcon((String)map.get("icon"));
+    	category.setAvailable((Indicator)map.get("available"));
+    	category.setUpdateTime(time);
+    	
+		categoryDao.save(category);
 		
 		return category;
 	}

@@ -655,6 +655,8 @@ public class ArticleServiceImpl implements ArticleService {
 			}
 			//所属归档文章数
 			GlobalContextHolder.addOneArchiveInfoArticleNum(article.getArchiveId());
+			//阅读排行
+			initArticleReadRank();
 		} else if(originState == ArticleState.PUBLISH && (ArticleState)map.get("state") == ArticleState.PUBLISH) {
 			//先原先关联分类-1，然后新关联分类+1
 			//更新全局变量
