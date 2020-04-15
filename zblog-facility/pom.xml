@@ -4,12 +4,12 @@
   <parent>
     <artifactId>zblog-parent</artifactId>
     <groupId>com.min.zblog</groupId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0.RELEASE</version>
   </parent>
 
   <groupId>com.min.zblog</groupId>
   <artifactId>zblog-facility</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0.RELEASE</version>
 
   <name>zblog-facility</name>
   <!-- FIXME change it to the project's website -->
