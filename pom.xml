@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.min.zblog</groupId>
 	<artifactId>zblog-parent</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1.RELEASE</version>
 	<packaging>pom</packaging>
 	<name>zblog</name>
 	<modules>
@@ -57,7 +57,8 @@
 	<scm>
       <connection>scm:git:https://github.com/DNgh/zblog.git</connection>
       <developerConnection>scm:git:https://github.com/DNgh/zblog.git</developerConnection>
-	</scm>
+	  <tag>v1.0.1.RELEASE</tag>
+  </scm>
 	
     <distributionManagement>
       <repository>
