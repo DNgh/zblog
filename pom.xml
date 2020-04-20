@@ -30,7 +30,7 @@
 		<spring.version>4.2.9.RELEASE</spring.version>
 		<spring-security.version>4.2.9.RELEASE</spring-security.version>
 		<spring-jpa.version>1.8.2.RELEASE</spring-jpa.version>
-		<spring-rabbit.version>1.7.5.RELEASE</spring-rabbit.version>
+		<spring-rabbit.version>2.2.1.RELEASE</spring-rabbit.version>
 		<!-- querydsl版本号 -->
 		<querydsl.version>4.1.4</querydsl.version>
 		<!-- hibernate版本号 -->
