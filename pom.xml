@@ -27,7 +27,7 @@
 		<!-- struts2版本号 -->
 		<struts.version>2.3.20</struts.version>
 		<!-- spring版本号 -->
-		<spring.version>4.2.9.RELEASE</spring.version>
+		<spring.version>5.2.1.RELEASE</spring.version>
 		<spring-security.version>4.2.9.RELEASE</spring-security.version>
 		<spring-jpa.version>1.8.2.RELEASE</spring-jpa.version>
 		<spring-rabbit.version>1.7.5.RELEASE</spring-rabbit.version>
