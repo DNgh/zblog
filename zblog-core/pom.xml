@@ -5,12 +5,12 @@
 	<parent>
 		<artifactId>zblog-parent</artifactId>
 		<groupId>com.min.zblog</groupId>
-		<version>1.0.0.RELEASE</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 
 	<groupId>com.min.zblog</groupId>
 	<artifactId>zblog-core</artifactId>
-	<version>1.0.0.RELEASE</version>
+	<version>1.0.1-SNAPSHOT</version>
 
 	<name>zblog-core</name>
 	<!-- FIXME change it to the project's website -->
@@ -26,17 +26,17 @@
 		<dependency>
 			<groupId>com.min.zblog</groupId>
 			<artifactId>zblog-data</artifactId>
-			<version>1.0.0.RELEASE</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 	      <groupId>com.min.zblog</groupId>
 	      <artifactId>zblog-facility</artifactId>
-	      <version>1.0.0.RELEASE</version>
+	      <version>1.0.1-SNAPSHOT</version>
 	    </dependency>
 	    <dependency>
 	      <groupId>com.min.zblog</groupId>
 	      <artifactId>zblog-api</artifactId>
-	      <version>1.0.0.RELEASE</version>
+	      <version>1.0.1-SNAPSHOT</version>
 	    </dependency>
 	    <dependency>
 		   <groupId>commons-lang</groupId>
