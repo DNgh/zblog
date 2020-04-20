@@ -29,7 +29,7 @@
 		<!-- spring版本号 -->
 		<spring.version>4.2.9.RELEASE</spring.version>
 		<spring-security.version>4.2.9.RELEASE</spring-security.version>
-		<spring-jpa.version>1.8.2.RELEASE</spring-jpa.version>
+		<spring-jpa.version>1.11.23.RELEASE</spring-jpa.version>
 		<spring-rabbit.version>1.7.5.RELEASE</spring-rabbit.version>
 		<!-- querydsl版本号 -->
 		<querydsl.version>4.1.4</querydsl.version>
