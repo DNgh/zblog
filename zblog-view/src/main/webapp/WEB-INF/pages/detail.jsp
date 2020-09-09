@@ -516,7 +516,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     $("#show").html(marked('${articleInfo.content}',{renderer: renderer})); */
     
-	var iconsCfg = [{
+	/* var iconsCfg = [{
         name: "贴吧表情",
         path: "components/jquery-emoji/img/tieba/",
         maxNum: 50,
@@ -534,6 +534,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         maxNum: 84,
         file: ".png",
         placeholder: "#emoji_{alias}#"
+    }]; */
+
+    var iconsCfg = [{
+        name: "贴吧表情",
+        path: "components/jquery-emoji/img/tieba/",
+        maxNum: 50,
+        file: ".jpg",
+        placeholder: ":{alias}:"
     }];
 	
 	//提示评论人信息 
@@ -802,7 +810,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	    //显示文本框表情样式 
    	    $("#commentEditor").emoji({
    	    	button: "#faceBtn",
-   	        showTab: true,
+   	        showTab: false,
    	        animation: 'fade',
    	        icons: iconsCfg
    	    });
