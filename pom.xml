@@ -35,7 +35,7 @@
 		<querydsl.version>4.1.4</querydsl.version>
 		<!-- hibernate版本号 -->
 		<hibernate.version>4.3.8.Final</hibernate.version>
-		<hibernate-validator.version>5.2.4.Final</hibernate-validator.version>
+		<hibernate-validator.version>5.3.6.Final</hibernate-validator.version>
 		<hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
 		<!-- aspectj版本号 -->
 		<aspectj.version>1.8.9</aspectj.version>
