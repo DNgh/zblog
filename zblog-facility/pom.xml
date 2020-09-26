@@ -30,6 +30,10 @@
 		<groupId>org.springframework</groupId>
 		<artifactId>spring-context</artifactId>
 	</dependency>
+	<dependency>
+	    <groupId>net.coobird</groupId>
+	    <artifactId>thumbnailator</artifactId>
+	</dependency>
 	<!-- 添加日志相关jar包 -->
 	<dependency>
 		<groupId>log4j</groupId>

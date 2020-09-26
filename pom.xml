@@ -48,6 +48,8 @@
 		<cors-filter.version>2.5</cors-filter.version>
 		<java-property.version>1.10</java-property.version>
 		<amqp.version>4.1.0</amqp.version>
+		<!-- google压缩图片 -->
+		<thumbnailator.version>0.4.12</thumbnailator.version>
 		<!-- log4j日志包版本号 -->
 		<slf4j.version>1.7.25</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
@@ -393,7 +395,13 @@
 				<artifactId>java-property-utils</artifactId>
 				<version>${java-property.version}</version>
 			</dependency>
-
+			
+			<dependency>
+			    <groupId>net.coobird</groupId>
+			    <artifactId>thumbnailator</artifactId>
+			    <version>${thumbnailator.version}</version>
+			</dependency>
+			
 			<!-- 添加日志相关jar包 -->
 			<dependency>
 				<groupId>log4j</groupId>
