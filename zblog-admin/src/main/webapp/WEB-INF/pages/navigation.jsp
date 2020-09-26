@@ -10,7 +10,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="custom/img/avatar.png" class="img-circle" alt="User Image">
+          <img src="https://cdn.jsdelivr.net/gh/DNgh/zblog-static/img/avatar.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p><sec:authentication property="name"/></p>

@@ -16,20 +16,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="components/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/twbs/bootstrap@v3.3.7/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@v4.7.0/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="components/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ionic-team/ionicons@v2.0.0/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="components/AdminLTE/css/AdminLTE.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/DNgh/custom-adminlte/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css">
-  <link rel="stylesheet" href="components/jquery-mCustomScrollbar/css/jquery.mCustomScrollbar.min.css">
-  <link rel="stylesheet" href="components/jquery-emoji/css/jquery.emoji.css">
-  <link rel="stylesheet" href="custom/css/custom.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/DNgh/custom-adminlte/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/tomorrow-night-eighties.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/malihu-custom-scrollbar-plugin@3.1.3/jquery.mCustomScrollbar.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/eshengsky/jQuery-emoji/dist/css/jquery.emoji.css">
+  <!-- custom css -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/DNgh/zblog-static/css/common.min.css">
   
   <!-- markdown 0.5.0 -->
   <%-- <script src="components/marked/marked.min.js"></script> --%>
@@ -41,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]--> 
   
-  <link rel="shortcut icon " type="images/x-icon" href="custom/img/star.png">
+  <link rel="shortcut icon " type="images/x-icon" href="https://cdn.jsdelivr.net/gh/DNgh/zblog-static/img/star.png">
   
 </head>
 <body class="hold-transition skin-red-light sidebar-mini">
@@ -91,12 +92,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <!-- Widget: user widget style 1 -->
           <div class="box box-widget widget-user">
             <!-- Add the bg color to the header using any of the bg-* classes -->
-            <div class="widget-user-header bg-black" style="background: url('custom/img/profilebg.png') center center;">
+            <div class="widget-user-header bg-black" style="background: url('https://cdn.jsdelivr.net/gh/DNgh/zblog-static/img/profilebg.jpg') center center;">
               <h3 class="widget-user-username">周志民</h3>
               <h5 class="widget-user-desc">软件开发</h5>
             </div>
             <div class="widget-user-image">
-              <img class="img-circle" src="custom/img/avatar.png" alt="User Avatar">
+              <img class="img-circle" src="https://cdn.jsdelivr.net/gh/DNgh/zblog-static/img/avatar.png" alt="User Avatar">
             </div>
             <div class="box-footer">
               <div class="row">
@@ -347,7 +348,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="row row-margin-bottom">
 							<div class="col-md-2">
 								<!-- <button id="faceBtn" class="btn btn-sm btn-default">表情</button> -->
-								<img id="faceBtn" alt="表情" src="custom/img/happy.png" class="img-circle" data-toggle="tooltip" data-placement="top" title="表情"/>
+								<img id="faceBtn" alt="表情" src="https://cdn.jsdelivr.net/gh/DNgh/zblog-static/img/happy.png" class="img-circle" data-toggle="tooltip" data-placement="top" title="表情"/>
 							</div>
 							<div class="col-md-2 col-md-push-6">
 								<button id="promptCommentBtn" type="button" class="btn btn-block btn-danger" onclick="promptComment()">评论</button>
@@ -365,7 +366,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  <s:iterator value="commentInfoList" var="commentInfo">
 					      <!-- comment item -->
 					      <div class="item">
-			                <img src="custom/img/boy.png" alt="user image">
+			                <img src="https://cdn.jsdelivr.net/gh/DNgh/zblog-static/img/boy.png" alt="user image">
 							<div class="header">
 								<a href="javascript:void(0);" class="name"><s:property value="#commentInfo.nickname"/></a>
 							</div>
@@ -471,24 +472,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- ./wrapper -->
 
 <!-- jQuery 1.12.4 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.0/jquery.cookie.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="components/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/twbs/bootstrap@v3.3.7/dist/js/bootstrap.min.js"></script>
 <!-- FastClick -->
-<script src="components/fastclick/fastclick.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js"></script>
 <!-- AdminLTE App 2.4.5 -->
-<script src="components/AdminLTE/js/adminlte.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/DNgh/custom-adminlte/js/adminlte.min.js"></script>
 <!-- bootstrap-paginator -->
-<script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.4.1/markdown-it.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-paginator@1.0.2/bootstrap-paginator.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/markdown-it@8.4.1/dist/markdown-it.min.js"></script>
 <!-- highlight -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="components/jquery-mCustomScrollbar/js/jquery.mousewheel-3.0.6.min.js"></script>
-<script src="components/jquery-mCustomScrollbar/js/jquery.mCustomScrollbar.min.js"></script>
-<script src="components/jquery-emoji/js/jquery.emoji.min.js"></script>
-<!-- custom js -->
-<script src="custom/js/zblog.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/lib/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-mousewheel@3.1.13/jquery.mousewheel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/malihu-custom-scrollbar-plugin@3.1.3/jquery.mCustomScrollbar.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/eshengsky/jQuery-emoji/dist/js/jquery.emoji.min.js"></script>
+<!-- custom jQuery -->
+<script src="https://cdn.jsdelivr.net/gh/DNgh/zblog-static/js/common.min.js"></script>
 <script>
 
     /* marked.setOptions({
@@ -516,34 +517,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     $("#show").html(marked('${articleInfo.content}',{renderer: renderer})); */
     
-	/* var iconsCfg = [{
+	var iconsCfg = [{
         name: "贴吧表情",
-        path: "components/jquery-emoji/img/tieba/",
+        path: "https://cdn.jsdelivr.net/gh/eshengsky/jQuery-emoji/dist/img/tieba/",
         maxNum: 50,
         file: ".jpg",
         placeholder: ":{alias}:"
     }, {
         name: "QQ高清",
-        path: "components/jquery-emoji/img/qq/",
+        path: "https://cdn.jsdelivr.net/gh/eshengsky/jQuery-emoji/dist/img/qq/",
         maxNum: 91,
         file: ".gif",
         placeholder: "#qq_{alias}#"
     }, {
         name: "emoji高清",
-        path: "components/jquery-emoji/img/emoji/",
+        path: "https://cdn.jsdelivr.net/gh/eshengsky/jQuery-emoji/dist/img/emoji/",
         maxNum: 84,
         file: ".png",
         placeholder: "#emoji_{alias}#"
-    }]; */
-
-    var iconsCfg = [{
-        name: "贴吧表情",
-        path: "components/jquery-emoji/img/tieba/",
-        maxNum: 50,
-        file: ".jpg",
-        placeholder: ":{alias}:"
     }];
-	
+
 	//提示评论人信息 
     function promptComment() {
     	//提示框，填入用户名、邮箱
@@ -616,7 +609,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 	if(rid == "" || pid == ""){
                 		//根评论 
                 		var html = '<div class="item">'+
-                		'<img src="custom/img/boy.png" alt="user image">'+
+                		'<img src="https://cdn.jsdelivr.net/gh/DNgh/zblog-static/img/boy.png" alt="user image">'+
 						'<div class="header">'+
 			 			'<a href="javascript:void(0);" class="name">'+result.nickname+'</a>'+
 						'</div>'+
@@ -810,7 +803,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	    //显示文本框表情样式 
    	    $("#commentEditor").emoji({
    	    	button: "#faceBtn",
-   	        showTab: false,
+   	        showTab: true,
    	        animation: 'fade',
    	        icons: iconsCfg
    	    });

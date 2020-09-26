@@ -16,18 +16,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="components/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/twbs/bootstrap@v3.3.7/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@v4.7.0/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="components/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ionic-team/ionicons@v2.0.0/css/ionicons.min.css">
   <!-- Theme style 修改页面头、页面内容、页面脚注，左外边距0px-->
-  <link rel="stylesheet" href="components/AdminLTE/css/AdminLTE.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/DNgh/custom-adminlte/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="components/AdminLTE/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/DNgh/custom-adminlte/css/skins/_all-skins.min.css">
   <!-- custom css -->
-  <link rel="stylesheet" href="custom/css/custom.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/DNgh/zblog-static/css/common.min.css">
   
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -36,8 +36,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]--> 
   
-  <!--<link rel="shortcut icon " type="images/x-icon" href="../dist/img/favico.png">-->
-  <link rel="shortcut icon " type="images/x-icon" href="custom/img/star.png">
+  <!--<link rel="shortcut icon " type="images/x-icon" href="custom/img/favico.png">-->
+  <link rel="shortcut icon " type="images/x-icon" href="https://cdn.jsdelivr.net/gh/DNgh/zblog-static/img/star.png">
   
 </head>
 <body class="hold-transition skin-red-light sidebar-mini">
@@ -87,12 +87,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <!-- Widget: user widget style 1 -->
           <div class="box box-widget widget-user">
             <!-- Add the bg color to the header using any of the bg-* classes -->
-            <div class="widget-user-header bg-black" style="background: url('custom/img/profilebg.png') center center;">
+            <div class="widget-user-header bg-black" style="background: url('https://cdn.jsdelivr.net/gh/DNgh/zblog-static/img/profilebg.jpg') center center;">
               <h3 class="widget-user-username">周志民</h3>
               <h5 class="widget-user-desc">软件开发</h5>
             </div>
             <div class="widget-user-image">
-              <img class="img-circle" src="custom/img/avatar.png" alt="User zhouzm">
+              <img class="img-circle" src="https://cdn.jsdelivr.net/gh/DNgh/zblog-static/img/avatar.png" alt="User zhouzm">
             </div>
             <div class="box-footer">
               <div class="row">
@@ -280,7 +280,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <!-- /.col -->
         
         <div class="col-md-1">
-        	<a class="btn btn-app back-to-top" id="goTop"><i class="fa fa-chevron-up"></i>回到顶部</a>
+        	<a class="btn btn-app-sm back-to-top" id="goTop"><i class="fa fa-chevron-up"></i>顶部</a>
       	</div>
         
       </div>
@@ -302,17 +302,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- ./wrapper -->
 
 <!-- jQuery 1.12.4 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="components/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/twbs/bootstrap@v3.3.7/dist/js/bootstrap.min.js"></script>
 <!-- FastClick -->
-<script src="components/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="components/AdminLTE/js/adminlte.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js"></script>
+<!-- AdminLTE App 2.4.5 -->
+<script src="https://cdn.jsdelivr.net/gh/DNgh/custom-adminlte/js/adminlte.min.js"></script>
 <!-- bootstrap-paginator -->
-<script src="components/bootstrap-paginator/bootstrap-paginator.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-paginator@1.0.2/bootstrap-paginator.min.js"></script>
 <!-- custom jQuery -->
-<script src="custom/js/zblog.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/DNgh/zblog-static/js/common.min.js"></script>
 <script type="text/javascript">
 	pageFunction('article/listAll', {pageSize:5});
 </script>    

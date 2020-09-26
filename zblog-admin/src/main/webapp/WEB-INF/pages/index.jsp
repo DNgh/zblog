@@ -13,8 +13,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="_csrf" content="${_csrf.token}"/>
   	<meta name="_csrf_header" content="${_csrf.headerName}"/>
 	<title>Product List</title>
-	<!-- <link rel="stylesheet" href="components/editor.md/css/style.css" /> -->
-    <link rel="stylesheet" href="components/editor.md/css/editormd.css" />
+	
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/DNgh/custom-editor.md/css/editormd.min.css" />
     <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
 </head>
 <body>
@@ -103,8 +103,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </textarea>
             </div>
         </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="components/editor.md/editormd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/DNgh/custom-editor.md/editormd.min.js"></script>
         <script type="text/javascript">
 			var testEditor;
 
@@ -122,7 +122,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     width   : "90%",
                     height  : 640,
                     syncScrolling : "single",
-                    path    : "components/editor.md/lib/"
+                    path    : "https://cdn.jsdelivr.net/gh/DNgh/custom-editor.md/lib/"
                 }); */
                 
                 /*
@@ -138,7 +138,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             	testEditor = editormd("test-editormd", {
                     width: "90%",
                     height: 740,
-                    path : "components/editor.md/lib/",
+                    path : "https://cdn.jsdelivr.net/gh/DNgh/custom-editor.md/lib/",
                     theme : "dark",
                     previewTheme : "dark",
                     editorTheme : "pastel-on-dark",
