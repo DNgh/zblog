@@ -40,7 +40,7 @@
 		<!-- aspectj版本号 -->
 		<aspectj.version>1.8.9</aspectj.version>
 		<!-- mysql驱动版本号 -->
-		<mysql-driver.version>5.1.34</mysql-driver.version>
+		<mysql-driver.version>8.0.28</mysql-driver.version>
 		<dbcp.version>2.1.1</dbcp.version>
 		<jstl.version>1.2</jstl.version>
 		<jackjson.version>2.8.9</jackjson.version>
