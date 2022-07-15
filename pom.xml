@@ -43,7 +43,7 @@
 		<mysql-driver.version>5.1.34</mysql-driver.version>
 		<dbcp.version>2.1.1</dbcp.version>
 		<jstl.version>1.2</jstl.version>
-		<jackjson.version>2.8.9</jackjson.version>
+		<jackjson.version>2.12.6.1</jackjson.version>
 		<!-- tomcat跨域 -->
 		<cors-filter.version>2.5</cors-filter.version>
 		<java-property.version>1.10</java-property.version>
